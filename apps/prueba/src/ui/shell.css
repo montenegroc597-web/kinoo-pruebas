@@ -1,0 +1,44 @@
+.sh-page { min-height: 100dvh; display: flex; flex-direction: column; align-items: center; background: var(--surface); color: var(--ink); font-family: var(--font-sans); padding: max(16px, env(safe-area-inset-top)) 18px max(20px, env(safe-area-inset-bottom)); }
+.sh-col { width: 100%; max-width: 480px; display: flex; flex-direction: column; gap: 16px; flex: 1; }
+.sh-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; font-size: 12px; color: var(--ink-subtle); }
+.sh-fase { font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; }
+.sh-kicker { font-family: var(--font-script); font-size: 24px; line-height: 1; color: var(--sun-ink); }
+.sh-title { margin: 0; font-family: var(--font-display); font-weight: 900; font-size: 38px; line-height: 0.95; text-transform: uppercase; }
+.sh-p { margin: 0; font-size: 15.5px; line-height: 1.5; color: var(--ink-muted); }
+.sh-q { margin: 0; font-size: 20px; line-height: 1.3; font-weight: 700; color: var(--ink); }
+.sh-hint { font-size: 13px; color: var(--ink-subtle); line-height: 1.4; }
+.sh-card { padding: 16px; border-radius: 18px; background: var(--surface-raised); border: 1px solid var(--line); }
+.sh-grow { flex: 1; }
+.sh-row { display: flex; gap: 10px; }
+.sh-input { width: 100%; min-height: 56px; padding: 14px 16px; border-radius: 14px; border: 2px solid var(--line-strong); background: var(--surface-raised); color: var(--ink); font: inherit; font-size: 17px; }
+.sh-input:focus { outline: 3px solid var(--focus); outline-offset: 2px; border-color: var(--sun); }
+textarea.sh-input { min-height: 120px; resize: vertical; line-height: 1.4; }
+.sh-opt { width: 100%; min-height: 56px; padding: 12px 16px; border-radius: 14px; border: 2px solid var(--line-strong); background: transparent; color: var(--ink); font: inherit; font-size: 16px; font-weight: 600; text-align: left; cursor: pointer; display: flex; align-items: center; gap: 10px; }
+.sh-opt[aria-checked="true"], .sh-opt[aria-pressed="true"] { background: var(--sun); color: var(--on-sun); border-color: var(--sun-core); }
+.sh-opt:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.sh-scale { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+.sh-scale button { min-height: 52px; border-radius: 12px; border: 2px solid var(--line-strong); background: transparent; color: var(--ink); font: inherit; font-size: 20px; font-weight: 800; cursor: pointer; }
+.sh-scale button[aria-checked="true"] { background: var(--sun); color: var(--on-sun); border-color: var(--sun-core); }
+.sh-scale button:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.sh-ends { display: flex; justify-content: space-between; font-size: 12px; color: var(--ink-subtle); gap: 12px; }
+.sh-ueq { display: grid; grid-template-columns: 1fr; gap: 6px; padding: 12px 0; border-top: 1px solid var(--line); }
+.sh-ueq .sh-words { display: flex; justify-content: space-between; font-size: 14px; font-weight: 700; gap: 8px; }
+.sh-ueq .sh-circles { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.sh-ueq .sh-circles button { height: 44px; border-radius: 50%; border: 2px solid var(--line-strong); background: transparent; cursor: pointer; padding: 0; }
+.sh-ueq .sh-circles button[aria-checked="true"] { background: var(--sun); border-color: var(--sun-core); }
+.sh-progress { height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; }
+.sh-progress > i { display: block; height: 100%; background: var(--sun); transition: width .3s; }
+.sh-stage { display: flex; flex-direction: column; align-items: center; gap: 10px; width: 100%; }
+.sh-pill { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; background: var(--surface-inverse); color: var(--ink-inverse); font-size: 13px; font-weight: 700; border: 0; cursor: pointer; }
+.sh-task { width: 100%; padding: 12px 14px; border-radius: 14px; background: var(--surface-inverse); color: var(--ink-inverse); font-size: 14px; line-height: 1.4; }
+.sh-marker { position: absolute; width: 26px; height: 26px; margin: -13px 0 0 -13px; border-radius: 50%; border: 3px solid var(--sun); background: color-mix(in srgb, var(--sun) 35%, transparent); pointer-events: none; box-shadow: 0 0 0 3px #000; }
+.sh-gray { background: #3a3a3a; }
+.sh-word { padding: 10px 14px; border-radius: 999px; border: 2px solid var(--line-strong); background: transparent; color: var(--ink); font: inherit; font-size: 15px; font-weight: 700; cursor: pointer; }
+.sh-word[aria-pressed="true"] { background: var(--sun); color: var(--on-sun); border-color: var(--sun-core); }
+.sh-wrap { display: flex; flex-wrap: wrap; gap: 8px; }
+.sh-net { position: fixed; right: 8px; bottom: 8px; font-size: 11px; padding: 4px 8px; border-radius: 999px; background: #000a; color: #fff; z-index: 50; }
+.sh-modbtn { position: fixed; top: 0; right: 0; width: 56px; height: 56px; z-index: 60; opacity: 0; background: transparent; border: 0; }
+.sh-mod { position: fixed; inset: 0; z-index: 70; background: #000d; display: flex; align-items: flex-end; justify-content: center; }
+.sh-mod > div { width: 100%; max-width: 480px; background: var(--surface-inverse); color: var(--ink-inverse); padding: 18px; border-radius: 22px 22px 0 0; display: flex; flex-direction: column; gap: 10px; max-height: 90dvh; overflow: auto; }
+.sh-qr { display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; }
+@media (prefers-reduced-motion: reduce) { .sh-progress > i { transition: none; } }

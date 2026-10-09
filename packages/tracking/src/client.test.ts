@@ -64,6 +64,19 @@ describe('TrackingClient', () => {
     expect(gas.sheet('Eventos').getLastRow()).toBe(3);
   });
 
+  it('un sendBeacon durante un envío en curso no hace perder filas', async () => {
+    const { gas, fetchFn } = await conBackend();
+    const c = new TrackingClient({ url: 'u', key: 'W', fetchFn, storage: mem(), beacon: () => true });
+    c.enqueueEvent(ev('e1')); c.enqueueEvent(ev('e2'));
+    c.enqueueRows('Puntos', { Participante: 'P01', 'Row ID': 'r1' });
+    c.enqueueRows('Puntos', { Participante: 'P01', 'Row ID': 'r2' });
+    const envio = c.flush(true); // en vuelo
+    c.enviarConBeacon(); // la página se oculta: quita los eventos de la cola
+    await envio;
+    expect(await c.vaciar()).toBe(true);
+    expect(gas.sheet('Puntos').getLastRow()).toBe(3); // las dos filas llegaron
+  });
+
   it('sin URL funciona en modo local', async () => {
     const c = new TrackingClient({ url: '', key: '', storage: mem() });
     c.enqueueEvent(ev('a'));
@@ -86,6 +99,22 @@ describe('TrackingClient', () => {
     expect(real.codigo).toBe('P02');
     await c.reasignar(p.codigo, real);
     expect(gas.sheet('Participantes').getLastRow()).toBe(3);
+  });
+
+  it('al llegar el código definitivo se re-etiqueta lo pendiente en la cola', async () => {
+    const { gas, fetchFn, caer } = await conBackend();
+    const c = new TrackingClient({ url: 'u', key: 'W', fetchFn, storage: mem() });
+    caer(true);
+    const prov = await c.registrar({ nombre: 'Rosa', ronda: 1 }, 'sesion-abc-12345');
+    c.enqueueEvent({ ...ev('x1'), codigo: prov.codigo, nombreMostrado: prov.nombreMostrado });
+    c.enqueueRows('Puntos', { Participante: prov.codigo, 'Nombre mostrado': prov.nombreMostrado, 'Row ID': 'p1' });
+    caer(false);
+    const real = await c.registrar({ nombre: 'Rosa', ronda: 1 }, 'sesion-abc-12345');
+    expect(c.reetiquetarCola(prov.codigo, real)).toBe(2);
+    await c.vaciar();
+    const d = gas.sheet('Puntos').data[1];
+    expect(d[0]).toBe('P01');
+    expect(gas.sheet('Eventos').data[1][2]).toBe('P01');
   });
 
   it('asignación provisional es determinista', () => {

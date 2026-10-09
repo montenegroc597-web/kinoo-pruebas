@@ -4,8 +4,8 @@ export interface PantallaCat { id: string; nombre: string; flujo: string; prueba
 export const PANTALLAS: PantallaCat[] = [
   { id: 'S01', nombre: 'Inicio', flujo: 'Entrada a la app', pruebas: 'Primer clic (T3), Flujos (D1)', ruta: '/mood' },
   { id: 'S02', nombre: 'Descubrir (card)', flujo: 'Descubrir: explorar y guardar', pruebas: '5 segundos, 5 s – Cards, Primer clic (T2), Marca A-B, Flujos (D2)', ruta: '/descubrir' },
-  { id: 'S03', nombre: 'Ficha de película / calificación', flujo: 'Ver: ficha y calificación', pruebas: 'Primer clic (T1), Marca A-B, Flujos (V2)', ruta: '/ver' },
-  { id: 'S04', nombre: 'Ver', flujo: 'Ver: retomar y decidir', pruebas: '5 segundos, Primer clic (T5), Marca A-B, Flujos (V1)', ruta: '/ver' },
+  { id: 'S03', nombre: 'Ficha de película / calificación', flujo: 'Ver: ficha y calificación', pruebas: 'Primer clic (T1), Marca A-B, Flujos (V2)', ruta: "/ver" },
+  { id: 'S04', nombre: 'Ver', flujo: 'Ver: retomar y decidir', pruebas: '5 segundos, Primer clic (T5), Marca A-B, Flujos (V1)', ruta: "/ver" },
   { id: 'S05', nombre: 'Gestión de mazo', flujo: 'Mazo: gestión', pruebas: 'Primer clic (T4), Flujos (D1, M1)', ruta: '/mazos' },
   { id: 'S06', nombre: 'Lectura de mood', flujo: 'Descubrir: entrada', pruebas: 'Flujos (D1)', ruta: '/mood/lectura' },
   { id: 'S07', nombre: 'Fin del mazo / recarga', flujo: 'Mazo: gestión', pruebas: 'Primer clic (T4), Flujos (M2)', ruta: '/recarga' },
@@ -27,7 +27,7 @@ export interface TareaCat {
 }
 export const SEQ_PREGUNTA = '«En general, ¿qué tan difícil o fácil te pareció esta tarea?»';
 export const TAREAS: TareaCat[] = [
-  { id: 'T1', escenario: 'Acabas de ver una película y quieres decir qué te pareció. ¿Dónde tocarías para calificarla?', pantalla: 'S03', seed: 'ver-back', vista: 'S03', descripcionZona: 'Botón o área de calificación', seqSeguimiento: '¿Qué hizo difícil encontrar dónde calificar?' },
+  { id: 'T1', escenario: 'Acabas de ver una película y quieres decir qué te pareció. ¿Dónde tocarías para calificarla?', pantalla: 'S03', seed: 'ver-back', vista: 'S03', descripcionZona: 'Botón «Sí» de «¿Viste la película?»', seqSeguimiento: '¿Qué hizo difícil encontrar dónde calificar?' },
   { id: 'T2', escenario: 'Estás explorando películas en Kinoo y una te llama la atención. ¿Dónde tocarías para ver más información sobre ella?', pantalla: 'S02', seed: 'deck-nolan-start', vista: 'S02', descripcionZona: 'Indicadores del card', seqSeguimiento: '¿Qué hizo difícil saber dónde tocar para ver más información?' },
   { id: 'T3', escenario: 'Es viernes en la noche y quieres ver algo que ya habías marcado antes. ¿Dónde tocarías?', pantalla: 'S01', seed: 'fresh', vista: 'S01', descripcionZona: 'Acceso al espacio Ver', seqSeguimiento: '¿Qué hizo difícil encontrar dónde ver lo que habías marcado?' },
   { id: 'T4', escenario: 'Ya terminaste las películas de tu mazo activo y quieres seguir viendo más. ¿Dónde tocarías para tener un nuevo mazo?', pantalla: 'S07', seed: 'deck-finished', vista: 'S07', descripcionZona: 'Acción de añadir / crear un nuevo mazo', seqSeguimiento: '¿Qué hizo difícil encontrar cómo tener un nuevo mazo?' },
@@ -187,11 +187,11 @@ export const MISIONES: MisionCat[] = [
     pasos: [{ id: 'mood.picked', etiqueta: 'Elige un mood' }, { id: 'mood.continue', etiqueta: 'Continúa' }, { id: 'screen:S06', etiqueta: 'Lee su mood' }, { id: 'screen:S05', etiqueta: 'Llega a Mazos' }] },
   { id: 'M1', flujo: 'F-M', titulo: 'Empezar un mazo distinto', seed: 'mazos-en-curso', pantallaInicio: 'S05', maxTiempo: 120,
     escenario: 'Ya tienes un mazo empezado, pero hoy te dieron ganas de ver cosas de Christopher Nolan. Empieza ese otro mazo.',
-    rutaEsperada: ['S05', 'S05.confirm', 'S05.barajando', 'S05.listo', 'S02'],
+    rutaEsperada: ['S05', 'S05.confirm', 'S05.barajando', 'S05.listo', 'S02', 'S02.flipped'],
     pasos: [{ id: 'deck.pick:nolan', etiqueta: 'Elige el mazo Nolan' }, { id: 'swap.confirm', etiqueta: 'Confirma el cambio' }, { id: 'deck.dealt:nolan', etiqueta: 'Se baraja' }, { id: 'screen:S02', etiqueta: 'Llega a las cartas' }] },
   { id: 'D2', flujo: 'F-D', titulo: 'Jugar cartas', seed: 'deck-nolan-start', pantallaInicio: 'S02', maxTiempo: 180,
     escenario: 'Juega con estas películas: guarda una que te gustaría ver, di que no a otra y marca una que ya hayas visto.',
-    rutaEsperada: ['S02', 'S02.flipped', 'S02.sheet', 'S02.dim'],
+    rutaEsperada: ['S02', 'S02.flipped', 'S02.sheet', 'S02.dim', 'S02.match', 'S02.fin'],
     pasos: [{ id: 'mark.ring', etiqueta: 'Guarda una (○)' }, { id: 'mark.x', etiqueta: 'Descarta una (✕)' }, { id: 'mark.dot', etiqueta: 'Marca una vista (●)' }] },
   { id: 'M2', flujo: 'F-M', titulo: 'Terminar el mazo y elegir el siguiente', seed: 'deck-finished', pantallaInicio: 'S07', maxTiempo: 150,
     escenario: 'Terminaste tu mazo. Responde lo que Kinoo te pregunte y empieza un mazo nuevo.',
@@ -203,7 +203,7 @@ export const MISIONES: MisionCat[] = [
     pasos: [{ id: 'ver.watch', etiqueta: 'Pulsa «Verla»' }, { id: 'platform.picked', etiqueta: 'Elige plataforma' }, { id: 'platform.opened', etiqueta: 'Sale a la plataforma' }] },
   { id: 'V2', flujo: 'F-V', titulo: 'Contar qué te pareció', seed: 'ver-back', pantallaInicio: 'S04', maxTiempo: 120,
     escenario: 'Ya viste la película y volviste a Kinoo. Cuéntale qué te pareció y déjala para verla otra vez algún día.',
-    rutaEsperada: ['S04', 'S04.sheet-back', 'S03', 'S04'],
+    rutaEsperada: ['S04', 'S03.back', 'S03'],
     pasos: [{ id: 'ver.sawit', etiqueta: 'Dice que la vio' }, { id: 'reaction.picked', etiqueta: 'Elige reacción' }, { id: 'repeat.on', etiqueta: 'Marca repetir' }, { id: 'reaction.saved', etiqueta: 'Guarda' }] },
   { id: 'V3', flujo: 'F-V', titulo: 'Quitar una guardada', seed: 'ver-pool', pantallaInicio: 'S04', maxTiempo: 120,
     escenario: 'Guardaste El Faro Mudo pero ya no te interesa. Sácala de tus guardadas.',

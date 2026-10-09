@@ -157,7 +157,7 @@ export function Descubrir() {
     if (hold.current) clearTimeout(hold.current);
     if (!drag.current) { setD((x) => ({ ...x, dragging: false })); return; }
     const dr = drag.current; drag.current = null;
-    if (!dr.moved) { setD((x) => ({ ...x, dragging: false })); return; }
+    if (!dr.moved) { setD((x) => ({ ...x, dragging: false })); doFlip(); return; } // con setPointerCapture el click no llega al botón: el toque voltea aquí (como en el artefacto)
     const { dx, dy } = d;
     if (-dy > 90 && -dy > Math.abs(dx) && flipped) act('up');
     else if (dx > 100) act('right');

@@ -179,6 +179,21 @@ var COLUMNAS = /*COLUMNAS_BEGIN*/{
   "Sesión ID",
   "Row ID"
  ],
+ "Zonas": [
+  "Tarea",
+  "Pantalla ID",
+  "Descripción de la zona correcta",
+  "X1 (%)",
+  "Y1 (%)",
+  "X2 (%)",
+  "Y2 (%)",
+  "Alt. X1",
+  "Alt. Y1",
+  "Alt. X2",
+  "Alt. Y2",
+  "Notas",
+  "Row ID"
+ ],
  "Eventos": [
   "eventId",
   "sesionId",
@@ -247,7 +262,8 @@ var COLUMNAS = /*COLUMNAS_BEGIN*/{
   "estado"
  ]
 }/*COLUMNAS_END*/;
-var HOJAS_ESCRIBIBLES = /*ESCRIBIBLES_BEGIN*/["5 segundos","5 s – Cards","Primer clic + SEQ","UEQ","Puntos","Marca A-B","Flujos","Notas","Errores"]/*ESCRIBIBLES_END*/;
+var HOJAS_ESCRIBIBLES = /*ESCRIBIBLES_BEGIN*/["Zonas","5 segundos","5 s – Cards","Primer clic + SEQ","UEQ","Puntos","Marca A-B","Flujos","Notas","Errores"]/*ESCRIBIBLES_END*/;
+var PERFIL_EDITABLE = ['Edad', 'Género', 'Frecuencia de consumo', 'Descubre en redes (Sí/No)', 'Nivel tecnológico', 'Notas', 'Graba (Sí/No)', 'Dispositivo', 'Moderador/a'];
 var HOJAS_LECTURA = ['Participantes', 'Config', 'Pantallas', 'Zonas', '5 segundos', '5 s – Cards', 'Primer clic + SEQ', 'UEQ', 'Puntos', 'Marca A-B', 'Contraste', 'Eventos', 'Flujos', 'Notas', 'Errores'];
 var CUADRADO_LATINO = [
   ['T1', 'T2', 'T5', 'T3', 'T4'],
@@ -391,6 +407,21 @@ function resume_(b) {
     if (data.existentes[i].sesionId === String(b.sesionId) && data.existentes[i].codigo === String(b.codigo)) return asignacionDeFila_(data, i);
   }
   return null;
+}
+/** Contexto (edad, frecuencia…): se responde después de registrar, así que se actualiza la fila por sesionId. */
+function perfil_(b) {
+  var data = leerParticipantes_();
+  for (var i = 0; i < data.existentes.length; i++) {
+    if (data.existentes[i].sesionId === String(b.sesionId)) {
+      Object.keys(b.cambios || {}).forEach(function (col) {
+        var c = data.heads.indexOf(col);
+        if (c >= 0 && PERFIL_EDITABLE.indexOf(col) >= 0) data.sh.getRange(data.existentes[i].fila, c + 1).setValue(b.cambios[col]);
+      });
+      SpreadsheetApp.flush();
+      return { ok: true };
+    }
+  }
+  return { ok: false, error: 'sesión no encontrada' };
 }
 function phase_(b) {
   var data = leerParticipantes_();
@@ -543,6 +574,12 @@ function health_() {
   return { ok: true, filas: filas, ultimoEvento: ult };
 }
 
+/** Ejecutar UNA vez a mano desde el editor: crea todas las hojas con sus encabezados. */
+function setup() {
+  Object.keys(COLUMNAS).forEach(function (n) { hoja_(n); });
+  ['Config', 'Pantallas', 'Contraste'].forEach(function (n) { hoja_(n); });
+}
+
 // ---------------------------------------------------------------- entrada HTTP
 function json_(o) {
   return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON);
@@ -564,6 +601,7 @@ function doPost(e) {
       case 'register': r = register_(b); break;
       case 'resume': r = resume_(b); break;
       case 'phase': r = phase_(b); break;
+      case 'profile': r = perfil_(b); break;
       case 'events': r = eventos_(b); break;
       case 'rows': r = filas_(b); break;
       case 'reassign': r = reasignar_(b); break;

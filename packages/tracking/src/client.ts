@@ -100,7 +100,9 @@ export class TrackingClient {
         const r = await this.post({ action: 'rows', key: this.cfg.key, hoja, filas });
         if (!r.ok) throw new Error(r.error ?? 'rows');
       }
-      this.cola = this.cola.slice(lote.length);
+      // se quitan los elementos enviados POR IDENTIDAD: la cola pudo cambiar durante el envío (p. ej. sendBeacon al ocultar la página)
+      const enviados = new Set(lote);
+      this.cola = this.cola.filter((i) => !enviados.has(i));
       this.fallos = 0;
       this.proximoIntento = 0;
       this.estado = 'sincronizado';
@@ -130,6 +132,20 @@ export class TrackingClient {
     }
   }
 
+  /** Cuando llega el código definitivo, lo pendiente en la cola (todavía con TMP-…) se re-etiqueta antes de enviarse. */
+  reetiquetarCola(tmp: string, a: Asignacion): number {
+    let n = 0;
+    for (const it of this.cola) {
+      if (it.kind === 'event') {
+        if (it.payload.codigo === tmp) { it.payload.codigo = a.codigo; it.payload.nombreMostrado = a.nombreMostrado; n++; }
+      } else if (it.payload.Participante === tmp) {
+        it.payload.Participante = a.codigo; it.payload['Nombre mostrado'] = a.nombreMostrado; n++;
+      }
+    }
+    if (n) { this.guardar(); this.avisar(); }
+    return n;
+  }
+
   // ---- llamadas directas (no van por la cola) ----
   async registrar(perfil: PerfilRegistro, sesionId: string): Promise<Asignacion & { provisional?: boolean }> {
     if (this.cfg.url) {
@@ -146,6 +162,10 @@ export class TrackingClient {
       const r = await this.post({ action: 'resume', key: this.cfg.key, codigo, sesionId });
       return r.ok ? (r.data as Asignacion & { fasesCompletadas?: number }) : null;
     } catch { return null; }
+  }
+  async perfil(sesionId: string, cambios: Record<string, string | number>): Promise<void> {
+    if (!this.cfg.url) return;
+    try { await this.post({ action: 'profile', key: this.cfg.key, sesionId, cambios }); } catch { /* el perfil también viaja en los eventos 'answer' */ }
   }
   async faseCompletada(sesionId: string, fasesCompletadas: number): Promise<void> {
     if (!this.cfg.url) return;

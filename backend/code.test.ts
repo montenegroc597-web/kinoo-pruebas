@@ -5,7 +5,7 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { crearBackend } from '../e2e/fake-gas.mjs';
 import { COLUMNAS, HOJAS } from '../packages/tracking/src/schema';
 
-type B = { post: (b: any) => any; get: (p: any) => any; sheet: (n: string) => any };
+type B = { post: (b: any) => any; get: (p: any) => any; sheet: (n: string) => any; call: (n: string, ...a: any[]) => any };
 let b: B;
 beforeEach(async () => { b = await crearBackend(); });
 
@@ -55,6 +55,34 @@ describe('registro de participantes', () => {
     expect(r.fasesCompletadas).toBe(2);
     expect(r.nombreMostrado).toBe('Ana 1');
     expect(b.post({ action: 'resume', key: 'W', sesionId: 'otra', codigo: 'P01' }).data).toBeNull();
+  });
+});
+
+describe('perfil (contexto) y zonas', () => {
+  it('actualiza solo columnas permitidas por sesionId', () => {
+    reg('Ana', 's1');
+    expect(b.post({ action: 'profile', key: 'W', sesionId: 's1', cambios: { Edad: 27, 'Nivel tecnológico': 'Alto', 'Nombre mostrado': 'HACK 9', Código: 'P99' } }).data.ok).toBe(true);
+    const d = b.get({ action: 'dump', key: 'R', hojas: 'Participantes' }).data.Participantes;
+    const r = d.rows[0], h = d.headers;
+    expect(r[h.indexOf('Edad')]).toBe(27);
+    expect(r[h.indexOf('Nivel tecnológico')]).toBe('Alto');
+    expect(r[h.indexOf('Nombre mostrado')]).toBe('Ana 1');
+    expect(r[h.indexOf('Código')]).toBe('P01');
+    expect(b.post({ action: 'profile', key: 'W', sesionId: 'nope', cambios: { Edad: 1 } }).data.ok).toBe(false);
+  });
+  it('Zonas acepta upsert por Row ID', () => {
+    const z = (x2: number) => ({ Tarea: 'T1', 'Pantalla ID': 'S03', 'X1 (%)': 10, 'Y1 (%)': 10, 'X2 (%)': x2, 'Y2 (%)': 20, 'Row ID': 'zona-T1-A' });
+    expect(b.post({ action: 'rows', key: 'W', hoja: HOJAS.zonas, filas: [z(50)] }).data).toEqual({ nuevas: 1, actualizadas: 0 });
+    expect(b.post({ action: 'rows', key: 'W', hoja: HOJAS.zonas, filas: [z(60)] }).data).toEqual({ nuevas: 0, actualizadas: 1 });
+  });
+  it('setup() crea todas las hojas con sus encabezados', () => {
+    (b as any).call('setup');
+    for (const [n, cols] of Object.entries(COLUMNAS)) {
+      const sh = b.sheet(n);
+      expect(sh, n).not.toBeNull();
+      expect(sh.data[0]).toEqual(cols);
+    }
+    expect(b.sheet('Config')).not.toBeNull();
   });
 });
 

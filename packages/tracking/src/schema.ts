@@ -71,6 +71,7 @@ export const COLUMNAS: Record<string, string[]> = {
   [HOJAS.ueq]: ['Participante', 'Versión evaluada', 'Formato', ...Array.from({ length: 26 }, (_, i) => String(i + 1)), 'Comentario libre', 'Nombre mostrado', 'Sesión ID', 'Row ID'],
   [HOJAS.puntos]: ['Participante', 'Prueba', 'Estímulo (tarea T1…T5 / card C1…C6 / par)', 'Pantalla ID', 'Versión', 'N.º de clic (1 = primero)', 'X (% ancho)', 'Y (% alto)', 'Celda de cuadrícula (alt., ej. C7)', 'Tiempo desde que se mostró (s)', 'Notas', 'Resultado', 'Nombre mostrado', 'Sesión ID', 'Row ID'],
   [HOJAS.marca]: ['Participante', 'Orden visto (auto)', 'Pantalla ID', 'A · Agrado 1–7', 'A · Legibilidad 1–7', 'A · Aburrido–Emocionante 1–7', 'A · Genérico–Distintivo 1–7', 'A · # atributos deseados (0–3)', 'A · # atributos a evitar (0–3)', 'A · Primer elemento = jerarquía prevista (1/0)', 'B · Agrado 1–7', 'B · Legibilidad 1–7', 'B · Aburrido–Emocionante 1–7', 'B · Genérico–Distintivo 1–7', 'B · # atributos deseados (0–3)', 'B · # atributos a evitar (0–3)', 'B · Primer elemento = jerarquía prevista (1/0)', 'Preferencia directa (A/B/Igual)', 'Dimensión que más pesó', 'Motivo (textual)', 'Notas', '¿Qué colores prefiere? (A/B/Igual)', '¿Cuál se lee mejor? (A/B/Igual)', 'Atributo preguntado', '¿Cuál es más [atributo]? (A/B/Igual)', 'A · Palabras', 'B · Palabras', 'A · Frío–Cálido', 'B · Frío–Cálido', 'A · Confuso–Claro', 'B · Confuso–Claro', 'Nombre mostrado', 'Sesión ID', 'Row ID'],
+  [HOJAS.zonas]: ['Tarea', 'Pantalla ID', 'Descripción de la zona correcta', 'X1 (%)', 'Y1 (%)', 'X2 (%)', 'Y2 (%)', 'Alt. X1', 'Alt. Y1', 'Alt. X2', 'Alt. Y2', 'Notas', 'Row ID'],
   [HOJAS.eventos]: ['eventId', 'sesionId', 'codigo', 'nombreMostrado', 'ronda', 'fase', 'ts', 'tSesion', 'bloque', 'estimulo', 'pantalla', 'version', 'tipo', 'x', 'y', 'target', 'interactivo', 'zona', 'resultado', 'nClic', 'tTarea', 'valor', 'extra', 'ua', 'viewport'],
   [HOJAS.flujos]: ['Participante', 'Nombre mostrado', 'Misión', 'Flujo', 'Orden', 'Resultado', 'Tiempo (s)', 'Toques', 'Misclicks', 'Pantallas visitadas (ruta)', 'Desvíos', 'Ayuda abierta', 'SEQ', 'SEQ motivo', 'Notas', 'Sesión ID', 'Row ID'],
   [HOJAS.notas]: ['Participante', 'Nombre mostrado', 'Prueba', 'Pantalla / Tarea / Card', 'Texto', 'Tipo', 'Gravedad', 'Tema', 'Sesión ID', 'Row ID'],
@@ -78,7 +79,7 @@ export const COLUMNAS: Record<string, string[]> = {
 };
 
 /** Hojas a las que la app puede escribir con action:'rows'. */
-export const HOJAS_ESCRIBIBLES: string[] = [HOJAS.cincoSeg, HOJAS.cards, HOJAS.primerClic, HOJAS.ueq, HOJAS.puntos, HOJAS.marca, HOJAS.flujos, HOJAS.notas, HOJAS.errores];
+export const HOJAS_ESCRIBIBLES: string[] = [HOJAS.zonas, HOJAS.cincoSeg, HOJAS.cards, HOJAS.primerClic, HOJAS.ueq, HOJAS.puntos, HOJAS.marca, HOJAS.flujos, HOJAS.notas, HOJAS.errores];
 
 export interface Asignacion {
   codigo: string;

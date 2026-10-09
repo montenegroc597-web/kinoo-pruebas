@@ -141,7 +141,7 @@ export function veredictoAB(votosA: number, votosB: number): { ganador: 'A' | 'B
 // ---------- Flujos (misiones) ----------
 export type ResultadoMision = 'Éxito directo' | 'Éxito indirecto' | 'Abandono' | 'Fallo por tiempo' | 'Error de flujo';
 
-/** Ruta realizada vs esperada: directo si la esperada aparece como subsecuencia contigua sin pantallas ajenas (se permiten repeticiones). */
+/** Directo = éxito sin pasar por pantallas fuera de la ruta esperada (se permiten repeticiones); indirecto = con desvíos. */
 export function clasificarMision(opts: { exito: boolean; abandono: boolean; tiempoAgotado: boolean; error: boolean; ruta: string[]; rutaEsperada: string[] }): ResultadoMision {
   if (opts.error) return 'Error de flujo';
   if (opts.abandono) return 'Abandono';
@@ -149,9 +149,8 @@ export function clasificarMision(opts: { exito: boolean; abandono: boolean; tiem
   const dedup = opts.ruta.filter((p, i) => i === 0 || p !== opts.ruta[i - 1]);
   const permitidas = new Set(opts.rutaEsperada);
   const sinDesvios = dedup.every((p) => permitidas.has(p));
-  let k = 0;
-  for (const p of dedup) if (p === opts.rutaEsperada[k]) k++;
-  return sinDesvios && k >= opts.rutaEsperada.length ? 'Éxito directo' : 'Éxito indirecto';
+  // el éxito ya garantiza que se hicieron los pasos necesarios; lo que distingue directo de indirecto son las pantallas AJENAS a la ruta
+  return sinDesvios ? 'Éxito directo' : 'Éxito indirecto';
 }
 
 /** Pantallas visitadas fuera de la ruta esperada. */

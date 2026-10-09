@@ -61,6 +61,7 @@ export async function crearBackend({ writeKey = 'W', readKey = 'R' } = {}) {
   return {
     ss,
     sheet: (n) => ss.getSheetByName(n),
+    call: (name, ...args) => ctx[name](...args),
     post: (body) => leer(ctx.doPost({ postData: { contents: JSON.stringify(body) } })),
     get: (parameter) => {
       const o = ctx.doGet({ parameter });
