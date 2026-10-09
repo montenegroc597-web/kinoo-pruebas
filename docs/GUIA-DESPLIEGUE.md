@@ -1,3 +1,5 @@
+> **Actualización: el backend ahora es Supabase** (proyecto «Pruebas Kinoo»), no Google Sheets/Apps Script. Ver `supabase/README.md`. Secrets del repo: `APPS_SCRIPT_URL` (= URL de la Edge Function `…/functions/v1/kinoo`), `WRITE_KEY`, `READ_KEY`. Las secciones de Apps Script de abajo quedan solo como alternativa histórica.
+
 # Guía de despliegue
 
 Tiempo: unos 20 minutos. Necesitas una **cuenta de Google** (donde vivirá el Sheet) y una **cuenta de GitHub**.
