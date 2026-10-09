@@ -1,0 +1,2 @@
+{ "name": "@kinoo/ui", "version": "1.0.0", "private": true, "type": "module", "main": "src/index.ts",
+  "dependencies": { "react": "^18.3.1", "react-dom": "^18.3.1", "zustand": "^4.5.5", "react-router-dom": "^6.27.0" } }

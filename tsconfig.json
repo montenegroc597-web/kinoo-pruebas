@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.base.json",
+  "include": ["apps/*/src", "packages/*/src", "e2e", "vitest.config.ts"],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@kinoo/ui": ["packages/kinoo-ui/src/index.ts"],
+      "@kinoo/ui/*": ["packages/kinoo-ui/src/*"],
+      "@kinoo/tracking": ["packages/tracking/src/index.ts"],
+      "@kinoo/tracking/*": ["packages/tracking/src/*"]
+    }
+  }
+}
