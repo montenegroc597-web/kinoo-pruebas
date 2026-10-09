@@ -1,5 +1,5 @@
 import React from 'react';
-import { Frame, ProductApp, type Brand, type SeedId } from '@kinoo/ui';
+import { Frame, KinoPantalla, ProductApp, type Brand, type SeedId } from '@kinoo/ui';
 
 export const CATALOGO: { id: string; seed: SeedId; route: string }[] = [
   { id: 'S01', seed: 'fresh', route: '/mood' },
@@ -14,14 +14,16 @@ export const CATALOGO: { id: string; seed: SeedId; route: string }[] = [
   { id: 'S08', seed: 'ver-pool', route: '/mi-espacio' },
 ];
 
-/** Catálogo de pantallas A y B lado a lado (?catalogo=1). Sirve para revisar estilos y como referencia del Panel. Nunca con participantes. */
+/** Catálogo de pantallas A y B lado a lado (?catalogo=1). B es el prototipo Kino real y se puede usar. Sirve para revisar estilos y como referencia del Panel. Nunca con participantes. */
 export function Catalogo() {
   return (
     <div style={{ padding: 16, display: 'grid', gap: 20, gridTemplateColumns: 'repeat(auto-fill, minmax(420px, 1fr))', background: '#222', minHeight: '100vh' }}>
       {CATALOGO.map((c) => (['A', 'B'] as Brand[]).map((b) => (
         <div key={c.id + b} data-catalogo={`${c.id}-${b}`} style={{ color: '#fff', font: '12px monospace' }}>
           <div>{c.id} · versión {b}</div>
-          <Frame brand={b} scale={1} id={`cat-${c.id}-${b}`} radius={14}><ProductApp seed={c.seed} route={c.route} /></Frame>
+          {b === 'B'
+            ? <KinoPantalla pantalla={c.id.slice(0, 3)} escala={1} id={`cat-${c.id}-${b}`} interactiva />
+            : <Frame brand={b} scale={1} id={`cat-${c.id}-${b}`} radius={14}><ProductApp seed={c.seed} route={c.route} /></Frame>}
         </div>
       )))}
     </div>

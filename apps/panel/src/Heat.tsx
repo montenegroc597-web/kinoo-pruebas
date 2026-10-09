@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Frame, ProductApp, SEED_ROUTE, type Brand, type SeedId } from '@kinoo/ui';
+import { Frame, KinoPantalla, ProductApp, SEED_ROUTE, type Brand, type SeedId } from '@kinoo/ui';
 import { TAREAS } from '@kinoo/tracking';
 import { calor, type Dump, filas, type PuntoMapa } from './analytics';
 
@@ -20,7 +20,7 @@ export const vistaDeTarea = (tarea: string) => { const t = TAREAS.find((x) => x.
 export interface ZonaPct { x1: number; y1: number; x2: number; y2: number }
 
 /** Mapa de calor 10×20 + puntos, dibujado sobre la pantalla REAL (estática). Con `zona` dibuja la zona correcta. */
-export function Heat({ vista, brand = 'A', puntos, zona, escala = 0.8, modo = 'calor', id }: { vista: { seed: SeedId; route: string }; brand?: Brand; puntos: PuntoMapa[]; zona?: ZonaPct | null; escala?: number; modo?: 'calor' | 'puntos'; id?: string }) {
+export function Heat({ vista, brand = 'A', puntos, zona, escala = 0.8, modo = 'calor', id, kino }: { vista: { seed: SeedId; route: string }; brand?: Brand; puntos: PuntoMapa[]; zona?: ZonaPct | null; escala?: number; modo?: 'calor' | 'puntos'; id?: string; /** pantalla (S02…) para dibujar la versión B como el prototipo Kino real */ kino?: string }) {
   const W = 390 * escala, H = 844 * escala;
   const ref = useRef<HTMLCanvasElement>(null);
   const [fid] = useState(() => 'heat-' + (id ?? '') + '-' + Math.random().toString(36).slice(2, 8));
@@ -49,7 +49,9 @@ export function Heat({ vista, brand = 'A', puntos, zona, escala = 0.8, modo = 'c
   }, [W, H, puntos, zona, modo]);
   return (
     <div className="pn-heat" style={{ width: W, height: H }} data-heat={id}>
-      <div style={{ pointerEvents: 'none' }} aria-hidden="true"><Frame brand={brand} scale={escala} id={fid} radius={10}><ProductApp seed={vista.seed} route={vista.route} /></Frame></div>
+      <div style={{ pointerEvents: 'none' }} aria-hidden="true">{brand === 'B' && kino
+        ? <KinoPantalla pantalla={kino} escala={escala} id={fid} radius={10} />
+        : <Frame brand={brand} scale={escala} id={fid} radius={10}><ProductApp seed={vista.seed} route={vista.route} /></Frame>}</div>
       <canvas ref={ref} style={{ width: W, height: H }} aria-label="Mapa de clics" />
     </div>
   );

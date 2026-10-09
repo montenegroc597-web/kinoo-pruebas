@@ -4,6 +4,7 @@ export * from './store';
 export * from './tracker';
 export * from './Frame';
 export * from './ProductApp';
+export * from './KinoPrototipo';
 export * from './util';
 export { Mood } from './screens/Mood';
 export { MoodFeedback } from './screens/MoodFeedback';

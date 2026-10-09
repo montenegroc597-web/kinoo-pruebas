@@ -6,6 +6,8 @@ const root = path.resolve(__dirname, '../..');
 export default defineConfig({
   base: process.env.VITE_BASE ?? './',
   plugins: [react()],
+  // packages/kinoo-ui/public/kino = prototipo Kino (versión B de la prueba de marca), servido en <base>/kino/
+  publicDir: path.resolve(root, 'packages/kinoo-ui/public'),
   resolve: {
     alias: {
       '@kinoo/ui': path.resolve(root, 'packages/kinoo-ui/src/index.ts'),

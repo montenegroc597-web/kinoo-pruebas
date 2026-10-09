@@ -252,7 +252,7 @@ export function Marca({ d, piloto }: { d: Dump; piloto: boolean }) {
       <div className="pn-card"><h3>Primera mirada: A vs B (misma pantalla)</h3>
         {m.porPantalla.map((p) => (
           <div key={p.id} style={{ marginBottom: 14 }}><div className="pn-sub">{p.id} · agrado A {f1(p.agradoA)} / B {f1(p.agradoB)} · legibilidad A {f1(p.leerA)} / B {f1(p.leerB)}</div>
-            <div className="pn-row" style={{ alignItems: 'flex-start' }}>{(['A', 'B'] as const).map((v) => <Heat key={v} vista={VISTA[p.id]} brand={v} puntos={pts.filter((x) => x.pantalla === p.id && x.version === v)} escala={0.42} id={`marca-${p.id}-${v}`} />)}</div>
+            <div className="pn-row" style={{ alignItems: 'flex-start' }}>{(['A', 'B'] as const).map((v) => <Heat key={v} vista={VISTA[p.id]} brand={v} kino={p.id} puntos={pts.filter((x) => x.pantalla === p.id && x.version === v)} escala={0.42} id={`marca-${p.id}-${v}`} />)}</div>
           </div>
         ))}
       </div>

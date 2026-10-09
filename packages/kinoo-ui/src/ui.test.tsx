@@ -1,7 +1,7 @@
 import React from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { act, cleanup, fireEvent, render } from '@testing-library/react';
-import { Frame, ProductApp, SEED_ROUTE, type SeedId, type Tracker } from './index';
+import { Frame, KINO_PRIMARIO, KinoPantalla, ProductApp, SEED_ROUTE, type SeedId, type Tracker } from './index';
 
 // jsdom no trae algunas APIs
 beforeEach(() => {
@@ -170,5 +170,22 @@ describe('flujos de las misiones', () => {
     const m = montar('ver-pool');
     m.click('S04.mood-reir'); m.avanzar(400);
     expect(m.container.textContent).toMatch(/Marea Lenta|Noche de Feria|Vecinos/);
+  });
+});
+
+describe('versión B = prototipo Kino real (KinoPantalla)', () => {
+  it.each(['S02', 'S04', 'S05'])('%s: marco B, iframe del prototipo en esa pantalla y elemento de jerarquía prevista', (p) => {
+    const { container } = render(<KinoPantalla pantalla={p} escala={1} id="kp" />);
+    const fr = container.querySelector('#kp') as HTMLElement;
+    expect(fr.dataset.brand).toBe('kino');
+    expect(fr.dataset.version).toBe('B');
+    expect(fr.querySelector('iframe')!.getAttribute('src')).toMatch(new RegExp('kino/index\\.html\\?pantalla=' + p + '$'));
+    const h = fr.querySelector('[data-hierarchy="primary"]') as HTMLElement;
+    const [x1, y1, x2, y2] = KINO_PRIMARIO[p];
+    expect([h.style.left, h.style.top, h.style.width, h.style.height]).toEqual([x1 + 'px', y1 + 'px', x2 - x1 + 'px', y2 - y1 + 'px']);
+  });
+  it('estática por defecto: el iframe no recibe toques (el toque lo mide la prueba)', () => {
+    const { container } = render(<KinoPantalla pantalla="S02" />);
+    expect((container.querySelector('iframe') as HTMLElement).style.pointerEvents).toBe('none');
   });
 });

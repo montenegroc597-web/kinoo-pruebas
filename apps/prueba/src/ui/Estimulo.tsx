@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Frame, ProductApp, type Brand, type SeedId, type Tracker } from '@kinoo/ui';
+import { Frame, KinoPantalla, ProductApp, type Brand, type SeedId, type Tracker } from '@kinoo/ui';
 import { CARDS_ESTIMULOS } from '@kinoo/tracking';
 
 export const SEED_DE_PANTALLA: Record<string, { seed: SeedId; route: string }> = {
@@ -22,8 +22,15 @@ export function useEscala(reservado: number, maxEscala = 1.1, anchoMargen = 24):
   return k;
 }
 
-/** Pantalla del producto, estática (sin toques): para los tests de 5 segundos y de marca. */
+/** Pantalla del producto, estática (sin toques): para los tests de 5 segundos y de marca. B = el prototipo real «Kino» (KinoPantalla). */
 export function PantallaEstatica({ pantalla, brand = 'A', escala, id = 'kinoo-estimulo' }: { pantalla: string; brand?: Brand; escala: number; id?: string }) {
+  if (brand === 'B') {
+    return (
+      <div style={{ pointerEvents: 'none', userSelect: 'none' }} aria-hidden="true">
+        <KinoPantalla pantalla={pantalla} escala={escala} id={id} />
+      </div>
+    );
+  }
   const m = SEED_DE_PANTALLA[pantalla];
   return (
     <div style={{ pointerEvents: 'none', userSelect: 'none' }} aria-hidden="true">

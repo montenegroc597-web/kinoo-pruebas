@@ -34,7 +34,7 @@ El método es el del **Protocolo de pruebas v1.3** (`Documentos ux/`). Cuando al
 | **1 · Primera impresión** | Nombre y consentimiento → preguntas de contexto → test de 5 segundos (4 pantallas, incluida la de **mazos**) → 3 tarjetas distintas, cada una **dentro de la pantalla completa**, que al final la persona **prueba tocando y deslizando** |
 | **2 · Encontrar acciones** | 5 situaciones de «¿dónde tocarías?» sobre las pantallas reales, cada una con la pregunta de facilidad (SEQ) |
 | **3 · Usar la app** | 5 situaciones tipo «de la pantalla inicial a la pantalla objetivo» (Descubrir, mazos y Ver): la persona navega sola; al llegar sale **«¡Felicidades! Completaste la tarea»** y pasa a la siguiente. Después, SEQ + cuestionario UEQ-S |
-| **4 · Marca y cierre** | Compara las dos versiones visuales (A «Noche» y B «Kino») sobre 3 pantallas (cartas, Ver y **mazos**) → 3 preguntas finales |
+| **4 · Marca y cierre** | Compara las dos versiones visuales sobre 3 pantallas (cartas, Ver y **mazos**): A «Noche» y B = **el prototipo real «Kino»** (el de la página H del lienzo, con su estética y su lógica) → 3 preguntas finales |
 
 - **Nombre y repetidos.** Al empezar escribe su nombre. La primera persona que se llame «Juan» queda como **Juan 1**, la siguiente **Juan 2**, y así (da igual si escribe «JUÁN» o «juan »). Cada fila de cada hoja queda ligada a su código (P01, P02…) y a su nombre numerado.
 - **Si cierra la página**, al volver a abrir el mismo enlace en el mismo celular **retoma en la fase donde iba** (esa fase empieza desde su principio; lo ya respondido está guardado).
@@ -92,7 +92,9 @@ npm run dev:panel     # http://localhost:5174  → URL http://localhost:8787, cl
 ```
 (`VITE_APPS_SCRIPT_URL=http://localhost:8787 VITE_WRITE_KEY=W` al arrancar `dev:prueba`.)
 
-Dos parámetros de ayuda, **nunca con participantes**: `?catalogo=1` muestra todas las pantallas en A y B lado a lado; `?rapido=1` acorta la mirada de 12 s de la prueba de marca (para pruebas automáticas).
+El prototipo Kino completo (con su panel de pantallas) queda publicado en `…/prueba/kino/index.html`.
+
+Dos parámetros de ayuda, **nunca con participantes**: `?catalogo=1` muestra todas las pantallas en A y B lado a lado (B es el prototipo Kino y se puede usar); `?rapido=1` acorta la mirada de 12 s de la prueba de marca (para pruebas automáticas).
 
 ## 6. Comandos
 

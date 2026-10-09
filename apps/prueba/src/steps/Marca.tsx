@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { BRILLO_AVISO, MARCA_ATRIBUTO, MARCA_DESEADOS, MARCA_DIFERENCIALES, MARCA_EVITAR, MARCA_INICIO, MARCA_PALABRAS, MARCA_PARES, MARCA_PREGUNTAS, barajar, flujoDePantalla, nombreDePantalla } from '@kinoo/tracking';
-import type { Brand } from '@kinoo/ui';
+import { precargarKino, type Brand } from '@kinoo/ui';
 import { Kicker, Next, Opciones, P, Page, PointPicker, Preguntas, Title, type Pregunta } from '../ui/kit';
 import { PantallaEstatica, useEscala } from '../ui/Estimulo';
 import { Cronometrado } from './CincoSeg';
@@ -12,7 +12,7 @@ const MS_VER = (() => { try { return new URLSearchParams(location.search).get('r
 type Etapa = 'brillo' | 'intro' | 'ver' | 'preg' | 'punto' | 'lado' | 'comp';
 type RespVersion = { agrado?: number; palabras?: string[]; leer?: number; dif?: Record<string, number>; punto?: { x: number; y: number }; jerarquia?: 0 | 1 };
 
-/** Prueba 4: validación de marca A/B. Cada persona ve las dos versiones (A = Noche, B = Kino) en el orden asignado. */
+/** Prueba 4: validación de marca A/B. Cada persona ve las dos versiones (A = Noche, B = el prototipo real «Kino», ver KinoPantalla) en el orden asignado. */
 export function Marca({ onListo }: { onListo: () => void }) {
   const s = useSession((x) => x.s)!;
   const primeroA = s.ordenMarca === 'A→B';
@@ -29,6 +29,7 @@ export function Marca({ onListo }: { onListo: () => void }) {
   const opcion = (b: Brand) => (versiones[0] === b ? 'Opción 1' : 'Opción 2');
 
   useEffect(() => { setCtx({ bloque: 'marca', estimulo: pantalla, pantalla, version: brand }); }, [pantalla, brand]);
+  useEffect(() => { precargarKino(); }, []); // la versión B es el prototipo Kino (iframe): se descarga mientras lee el aviso de brillo
 
   const qs: Pregunta[] = [
     { id: 'M1', prompt: MARCA_PREGUNTAS.M1, tipo: 'escala', extremos: ['nada agradable', 'muy agradable'] },

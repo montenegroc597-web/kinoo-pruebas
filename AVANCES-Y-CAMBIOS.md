@@ -71,6 +71,11 @@ Ajustes técnicos de esta ronda: `ProductApp` acepta un `ajuste` del mazo (qué 
 **Pedido:** que «continuar como equipo» no se registre como participante, deje saltar y devolverse, y no dé nada por terminado.
 **Hecho:** `?equipo=1` (o el botón de la pantalla del QR). El cliente de seguimiento queda **inerte** (no encola, no envía, no persiste; probado), la sesión vive solo en memoria con el nombre «Equipo», hay un menú para elegir fase y participante simulado, cinta con Atrás / Saltar / Menú / Salir y un final que dice «no se guardó nada». Se eligió **no registrar nada** en vez de «registrar aparte» para no consumir códigos ni números de rotación. Se probó con un celular virtual (equipo.spec.ts): se recorre, se vuelve, se salta, se llega al final y **ninguna hoja recibe una sola fila**; y un participante normal sigue guardándose.
 
+## 3 quater. La versión B de la marca es el prototipo Kino real (cuarta ronda, 2026-10-09)
+
+**Pedido:** en la prueba de marca (fase 4) la opción B no debía ser la app A con otro tema, sino **el prototipo «Kino» creado en el lienzo** (página H «Kino · mazos»), con su estética y su funcionamiento.
+**Hecho:** `packages/kinoo-ui/public/kino/` contiene `H_Prototipo.dc.html` **sin cambios** (solo `support.js` → `dc-runtime.js`, el runtime oficial de los lienzos, y una línea que carga `embed.js`). `KinoPantalla` lo muestra en un iframe dentro del mismo marco `#kinoo-frame` de 390×844; `embed.js` abre S02 (mazo · cartas), S04 (Ver · cartas) o S05 (elegir mazo) con los atajos del propio prototipo y deja solo el teléfono. **La lógica de la prueba no cambió**: mismas etapas, 12 s, preguntas, toque M5, filas de `Marca A-B`, eventos y orden A→B/B→A. La «jerarquía prevista» de B se mide con un rectángulo fijo medido en el prototipo (`KINO_PRIMARIO`). El Panel dibuja los mapas de B sobre el prototipo y el catálogo (`?catalogo=1`) lo deja usable. Supabase no cambia. Detalle y pasos de publicación: `ULTIMAS-ACTUALIZACIONES.md`.
+
 ## 4. Errores reales que encontraron las pruebas (y se corrigieron)
 
 | # | Qué pasaba | Cómo se encontró | Arreglo |
