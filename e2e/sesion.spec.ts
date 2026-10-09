@@ -19,7 +19,7 @@ async function punto(page: Page, track: string) {
   await tr(page, track + '-listo').click();
 }
 async function cincoSeg(page: Page) {
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < 4; i++) {
     await click(page, '5s.listo');
     await expect(tr(page, 'q.P1')).toBeVisible({ timeout: 15000 });
     await responder(page, 'P1', 'Una carta y botones'); await siguiente(page, 'P1');
@@ -31,17 +31,30 @@ async function cincoSeg(page: Page) {
   }
 }
 async function cards(page: Page) {
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < 3; i++) {
     await click(page, 'cards.listo');
     await expect(tr(page, 'q.C0-0')).toBeVisible({ timeout: 15000 });
     await responder(page, 'C0', '#0'); await siguiente(page, 'C0');
     await responder(page, 'C1', '#0'); await siguiente(page, 'C1');
-    await siguiente(page, 'C2');
     await responder(page, 'C3', 'Una de ciencia ficción'); await siguiente(page, 'C3');
     await responder(page, 'C4', '#6'); await siguiente(page, 'C4');
-    await responder(page, 'C5', 'Voltearla'); await siguiente(page, 'C5');
+    await responder(page, 'C5', 'Deslizarla'); await siguiente(page, 'C5');
     await responder(page, 'C6', 'La duración'); await siguiente(page, 'C6');
-    await punto(page, 'cards.punto');
+    // la tarjeta viene dentro de la pantalla completa y se puede usar de verdad
+    await expect(page.getByText('Ahora pruébala como lo harías')).toBeVisible();
+    await expect(tr(page, 'S02.btn-quiero')).toBeVisible();   // se ven los botones del gesto
+    await expect(tr(page, 'tabbar.ver')).toBeVisible();        // y la barra inferior
+    if (i === 0) {
+      const caja = (await tr(page, 'S02.card').boundingBox())!;
+      await page.mouse.move(caja.x + caja.width / 2, caja.y + caja.height / 2);
+      await page.mouse.down();
+      await page.mouse.move(caja.x + caja.width / 2 - 170, caja.y + caja.height / 2 + 6, { steps: 8 });
+      await page.mouse.up();
+      await page.waitForTimeout(700);
+    } else {
+      await click(page, 'S02.card');
+    }
+    await click(page, 'cards.prueba-listo');
   }
 }
 async function primerClic(page: Page, orden: string[]) {
@@ -65,28 +78,32 @@ async function primerClic(page: Page, orden: string[]) {
   }
 }
 async function seq(page: Page) {
+  await expect(page.getByRole('dialog', { name: 'Tarea completada' })).toBeVisible({ timeout: 10000 }); // «¡Felicidades! Completaste la tarea»
+  await expect(page.getByText('Completaste la tarea')).toBeVisible();
+  await click(page, 'fl.continuar');
   await expect(tr(page, 'fl.seq-6')).toBeVisible({ timeout: 10000 });
   await click(page, 'fl.seq-6'); await click(page, 'fl.seq-siguiente');
 }
 async function flujos(page: Page) {
   await click(page, 'fl.entendido');
-  // D1
+  // D1 · S01 → S05
   await click(page, 'fl.empezar');
   await click(page, 'S01.mood-apagar'); await click(page, 'S01.continuar'); await click(page, 'S06.ver-mazos'); await seq(page);
-  // M1
+  // M1 · S05 → cartas del mazo Nolan
   await click(page, 'fl.empezar');
   await click(page, 'S05.deck-nolan'); await click(page, 'S05.otro-barajar'); await click(page, 'S05.abrir-otro');
   await expect(tr(page, 'S05.empezar')).toBeVisible({ timeout: 8000 }); await click(page, 'S05.empezar'); await seq(page);
-  // D2
+  // D2 · primera carta → «Mazo terminado» (recorre las 3 cartas)
   await click(page, 'fl.empezar');
-  await click(page, 'S02.card'); await page.waitForTimeout(700); await click(page, 'S02.btn-vista'); await page.waitForTimeout(600);
-  await click(page, 'S02.btn-no'); await page.waitForTimeout(600); await click(page, 'S02.btn-quiero'); await seq(page);
-  // V1
+  for (let i = 0; i < 3; i++) { await click(page, 'S02.btn-no'); await page.waitForTimeout(600); }
+  await seq(page);
+  // V2 · propuesta → plataforma → volver → «Sí» → calificar
   await click(page, 'fl.empezar');
-  await click(page, 'S04.btn-verla'); await click(page, 'S04.abrir-plataforma'); await seq(page);
-  // V2
+  await click(page, 'S04.btn-verla'); await click(page, 'S04.abrir-plataforma');
+  await click(page, 'S04.volver-kinoo'); await click(page, 'S03.si-la-vi'); await seq(page);
+  // V3 · Ver → Mi espacio → quitar El Faro Mudo
   await click(page, 'fl.empezar');
-  await click(page, 'S03.si-la-vi'); await click(page, 'S03.reaccion-love'); await click(page, 'S03.guardar'); await seq(page);
+  await click(page, 'S04.mi-espacio'); await click(page, 'S08.accion-faro'); await seq(page);
 }
 async function ueq(page: Page) {
   for (const i of [6, 7, 10, 11, 13, 15, 20, 21]) await click(page, `ueq.${i}-5`);
@@ -149,14 +166,17 @@ test('SESIÓN COMPLETA: las 4 fases, todo registrado y ligado a «Ana 1»', asyn
   expect(col(P, 'Fases completadas')).toEqual([4]);
 
   const S5 = await dump('5 segundos');
-  expect(S5.rows.length).toBe(3);
-  expect(new Set(col(S5, 'Pantalla ID'))).toEqual(new Set(['S02', 'S03', 'S04']));
-  expect(col(S5, 'Participante')).toEqual(['P01', 'P01', 'P01']);
+  expect(S5.rows.length).toBe(4);
+  expect(new Set(col(S5, 'Pantalla ID'))).toEqual(new Set(['S02', 'S03', 'S04', 'S05']));
+  expect(col(S5, 'Participante')).toEqual(['P01', 'P01', 'P01', 'P01']);
   expect(col(S5, 'Nombre mostrado').every((x) => x === 'Ana 1')).toBe(true);
   expect(col(S5, 'Claridad 1–7').every((x) => x === 5)).toBe(true);
 
   const C = await dump('5 s – Cards');
-  expect(C.rows.length).toBe(4);
+  expect(C.rows.length).toBe(3);
+  expect(new Set(col(C, 'Card')).size).toBe(3);                       // 3 tarjetas distintas, ninguna repetida
+  expect(col(C, 'Notas').every((n) => /Probó la tarjeta/.test(String(n)))).toBe(true);
+  expect(col(C, 'Notas').some((n) => /mark\./.test(String(n)) || /derecha|izquierda/.test(String(n)) || /toques/.test(String(n)))).toBe(true);
 
   const PC = await dump('Primer clic + SEQ');
   expect(PC.rows.length).toBe(5);
@@ -183,9 +203,11 @@ test('SESIÓN COMPLETA: las 4 fases, todo registrado y ligado a «Ana 1»', asyn
 
   const F = await dump('Flujos');
   expect(F.rows.length).toBe(5);
-  expect(col(F, 'Misión')).toEqual(['D1', 'M1', 'D2', 'V1', 'V2']);
+  expect(col(F, 'Misión')).toEqual(['D1', 'M1', 'D2', 'V2', 'V3']);
   for (const r of F.rows) expect(String(r[F.headers.indexOf('Resultado')]), String(r[F.headers.indexOf('Misión')])).toBe('Éxito directo');
   expect(col(F, 'Flujo')).toEqual(['Descubrir', 'Mazos (micro-flujo)', 'Descubrir', 'Ver', 'Ver']);
+  const v2 = fila(F, 'Misión', 'V2');
+  expect(String(val(F, v2, 'Pantallas visitadas (ruta)'))).toContain('S03');   // llegó a la pantalla objetivo
 
   const U = await dump('UEQ');
   expect(U.rows.length).toBe(1);
@@ -195,6 +217,7 @@ test('SESIÓN COMPLETA: las 4 fases, todo registrado y ligado a «Ana 1»', asyn
 
   const M = await dump('Marca A-B');
   expect(M.rows.length).toBe(3);
+  expect(new Set(col(M, 'Pantalla ID'))).toEqual(new Set(['S02', 'S04', 'S05']));  // la marca también se evalúa sobre los mazos
   expect(col(M, 'Orden visto (auto)').every((x) => x === 'A→B')).toBe(true);
   expect(col(M, 'A · Agrado 1–7').every((x) => x === 5)).toBe(true);
   expect(col(M, 'B · Agrado 1–7').every((x) => x === 5)).toBe(true);

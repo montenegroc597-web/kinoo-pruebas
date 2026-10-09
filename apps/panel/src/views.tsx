@@ -110,7 +110,7 @@ export function Cards({ d, piloto }: { d: Dump; piloto: boolean }) {
       <div className="pn-grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))' }}>
         <div className="pn-card"><h3>Primer elemento mirado</h3>{c.primerElemento.map(([k, n]) => <div key={k} className="pn-row" style={{ justifyContent: 'space-between' }}><span>{k}</span><b>{n}</b></div>)}</div>
         <div className="pn-card"><h3>Información que faltó</h3>{c.faltante.slice(0, 12).map(([k, n]) => <div key={k} className="pn-row" style={{ justifyContent: 'space-between' }}><span>{k}</span><b>{n}</b></div>)}{!c.faltante.length && <span className="pn-sub">—</span>}</div>
-        <div className="pn-card"><h3>Mapa de atención (C7)</h3><Heat vista={VISTA.S02} puntos={pts} escala={0.55} id="cards" /></div>
+        <div className="pn-card"><h3>Primer toque al probar la tarjeta</h3><Heat vista={VISTA.S02} puntos={pts} escala={0.55} id="cards" /></div>
       </div>
     </>
   );

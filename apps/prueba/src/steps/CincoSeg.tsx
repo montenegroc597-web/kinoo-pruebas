@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { CINCO_SEG_INICIO, CINCO_SEG_PANTALLAS, CINCO_SEG_PREGUNTAS, CARDS_ESTIMULOS, CARDS_INICIO, CARDS_PREGUNTAS, ELEMENTOS_FRENTE, ELEMENTOS_REVERSO, PELICULAS_CONOCIDAS, esPrioritario, flujoDePantalla, nombreDePantalla, rotar } from '@kinoo/tracking';
+import { CINCO_SEG_INICIO, CINCO_SEG_PANTALLAS, CINCO_SEG_PREGUNTAS, CARDS_ESTIMULOS, CARDS_INICIO, CARDS_PREGUNTAS, CARDS_PRUEBA_GESTO, ELEMENTOS_FRENTE, ELEMENTOS_REVERSO, PELICULAS_CONOCIDAS, esPrioritario, flujoDePantalla, nombreDePantalla, rotar } from '@kinoo/tracking';
 import { filmById } from '@kinoo/ui';
 import { Kicker, Next, P, Page, PointPicker, Preguntas, Title, type Pregunta } from '../ui/kit';
-import { CardEstatica, PantallaEstatica, useEscala } from '../ui/Estimulo';
-import { emit, fila, punto, round1, setCtx } from '../track';
+import { PantallaCard, PantallaEstatica, useEscala } from '../ui/Estimulo';
+import { useFrameCapture } from '../capture';
+import { emit, fila, punto, round1, setCtx, trackerProducto } from '../track';
 import { useSession } from '../session';
 
 /** Muestra un estímulo exactamente `ms` y lo retira (gris). Mide el tiempo real con performance.now. */
@@ -90,16 +91,24 @@ export function CincoSeg({ onListo }: { onListo: () => void }) {
   );
 }
 
-const CARDS_N = 4;
-/** Prueba 1B: 5 segundos sobre cards. */
+type FaseCard = 'intro' | 'ver' | 'preg' | 'prueba';
+
+/**
+ * Prueba 1B: cards. Cada una de las 3 tarjetas es DISTINTA y se muestra dentro de la pantalla completa de Descubrir
+ * (así se ve el contexto del gesto de deslizar). Tras las preguntas la persona la prueba de verdad (toca / desliza).
+ * Se quitaron «¿Qué más recuerdas?» y «Señala lo primero que viste» porque repetían la pregunta de primer elemento y obligaban a mostrar la misma tarjeta otra vez.
+ */
 export function Cards({ onListo }: { onListo: () => void }) {
   const s = useSession((x) => x.s)!;
-  const orden = rotar(CARDS_ESTIMULOS, s.indice).slice(0, CARDS_N);
+  const orden = rotar(CARDS_ESTIMULOS, s.indice);
   const [k, setK] = useState(0);
-  const [fase, setFase] = useState<Fase>('intro');
+  const [fase, setFase] = useState<FaseCard>('intro');
   const [resp, setResp] = useState<Record<string, any>>({});
-  const t0Punto = useRef(0);
-  const escala = useEscala(190);
+  const [toques, setToques] = useState(0);
+  const acciones = useRef<string[]>([]);
+  const primer = useRef<{ x: number; y: number; t: number; target: string } | null>(null);
+  const t0 = useRef(0);
+  const escalaPrueba = useEscala(250);
   const card = orden[k];
   const film = filmById(card.film)!;
   const elems = card.face === 'reverso' ? ELEMENTOS_REVERSO : ELEMENTOS_FRENTE;
@@ -107,35 +116,43 @@ export function Cards({ onListo }: { onListo: () => void }) {
 
   useEffect(() => { setCtx({ bloque: 'cards', estimulo: card.id, pantalla: 'S02', version: 'A' }); }, [card.id]);
 
+  useFrameCapture('kinoo-frame', {
+    t0: t0.current, enabled: fase === 'prueba', rev: card.id + fase,
+    onClick: (c) => { setToques((n) => n + 1); if (!primer.current) primer.current = { x: c.x, y: c.y, t: c.t, target: c.target }; },
+  });
+
   const qs: Pregunta[] = [
     { id: 'C0', prompt: CARDS_PREGUNTAS.C0, tipo: 'opcion', opciones: ['Sí', 'No'] },
     { id: 'C1', prompt: CARDS_PREGUNTAS.C1, tipo: 'opcion-texto', opciones: elems.map((e) => e.etiqueta), hint: 'Elige lo más cercano y cuéntalo con tus palabras.' },
-    { id: 'C2', prompt: CARDS_PREGUNTAS.C2, tipo: 'multi', opciones: elems.map((e) => e.etiqueta), opcional: true, hint: 'Marca todo lo que recuerdes (puede ser nada).' },
     { id: 'C3', prompt: CARDS_PREGUNTAS.C3, tipo: 'texto-largo' },
     { id: 'C4', prompt: CARDS_PREGUNTAS.C4, tipo: 'escala', extremos: ['ninguna', 'muchas'] },
     { id: 'C5', prompt: CARDS_PREGUNTAS.C5, tipo: 'texto-largo' },
     { id: 'C6', prompt: CARDS_PREGUNTAS.C6, tipo: 'texto-largo' },
   ];
 
-  const terminar = (p: { x: number; y: number }) => {
-    const t = (performance.now() - t0Punto.current) / 1000;
-    punto({ prueba: '5 s – Cards', estimulo: card.id, pantallaId: 'S02', version: 'A', nClic: 1, x: p.x, y: p.y, t, key: `cards-${card.id}` });
+  const empezarPrueba = (r: Record<string, any>) => {
+    setResp(r); setToques(0); acciones.current = []; primer.current = null; t0.current = performance.now(); setFase('prueba');
+  };
+
+  const terminar = () => {
     const c1 = resp.C1 as { op?: string; txt?: string };
     const primero = elems.find((e) => e.etiqueta === c1?.op);
-    const otros = ((resp.C2 as string[]) ?? []).filter((o) => o !== c1?.op);
+    const pr = primer.current;
+    if (pr) punto({ prueba: '5 s – Cards', estimulo: card.id, pantallaId: 'S02', version: 'A', nClic: 1, x: pr.x, y: pr.y, t: pr.t, key: `cards-${card.id}` });
     fila('5 s – Cards', card.id, {
       Card: card.id, 'Pantalla ID': 'S02', Flujo: flujoDePantalla('S02'), '¿Conocía la película? (Sí/No)': resp.C0 ?? '',
       'Primer elemento que llamó la atención': `${c1?.op ?? ''}${c1?.txt ? ' — ' + c1.txt : ''}`, '¿Prioritario? (auto)': esPrioritario(primero) ? 1 : 0,
-      'Otros elementos recordados': otros.join('; '), '# elementos recordados': (c1?.op ? 1 : 0) + otros.length,
-      'Interés 1–7': resp.C4 ?? '', 'Información que faltó': resp.C6 ?? '', 'Puntos registrados': 1,
-      Notas: `Cara: ${card.face} | Película: ${film.title} (conocida real: ${conocida ? 'sí' : 'no'}) | C3 contenido: ${resp.C3 ?? ''} | C5 acción: ${resp.C5 ?? ''}`,
+      'Otros elementos recordados': '', '# elementos recordados': c1?.op ? 1 : 0,
+      'Interés 1–7': resp.C4 ?? '', 'Información que faltó': resp.C6 ?? '', 'Puntos registrados': pr ? 1 : 0,
+      Notas: `Cara: ${card.face} | Película: ${film.title} (conocida real: ${conocida ? 'sí' : 'no'}) | C3 contenido: ${resp.C3 ?? ''} | C5 acción: ${resp.C5 ?? ''} | Probó la tarjeta: ${toques} toques, acciones: ${acciones.current.join(', ') || 'ninguna'}${pr ? `, primer toque en ${pr.target} (${round1(pr.x)}, ${round1(pr.y)})` : ''}`,
     });
-    emit('task.end', { estimulo: card.id, valor: 'ok' });
+    emit('task.end', { estimulo: card.id, valor: 'ok', extra: { toques, acciones: acciones.current } });
     if (k + 1 < orden.length) { setK(k + 1); setFase('intro'); setResp({}); } else onListo();
   };
 
+  const progreso = (k + (fase === 'intro' ? 0 : fase === 'ver' ? 0.25 : fase === 'preg' ? 0.5 : 0.85)) / orden.length;
   return (
-    <Page fase={{ n: 1, nombre: 'Primera impresión' }} progreso={(k + (fase === 'intro' ? 0 : fase === 'ver' ? 0.3 : fase === 'preg' ? 0.6 : 0.9)) / orden.length}>
+    <Page fase={{ n: 1, nombre: 'Primera impresión' }} progreso={progreso}>
       {fase === 'intro' && (
         <>
           <Kicker>tarjetas · {k + 1} de {orden.length}</Kicker>
@@ -147,17 +164,20 @@ export function Cards({ onListo }: { onListo: () => void }) {
       )}
       {fase === 'ver' && (
         <Cronometrado ms={5000} etiqueta="Tarjeta durante 5 segundos" onFin={(real) => { emit('action', { valor: 'estimulo.5s', extra: { realMs: real, card: card.id } }); setFase('preg'); }}>
-          {(esc) => <CardEstatica card={card} escala={esc} />}
+          {(esc) => <PantallaCard card={card} escala={esc} />}
         </Cronometrado>
       )}
       {fase === 'preg' && (
         <Preguntas qs={qs} onAnswer={(q, v) => emit('answer', { estimulo: card.id, valor: typeof v === 'object' ? JSON.stringify(v) : String(v ?? ''), extra: { q: q.id } })}
-          onDone={(r) => { setResp(r); t0Punto.current = performance.now(); setFase('punto'); }} etiquetaFinal="Continuar" />
+          onDone={empezarPrueba} etiquetaFinal="Continuar" />
       )}
-      {fase === 'punto' && (
-        <PointPicker etiqueta={CARDS_PREGUNTAS.C7} track="cards.punto" onPoint={terminar}>
-          <CardEstatica card={card} escala={escala} id="kinoo-punto" />
-        </PointPicker>
+      {fase === 'prueba' && (
+        <div className="sh-stage" style={{ gap: 8 }}>
+          <p className="sh-hint" data-hierarchy="primary" style={{ textAlign: 'center', fontSize: 14.5, color: 'var(--ink)' }}>{CARDS_PRUEBA_GESTO}</p>
+          <PantallaCard card={card} escala={escalaPrueba} interactiva id="kinoo-frame"
+            tracker={trackerProducto({ onAction: (name) => { acciones.current.push(name); } })} />
+          <Next onClick={terminar} track="cards.prueba-listo">Listo</Next>
+        </div>
       )}
     </Page>
   );

@@ -21,9 +21,9 @@ Ejecución del `PLAN-MAESTRO-Pruebas-Kinoo.md` (2026-10-08 → 2026-10-09). Este
 
 | Tipo | Cantidad | Qué cubre |
 |---|---|---|
-| Pruebas de lógica (`npm test`) | **112** en 7 archivos | Nombres repetidos, cuadrado latino del Anexo E, zonas y miss clicks, UEQ, binomial (**tabla del protocolo §4.5 reproducida**), clasificación de misiones, `Code.gs` real, cliente con red caída, analítica del Panel, anonimización, export |
+| Pruebas de lógica (`npm test`) | **121** en 8 archivos | Nombres repetidos, cuadrado latino del Anexo E, zonas y miss clicks, UEQ, binomial (**tabla del protocolo §4.5 reproducida**), clasificación de misiones, `Code.gs` real, cliente con red caída, analítica del Panel, anonimización, export |
 | Pantallas (dentro de `npm test`) | 33 | Todas las semillas A y B rastreables; las 5 zonas de tareas existen; flujos D1, M1, D2, M2, V1, V2, V3; match especial; deshacer; 3 rechazos en Ver |
-| Extremo a extremo (`npm run e2e`) | **10** | **Sesión completa de 4 fases** (verifica cada hoja del «Excel»), dos «Juan» a la vez, contexto, sin consentimiento, escritorio con QR, **sin red desde el registro**, cerrar y retomar, barra del moderador, Panel completo, capturas A/B |
+| Extremo a extremo (`npm run e2e`) | **11** | **Sesión completa de 4 fases** (verifica cada hoja del «Excel»), dos «Juan» a la vez, contexto, sin consentimiento, escritorio con QR, **sin red desde el registro**, cerrar y retomar, barra del moderador, Panel completo, capturas A/B |
 | TypeScript estricto | sin errores | |
 | Contraste WCAG AA | 28 combinaciones, todas ✓ | `data/contraste.csv` |
 | Builds | ✅ | app de prueba y Panel |
@@ -53,6 +53,19 @@ Ejecución del `PLAN-MAESTRO-Pruebas-Kinoo.md` (2026-10-08 → 2026-10-09). Este
 16. **Panel**: la «línea de tiempo» de un participante es una tabla de eventos (no una reproducción animada). La hoja **Contraste** se llena con `npm run seed-config` (no por el navegador).
 17. Dos parámetros de ayuda, **nunca con participantes**: `?catalogo=1` y `?rapido=1`.
 
+## 3 bis. Segunda ronda de cambios (pedidos tras probarlo en local)
+
+| # | Pedido | Qué se hizo |
+|---|---|---|
+| 1 | La prueba de **cards repetía** la misma tarjeta y preguntaba el recuerdo de más | Ahora son **3 tarjetas distintas** (Ciudad Naranja de frente, Interstellar de reverso, El Faro Mudo de frente; de dos mazos, conocidas y no conocidas). Se quitaron «¿Qué más recuerdas?» (C2) y «Señala lo primero que viste» (C7), que repetían la pregunta del primer elemento y obligaban a mostrar la misma tarjeta otra vez |
+| 2 | El **swipe** no se podía hacer porque solo se veía la tarjeta | La tarjeta se muestra **dentro de la pantalla completa de Descubrir** (cabecera, botones ←↑→ y barra inferior). Tras las preguntas la persona **la prueba de verdad**: toca y desliza; se registran sus toques, sus gestos y las acciones que dispara |
+| 3 | Los **flujos estaban mal cortados** | Cada misión **arranca en su pantalla inicial** y la persona navega hasta la **pantalla objetivo** sin ayuda: D1 (inicio → tus mazos), M1 (mazos → cartas del mazo Nolan), D2 (primera carta → «Mazo terminado»), V2 (propuesta de Ver → plataforma → volver → calificar) y V3 (Ver → Mi espacio → quitar una guardada). El éxito es **llegar a la pantalla objetivo** (en D2 ya no importa qué decida en cada carta) |
+| 4 | **No se mostraban los mazos** | La pantalla **«Tus mazos» (S05)** entra al test de 5 segundos (con su clave de corrección) y a la prueba de marca A/B (en lugar de la hoja de calificación); además están en los flujos M1 y D1 |
+| 5 | Falta de **feedback al terminar una tarea** | Al llegar a la pantalla objetivo aparece **«¡Felicidades! Completaste la tarea»** con un botón «Siguiente situación»; después viene la pregunta de facilidad (SEQ). Si la persona se rinde o pasa por tiempo **no** se felicita (solo «Seguimos con la siguiente»). En las tareas de **primer clic no** se dice si acertó: el protocolo (§3.1) prohíbe mostrárselo antes del SEQ |
+| 6 | Pasar los datos a **Supabase** | **Pendiente a propósito**: primero cerrar el flujo (esto). Ver «Siguiente paso» abajo |
+
+Ajustes técnicos de esta ronda: `ProductApp` acepta un `ajuste` del mazo (qué película y qué cara se ven); los predicados de éxito de las misiones viven en `apps/prueba/src/misiones.ts` con sus pruebas (9 nuevas); el catálogo (`packages/tracking/src/catalog.ts`) define cada misión con su pantalla inicial y su ruta esperada. El Panel rotula el mapa de cards como «Primer toque al probar la tarjeta».
+
 ## 4. Errores reales que encontraron las pruebas (y se corrigieron)
 
 | # | Qué pasaba | Cómo se encontró | Arreglo |
@@ -74,7 +87,11 @@ Ejecución del `PLAN-MAESTRO-Pruebas-Kinoo.md` (2026-10-08 → 2026-10-09). Este
 5. **No implementado a propósito**: Comunidad, economía de sobres, modo a ciegas, captura externa, variantes de tienda, manual de marca.
 6. Mejoras posibles: reproducción animada de sesiones en el Panel; elegir UEQ completo por configuración; empaquetar la codificación de «Propósito/Acción» con ayuda semiautomática.
 
-## 6. Mapa del repositorio
+## 6. Siguiente paso: Supabase
+
+Hoy el «Excel» es un Google Sheet con Apps Script. Para pasar a Supabase el cambio queda acotado: el esquema de datos (`packages/tracking/src/schema.ts`), el cliente de envío (`TrackingClient`) y el Panel (`apps/panel/src/api.ts`) ya están aislados del backend; solo habría que reemplazar `backend/Code.gs` por tablas (`participantes`, `eventos`, `filas` por hoja) con RLS, una función de registro que asigne código y numere los nombres repetidos, y la lectura del Panel. Pendiente de tu confirmación de alcance (¿se mantiene el export a Excel/Sheets?, ¿Realtime para el Panel?).
+
+## 7. Mapa del repositorio
 
 ```
 apps/prueba      App del participante (4 fases)           apps/panel   Panel del equipo

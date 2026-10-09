@@ -7,36 +7,26 @@ import { useFrameCapture } from '../capture';
 import { emit, fila, nuevoId, round1, setCtx, trackerProducto } from '../track';
 import { useSession } from '../session';
 
-type Item = { k: 'a' | 's'; name: string; extra?: Record<string, unknown> };
-const has = (tr: Item[], name: string, pred?: (e: Record<string, unknown>) => boolean) => tr.some((t) => t.k === 'a' && t.name === name && (!pred || pred(t.extra ?? {})));
-const vio = (tr: Item[], id: string, despuesDe?: (t: Item) => boolean) => {
-  let ok = !despuesDe;
-  for (const t of tr) { if (despuesDe && despuesDe(t)) ok = true; if (ok && t.k === 's' && (t.name === id || t.name.startsWith(id + '.'))) return true; }
-  return false;
-};
-/** ¿Se cumplió el éxito de la misión? Predicados sobre lo que hizo el participante. */
-export const EXITO: Record<string, (tr: Item[]) => boolean> = {
-  D1: (tr) => has(tr, 'mood.continue') && vio(tr, 'S05'),
-  M1: (tr) => has(tr, 'deck.dealt', (e) => e.deck === 'nolan') && vio(tr, 'S02', (t) => t.k === 'a' && t.name === 'deck.dealt'),
-  D2: (tr) => has(tr, 'mark.ring') && has(tr, 'mark.x') && has(tr, 'mark.dot'),
-  M2: (tr) => has(tr, 'deck.dealt', (e) => e.desde === 'recarga'),
-  V1: (tr) => has(tr, 'platform.opened'),
-  V2: (tr) => has(tr, 'reaction.saved', (e) => e.repeat === true),
-  V3: (tr) => has(tr, 'space.removed:faro'),
-};
+import { EXITO, pasosAlcanzados, type Item } from '../misiones';
 
-/** ¿Qué pasos del embudo se alcanzaron? (para el embudo del Panel) */
-export function pasosAlcanzados(m: MisionCat, tr: Item[]): boolean[] {
-  return m.pasos.map((p) => {
-    if (p.id.startsWith('screen:')) return vio(tr, p.id.slice(7));
-    if (p.id.startsWith('nav:')) return has(tr, 'nav.mi-espacio') || vio(tr, 'S08');
-    if (p.id === 'ver.watch') return has(tr, 'ver.watch') || has(tr, 'ver.swipe-verla');
-    if (p.id.startsWith('deck.dealt:')) return has(tr, 'deck.dealt', (e) => e.deck === p.id.split(':')[1]);
-    if (p.id === 'deck.dealt') return has(tr, 'deck.dealt');
-    if (p.id === 'recarga.ask') return has(tr, 'recarga.ask');
-    if (p.id === 'repeat.on') return has(tr, 'repeat.on') || has(tr, 'reaction.saved', (e) => e.repeat === true);
-    return has(tr, p.id);
-  });
+/** Pantalla de logro al llegar a la pantalla objetivo: refuerza la tarea hecha y da paso a la siguiente. */
+function Felicidades({ ultima, onContinuar }: { ultima: boolean; onContinuar: () => void }) {
+  return (
+    <div role="dialog" aria-label="Tarea completada" style={{ position: 'fixed', inset: 0, zIndex: 40, background: 'rgba(23,18,15,.98)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
+      <div className="kn-pop" style={{ width: '100%', maxWidth: 380, textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14 }}>
+        <svg width="96" height="96" viewBox="0 0 96 96" aria-hidden="true">
+          <circle cx="48" cy="48" r="44" fill="var(--sun)" />
+          <circle cx="48" cy="48" r="44" fill="none" stroke="var(--sun-core)" strokeWidth="4" />
+          <path d="M28 50 L43 65 L70 33" fill="none" stroke="#1A1411" strokeWidth="9" strokeLinecap="round" strokeLinejoin="round" style={{ strokeDasharray: 80, animation: 'knCheck .6s .15s ease-out both' }} />
+        </svg>
+        <span className="sh-kicker">¡muy bien!</span>
+        <h2 className="sh-title" style={{ fontSize: 32, lineHeight: 1.05, margin: '4px 0' }}>¡Felicidades! Completaste la tarea</h2>
+        <p className="sh-p">{ultima ? 'Esa era la última situación de esta parte.' : 'Vamos con la siguiente situación.'}</p>
+        <Next onClick={onContinuar} track="fl.continuar">{ultima ? 'Seguir' : 'Siguiente situación'}</Next>
+      </div>
+      <style>{'@keyframes knCheck{from{stroke-dashoffset:80}to{stroke-dashoffset:0}}@media (prefers-reduced-motion: reduce){svg path{animation:none!important}}'}</style>
+    </div>
+  );
 }
 
 type Etapa = 'intro' | 'escenario' | 'activa' | 'seq' | 'seq-porque';
@@ -83,7 +73,7 @@ export function Flujos({ onListo, misiones = MISIONES_BASE }: { onListo: () => v
     if (timer.current) clearInterval(timer.current);
     const resultado = clasificarMision({ exito: como === 'exito', abandono: como === 'rindio', tiempoAgotado: como === 'tiempo', error: como === 'error' || errorFlag.current && como !== 'exito', ruta: ruta.current, rutaEsperada: m.rutaEsperada });
     setCerrada({ resultado });
-    setTimeout(() => setEtapa('seq'), como === 'exito' ? 1100 : 0);
+    if (como !== 'exito') setTimeout(() => setEtapa('seq'), 0); // en éxito se espera a que la persona toque «Siguiente situación»
   };
 
   const revisar = () => { if (!cerradaRef.current && EXITO[m.id](trace.current)) cerrar('exito'); };
@@ -153,7 +143,7 @@ export function Flujos({ onListo, misiones = MISIONES_BASE }: { onListo: () => v
                 })} />
             </Frame>
           </Limite>
-          {cerrada ? <div className="sh-task" role="status" aria-live="polite">{cerrada.resultado.startsWith('Éxito') ? '¡Listo!' : 'Seguimos'}</div>
+          {cerrada ? <div className="sh-task" role="status" aria-live="polite">{cerrada.resultado.startsWith('Éxito') ? '¡Listo!' : 'Seguimos con la siguiente'}</div>
             : aviso === 'tiempo' ? (
               <div className="sh-task" role="status" style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                 <span>Llevas un buen rato. ¿Quieres pasar a la siguiente?</span>
@@ -164,6 +154,7 @@ export function Flujos({ onListo, misiones = MISIONES_BASE }: { onListo: () => v
               </div>
             ) : <Button variant="ghost" size="sm" onClick={() => { emit('giveup', { estimulo: m.id }); cerrar('rindio'); }} track="fl.me-rindo">No sé / me rindo</Button>}
         </div>
+        {cerrada?.resultado.startsWith('Éxito') && <Felicidades ultima={k + 1 >= orden.length} onContinuar={() => setEtapa('seq')} />}
       </Page>
     );
   }

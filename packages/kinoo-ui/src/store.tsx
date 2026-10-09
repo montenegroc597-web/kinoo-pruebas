@@ -46,9 +46,14 @@ function seedState(seed: SeedId): Pick<ProductState, 'mood' | 'marks' | 'deck' |
   }
 }
 
-export function createProductStore(seed: SeedId = 'fresh'): StoreApi<ProductState> {
+/** Ajuste fino sobre una semilla: qué mazo y qué carta están a la vista (p. ej. mostrar «Ciudad Naranja» de frente). */
+export interface AjusteMazo { deckId: 'nolan' | 'other'; i: number; flipped?: boolean }
+
+export function createProductStore(seed: SeedId = 'fresh', ajuste?: AjusteMazo): StoreApi<ProductState> {
+  const base = seedState(seed);
+  if (ajuste) { base.deck = { id: ajuste.deckId, dealt: true, i: ajuste.i }; base.boot = { ...base.boot, deckFlipped: !!ajuste.flipped }; }
   return createStore<ProductState>((set, get) => ({
-    ...seedState(seed),
+    ...base,
     setMood: (m) => set({ mood: m }),
     mark: (filmId, m) => set((st) => {
       const marks = { ...st.marks };

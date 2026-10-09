@@ -8,7 +8,7 @@ import { MoodFeedback } from './screens/MoodFeedback';
 import { Mazos } from './screens/Mazos';
 import { Recarga } from './screens/Recarga';
 import { Ver } from './screens/Ver';
-import { ProductProvider, SEED_ROUTE, createProductStore, useProduct, type ProductState, type SeedId } from './store';
+import { ProductProvider, SEED_ROUTE, createProductStore, useProduct, type AjusteMazo, type ProductState, type SeedId } from './store';
 import { TrackerProvider, noopTracker, type Tracker } from './tracker';
 
 export interface ProductControls {
@@ -49,8 +49,8 @@ function Rutas({ controlsRef, onRoute, bump, store }: { controlsRef?: React.Ref<
 }
 
 /** Todo el producto (7 pantallas) con estado propio, semillas y rastreador inyectable. Se dibuja dentro de <Frame>. */
-export function ProductApp({ seed = 'fresh', route, tracker = noopTracker, controlsRef, onRoute }: { seed?: SeedId; route?: string; tracker?: Tracker; controlsRef?: React.Ref<ProductControls>; onRoute?: (p: string) => void }) {
-  const [store] = useState(() => createProductStore(seed));
+export function ProductApp({ seed = 'fresh', route, tracker = noopTracker, controlsRef, onRoute, ajuste }: { seed?: SeedId; route?: string; tracker?: Tracker; controlsRef?: React.Ref<ProductControls>; onRoute?: (p: string) => void; ajuste?: AjusteMazo }) {
+  const [store] = useState(() => createProductStore(seed, ajuste));
   const [nonce, setNonce] = useState(0);
   const bump = useCallback((sd: SeedId) => { store.getState().applySeed(sd); setNonce((n) => n + 1); }, [store]);
   return (

@@ -31,10 +31,10 @@ El método es el del **Protocolo de pruebas v1.3** (`Documentos ux/`). Cuando al
 
 | Fase | Qué hace el participante |
 |---|---|
-| **1 · Primera impresión** | Nombre y consentimiento → preguntas de contexto → test de 5 segundos (3 pantallas) → 4 tarjetas |
+| **1 · Primera impresión** | Nombre y consentimiento → preguntas de contexto → test de 5 segundos (4 pantallas, incluida la de **mazos**) → 3 tarjetas distintas, cada una **dentro de la pantalla completa**, que al final la persona **prueba tocando y deslizando** |
 | **2 · Encontrar acciones** | 5 situaciones de «¿dónde tocarías?» sobre las pantallas reales, cada una con la pregunta de facilidad (SEQ) |
-| **3 · Usar la app** | 5 situaciones completas (Descubrir, mazos y Ver) con SEQ + cuestionario UEQ-S |
-| **4 · Marca y cierre** | Compara las dos versiones visuales (A «Noche» y B «Kino») → 3 preguntas finales |
+| **3 · Usar la app** | 5 situaciones tipo «de la pantalla inicial a la pantalla objetivo» (Descubrir, mazos y Ver): la persona navega sola; al llegar sale **«¡Felicidades! Completaste la tarea»** y pasa a la siguiente. Después, SEQ + cuestionario UEQ-S |
+| **4 · Marca y cierre** | Compara las dos versiones visuales (A «Noche» y B «Kino») sobre 3 pantallas (cartas, Ver y **mazos**) → 3 preguntas finales |
 
 - **Nombre y repetidos.** Al empezar escribe su nombre. La primera persona que se llame «Juan» queda como **Juan 1**, la siguiente **Juan 2**, y así (da igual si escribe «JUÁN» o «juan »). Cada fila de cada hoja queda ligada a su código (P01, P02…) y a su nombre numerado.
 - **Si cierra la página**, al volver a abrir el mismo enlace en el mismo celular **retoma en la fase donde iba** (esa fase empieza desde su principio; lo ya respondido está guardado).

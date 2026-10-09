@@ -6,7 +6,7 @@ export const PANTALLAS: PantallaCat[] = [
   { id: 'S02', nombre: 'Descubrir (card)', flujo: 'Descubrir: explorar y guardar', pruebas: '5 segundos, 5 s – Cards, Primer clic (T2), Marca A-B, Flujos (D2)', ruta: '/descubrir' },
   { id: 'S03', nombre: 'Ficha de película / calificación', flujo: 'Ver: ficha y calificación', pruebas: 'Primer clic (T1), Marca A-B, Flujos (V2)', ruta: "/ver" },
   { id: 'S04', nombre: 'Ver', flujo: 'Ver: retomar y decidir', pruebas: '5 segundos, Primer clic (T5), Marca A-B, Flujos (V1)', ruta: "/ver" },
-  { id: 'S05', nombre: 'Gestión de mazo', flujo: 'Mazo: gestión', pruebas: 'Primer clic (T4), Flujos (D1, M1)', ruta: '/mazos' },
+  { id: 'S05', nombre: 'Gestión de mazo', flujo: 'Mazo: gestión', pruebas: '5 segundos, Marca A-B, Primer clic (T4), Flujos (D1, M1)', ruta: '/mazos' },
   { id: 'S06', nombre: 'Lectura de mood', flujo: 'Descubrir: entrada', pruebas: 'Flujos (D1)', ruta: '/mood/lectura' },
   { id: 'S07', nombre: 'Fin del mazo / recarga', flujo: 'Mazo: gestión', pruebas: 'Primer clic (T4), Flujos (M2)', ruta: '/recarga' },
   { id: 'S08', nombre: 'Mi espacio', flujo: 'Ver: retomar y decidir', pruebas: 'Flujos (V3)', ruta: '/mi-espacio' },
@@ -72,10 +72,11 @@ export const CINCO_SEG_PREGUNTAS = {
   P5: '¿Qué palabra usarías para describir la sensación que te dio?',
   P6: 'Señala dónde estaba lo que más recuerdas.',
 };
-export const CINCO_SEG_PANTALLAS = ['S02', 'S04', 'S03'];
+export const CINCO_SEG_PANTALLAS = ['S02', 'S04', 'S05', 'S03'];
 export const CLAVE_5S: Record<string, { proposito: string; accion: string; elementos: string }> = {
   S02: { proposito: 'Encontrar/descubrir películas o series; guardar lo que te interesa', accion: 'Deslizar para guardar o descartar, o voltear la carta', elementos: 'Medidor de match, frase gancho, gesto de swipe' },
   S04: { proposito: 'Retomar algo que ya te había interesado; decidir qué ver ahora', accion: 'Aceptar («Verla») o pedir otra', elementos: 'La película propuesta y el «por qué» te la recomienda' },
+  S05: { proposito: 'Elegir qué mazo (grupo de películas) quieres para hoy', accion: 'Barajar y repartir un mazo', elementos: 'El mazo del día, los otros mazos y el botón de barajar' },
   S03: { proposito: 'Contar qué te pareció una película que acabas de ver', accion: 'Elegir una reacción y guardar', elementos: 'Las tres reacciones y la opción de repetir' },
 };
 
@@ -91,15 +92,16 @@ export const CARDS_PREGUNTAS = {
   C6: '¿Qué información te faltó para decidir si la verías?',
   C7: 'Señala lo primero que viste.',
 };
-/** Estímulos: C1..C6. face = cara de la carta mostrada. Se rotan por participante. */
-export const CARDS_ESTIMULOS: { id: string; film: string; face: 'frente' | 'reverso' }[] = [
-  { id: 'C1', film: 'interstellar', face: 'reverso' },
-  { id: 'C2', film: 'ciudad', face: 'frente' },
-  { id: 'C3', film: 'darkknight', face: 'reverso' },
-  { id: 'C4', film: 'faro', face: 'frente' },
-  { id: 'C5', film: 'oppenheimer', face: 'frente' },
-  { id: 'C6', film: 'verano', face: 'reverso' },
+/**
+ * Estímulos de la prueba de cards: 3 tarjetas DISTINTAS (película, cara y mazo), mostradas dentro de la pantalla completa de Descubrir
+ * para que se vea el contexto del gesto de deslizar. Mezcla conocidas / no conocidas y frente / reverso.
+ */
+export const CARDS_ESTIMULOS: { id: string; film: string; face: 'frente' | 'reverso'; deck: 'nolan' | 'other'; i: number }[] = [
+  { id: 'C1', film: 'ciudad', face: 'frente', deck: 'other', i: 0 },
+  { id: 'C2', film: 'interstellar', face: 'reverso', deck: 'nolan', i: 0 },
+  { id: 'C3', film: 'faro', face: 'frente', deck: 'other', i: 1 },
 ];
+export const CARDS_PRUEBA_GESTO = 'Ahora pruébala como lo harías: toca o desliza la tarjeta como creas que se usa. Cuando termines, toca «Listo».';
 export const PELICULAS_CONOCIDAS = ['interstellar', 'darkknight', 'oppenheimer'];
 export interface ElementoCard { id: string; etiqueta: string; prioridad: number | null }
 export const ELEMENTOS_REVERSO: ElementoCard[] = [
@@ -139,7 +141,7 @@ export const MARCA_PALABRAS = ['cercana', 'cinematográfica', 'confiable', 'tran
 export const MARCA_DESEADOS = ['cercana', 'cinematográfica', 'confiable', 'tranquila'];
 export const MARCA_EVITAR = ['infantil', 'agresiva', 'genérica'];
 export const MARCA_ATRIBUTO = 'cinematográfica';
-export const MARCA_PARES = ['S02', 'S04', 'S03'];
+export const MARCA_PARES = ['S02', 'S04', 'S05'];
 export const MARCA_DIMENSIONES = ['General', 'Colores', 'Tipografía', 'Contraste', 'Jerarquía'];
 export const BRILLO_AVISO = 'Sube el brillo de tu pantalla al máximo y desactiva el modo de ahorro de energía. Así todas las personas ven lo mismo.';
 
@@ -181,19 +183,19 @@ export interface MisionCat {
 }
 export const FLUJO_NOMBRE: Record<FlujoId, string> = { 'F-D': 'Descubrir', 'F-M': 'Mazos (micro-flujo)', 'F-V': 'Ver' };
 export const MISIONES: MisionCat[] = [
-  { id: 'D1', flujo: 'F-D', titulo: 'Elegir mood y llegar a tus mazos', seed: 'fresh', pantallaInicio: 'S01', maxTiempo: 120,
+  { id: 'D1', flujo: 'F-D', titulo: 'Del inicio a tus mazos', seed: 'fresh', pantallaInicio: 'S01', maxTiempo: 120,
     escenario: 'Hoy llegaste a casa cansado y no quieres pensar mucho. Cuéntale a Kinoo cómo te sientes y llega hasta las opciones de películas que te prepara.',
     rutaEsperada: ['S01', 'S01.sheet', 'S06', 'S05'],
     pasos: [{ id: 'mood.picked', etiqueta: 'Elige un mood' }, { id: 'mood.continue', etiqueta: 'Continúa' }, { id: 'screen:S06', etiqueta: 'Lee su mood' }, { id: 'screen:S05', etiqueta: 'Llega a Mazos' }] },
-  { id: 'M1', flujo: 'F-M', titulo: 'Empezar un mazo distinto', seed: 'mazos-en-curso', pantallaInicio: 'S05', maxTiempo: 120,
-    escenario: 'Ya tienes un mazo empezado, pero hoy te dieron ganas de ver cosas de Christopher Nolan. Empieza ese otro mazo.',
+  { id: 'M1', flujo: 'F-M', titulo: 'De los mazos a las cartas de Nolan', seed: 'mazos-en-curso', pantallaInicio: 'S05', maxTiempo: 120,
+    escenario: 'Ya tienes un mazo empezado, pero hoy te dieron ganas de ver cosas de Christopher Nolan. Empieza ese otro mazo y llega hasta sus cartas.',
     rutaEsperada: ['S05', 'S05.confirm', 'S05.barajando', 'S05.listo', 'S02', 'S02.flipped'],
     pasos: [{ id: 'deck.pick:nolan', etiqueta: 'Elige el mazo Nolan' }, { id: 'swap.confirm', etiqueta: 'Confirma el cambio' }, { id: 'deck.dealt:nolan', etiqueta: 'Se baraja' }, { id: 'screen:S02', etiqueta: 'Llega a las cartas' }] },
-  { id: 'D2', flujo: 'F-D', titulo: 'Jugar cartas', seed: 'deck-nolan-start', pantallaInicio: 'S02', maxTiempo: 180,
-    escenario: 'Juega con estas películas: guarda una que te gustaría ver, di que no a otra y marca una que ya hayas visto.',
+  { id: 'D2', flujo: 'F-D', titulo: 'De la primera carta al final del mazo', seed: 'deck-nolan-start', pantallaInicio: 'S02', maxTiempo: 180,
+    escenario: 'Estas son las películas de tu mazo. Recórrelas todas: guarda las que te gustaría ver y di que no a las que no, hasta terminar el mazo.',
     rutaEsperada: ['S02', 'S02.flipped', 'S02.sheet', 'S02.dim', 'S02.match', 'S02.fin'],
-    pasos: [{ id: 'mark.ring', etiqueta: 'Guarda una (○)' }, { id: 'mark.x', etiqueta: 'Descarta una (✕)' }, { id: 'mark.dot', etiqueta: 'Marca una vista (●)' }] },
-  { id: 'M2', flujo: 'F-M', titulo: 'Terminar el mazo y elegir el siguiente', seed: 'deck-finished', pantallaInicio: 'S07', maxTiempo: 150,
+    pasos: [{ id: 'card.flip', etiqueta: 'Voltea una carta' }, { id: 'mark', etiqueta: 'Decide sobre una carta' }, { id: 'marks3', etiqueta: 'Decide sobre las 3 cartas' }, { id: 'screen:S02.fin', etiqueta: 'Termina el mazo' }] },
+  { id: 'M2', flujo: 'F-M', titulo: 'Del cierre del mazo al siguiente mazo', seed: 'deck-finished', pantallaInicio: 'S07', maxTiempo: 150,
     escenario: 'Terminaste tu mazo. Responde lo que Kinoo te pregunte y empieza un mazo nuevo.',
     rutaEsperada: ['S07', 'S07.recibo', 'S07.ask', 'S07.feedback', 'S07.elegir', 'S07.barajar', 'S07.listo', 'S02'],
     pasos: [{ id: 'recarga.ask', etiqueta: 'Responde las preguntas' }, { id: 'recarga.elegir', etiqueta: 'Elige el siguiente mazo' }, { id: 'deck.dealt', etiqueta: 'Empieza' }] },
@@ -201,17 +203,17 @@ export const MISIONES: MisionCat[] = [
     escenario: 'Es viernes en la noche. Usa Kinoo para decidir qué película ver y ve a verla en la plataforma que tienes.',
     rutaEsperada: ['S04', 'S04.sheet-plat', 'S04.away'],
     pasos: [{ id: 'ver.watch', etiqueta: 'Pulsa «Verla»' }, { id: 'platform.picked', etiqueta: 'Elige plataforma' }, { id: 'platform.opened', etiqueta: 'Sale a la plataforma' }] },
-  { id: 'V2', flujo: 'F-V', titulo: 'Contar qué te pareció', seed: 'ver-back', pantallaInicio: 'S04', maxTiempo: 120,
-    escenario: 'Ya viste la película y volviste a Kinoo. Cuéntale qué te pareció y déjala para verla otra vez algún día.',
-    rutaEsperada: ['S04', 'S03.back', 'S03'],
-    pasos: [{ id: 'ver.sawit', etiqueta: 'Dice que la vio' }, { id: 'reaction.picked', etiqueta: 'Elige reacción' }, { id: 'repeat.on', etiqueta: 'Marca repetir' }, { id: 'reaction.saved', etiqueta: 'Guarda' }] },
-  { id: 'V3', flujo: 'F-V', titulo: 'Quitar una guardada', seed: 'ver-pool', pantallaInicio: 'S04', maxTiempo: 120,
+  { id: 'V2', flujo: 'F-V', titulo: 'De la propuesta a calificar la película', seed: 'ver-pool', pantallaInicio: 'S04', maxTiempo: 180,
+    escenario: 'Es viernes en la noche. Elige una película con Kinoo, ve a verla y, cuando vuelvas a Kinoo, cuéntale qué te pareció.',
+    rutaEsperada: ['S04', 'S04.sheet-plat', 'S04.away', 'S03.back', 'S03'],
+    pasos: [{ id: 'ver.watch', etiqueta: 'Pulsa «Verla»' }, { id: 'platform.opened', etiqueta: 'Sale a la plataforma' }, { id: 'ver.volver', etiqueta: 'Vuelve a Kinoo' }, { id: 'ver.sawit', etiqueta: 'Dice que la vio' }, { id: 'screen=S03', etiqueta: 'Llega a calificarla' }] },
+  { id: 'V3', flujo: 'F-V', titulo: 'De Ver a quitar una guardada', seed: 'ver-pool', pantallaInicio: 'S04', maxTiempo: 120,
     escenario: 'Guardaste El Faro Mudo pero ya no te interesa. Sácala de tus guardadas.',
     rutaEsperada: ['S04', 'S08'],
     pasos: [{ id: 'nav:mi-espacio', etiqueta: 'Va a Mi espacio' }, { id: 'space.removed:faro', etiqueta: 'Quita El Faro Mudo' }] },
 ];
 /** Misiones de la ronda (las 5 primeras; M2 y V3 solo en rondas largas). */
-export const MISIONES_BASE = ['D1', 'M1', 'D2', 'V1', 'V2'];
+export const MISIONES_BASE = ['D1', 'M1', 'D2', 'V2', 'V3'];
 export const MISION_SEQ_SEGUIMIENTO = '¿Qué hizo difícil esta tarea?';
 export const MISION_SEQ_PREGUNTA = SEQ_PREGUNTA;
 
