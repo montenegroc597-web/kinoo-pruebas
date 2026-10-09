@@ -380,7 +380,7 @@ function register_(b) {
     }
     var a = asignar_(nombre, data.existentes, sesionId);
     var fila = {
-      'Código': a.codigo, 'Ronda': p.ronda || 1, 'Fecha': new Date().toISOString(), 'Edad': p.edad || '', 'Género': p.genero || '',
+      'Código': a.codigo, 'Ronda': (p.ronda === undefined || p.ronda === null || p.ronda === '') ? 1 : p.ronda, 'Fecha': new Date().toISOString(), 'Edad': p.edad || '', 'Género': p.genero || '',
       'Frecuencia de consumo': p.frecuencia || '', 'Descubre en redes (Sí/No)': p.descubreRedes || '', 'Nivel tecnológico': p.nivelTec || '',
       'Orden de tareas': a.ordenTareas, 'Orden marca (A→B / B→A)': a.ordenMarca, 'Moderador/a': '', 'Notas': p.notas || '',
       'Nombre ingresado': nombre, 'Nombre mostrado': a.nombreMostrado, 'Sesión ID': sesionId, 'Orden flujos': a.ordenFlujos,

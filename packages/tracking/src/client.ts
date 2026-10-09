@@ -163,13 +163,14 @@ export class TrackingClient {
       return r.ok ? (r.data as Asignacion & { fasesCompletadas?: number }) : null;
     } catch { return null; }
   }
-  async perfil(sesionId: string, cambios: Record<string, string | number>): Promise<void> {
-    if (!this.cfg.url) return;
-    try { await this.post({ action: 'profile', key: this.cfg.key, sesionId, cambios }); } catch { /* el perfil también viaja en los eventos 'answer' */ }
+  /** true si el servidor lo recibió (quien llama reintenta si es false). */
+  async perfil(sesionId: string, cambios: Record<string, string | number>): Promise<boolean> {
+    if (!this.cfg.url) return true;
+    try { const r = await this.post({ action: 'profile', key: this.cfg.key, sesionId, cambios }); return !!(r.ok && r.data?.ok); } catch { return false; }
   }
-  async faseCompletada(sesionId: string, fasesCompletadas: number): Promise<void> {
-    if (!this.cfg.url) return;
-    try { await this.post({ action: 'phase', key: this.cfg.key, sesionId, fasesCompletadas }); } catch { /* se reintenta en la siguiente fase */ }
+  async faseCompletada(sesionId: string, fasesCompletadas: number): Promise<boolean> {
+    if (!this.cfg.url) return true;
+    try { const r = await this.post({ action: 'phase', key: this.cfg.key, sesionId, fasesCompletadas }); return !!(r.ok && r.data?.ok); } catch { return false; }
   }
   async reasignar(tmp: string, asignacion: Asignacion): Promise<void> {
     if (!this.cfg.url) return;

@@ -1,0 +1,47 @@
+name: Deploy (GitHub Pages)
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Build de la app de prueba y del Panel
+        run: |
+          REPO="${GITHUB_REPOSITORY#*/}"
+          VITE_BASE="/$REPO/prueba/" npm run build -w @kinoo/prueba
+          VITE_BASE="/$REPO/panel/" npm run build -w @kinoo/panel
+          mkdir -p site
+          cp -r apps/prueba/dist site/prueba
+          cp -r apps/panel/dist site/panel
+          printf '<!doctype html><meta charset="utf-8"><meta name="robots" content="noindex"><title>Kinoo</title><p>Kinoo · pruebas de usabilidad.</p>' > site/index.html
+        env:
+          VITE_APPS_SCRIPT_URL: ${{ secrets.APPS_SCRIPT_URL }}
+          VITE_WRITE_KEY: ${{ secrets.WRITE_KEY }}
+          VITE_RONDA: ${{ vars.RONDA || '1' }}
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.dep.outputs.page_url }}
+    steps:
+      - id: dep
+        uses: actions/deploy-pages@v4

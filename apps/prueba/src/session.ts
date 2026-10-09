@@ -17,6 +17,10 @@ export interface Session {
   indice: number;
   graba: 'Sí' | 'No';
   iniciada: string;
+  /** contexto (edad, hábitos) que aún no llegó al servidor; se reintenta solo */
+  perfilPendiente?: Record<string, string | number> | null;
+  /** última fase que el servidor ya confirmó */
+  fasesEnviadas?: number;
 }
 
 const KEY = 'kinoo.session';

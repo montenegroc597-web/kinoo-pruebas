@@ -26,5 +26,12 @@ export default defineConfig({
       timeout: 90_000,
       env: { VITE_APPS_SCRIPT_URL: 'http://localhost:8787', VITE_WRITE_KEY: 'W', VITE_RONDA: '1' },
     },
+    {
+      command: 'npm run dev -w @kinoo/panel -- --port 5174 --strictPort',
+      url: 'http://localhost:5174',
+      reuseExistingServer: true,
+      timeout: 90_000,
+      env: { VITE_APPS_SCRIPT_URL: 'http://localhost:8787' },
+    },
   ],
 });

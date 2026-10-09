@@ -1,0 +1,34 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Backend generado al día con schema.ts
+        run: node scripts/build-backend.mjs && git diff --exit-code backend/Code.gs
+      - run: npm run typecheck
+      - run: npm test
+      - name: Contraste AA (versiones A y B)
+        run: npm run contrast
+      - run: npm run build
+        env:
+          VITE_BASE: ./
+      - name: Navegador para E2E
+        run: npx playwright install --with-deps chromium
+      - name: E2E (backend simulado)
+        run: npm run e2e
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: e2e-resultados
+          path: test-results

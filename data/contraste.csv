@@ -1,0 +1,29 @@
+Versión,Combinación,Color texto,Color fondo,Razón,Mínimo,Cumple AA
+A · Noche,"Texto principal sobre fondo",#F4E7D0,#17120F,15.21,4.5,Sí
+A · Noche,"Texto principal sobre tarjeta",#F4E7D0,#221A15,14.01,4.5,Sí
+A · Noche,"Texto secundario sobre fondo",#D9C7A8,#17120F,11.23,4.5,Sí
+A · Noche,"Metadatos sobre fondo",#BFA98A,#17120F,8.19,4.5,Sí
+A · Noche,"Texto sobre botón principal / marca",#1A1411,#E8642C,5.46,4.5,Sí
+A · Noche,"Texto sobre acento (sol)",#1A1411,#F2B544,9.95,4.5,Sí
+A · Noche,"Kicker / acento sobre fondo",#F2B544,#17120F,10.15,3,Sí
+A · Noche,"Texto en hoja (tinta inversa)",#1A1411,#F4E7D0,14.92,4.5,Sí
+A · Noche,"Texto atenuado en hoja",#6B5844,#F4E7D0,5.54,4.5,Sí
+A · Noche,"Anillo ○ sobre fondo (elemento de interfaz)",#C2481B,#17120F,3.75,3,Sí
+A · Noche,"Borde de control sobre fondo (elemento de interfaz)",#8A7458,#17120F,4.18,3,Sí
+A · Noche,"Positivo sobre fondo",#6CC4A8,#17120F,8.94,4.5,Sí
+B · Kino,"Texto principal sobre fondo",#EEE2CB,#111010,14.81,4.5,Sí
+B · Kino,"Texto principal sobre tarjeta",#EEE2CB,#1E1A1A,13.45,4.5,Sí
+B · Kino,"Texto secundario sobre fondo",#D8CCB4,#111010,11.96,4.5,Sí
+B · Kino,"Metadatos sobre fondo",#A8A097,#111010,7.36,4.5,Sí
+B · Kino,"Texto sobre botón principal / marca",#EEE2CB,#AE2B24,5.16,4.5,Sí
+B · Kino,"Texto sobre acento (sol)",#111010,#FF6B1A,6.67,4.5,Sí
+B · Kino,"Kicker / acento sobre fondo",#FF6B1A,#111010,6.67,3,Sí
+B · Kino,"Texto en hoja (tinta inversa)",#111010,#EEE2CB,14.81,4.5,Sí
+B · Kino,"Texto atenuado en hoja",#6A635A,#EEE2CB,4.62,4.5,Sí
+B · Kino,"Anillo ○ sobre fondo (elemento de interfaz)",#FF6B1A,#111010,6.67,3,Sí
+B · Kino,"Borde de control sobre fondo (elemento de interfaz)",#7A736B,#111010,4.06,3,Sí
+B · Kino,"Positivo sobre fondo",#6CC4A8,#111010,9.14,4.5,Sí
+B · Kino,"Crema sobre negro sala",#EEE2CB,#111010,14.81,4.5,Sí
+B · Kino,"Crema sobre rojo butaca",#EEE2CB,#AE2B24,5.16,4.5,Sí
+B · Kino,"Negro sobre naranja proyector (botón principal)",#111010,#FF6B1A,6.67,4.5,Sí
+B · Kino,"Niebla sobre negro (metadatos)",#A8A097,#111010,7.36,4.5,Sí

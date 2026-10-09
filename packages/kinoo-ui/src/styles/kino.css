@@ -10,7 +10,7 @@
   --surface-raised: #1E1A1A;
   --surface-inverse: #EEE2CB;
   --line: #2E2A2B;
-  --line-strong: #4A4541;
+  --line-strong: #7A736B; /* guía J usa #4A4541 (2,0:1); se subió para cumplir 3:1 en controles (WCAG 1.4.11) */
   --ink: #EEE2CB;
   --ink-muted: #D8CCB4;
   --ink-subtle: #A8A097;

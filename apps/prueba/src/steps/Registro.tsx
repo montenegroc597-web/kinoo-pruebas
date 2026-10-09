@@ -6,7 +6,8 @@ import { nuevaSesion, useSession } from '../session';
 
 const RONDA = (() => {
   try { const q = new URLSearchParams(window.location.search).get('ronda'); if (q && /^\d+$/.test(q)) return parseInt(q, 10); } catch { /* ignorar */ }
-  return parseInt(import.meta.env.VITE_RONDA ?? '1', 10) || 1;
+  const e = parseInt(import.meta.env.VITE_RONDA ?? '1', 10);
+  return Number.isNaN(e) ? 1 : e;
 })();
 export const rondaActual = RONDA;
 
@@ -99,7 +100,9 @@ export function Contexto({ onListo }: { onListo: () => void }) {
         onAnswer={(q, v) => emit('answer', { estimulo: q.id, valor: typeof v === 'string' || typeof v === 'number' ? v : JSON.stringify(v) })}
         onDone={(r) => {
           const notas = `C2 dónde ve: ${r.C2 ?? ''} | C3 cómo se entera: ${r.C3 ?? ''}${r.C4b ? ` | redes: ${r.C4b}` : ''}`;
-          void client.perfil(s.sesionId, { Edad: Number(r.edad), 'Género': r.genero, 'Frecuencia de consumo': r.C1, 'Descubre en redes (Sí/No)': r.C4, 'Nivel tecnológico': NIVEL_TEC[r.C5] ?? '', Notas: notas });
+          const cambios = { Edad: Number(r.edad), 'Género': r.genero, 'Frecuencia de consumo': r.C1, 'Descubre en redes (Sí/No)': r.C4, 'Nivel tecnológico': NIVEL_TEC[r.C5] ?? '', Notas: notas };
+          useSession.getState().patch({ perfilPendiente: cambios }); // se envía y, si falla, el reintento de App.tsx lo manda cuando haya red
+          void client.perfil(s.sesionId, cambios).then((ok) => { if (ok) useSession.getState().patch({ perfilPendiente: null }); });
           onListo();
         }}
       />

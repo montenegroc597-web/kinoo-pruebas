@@ -15,7 +15,10 @@
     "test": "vitest run",
     "e2e": "playwright test",
     "contrast": "node scripts/contrast.mjs",
-    "mock": "node e2e/mock-backend.mjs"
+    "mock": "node e2e/mock-backend.mjs",
+    "seed-config": "node scripts/seed-config.mjs",
+    "export-data": "node scripts/export-sheet.mjs",
+    "build-backend": "node scripts/build-backend.mjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.48.0",

@@ -46,6 +46,11 @@ describe('registro de participantes', () => {
     expect(r[h.indexOf('Dispositivo')]).toBe('iPhone 390x844');
     expect(r[h.indexOf('Nombre mostrado')]).toBe('Ana 1');
   });
+  it('la ronda 0 (piloto) se conserva', () => {
+    reg('Piloto', 'sp', { ronda: 0 });
+    const d = b.get({ action: 'dump', key: 'R', hojas: 'Participantes' }).data.Participantes;
+    expect(d.rows[0][d.headers.indexOf('Ronda')]).toBe(0);
+  });
   it('rechaza nombre vacío', () => { expect(reg('  ', 's1').ok).toBe(false); });
   it('reanuda y registra fases completadas', () => {
     const a = reg('Ana', 's1').data;

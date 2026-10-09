@@ -58,6 +58,17 @@ export function App() {
     return () => clearInterval(id);
   }, [s?.provisional, patch]);
 
+  // pendientes que no llegaron (sin red): contexto y fases completadas se reintentan solos
+  useEffect(() => {
+    const id = setInterval(async () => {
+      const cur = useSession.getState().s;
+      if (!cur || cur.provisional) return;
+      if (cur.perfilPendiente && (await client.perfil(cur.sesionId, cur.perfilPendiente))) useSession.getState().patch({ perfilPendiente: null });
+      if (cur.fasesCompletadas > (cur.fasesEnviadas ?? 0) && (await client.faseCompletada(cur.sesionId, cur.fasesCompletadas))) useSession.getState().patch({ fasesEnviadas: cur.fasesCompletadas });
+    }, 3000);
+    return () => clearInterval(id);
+  }, []);
+
   // errores de JavaScript → hoja Errores
   useEffect(() => {
     const on = (e: ErrorEvent) => emit('error', { extra: { mensaje: e.message, stack: e.error?.stack ?? '', estado: JSON.stringify(vistaRef.current) } });
