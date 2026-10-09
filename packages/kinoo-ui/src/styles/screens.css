@@ -1,0 +1,47 @@
+/* Animaciones y utilidades que cada pantalla del artefacto traía en su <helmet>. */
+.kn-frame-root, .kn-frame-root * { box-sizing: border-box; }
+.kn-frame-root button { font: inherit; }
+.kn-sheet .kn-btn-ghost { color: var(--ink-inverse); }
+
+.kn-pop { animation: knPop 380ms var(--ease-spring) both; }
+@keyframes knPop { from { opacity: 0; transform: translateY(12px) scale(.95); } to { opacity: 1; transform: none; } }
+.kn-fade { animation: knFade 220ms var(--ease-out) both; }
+@keyframes knFade { from { opacity: 0; } to { opacity: 1; } }
+.kn-chipin { display: inline-flex; animation: knChipIn 320ms var(--ease-spring) both; }
+@keyframes knChipIn { from { opacity: 0; transform: scale(.7); } to { opacity: 1; transform: none; } }
+.kn-twinkle { animation: knTw 2.4s ease-in-out infinite; }
+@keyframes knTw { 50% { opacity: .35; transform: scale(.8); } }
+.kn-spin { animation: knSpin 30s linear infinite; }
+@keyframes knSpin { to { transform: rotate(360deg); } }
+.kn-pulse { animation: knPulse 1.6s ease-in-out infinite; }
+@keyframes knPulse { 50% { transform: scale(1.08); } }
+.kn-load { display: block; width: 26px; height: 26px; box-sizing: border-box; border-radius: 50%; border: 3px solid var(--line-strong); border-top-color: var(--brand); animation: knSpin .9s linear infinite; }
+.kn-rl { animation: knRL 1.7s ease-in-out both; }
+.kn-rr { animation: knRR 1.7s ease-in-out both; }
+@keyframes knRL { 0%,30%,60%,100% { transform: none; } 15%,45% { transform: translateX(-78px) rotate(-10deg); } }
+@keyframes knRR { 0%,30%,60%,100% { transform: none; } 15%,45% { transform: translateX(78px) rotate(10deg); } }
+.kn-deal { animation: knDeal 520ms var(--ease-spring) both; }
+@keyframes knDeal { from { opacity: 0; transform: translateY(-120px) rotate(-14deg); } to { opacity: 1; transform: none; } }
+.kn-ringout { animation: knRingOut 700ms 200ms ease-in both; transform-origin: 32px 32px; }
+@keyframes knRingOut { to { opacity: 0; transform: scale(1.5); } }
+.kn-dotin { animation: knDotIn 520ms 520ms var(--ease-spring) both; transform-origin: 32px 32px; }
+@keyframes knDotIn { from { transform: scale(0); } to { transform: scale(1); } }
+.kn-bar { display: block; width: 4px; border-radius: 2px; background: var(--ink-inverse); animation: knBar .9s ease-in-out infinite; }
+@keyframes knBar { 50% { transform: scaleY(.35); } }
+
+.kn-scroll { scrollbar-width: none; -ms-overflow-style: none; }
+.kn-scroll::-webkit-scrollbar { display: none; width: 0; height: 0; }
+
+.kn-mood-card { transition: transform var(--duration-fast) var(--ease-spring), border-color 160ms; }
+.kn-mood-card:active { transform: scale(.97); }
+.kn-mood-card:focus-visible, .kn-genre:focus-visible, .kn-opt:focus-visible, .kn-deckrow:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+.kn-tap { transition: transform var(--duration-base) var(--ease-spring), border-color 160ms, box-shadow 160ms; }
+.kn-frame { transition: transform var(--duration-base) var(--ease-spring); }
+.kn-cel { transition: filter 220ms var(--ease-out), border-color 160ms, box-shadow 220ms; }
+.kn-frame:focus-visible { outline: 3px solid var(--sun); outline-offset: 3px; border-radius: 8px; }
+.kn-holes { height: 10px; width: 100%; background: var(--sun-core); opacity: .9; -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='10'%3E%3Crect x='4' y='1' width='14' height='8' rx='2.5'/%3E%3C/svg%3E") repeat-x; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='10'%3E%3Crect x='4' y='1' width='14' height='8' rx='2.5'/%3E%3C/svg%3E") repeat-x; }
+.kn-chip2:focus-visible, .kn-voice:focus-visible, .kn-react:focus-visible, .kn-check:focus-within { outline: 3px solid var(--ink-inverse); outline-offset: 3px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .kn-pop, .kn-fade, .kn-chipin, .kn-twinkle, .kn-spin, .kn-pulse, .kn-load, .kn-rl, .kn-rr, .kn-deal, .kn-ringout, .kn-dotin, .kn-bar { animation: none; }
+}

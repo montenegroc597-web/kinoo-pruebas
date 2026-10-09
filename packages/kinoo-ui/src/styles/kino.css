@@ -1,0 +1,126 @@
+/*
+ * Versión B «Kino» (https://claude.ai/artifact/9MgLeWVWxCr9RXWFpCXwZW · guía J + pantallas H).
+ * Es un TEMA: redefine tokens y ajusta forma/tipografía de los componentes. La estructura y los textos NO cambian entre A y B.
+ *   60 % negro sala · 30 % rojo butaca · 10 % naranja proyector (solo acción principal y lo activo).
+ * Fuentes: Archivo (display y texto) + IBM Plex Mono (etiquetas y botones secundarios).
+ */
+[data-brand="kino"] {
+  --surface: #111010;
+  --surface-sunk: #1E1A1A;
+  --surface-raised: #1E1A1A;
+  --surface-inverse: #EEE2CB;
+  --line: #2E2A2B;
+  --line-strong: #4A4541;
+  --ink: #EEE2CB;
+  --ink-muted: #D8CCB4;
+  --ink-subtle: #A8A097;
+  --ink-inverse: #111010;
+  --ink-inverse-muted: #6A635A;
+  --brand: #AE2B24;
+  --on-brand: #EEE2CB;
+  --brand-ink: #FF6B1A;
+  --brand-ink-inverse: #AE2B24;
+  --brand-deep: #7A1E19;
+  --sun: #FF6B1A;
+  --on-sun: #111010;
+  --sun-ink: #FF6B1A;
+  --cine-red: #AE2B24;
+  --sun-1: #AE2B24;
+  --sun-2: #8E221C;
+  --sun-3: #6E1A16;
+  --sun-core: #EEE2CB;
+  --mark-ring: #FF6B1A;
+  --mark-dot: #111010;
+  --mark-halo: #EEE2CB;
+  --positive: #6CC4A8;
+  --positive-inverse: #2F6B4F;
+  --critical: #FF9278;
+  --focus: #FF6B1A;
+  --scrim: rgba(10,8,8,0.7);
+  --font-display: 'Archivo', 'Segoe UI', system-ui, sans-serif;
+  --font-sans: 'Archivo', 'Segoe UI', system-ui, sans-serif;
+  --font-script: 'IBM Plex Mono', ui-monospace, monospace;
+  --font-label: 'IBM Plex Mono', ui-monospace, monospace;
+  --radius-xs: 3px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 16px;
+  --radius-card: 18px;
+  --radius-sheet: 22px;
+  --radius-pill: 14px;
+  --shadow-card: 0 6px 16px rgba(0,0,0,0.45);
+  --shadow-float: 0 10px 30px rgba(0,0,0,0.55);
+  --shadow-lift: 0 14px 28px rgba(0,0,0,0.6);
+  --shadow-lip: 0 6px 0 #4A1210;
+}
+
+/* tipografía: títulos grandes en Archivo negra, etiquetas y kickers en mono mayúsculas */
+[data-brand="kino"] [style*="var(--font-display)"],
+[data-brand="kino"] .kn-logo-word, [data-brand="kino"] .kn-gauge-num, [data-brand="kino"] .kn-premise-hook,
+[data-brand="kino"] .kn-poster-title, [data-brand="kino"] .kn-sheet-title, [data-brand="kino"] .kn-stat-num,
+[data-brand="kino"] .kn-taste-word, [data-brand="kino"] .kn-deckback-name {
+  font-family: var(--font-display); font-weight: 900; font-stretch: 100%; letter-spacing: -0.01em;
+}
+[data-brand="kino"] h1[style*="font-size"] { font-size: 32px !important; line-height: 0.98 !important; }
+[data-brand="kino"] h2[style*="font-size: 5"], [data-brand="kino"] h2[style*="font-size: 4"] { font-size: 34px !important; line-height: 0.98 !important; }
+[data-brand="kino"] .kn-sheet-title { font-size: 28px; line-height: 1; }
+[data-brand="kino"] .kn-premise-hook { font-size: 26px !important; line-height: 1; }
+[data-brand="kino"] .kn-poster-title { font-size: 30px; }
+[data-brand="kino"] [style*="font-size: 46px"] { font-size: 34px !important; }
+[data-brand="kino"] [style*="font-size: 34px"][style*="--font-display"], [data-brand="kino"] [style*="font-size: 32px"][style*="--font-display"] { font-size: 26px !important; }
+[data-brand="kino"] [style*="font-size: 24px"][style*="--font-display"] { font-size: 19px !important; }
+[data-brand="kino"] [style*="font-size: 21px"][style*="--font-display"], [data-brand="kino"] [style*="font-size: 22px"][style*="--font-display"] { font-size: 17px !important; }
+[data-brand="kino"] [style*="font-size: 20px"][style*="--font-display"] { font-size: 16px !important; }
+[data-brand="kino"] .kn-deckback-name { font-size: 14px; }
+[data-brand="kino"] .kn-taste-word { font-size: 14px !important; }
+[data-brand="kino"] .kn-logo-word { text-transform: uppercase; letter-spacing: 0; }
+
+[data-brand="kino"] [style*="var(--font-script)"],
+[data-brand="kino"] .kn-sheet-kicker, [data-brand="kino"] .kn-poster-credit {
+  font-family: var(--font-label); font-weight: 600; font-size: 12px !important; line-height: 1.2 !important;
+  letter-spacing: 0.08em; text-transform: uppercase;
+}
+[data-brand="kino"] p[style*="var(--font-script)"] { font-size: 17px !important; line-height: 1.3 !important; text-transform: none; letter-spacing: 0; font-weight: 500; font-family: var(--font-sans); font-style: italic; }
+[data-brand="kino"] .kn-header-chip, [data-brand="kino"] .kn-deckback-kind, [data-brand="kino"] .kn-gauge-label, [data-brand="kino"] .kn-meter-label,
+[data-brand="kino"] .kn-tab, [data-brand="kino"] .kn-chip, [data-brand="kino"] .kn-swipe-label, [data-brand="kino"] .kn-taste-label {
+  font-family: var(--font-label);
+}
+
+/* botones: rectángulos de 16 px; principal naranja (10 %), secundario mono */
+[data-brand="kino"] .kn-btn { border-radius: 16px; border-width: 2px; }
+[data-brand="kino"] .kn-btn-primary { background: #FF6B1A; color: #111010; border-color: #FF6B1A; font-family: var(--font-display); font-stretch: 100%; letter-spacing: 0.02em; }
+[data-brand="kino"] .kn-btn-primary.kn-btn-lg { font-size: 17px; min-height: 58px; }
+[data-brand="kino"] .kn-btn-primary.kn-btn-md { font-size: 15px; }
+[data-brand="kino"] .kn-btn-primary.kn-btn-sm { font-size: 13px; }
+[data-brand="kino"] .kn-btn-secondary, [data-brand="kino"] .kn-btn-inverse, [data-brand="kino"] .kn-btn-ghost { font-family: var(--font-label); text-transform: uppercase; letter-spacing: 0.06em; font-size: 12.5px; font-weight: 600; }
+[data-brand="kino"] .kn-btn-secondary { background: #2A2627; border-color: #4A4541; color: #EEE2CB; }
+[data-brand="kino"] .kn-sheet .kn-btn-secondary { background: transparent; border-color: #111010; color: #111010; }
+[data-brand="kino"] .kn-btn-ghost { color: #A8A097; text-decoration: none; }
+[data-brand="kino"] .kn-sheet .kn-btn-ghost { color: #111010; }
+[data-brand="kino"] .kn-chip { border-radius: 12px; }
+[data-brand="kino"] .kn-chip-sun { background: #FF6B1A; color: #111010; }
+[data-brand="kino"] .kn-chip-brand { background: #FF6B1A; color: #111010; }
+[data-brand="kino"] .kn-chip-tag { background: #EEE2CB; color: #111010; border-radius: 6px; font-family: var(--font-label); }
+[data-brand="kino"] .kn-chip-filter[aria-pressed="true"] { background: #FF6B1A; border-color: #FF6B1A; color: #111010; }
+
+/* cartas: sin soles ni degradados; rayas del dorso */
+[data-brand="kino"] .kn-premise { background: repeating-linear-gradient(-45deg, #AE2B24 0 14px, #A22821 14px 28px); color: #EEE2CB; }
+[data-brand="kino"] .kn-premise-sun { display: none; }
+[data-brand="kino"] .kn-panel { background: #111010; color: #EEE2CB; box-shadow: var(--shadow-lip); border: 1px solid #4A4541; }
+[data-brand="kino"] .kn-genres { background: #EEE2CB; color: #111010; font-family: var(--font-label); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; border-top-color: #111010; }
+[data-brand="kino"] .kn-card-face { border-color: #EEE2CB; }
+[data-brand="kino"] .kn-poster-info { background: #111010; }
+[data-brand="kino"] .kn-gauge .arc { stroke: #FF6B1A; }
+[data-brand="kino"] .kn-gauge .s2 { fill: #EEE2CB; }
+[data-brand="kino"] .kn-gauge .s3 { fill: #D8CCB4; }
+[data-brand="kino"] .kn-deckback-face i, [data-brand="kino"] .kn-sun span { opacity: 0.95; }
+[data-brand="kino"] .kn-taste { border-radius: 10px; }
+[data-brand="kino"] .kn-tabbar { background: #1E1A1A; color: #EEE2CB; border-radius: 18px 18px 0 0; border-top: 2px solid #AE2B24; }
+[data-brand="kino"] .kn-tab { color: #A8A097; text-transform: uppercase; letter-spacing: 0.06em; font-size: 11px; }
+[data-brand="kino"] .kn-tab[aria-current="page"] { background: #FF6B1A; border-color: #FF6B1A; color: #111010; border-radius: 14px; }
+[data-brand="kino"] .kn-sheet { background: #EEE2CB; color: #111010; }
+[data-brand="kino"] .kn-sheet-handle { background: #A8A097; }
+[data-brand="kino"] .kn-toast { background: #EEE2CB; color: #111010; font-family: var(--font-label); text-transform: uppercase; letter-spacing: 0.04em; font-size: 12px; }
+[data-brand="kino"] .kn-avatar-btn { border-color: #FF6B1A; }
+[data-brand="kino"] .kn-header { border-bottom: 2px solid #AE2B24; margin-bottom: 4px; background: #111010; }
+[data-brand="kino"] .kn-option[aria-checked="true"] { border-color: #FF6B1A; }
