@@ -1,6 +1,6 @@
 /* Animaciones y utilidades que cada pantalla del artefacto traía en su <helmet>. */
 .kn-frame-root, .kn-frame-root * { box-sizing: border-box; }
-.kn-frame-root button { font: inherit; }
+:where(.kn-frame-root) button { font: inherit; }
 .kn-sheet .kn-btn-ghost { color: var(--ink-inverse); }
 
 .kn-pop { animation: knPop 380ms var(--ease-spring) both; }

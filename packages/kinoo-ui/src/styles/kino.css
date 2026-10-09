@@ -122,5 +122,5 @@
 [data-brand="kino"] .kn-sheet-handle { background: #A8A097; }
 [data-brand="kino"] .kn-toast { background: #EEE2CB; color: #111010; font-family: var(--font-label); text-transform: uppercase; letter-spacing: 0.04em; font-size: 12px; }
 [data-brand="kino"] .kn-avatar-btn { border-color: #FF6B1A; }
-[data-brand="kino"] .kn-header { border-bottom: 2px solid #AE2B24; margin-bottom: 4px; background: #111010; }
+[data-brand="kino"] .kn-header { border-bottom: 2px solid #AE2B24; padding: 8px var(--space-5) 6px; margin-bottom: 2px; background: #111010; }
 [data-brand="kino"] .kn-option[aria-checked="true"] { border-color: #FF6B1A; }
