@@ -23,12 +23,17 @@ export interface Session {
   fasesEnviadas?: number;
 }
 
+/** Modo equipo (?equipo=1): los host prueban la app. No se registra, no se envía y no se guarda nada. */
+export const modoEquipo: boolean = (() => { try { return new URLSearchParams(window.location.search).get('equipo') === '1'; } catch { return false; } })();
+
 const KEY = 'kinoo.session';
 const safe = {
   get(): Session | null {
+    if (modoEquipo) return null;
     try { const r = localStorage.getItem(KEY); return r ? (JSON.parse(r) as Session) : null; } catch { return null; }
   },
   set(s: Session | null) {
+    if (modoEquipo) return;
     try { if (s) localStorage.setItem(KEY, JSON.stringify(s)); else localStorage.removeItem(KEY); } catch { /* storage bloqueado */ }
   },
 };
@@ -64,3 +69,13 @@ export const useSession = create<Store>((set, get) => ({
   clear: () => { safe.set(null); set({ s: null }); },
 }));
 export const getSession = () => useSession.getState().s;
+
+/** Sesión de mentira para el equipo: en memoria, con los órdenes de rotación del participante número `indice`. */
+import { ordenFlujosPara, ordenMarcaPara, ordenTareasPara } from '@kinoo/tracking';
+export function sesionEquipo(indice: number): Session {
+  return {
+    sesionId: 'equipo-' + indice, codigo: 'EQUIPO', nombreMostrado: 'Equipo', nombreIngresado: 'Equipo', ronda: -1,
+    ordenTareas: ordenTareasPara(indice), ordenMarca: ordenMarcaPara(indice), ordenFlujos: ordenFlujosPara(indice),
+    provisional: false, fasesCompletadas: 0, indice, graba: 'No', iniciada: new Date().toISOString(),
+  };
+}

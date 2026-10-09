@@ -23,6 +23,8 @@ export class TrackingClient {
   private vuelo: Promise<void> | null = null;
   private fallos = 0;
   private proximoIntento = 0;
+  /** Modo equipo: no se encola, no se envía, no se persiste. */
+  private inerte = false;
   private estado: EstadoRed;
   private oyentes = new Set<() => void>();
   private cfg: Required<Pick<ClientConfig, 'intervaloMs' | 'maxLote' | 'storageKey'>> & ClientConfig;
@@ -43,27 +45,34 @@ export class TrackingClient {
     } catch { /* storage bloqueado: seguimos en memoria */ }
   }
   private guardar() {
+    if (this.inerte) return;
     try { this.cfg.storage?.setItem(this.cfg.storageKey, JSON.stringify(this.cola)); } catch { /* ignorar */ }
   }
   private avisar() { this.oyentes.forEach((f) => f()); }
   suscribir(f: () => void): () => void { this.oyentes.add(f); return () => this.oyentes.delete(f); }
 
+  /** Con true el cliente no hace NADA con el servidor ni con el almacenamiento (el equipo está probando). */
+  setInerte(v: boolean) { this.inerte = v; if (v) { this.cola = []; this.stop(); } }
+  get esInerte(): boolean { return this.inerte; }
+
   enqueueEvent(e: KinooEvent) {
+    if (this.inerte) return;
     this.cola.push({ kind: 'event', payload: e });
     this.guardar();
     this.avisar();
     if (this.cola.length >= this.cfg.maxLote) void this.flush();
   }
   enqueueRows(hoja: string, fila: Record<string, unknown>) {
+    if (this.inerte) return;
     this.cola.push({ kind: 'rows', hoja, payload: fila });
     this.guardar();
     this.avisar();
   }
-  pendientes(): number { return this.cola.length; }
-  red(): EstadoRed { return this.cola.length === 0 && this.estado !== 'local' && this.estado !== 'sin-conexion' ? 'sincronizado' : this.estado; }
+  pendientes(): number { return this.inerte ? 0 : this.cola.length; }
+  red(): EstadoRed { if (this.inerte) return 'local'; return this.cola.length === 0 && this.estado !== 'local' && this.estado !== 'sin-conexion' ? 'sincronizado' : this.estado; }
 
   start() {
-    if (this.timer || !this.cfg.url) return;
+    if (this.inerte || this.timer || !this.cfg.url) return;
     this.timer = setInterval(() => void this.flush(), this.cfg.intervaloMs);
   }
   stop() { if (this.timer) clearInterval(this.timer); this.timer = null; }
@@ -85,7 +94,7 @@ export class TrackingClient {
   }
 
   private async enviarLote(forzar: boolean): Promise<void> {
-    if (!this.cfg.url || this.cola.length === 0) return;
+    if (this.inerte || !this.cfg.url || this.cola.length === 0) return;
     if (!forzar && Date.now() < this.proximoIntento) return;
     const lote = this.cola.slice(0, this.cfg.maxLote);
     try {
@@ -124,7 +133,7 @@ export class TrackingClient {
 
   /** pagehide / visibilitychange: manda lo pendiente con sendBeacon (no se puede esperar respuesta). */
   enviarConBeacon() {
-    if (!this.cfg.url || !this.cfg.beacon || !this.cola.length) return;
+    if (this.inerte || !this.cfg.url || !this.cfg.beacon || !this.cola.length) return;
     const eventos = this.cola.filter((i) => i.kind === 'event').map((i) => i.payload);
     if (eventos.length && this.cfg.beacon(this.cfg.url, JSON.stringify({ action: 'events', key: this.cfg.key, events: eventos }))) {
       this.cola = this.cola.filter((i) => i.kind !== 'event'); // el servidor deduplica por eventId si además llegan por flush
@@ -148,7 +157,7 @@ export class TrackingClient {
 
   // ---- llamadas directas (no van por la cola) ----
   async registrar(perfil: PerfilRegistro, sesionId: string): Promise<Asignacion & { provisional?: boolean }> {
-    if (this.cfg.url) {
+    if (this.cfg.url && !this.inerte) {
       try {
         const r = await this.post({ action: 'register', key: this.cfg.key, sesionId, perfil });
         if (r.ok && r.data) return r.data as Asignacion;
@@ -157,7 +166,7 @@ export class TrackingClient {
     return asignacionProvisional(perfil.nombre, sesionId);
   }
   async reanudar(codigo: string, sesionId: string): Promise<(Asignacion & { fasesCompletadas?: number }) | null> {
-    if (!this.cfg.url) return null;
+    if (this.inerte || !this.cfg.url) return null;
     try {
       const r = await this.post({ action: 'resume', key: this.cfg.key, codigo, sesionId });
       return r.ok ? (r.data as Asignacion & { fasesCompletadas?: number }) : null;
@@ -165,15 +174,15 @@ export class TrackingClient {
   }
   /** true si el servidor lo recibió (quien llama reintenta si es false). */
   async perfil(sesionId: string, cambios: Record<string, string | number>): Promise<boolean> {
-    if (!this.cfg.url) return true;
+    if (this.inerte || !this.cfg.url) return true;
     try { const r = await this.post({ action: 'profile', key: this.cfg.key, sesionId, cambios }); return !!(r.ok && r.data?.ok); } catch { return false; }
   }
   async faseCompletada(sesionId: string, fasesCompletadas: number): Promise<boolean> {
-    if (!this.cfg.url) return true;
+    if (this.inerte || !this.cfg.url) return true;
     try { const r = await this.post({ action: 'phase', key: this.cfg.key, sesionId, fasesCompletadas }); return !!(r.ok && r.data?.ok); } catch { return false; }
   }
   async reasignar(tmp: string, asignacion: Asignacion): Promise<void> {
-    if (!this.cfg.url) return;
+    if (this.inerte || !this.cfg.url) return;
     try { await this.post({ action: 'reassign', key: this.cfg.key, tmp, asignacion }); } catch { /* ignorar */ }
   }
 }

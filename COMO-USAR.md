@@ -45,6 +45,16 @@ pausar, saltar el paso actual, escribir una nota (tipo Problema / Positivo / Ide
 
 Reglas de moderación del protocolo (resumen): no ayudar, no decir «muy bien», si pregunta «¿está bien?» responder «¿qué esperarías que pasara?», y no contar nada de Kinoo antes de la prueba de 5 segundos. Detalle en `docs/GUIA-MODERADOR.md`.
 
+### Modo equipo (para los host: probar sin registrar a nadie)
+
+Abre la app con **`?equipo=1`** (en un computador, el botón **«Continuar como equipo (no se guarda nada)»** de la pantalla del QR hace lo mismo):
+
+- **No se registra a nadie**: no se envía nada al Sheet, no se guarda nada en el navegador y nada se marca como terminado ni cuenta como participante. Los códigos P01, P02… y la numeración de nombres no se tocan.
+- Hay una **cinta amarilla** arriba con **◀ Atrás**, **Saltar ▶**, **Menú** y **Salir**: puedes volver un paso, saltar el paso actual o empezar de nuevo.
+- El **menú** deja elegir **desde qué fase** probar y **con los órdenes de qué participante** (P01…P10: cambia el orden de tareas, de flujos y de la marca A/B).
+- Al final de la fase 4 **no** sale «gracias, terminaste»: sale «Recorrido terminado · no se guardó nada».
+- Un enlace normal (sin `?equipo=1`) sigue registrando como siempre.
+
 ## 3. Ver los resultados (Panel)
 
 Entra a `https://<usuario>.github.io/<repo>/panel/` con la URL del Apps Script y la `READ_KEY` (no se guarda; solo vive en esa pestaña). Se actualiza solo cada 10 segundos.

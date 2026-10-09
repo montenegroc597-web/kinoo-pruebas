@@ -18,8 +18,8 @@ Herramienta para evaluar la app **Kinoo** con personas reales siguiendo el *Prot
 
 ```
 npm install
-npm test            # 121 pruebas de lógica y pantallas
-npm run e2e         # 11 pruebas de extremo a extremo con un celular virtual
+npm test            # 122 pruebas de lógica y pantallas
+npm run e2e         # 14 pruebas de extremo a extremo con un celular virtual
 npm run mock        # backend simulado en :8787
 npm run dev:prueba  # app de prueba (:5173, en escritorio usa ?forzar=1)
 npm run dev:panel   # Panel (:5174)

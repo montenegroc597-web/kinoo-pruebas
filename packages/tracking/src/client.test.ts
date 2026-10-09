@@ -77,6 +77,23 @@ describe('TrackingClient', () => {
     expect(gas.sheet('Puntos').getLastRow()).toBe(3); // las dos filas llegaron
   });
 
+  it('modo equipo (inerte): no encola, no envía y no persiste nada', async () => {
+    const { gas, fetchFn, llamadas } = await conBackend();
+    const st = mem();
+    const c = new TrackingClient({ url: 'u', key: 'W', fetchFn, storage: st });
+    c.setInerte(true);
+    c.enqueueEvent(ev('a')); c.enqueueRows('Puntos', { Participante: 'EQUIPO', 'Row ID': 'x' });
+    expect(c.pendientes()).toBe(0);
+    expect(c.red()).toBe('local');
+    await c.flush(true);
+    expect(await c.perfil('s', { Edad: 1 })).toBe(true);        // «éxito» sin tocar el servidor
+    expect(await c.faseCompletada('s', 4)).toBe(true);
+    expect(await c.reanudar('P01', 's')).toBeNull();
+    expect(llamadas).toEqual([]);                                 // ninguna llamada al backend
+    expect(gas.sheet('Eventos')).toBeNull();
+    expect(st.m.size).toBe(0);                                    // nada en el almacenamiento
+  });
+
   it('sin URL funciona en modo local', async () => {
     const c = new TrackingClient({ url: '', key: '', storage: mem() });
     c.enqueueEvent(ev('a'));

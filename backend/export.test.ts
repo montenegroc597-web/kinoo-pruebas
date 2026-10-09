@@ -13,10 +13,10 @@ const post = async (b: unknown) => (await fetch(`http://localhost:${PORT}`, { me
 
 beforeAll(async () => {
   srv = spawn(process.execPath, ['e2e/mock-backend.mjs'], { env: { ...process.env, MOCK_PORT: String(PORT) }, stdio: 'ignore' });
-  for (let i = 0; i < 50; i++) { try { await fetch(`http://localhost:${PORT}/__dump?hoja=Config`); break; } catch { await new Promise((r) => setTimeout(r, 100)); } }
+  for (let i = 0; i < 200; i++) { try { await fetch(`http://localhost:${PORT}/__dump?hoja=Config`); break; } catch { await new Promise((r) => setTimeout(r, 100)); } }
   await sembrar(post);
   await post({ action: 'rows', key: 'W', hoja: 'Notas', filas: [{ Participante: 'P01', Texto: 'Mi hermana Persona3 me la mostró', Tipo: 'Positivo', 'Row ID': 'n1' }] });
-}, 30_000);
+}, 60_000);
 afterAll(() => { srv?.kill(); });
 
 describe('export a data/ para el repositorio público', () => {

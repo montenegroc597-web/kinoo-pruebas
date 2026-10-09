@@ -10,7 +10,7 @@ export function esEscritorio(): boolean {
   } catch { return false; }
 }
 
-export function Gate({ onForzar }: { onForzar: () => void }) {
+export function Gate({ onEquipo }: { onEquipo: () => void }) {
   const [qr, setQr] = useState('');
   const url = window.location.href.split('?')[0];
   useEffect(() => { void QRCode.toDataURL(url, { margin: 1, width: 240, color: { dark: '#17120F', light: '#F4E7D0' } }).then(setQr).catch(() => setQr('')); }, [url]);
@@ -22,7 +22,7 @@ export function Gate({ onForzar }: { onForzar: () => void }) {
         <P>Escanea el código con la cámara de tu teléfono para empezar.</P>
         {qr ? <img src={qr} width={240} height={240} alt="Código QR con el enlace de la prueba" style={{ borderRadius: 12 }} /> : null}
         <span className="sh-hint" style={{ wordBreak: 'break-all' }}>{url}</span>
-        <Next variant="ghost" onClick={onForzar} track="gate.forzar">Continuar aquí (solo para el equipo)</Next>
+        <Next variant="ghost" onClick={onEquipo} track="gate.equipo">Continuar como equipo (no se guarda nada)</Next>
       </div>
     </Page>
   );

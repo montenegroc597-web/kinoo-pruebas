@@ -10,12 +10,12 @@ import { Marca } from './steps/Marca';
 import { Cierre } from './steps/Cierre';
 import { Gate, esEscritorio } from './steps/Gate';
 import { client, emit, fila, modoLocal, resetReloj, setCtx } from './track';
-import { indiceDeCodigo, useSession } from './session';
+import { indiceDeCodigo, modoEquipo, sesionEquipo, useSession } from './session';
 
 type Paso = 'contexto' | 'cinco' | 'cards' | 'primer' | 'flujos' | 'ueq' | 'marca' | 'cierre';
 const PASOS: Record<number, Paso[]> = { 1: ['contexto', 'cinco', 'cards'], 2: ['primer'], 3: ['flujos', 'ueq'], 4: ['marca', 'cierre'] };
 
-type Vista = { t: 'gate' } | { t: 'registro' } | { t: 'rechazo' } | { t: 'pausa-fase'; fase: number; retoma: boolean } | { t: 'paso'; fase: number; i: number } | { t: 'gracias' };
+type Vista = { t: 'gate' } | { t: 'equipo-menu' } | { t: 'equipo-fin' } | { t: 'registro' } | { t: 'rechazo' } | { t: 'pausa-fase'; fase: number; retoma: boolean } | { t: 'paso'; fase: number; i: number } | { t: 'gracias' };
 
 export function App() {
   const s = useSession((x) => x.s);
@@ -24,12 +24,14 @@ export function App() {
   const patch = useSession((x) => x.patch);
   const [forzado] = useState(() => { try { return new URLSearchParams(location.search).get('forzar') === '1'; } catch { return false; } });
   const [vista, setVista] = useState<Vista>(() => {
+    if (modoEquipo) return { t: 'equipo-menu' };
     if (esEscritorio() && !forzado) return { t: 'gate' };
     const cur = useSession.getState().s;
     if (!cur) return { t: 'registro' };
     const sig = cur.fasesCompletadas + 1;
     return sig > 4 ? { t: 'gracias' } : { t: 'pausa-fase', fase: sig, retoma: true };
   });
+  useEffect(() => { if (modoEquipo) document.documentElement.style.setProperty('--equipo-top', '46px'); }, []); // la cinta del equipo ocupa 46 px: la página no debe desbordar
   const [pausado, setPausado] = useState(false);
   const [mod, setMod] = useState(false);
   const vistaRef = useRef(vista); vistaRef.current = vista;
@@ -89,6 +91,7 @@ export function App() {
     const lista = PASOS[v.fase];
     if (v.i + 1 < lista.length) { setVista({ t: 'paso', fase: v.fase, i: v.i + 1 }); return; }
     // fin de fase
+    if (modoEquipo) { setVista(v.fase >= 4 ? { t: 'equipo-fin' } : { t: 'pausa-fase', fase: v.fase + 1, retoma: false }); return; } // el equipo solo prueba: nada se marca como completado
     completar(v.fase);
     emit('phase.end', { valor: v.fase });
     const cur = useSession.getState().s;
@@ -98,7 +101,24 @@ export function App() {
     else setVista({ t: 'pausa-fase', fase: v.fase + 1, retoma: false });
   }, [completar]);
 
-  if (vista.t === 'gate') return <Gate onForzar={() => { window.location.search = '?forzar=1'; }} />;
+  /** Modo equipo: volver un paso (o a la fase anterior, o al menú). */
+  const atras = () => {
+    const v = vistaRef.current;
+    const ultimo = (fase: number) => ({ t: 'paso' as const, fase, i: PASOS[fase].length - 1 });
+    if (v.t === 'paso') setVista(v.i > 0 ? { t: 'paso', fase: v.fase, i: v.i - 1 } : v.fase > 1 ? ultimo(v.fase - 1) : { t: 'equipo-menu' });
+    else if (v.t === 'pausa-fase') setVista(v.fase > 1 ? ultimo(v.fase - 1) : { t: 'equipo-menu' });
+    else if (v.t === 'equipo-fin') setVista(ultimo(4));
+  };
+  /** Modo equipo: saltar el paso actual (o empezar la fase que sigue). */
+  const saltar = () => {
+    const v = vistaRef.current;
+    if (v.t === 'paso') avanzar();
+    else if (v.t === 'pausa-fase') entrarFase(v.fase);
+  };
+  const empezarEquipo = (indice: number, fase: number) => { useSession.getState().set(sesionEquipo(indice)); resetReloj(); entrarFase(fase); };
+
+  if (vista.t === 'gate') return <Gate onEquipo={() => { window.location.search = '?equipo=1'; }} />;
+  if (vista.t === 'equipo-menu') return <MenuEquipo onEmpezar={empezarEquipo} onSalir={() => { window.location.search = ''; }} />;
   if (vista.t === 'rechazo') return <Page><Kicker>gracias</Kicker><Title>Sin problema</Title><P>No guardamos nada. Gracias por tu tiempo.</P></Page>;
   if (vista.t === 'registro') {
     return <Registro onRechazo={() => setVista({ t: 'rechazo' })} onListo={() => entrarFase(1)} />;
@@ -106,7 +126,17 @@ export function App() {
   if (!s) return <Registro onRechazo={() => setVista({ t: 'rechazo' })} onListo={() => entrarFase(1)} />;
 
   let cuerpo: React.ReactNode;
-  if (vista.t === 'gracias') {
+  if (vista.t === 'equipo-fin') {
+    cuerpo = (
+      <Page>
+        <Kicker>modo equipo</Kicker>
+        <Title>Recorrido terminado</Title>
+        <P>Esto fue una prueba del equipo: <strong>no se guardó nada</strong> y no cuenta como participante ni como sesión terminada.</P>
+        <div className="sh-grow" />
+        <Next onClick={() => setVista({ t: 'equipo-menu' })} track="equipo.menu">Volver al menú del equipo</Next>
+      </Page>
+    );
+  } else if (vista.t === 'gracias') {
     cuerpo = (
       <Page>
         <Kicker>¡gracias!</Kicker>
@@ -142,8 +172,10 @@ export function App() {
 
   return (
     <>
+      {modoEquipo && <BannerEquipo onAtras={atras} onSaltar={saltar} onMenu={() => setVista({ t: 'equipo-menu' })} onSalir={() => { window.location.search = ''; }} puedeSaltar={vista.t === 'paso' || vista.t === 'pausa-fase'} />}
+      {modoEquipo && <div style={{ height: 46 }} aria-hidden="true" />}
       <div key={vista.t === 'paso' ? `${vista.fase}-${vista.i}` : vista.t + ((vista as { fase?: number }).fase ?? '')}>{cuerpo}</div>
-      <ModBar abierto={mod} onAbrir={() => setMod(true)} onCerrar={() => setMod(false)} pausado={pausado} setPausado={setPausado} saltar={avanzar} puedeSaltar={vista.t === 'paso'} onNueva={() => { clear(); resetReloj(); setVista({ t: 'registro' }); setMod(false); }} />
+      {!modoEquipo && <ModBar abierto={mod} onAbrir={() => setMod(true)} onCerrar={() => setMod(false)} pausado={pausado} setPausado={setPausado} saltar={avanzar} puedeSaltar={vista.t === 'paso'} onNueva={() => { clear(); resetReloj(); setVista({ t: 'registro' }); setMod(false); }} />}
       {pausado && (
         <div role="dialog" aria-label="Pausa" style={{ position: 'fixed', inset: 0, zIndex: 80, background: '#17120F', color: '#F4E7D0', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: 24, flexDirection: 'column', gap: 16 }}>
           <Title>En pausa</Title><P>Cuando estés listo/a, seguimos.</P>
@@ -202,3 +234,37 @@ function ModBar({ abierto, onAbrir, onCerrar, pausado, setPausado, saltar, puede
   );
 }
 void Texto;
+
+/** Cinta fija del modo equipo: recuerda que no se guarda nada y deja volver o saltar. */
+function BannerEquipo({ onAtras, onSaltar, onMenu, onSalir, puedeSaltar }: { onAtras: () => void; onSaltar: () => void; onMenu: () => void; onSalir: () => void; puedeSaltar: boolean }) {
+  const b: React.CSSProperties = { minHeight: 36, padding: '0 7px', borderRadius: 8, border: '1.5px solid #1A1411', background: 'transparent', color: '#1A1411', font: 'inherit', fontSize: 12, fontWeight: 800, cursor: 'pointer', whiteSpace: 'nowrap' };
+  return (
+    <div role="region" aria-label="Modo equipo" style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 90, minHeight: 42, padding: '3px 8px', background: '#F2B544', color: '#1A1411', display: 'flex', alignItems: 'center', gap: 5, flexWrap: 'nowrap', fontSize: 11, fontWeight: 800 }}>
+      <span style={{ flex: 1, minWidth: 0, lineHeight: 1.1, letterSpacing: 0.3 }}>EQUIPO<br />no se guarda</span>
+      <button type="button" style={b} data-track="equipo.atras" onClick={onAtras} aria-label="Volver un paso">◀ Atrás</button>
+      <button type="button" style={{ ...b, opacity: puedeSaltar ? 1 : 0.4 }} data-track="equipo.saltar" onClick={onSaltar} disabled={!puedeSaltar} aria-label="Saltar este paso">Saltar ▶</button>
+      <button type="button" style={b} data-track="equipo.menu-btn" onClick={onMenu}>Menú</button>
+      <button type="button" style={b} data-track="equipo.salir" onClick={onSalir}>Salir</button>
+    </div>
+  );
+}
+
+/** Menú del modo equipo: elegir con qué «participante» (órdenes de rotación) y desde qué fase probar. */
+function MenuEquipo({ onEmpezar, onSalir }: { onEmpezar: (indice: number, fase: number) => void; onSalir: () => void }) {
+  const [indice, setIndice] = useState(1);
+  return (
+    <Page>
+      <Kicker>solo para el equipo</Kicker>
+      <Title>Modo equipo</Title>
+      <div className="sh-card" style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        <P>Aquí pruebas la app <strong>sin registrar a nadie</strong>: no se envía ni se guarda nada (ni en el Sheet ni en el celular) y nada se marca como terminado. En cada pantalla tienes <strong>◀ Atrás</strong> y <strong>Saltar ▶</strong>.</P>
+        <label className="sh-hint" htmlFor="ind">Probar como el participante n.º (cambia el orden de tareas, flujos y marca A/B)</label>
+        <select id="ind" className="sh-input" value={indice} onChange={(e) => setIndice(Number(e.target.value))} data-track="equipo.indice">
+          {Array.from({ length: 10 }, (_, k) => k + 1).map((n) => <option key={n} value={n}>P{String(n).padStart(2, '0')}</option>)}
+        </select>
+      </div>
+      {FASES.map((f) => <Next key={f.n} variant={f.n === 1 ? 'primary' : 'secondary'} onClick={() => onEmpezar(indice, f.n)} track={'equipo.fase-' + f.n}>Fase {f.n} · {f.nombre}</Next>)}
+      <Next variant="ghost" onClick={onSalir} track="equipo.salir-menu">Salir del modo equipo</Next>
+    </Page>
+  );
+}

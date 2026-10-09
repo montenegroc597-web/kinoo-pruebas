@@ -1,6 +1,6 @@
 import { TrackingClient, flujoDePantalla, type Bloque, type EventTipo, type KinooEvent, type Version } from '@kinoo/tracking';
 import type { Tracker } from '@kinoo/ui';
-import { getSession } from './session';
+import { getSession, modoEquipo } from './session';
 
 const URL_BACKEND = import.meta.env.VITE_APPS_SCRIPT_URL ?? '';
 const KEY_BACKEND = import.meta.env.VITE_WRITE_KEY ?? '';
@@ -11,6 +11,7 @@ export const client = new TrackingClient({
   storage: (() => { try { return window.localStorage; } catch { return null; } })(),
   beacon: (u, d) => { try { return navigator.sendBeacon(u, new Blob([d], { type: 'text/plain;charset=UTF-8' })); } catch { return false; } },
 });
+if (modoEquipo) client.setInerte(true);
 client.start();
 if (typeof window !== 'undefined') {
   const flush = () => client.enviarConBeacon();

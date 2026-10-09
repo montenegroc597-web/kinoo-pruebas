@@ -21,9 +21,9 @@ Ejecución del `PLAN-MAESTRO-Pruebas-Kinoo.md` (2026-10-08 → 2026-10-09). Este
 
 | Tipo | Cantidad | Qué cubre |
 |---|---|---|
-| Pruebas de lógica (`npm test`) | **121** en 8 archivos | Nombres repetidos, cuadrado latino del Anexo E, zonas y miss clicks, UEQ, binomial (**tabla del protocolo §4.5 reproducida**), clasificación de misiones, `Code.gs` real, cliente con red caída, analítica del Panel, anonimización, export |
+| Pruebas de lógica (`npm test`) | **122** en 8 archivos | Nombres repetidos, cuadrado latino del Anexo E, zonas y miss clicks, UEQ, binomial (**tabla del protocolo §4.5 reproducida**), clasificación de misiones, `Code.gs` real, cliente con red caída, analítica del Panel, anonimización, export |
 | Pantallas (dentro de `npm test`) | 33 | Todas las semillas A y B rastreables; las 5 zonas de tareas existen; flujos D1, M1, D2, M2, V1, V2, V3; match especial; deshacer; 3 rechazos en Ver |
-| Extremo a extremo (`npm run e2e`) | **11** | **Sesión completa de 4 fases** (verifica cada hoja del «Excel»), dos «Juan» a la vez, contexto, sin consentimiento, escritorio con QR, **sin red desde el registro**, cerrar y retomar, barra del moderador, Panel completo, capturas A/B |
+| Extremo a extremo (`npm run e2e`) | **14** | **Sesión completa de 4 fases** (verifica cada hoja del «Excel»), dos «Juan» a la vez, contexto, sin consentimiento, escritorio con QR, **sin red desde el registro**, cerrar y retomar, barra del moderador, Panel completo, capturas A/B |
 | TypeScript estricto | sin errores | |
 | Contraste WCAG AA | 28 combinaciones, todas ✓ | `data/contraste.csv` |
 | Builds | ✅ | app de prueba y Panel |
@@ -65,6 +65,11 @@ Ejecución del `PLAN-MAESTRO-Pruebas-Kinoo.md` (2026-10-08 → 2026-10-09). Este
 | 6 | Pasar los datos a **Supabase** | **Pendiente a propósito**: primero cerrar el flujo (esto). Ver «Siguiente paso» abajo |
 
 Ajustes técnicos de esta ronda: `ProductApp` acepta un `ajuste` del mazo (qué película y qué cara se ven); los predicados de éxito de las misiones viven en `apps/prueba/src/misiones.ts` con sus pruebas (9 nuevas); el catálogo (`packages/tracking/src/catalog.ts`) define cada misión con su pantalla inicial y su ruta esperada. El Panel rotula el mapa de cards como «Primer toque al probar la tarjeta».
+
+## 3 ter. Modo equipo (tercera ronda de cambios)
+
+**Pedido:** que «continuar como equipo» no se registre como participante, deje saltar y devolverse, y no dé nada por terminado.
+**Hecho:** `?equipo=1` (o el botón de la pantalla del QR). El cliente de seguimiento queda **inerte** (no encola, no envía, no persiste; probado), la sesión vive solo en memoria con el nombre «Equipo», hay un menú para elegir fase y participante simulado, cinta con Atrás / Saltar / Menú / Salir y un final que dice «no se guardó nada». Se eligió **no registrar nada** en vez de «registrar aparte» para no consumir códigos ni números de rotación. Se probó con un celular virtual (equipo.spec.ts): se recorre, se vuelve, se salta, se llega al final y **ninguna hoja recibe una sola fila**; y un participante normal sigue guardándose.
 
 ## 4. Errores reales que encontraron las pruebas (y se corrigieron)
 
