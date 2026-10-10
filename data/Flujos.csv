@@ -1,0 +1,6 @@
+Participante,Misión,Flujo,Orden,Resultado,Tiempo (s),Toques,Misclicks,Pantallas visitadas (ruta),Desvíos,Ayuda abierta,SEQ,SEQ motivo,Notas,Sesión ID,Row ID
+P05,D1,Descubrir,1,Éxito directo,6.2,3,0,S01 > S01.sheet > S06 > S05,,0,5,,Pasos alcanzados: 4/4 [1111],8d8d0e3b-d30a-4cd1-a7d7-c9661f1fb03e,8d8d0e3b-d30a-4cd1-a7d7-c9661f1fb03e|Flujos|D1
+P05,M1,Mazos (micro-flujo),2,Éxito directo,19.1,10,2,S05 > S05.confirm > S05.barajando > S05.listo > S02,,0,3,Hay dos botones similares que barajan cosas distintas,Pasos alcanzados: 4/4 [1111],8d8d0e3b-d30a-4cd1-a7d7-c9661f1fb03e,8d8d0e3b-d30a-4cd1-a7d7-c9661f1fb03e|Flujos|M1
+P05,D2,Descubrir,3,Éxito directo,14.7,6,0,S02 > S02.match > S02 > S02.flipped > S02 > S02.flipped > S02.fin,,0,5,,Pasos alcanzados: 4/4 [1111],8d8d0e3b-d30a-4cd1-a7d7-c9661f1fb03e,8d8d0e3b-d30a-4cd1-a7d7-c9661f1fb03e|Flujos|D2
+P05,V2,Ver,4,Éxito directo,5.5,4,0,S04 > S04.sheet-plat > S04.away > S03.back > S03,,0,6,,Pasos alcanzados: 5/5 [11111],8d8d0e3b-d30a-4cd1-a7d7-c9661f1fb03e,8d8d0e3b-d30a-4cd1-a7d7-c9661f1fb03e|Flujos|V2
+P05,V3,Ver,5,Abandono,25.6,14,3,S04 > S04.stuck > S01,"S04.stuck, S01",0,1,No pude ir a mis guardadas,Pasos alcanzados: 0/2 [00],8d8d0e3b-d30a-4cd1-a7d7-c9661f1fb03e,8d8d0e3b-d30a-4cd1-a7d7-c9661f1fb03e|Flujos|V3

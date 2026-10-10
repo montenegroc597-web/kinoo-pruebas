@@ -1,0 +1,23 @@
+Participante,Prueba,Estímulo (tarea T1…T5 / card C1…C6 / par),Pantalla ID,Versión,N.º de clic (1 = primero),X (% ancho),Y (% alto),"Celda de cuadrícula (alt., ej. C7)",Tiempo desde que se mostró (s),Notas,Resultado,Sesión ID,Row ID
+P05,5 segundos,S02,S02,A,1,26.2,37.3,,11.8,,,8d8d0e3b-d30a-4cd1-a7d7-c9661f1fb03e,8d8d0e3b-d30a-4cd1-a7d7-c9661f1fb03e|Puntos|5s-S02
+P05,5 segundos,S04,S04,A,1,34.7,62.2,,6.3,,,8d8d0e3b-d30a-4cd1-a7d7-c9661f1fb03e,8d8d0e3b-d30a-4cd1-a7d7-c9661f1fb03e|Puntos|5s-S04
+P05,5 segundos,S05,S05,A,1,35,30.8,,3.1,,,8d8d0e3b-d30a-4cd1-a7d7-c9661f1fb03e,8d8d0e3b-d30a-4cd1-a7d7-c9661f1fb03e|Puntos|5s-S05
+P05,5 segundos,S03,S03,A,1,55.5,59.8,,2.3,,,8d8d0e3b-d30a-4cd1-a7d7-c9661f1fb03e,8d8d0e3b-d30a-4cd1-a7d7-c9661f1fb03e|Puntos|5s-S03
+P05,5 s – Cards,C2,S02,A,1,57.9,43.6,,3.5,,,8d8d0e3b-d30a-4cd1-a7d7-c9661f1fb03e,8d8d0e3b-d30a-4cd1-a7d7-c9661f1fb03e|Puntos|cards-C2
+P05,5 s – Cards,C3,S02,A,1,72.1,30.2,,6.1,,,8d8d0e3b-d30a-4cd1-a7d7-c9661f1fb03e,8d8d0e3b-d30a-4cd1-a7d7-c9661f1fb03e|Puntos|cards-C3
+P05,5 s – Cards,C1,S02,A,1,86.7,83.1,,4.7,,,8d8d0e3b-d30a-4cd1-a7d7-c9661f1fb03e,8d8d0e3b-d30a-4cd1-a7d7-c9661f1fb03e|Puntos|cards-C1
+P05,Primer clic,T5,S04,A,1,25,80.4,,1.3,,Correcto,8d8d0e3b-d30a-4cd1-a7d7-c9661f1fb03e,8d8d0e3b-d30a-4cd1-a7d7-c9661f1fb03e|Puntos|pc-T5-1
+P05,Primer clic,T1,S03,A,1,79.3,91.4,,2.3,,Correcto,8d8d0e3b-d30a-4cd1-a7d7-c9661f1fb03e,8d8d0e3b-d30a-4cd1-a7d7-c9661f1fb03e|Puntos|pc-T1-1
+P05,Primer clic,T4,S07,A,1,38.3,50.6,,15.2,,Miss click,8d8d0e3b-d30a-4cd1-a7d7-c9661f1fb03e,8d8d0e3b-d30a-4cd1-a7d7-c9661f1fb03e|Puntos|pc-T4-1
+P05,Primer clic,T4,S07,A,2,63.7,85.2,,19.1,,Miss click,8d8d0e3b-d30a-4cd1-a7d7-c9661f1fb03e,8d8d0e3b-d30a-4cd1-a7d7-c9661f1fb03e|Puntos|pc-T4-2
+P05,Primer clic,T4,S04,A,3,73.7,92.7,,21.2,,Sin zona definida,8d8d0e3b-d30a-4cd1-a7d7-c9661f1fb03e,8d8d0e3b-d30a-4cd1-a7d7-c9661f1fb03e|Puntos|pc-T4-3
+P05,Primer clic,T2,S02,A,1,21.5,22.4,,1.9,,Aceptable,8d8d0e3b-d30a-4cd1-a7d7-c9661f1fb03e,8d8d0e3b-d30a-4cd1-a7d7-c9661f1fb03e|Puntos|pc-T2-1
+P05,Primer clic,T2,S02.flipped,A,2,44.9,44.5,,12.4,,Aceptable,8d8d0e3b-d30a-4cd1-a7d7-c9661f1fb03e,8d8d0e3b-d30a-4cd1-a7d7-c9661f1fb03e|Puntos|pc-T2-2
+P05,Primer clic,T2,S02,A,3,42.4,44.4,,13.1,,Aceptable,8d8d0e3b-d30a-4cd1-a7d7-c9661f1fb03e,8d8d0e3b-d30a-4cd1-a7d7-c9661f1fb03e|Puntos|pc-T2-3
+P05,Primer clic,T3,S01,A,1,25.2,95,,3.9,,Correcto,8d8d0e3b-d30a-4cd1-a7d7-c9661f1fb03e,8d8d0e3b-d30a-4cd1-a7d7-c9661f1fb03e|Puntos|pc-T3-1
+P05,Marca A-B,S02,S02,A,1,29.7,39.8,,26.6,,,8d8d0e3b-d30a-4cd1-a7d7-c9661f1fb03e,8d8d0e3b-d30a-4cd1-a7d7-c9661f1fb03e|Puntos|marca-S02-A
+P05,Marca A-B,S02,S02,B,1,27.5,23.7,,6.9,,,8d8d0e3b-d30a-4cd1-a7d7-c9661f1fb03e,8d8d0e3b-d30a-4cd1-a7d7-c9661f1fb03e|Puntos|marca-S02-B
+P06,5 segundos,S04,S04,A,1,18.4,20.2,,34.5,,,2f93944f-d4e2-43a8-82fa-bf931ef89921,2f93944f-d4e2-43a8-82fa-bf931ef89921|Puntos|5s-S04
+P06,5 segundos,S05,S05,A,1,74.3,94,,20.7,,,2f93944f-d4e2-43a8-82fa-bf931ef89921,2f93944f-d4e2-43a8-82fa-bf931ef89921|Puntos|5s-S05
+P06,5 segundos,S03,S03,A,1,49.5,41.9,,23.3,,,2f93944f-d4e2-43a8-82fa-bf931ef89921,2f93944f-d4e2-43a8-82fa-bf931ef89921|Puntos|5s-S03
+P06,5 segundos,S02,S02,A,1,27.6,38.8,,13.8,,,2f93944f-d4e2-43a8-82fa-bf931ef89921,2f93944f-d4e2-43a8-82fa-bf931ef89921|Puntos|5s-S02

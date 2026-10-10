@@ -1,0 +1,9 @@
+Código,Ronda,Fecha,Edad,Género,Frecuencia de consumo,Descubre en redes (Sí/No),Nivel tecnológico,Orden de tareas,Orden marca (A→B / B→A),Moderador/a,Notas,Sesión ID,Orden flujos,Consentimiento (fecha),Graba (Sí/No),Dispositivo,Fases completadas
+P01,0,2026-10-09T14:18:50.977Z,,,,,,T1-T2-T5-T3-T4,A→B,,,s1,Descubrir→Ver,2026-10-09T14:18:50.977Z,No,,2
+P02,1,2026-10-09T14:18:51.425Z,,,,,,T2-T3-T1-T4-T5,B→A,,,s2,Ver→Descubrir,2026-10-09T14:18:51.425Z,No,,0
+P03,1,2026-10-09T14:19:18.182Z,,,,,,T3-T4-T2-T5-T1,A→B,,,s3,Descubrir→Ver,2026-10-09T14:19:18.182Z,No,,0
+P04,1,2026-10-09T14:19:18.534Z,,,,,,T4-T5-T3-T1-T2,B→A,,,s4,Ver→Descubrir,2026-10-09T14:19:18.534Z,No,,0
+P05,1,2026-10-09T14:52:07.016Z,64,Hombre,Casi todos los días,No,Medio,T5-T1-T4-T2-T3,A→B,,"C2 dónde ve: Netflix, Prime, HBO | C3 cómo se entera: Recomendaciones del servicio ",8d8d0e3b-d30a-4cd1-a7d7-c9661f1fb03e,Descubrir→Ver,2026-10-09T14:52:07.016Z,No,"Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6.1 Mobile/15 | 390x844 @3",3
+P06,1,2026-10-09T20:08:22.983Z,22,Mujer,Varias veces por semana,Sí,Básico,T1-T2-T5-T3-T4,B→A,,"C2 dónde ve: En Netflix
+Disney +
+Canales televisivos | C3 cómo se entera: Redes sociales | redes: Tiktok e Instagram ",2f93944f-d4e2-43a8-82fa-bf931ef89921,Ver→Descubrir,2026-10-09T20:08:22.983Z,Sí,"Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Mobile Safari/537.36 | 412x892 @2.625",0

@@ -1,0 +1,20 @@
+Tarea,Escenario (texto que se lee),Pantalla,Zona correcta,Zona aceptable alternativa
+T1,Acabas de ver una película y quieres decir qué te pareció. ¿Dónde tocarías para calificarla?,S03,Botón «Sí» de «¿Viste la película?»,
+T2,Estás explorando películas en Kinoo y una te llama la atención. ¿Dónde tocarías para ver más información sobre ella?,S02,Indicadores del card,Cuerpo de la carta (voltear)
+T3,Es viernes en la noche y quieres ver algo que ya habías marcado antes. ¿Dónde tocarías?,S01,Acceso al espacio Ver,
+T4,Ya terminaste las películas de tu mazo activo y quieres seguir viendo más. ¿Dónde tocarías para tener un nuevo mazo?,S07,Acción de añadir / crear un nuevo mazo,
+T5,Kinoo te propone una película que no te interesa. ¿Dónde tocarías para decir que no?,S04,Acción de descartar,Arrastre a la izquierda sobre la carta
+,,,,
+Umbrales (criterios de éxito),,,,
+Primer clic correcto · verde ≥,0.8,,,
+Primer clic correcto · amarillo ≥,0.6,,,
+SEQ · verde ≥,5.5,,,
+SEQ · amarillo ≥,4.5,,,
+Miss clicks · verde ≤,0.2,,,
+Miss clicks · amarillo ≤,0.35,,,
+UEQ · verde >,0.8,,,
+UEQ · rojo <,-0.8,,,
+,,,,
+Motivos · 5 segundos,Texto o etiqueta poco clara,Elemento principal poco visible,Imagen o ilustración distrae,Jerarquía visual confusa
+Motivos · Primer clic / SEQ,No vio el elemento,Etiqueta ambigua,Esperaba otro lugar o patrón,Ícono no reconocible
+Motivos · Cards,El póster o la imagen domina,Texto pequeño o poco legible,Demasiada información,Información insuficiente
