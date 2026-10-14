@@ -1,29 +1,24 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Frame, KinoPantalla, ProductApp, SEED_ROUTE, type Brand, type SeedId } from '@kinoo/ui';
-import { TAREAS } from '@kinoo/tracking';
-import { calor, type Dump, filas, type PuntoMapa } from './analytics';
-
-/** Semilla que dibuja cada pantalla del catálogo (la misma vista que vio el participante). */
-export const VISTA: Record<string, { seed: SeedId; route: string }> = {
-  S01: { seed: 'fresh', route: '/mood' },
-  S02: { seed: 'deck-nolan-start', route: '/descubrir' },
-  S03: { seed: 'ver-react', route: '/ver' },
-  'S03.back': { seed: 'ver-back', route: '/ver' },
-  S04: { seed: 'ver-pool', route: '/ver' },
-  S05: { seed: 'mazos-en-curso', route: '/mazos' },
-  S06: { seed: 'fresh', route: '/mood/lectura' },
-  S07: { seed: 'deck-finished', route: '/recarga' },
-  S08: { seed: 'ver-pool', route: '/mi-espacio' },
-};
-export const vistaDeTarea = (tarea: string) => { const t = TAREAS.find((x) => x.id === tarea); return t ? { seed: t.seed as SeedId, route: SEED_ROUTE[t.seed as SeedId] } : VISTA.S01; };
+import { PROTOTIPO_ESTUDIO, expandirZona, mapaCalor, type PantallaProto } from '@kinoo/tracking';
+import { PROTOTIPOS, PrototipoVista } from '@kinoo/ui';
+import type { PuntoMapa } from './analytics';
 
 export interface ZonaPct { x1: number; y1: number; x2: number; y2: number }
+const META = PROTOTIPOS[PROTOTIPO_ESTUDIO];
+const FLECHA: Record<string, [number, number]> = { derecha: [1, 0], izquierda: [-1, 0], arriba: [0, -1], abajo: [0, 1] };
 
-/** Mapa de calor 10×20 + puntos, dibujado sobre la pantalla REAL (estática). Con `zona` dibuja la zona correcta. */
-export function Heat({ vista, brand = 'A', puntos, zona, escala = 0.8, modo = 'calor', id, kino }: { vista: { seed: SeedId; route: string }; brand?: Brand; puntos: PuntoMapa[]; zona?: ZonaPct | null; escala?: number; modo?: 'calor' | 'puntos'; id?: string; /** pantalla (S02…) para dibujar la versión B como el prototipo Kino real */ kino?: string }) {
-  const W = 390 * escala, H = 844 * escala;
+/**
+ * Mapa sobre la pantalla REAL del prototipo (estática): toques como puntos (o mapa de calor 10×20) y gestos como flechas
+ * desde donde empezaron, en su dirección. Con `zonaDeMarca` dibuja la zona correcta (la marca de la pantalla, medida en el
+ * prototipo y ampliada a 44 px, igual que al puntuar Z3).
+ */
+export function Heat({ pantalla, puntos, zonaDeMarca, escala = 0.6, modo = 'puntos', id }: { pantalla: PantallaProto; puntos: PuntoMapa[]; zonaDeMarca?: boolean; escala?: number; modo?: 'calor' | 'puntos'; id?: string }) {
+  const W = META.ancho * escala, H = META.alto * escala;
+  const [zona, setZona] = useState<ZonaPct | null>(null);
+  const alListo = (m: [number, number, number, number] | null) => {
+    if (zonaDeMarca && m) setZona(expandirZona({ x1: (m[0] / META.ancho) * 100, y1: (m[1] / META.alto) * 100, x2: (m[2] / META.ancho) * 100, y2: (m[3] / META.alto) * 100 }, (44 / META.ancho) * 100, (44 / META.alto) * 100));
+  };
   const ref = useRef<HTMLCanvasElement>(null);
-  const [fid] = useState(() => 'heat-' + (id ?? '') + '-' + Math.random().toString(36).slice(2, 8));
   useEffect(() => {
     const c = ref.current; if (!c) return;
     const dpr = window.devicePixelRatio || 1;
@@ -31,7 +26,7 @@ export function Heat({ vista, brand = 'A', puntos, zona, escala = 0.8, modo = 'c
     const g = c.getContext('2d'); if (!g) return;
     g.scale(dpr, dpr); g.clearRect(0, 0, W, H);
     if (modo === 'calor') {
-      const grid = calor(puntos); const max = Math.max(1, ...grid.flat());
+      const grid = mapaCalor(puntos); const max = Math.max(1, ...grid.flat());
       grid.forEach((fila, f) => fila.forEach((n, col) => {
         if (!n) return;
         g.fillStyle = `rgba(255,70,40,${0.18 + 0.6 * (n / max)})`;
@@ -39,28 +34,26 @@ export function Heat({ vista, brand = 'A', puntos, zona, escala = 0.8, modo = 'c
         g.fillStyle = '#fff'; g.font = '11px sans-serif'; g.textAlign = 'center'; g.fillText(String(n), (col * W) / 10 + W / 20, (f * H) / 20 + H / 40 + 4);
       }));
     } else {
-      puntos.forEach((p) => {
-        g.beginPath(); g.arc((p.x / 100) * W, (p.y / 100) * H, 6, 0, Math.PI * 2);
-        g.fillStyle = p.resultado === 'Miss click' ? 'rgba(255,60,60,.85)' : p.resultado === 'Aceptable' ? 'rgba(255,200,40,.85)' : 'rgba(80,220,140,.85)';
-        g.fill(); g.lineWidth = 1.5; g.strokeStyle = '#000'; g.stroke();
-      });
+      for (const p of puntos) {
+        const x = (p.x / 100) * W, y = (p.y / 100) * H;
+        const color = /decisivo|correcto|barra/i.test(p.resultado) ? 'rgba(80,220,140,.9)' : 'rgba(255,60,60,.9)';
+        const d = FLECHA[p.dir];
+        if (p.tipo === 'gesto' && d) {
+          const L = 34;
+          g.strokeStyle = color; g.fillStyle = color; g.lineWidth = 3;
+          g.beginPath(); g.moveTo(x, y); g.lineTo(x + d[0] * L, y + d[1] * L); g.stroke();
+          g.beginPath(); g.moveTo(x + d[0] * (L + 8), y + d[1] * (L + 8)); g.lineTo(x + d[0] * L - d[1] * 6, y + d[1] * L + d[0] * 6); g.lineTo(x + d[0] * L + d[1] * 6, y + d[1] * L - d[0] * 6); g.fill();
+        }
+        g.beginPath(); g.arc(x, y, 6, 0, Math.PI * 2); g.fillStyle = color; g.fill(); g.lineWidth = 1.5; g.strokeStyle = '#000'; g.stroke();
+      }
     }
     if (zona) { g.strokeStyle = '#6CC4A8'; g.lineWidth = 2.5; g.setLineDash([6, 4]); g.strokeRect((zona.x1 / 100) * W, (zona.y1 / 100) * H, ((zona.x2 - zona.x1) / 100) * W, ((zona.y2 - zona.y1) / 100) * H); g.setLineDash([]); }
   }, [W, H, puntos, zona, modo]);
   return (
     <div className="pn-heat" style={{ width: W, height: H }} data-heat={id}>
-      <div style={{ pointerEvents: 'none' }} aria-hidden="true">{brand === 'B' && kino
-        ? <KinoPantalla pantalla={kino} escala={escala} id={fid} radius={10} />
-        : <Frame brand={brand} scale={escala} id={fid} radius={10}><ProductApp seed={vista.seed} route={vista.route} /></Frame>}</div>
-      <canvas ref={ref} style={{ width: W, height: H }} aria-label="Mapa de clics" />
+      <div style={{ pointerEvents: 'none' }} aria-hidden="true"><PrototipoVista prototipo={PROTOTIPO_ESTUDIO} pantalla={pantalla} escala={escala} onListo={alListo} /></div>
+      <canvas ref={ref} style={{ width: W, height: H }} aria-label="Mapa de toques y gestos" />
+      <button className="pn-png" onClick={() => { const c = ref.current; if (!c) return; const l = document.createElement('a'); l.href = c.toDataURL('image/png'); l.download = 'mapa-' + (id ?? 'kinoo') + '.png'; l.click(); }} title="Descargar los puntos como PNG">PNG</button>
     </div>
   );
-}
-
-export function zonaDe(d: Dump, tarea: string): ZonaPct | null {
-  const z = filas(d, 'Zonas').find((r) => r['Tarea'] === tarea);
-  if (!z) return null;
-  const n = (k: string) => Number(z[k]);
-  const v = { x1: n('X1 (%)'), y1: n('Y1 (%)'), x2: n('X2 (%)'), y2: n('Y2 (%)') };
-  return Object.values(v).every(Number.isFinite) ? v : null;
 }

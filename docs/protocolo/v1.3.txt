@@ -1,0 +1,644 @@
+Kinoo
+Protocolo de pruebas de usabilidad y validación de marca
+KARUK · Bogotá, octubre de 2026 · Versión 1.3 (etapa de prototipo de baja fidelidad)
+# 0. Cómo usar este protocolo
+Este documento describe cuatro pruebas para evaluar los prototipos de Kinoo con usuarios reales, en el orden en que deben aplicarse dentro de una misma sesión. Cada prueba incluye objetivo, materiales, participantes, procedimiento paso a paso, métricas, forma de registro y criterios de éxito. Los anexos traen el guion completo de la sesión, el consentimiento y las hojas de registro; las mismas hojas están en el Excel adjunto (Registro_Pruebas_Usabilidad_Kinoo_v1.3.xlsx), que calcula los resultados automáticamente.
+| # | Prueba | Qué responde | Duración aprox.
+| 1 | Test de 5 segundos (pantallas y cards) | ¿La pantalla comunica su propósito y su acción principal de inmediato? ¿Qué elementos del card le llaman la atención al usuario? | 5–7 min (pantallas) + 4–5 min (cards)
+| 2 | Test de primer clic | ¿Los usuarios encuentran dónde está cada acción (estructura y etiquetas)? | 10–12 min
+| 3 | Facilidad y experiencia percibida: pregunta SEQ (7 puntos) y cuestionario UEQ | ¿Qué tan fácil percibieron cada tarea (SEQ) y qué experiencia les dejaron las pantallas: clara, eficiente, estimulante, atractiva (UEQ)? | SEQ integrada en la prueba 2 + UEQ-S 2–3 min
+| 4 | Validación de marca (prueba A/B) | ¿Cuál de dos propuestas visuales resulta más agradable y se lee mejor (colores, tipografía, contraste y jerarquía)? | 15–20 min
+Orden recomendado dentro de la sesión: el test de 5 segundos va primero, aunque en la lista original aparece como segundo. La razón: esa prueba exige que el participante no sepa nada del producto, y después del test de primer clic ya habrá visto Kinoo. La pregunta de facilidad (SEQ, prueba 3) se aplica justo después de cada tarea del test de primer clic, como se pidió; el cuestionario UEQ se responde una sola vez al terminar las cinco tareas, antes de la prueba de marca. Sesión total: 45–60 minutos (el UEQ-S suma 2–3 minutos; el UEQ completo, 4–5).
+## 0.1 Qué se está evaluando de Kinoo
+Kinoo se organiza en dos espacios: Descubrir (explorar contenido y dejar señales de interés) y Ver (nombre de trabajo; donde Kinoo devuelve lo que el usuario había marcado, en el momento oportuno). Después de ver algo, Kinoo pide una reacción corta (calificación). Las pantallas a probar deben cubrir al menos: inicio de Descubrir, una ficha de película, la pantalla de Ver y la pantalla de calificación. Como el mecanismo de interacción (por ejemplo, el swipe) aún no está decidido, estas pruebas sirven para comparar alternativas antes de comprometerse. Los cards de Descubrir se evalúan aparte, con una variante del test de 5 segundos (sección 1).
+## 0.2 Participantes (aplica a todas las pruebas)
+Perfil: personas de 18 a 40 años en Bogotá que ven películas o series al menos una vez por semana (cine, streaming o ambos) y que descubren contenido en redes sociales. Mezclar género, edad y nivel de experiencia con apps (al menos 1 de cada 4 con uso tecnológico básico).
+Exclusiones: miembros del equipo, compañeros de clase que conozcan el proyecto, personas que hayan participado en las entrevistas de validación anteriores (ya conocen el concepto), diseñadores UX/UI profesionales.
+Tamaño de muestra: 8–12 participantes por ronda. Con 5 participantes se detectan la mayoría de problemas cualitativos graves (Nielsen), pero los porcentajes de esta prueba se vuelven muy inestables con menos de 8 (cada persona pesa 20%). Si se quiere comparar dos versiones de una pantalla, idealmente 15–20 por versión.
+Rondas: hacer una ronda, corregir, y repetir con participantes nuevos. Dos rondas de 8 rinden más que una de 16.
+Reclutamiento: un filtro corto (3–4 preguntas de frecuencia de consumo y descubrimiento en redes) antes de agendar. Ver Anexo C.
+## 0.3 Roles del equipo en cada sesión
+| Rol | Responsabilidad
+| Moderador/a | Lee el guion textual, presenta pantallas y tareas, no ayuda ni sugiere. Una sola voz durante toda la sesión.
+| Observador/a – registro | Anota clics, tiempos, respuestas y citas textuales en la hoja de registro. No habla con el participante.
+| Observador/a – tiempo (opcional) | Controla el cronómetro de 5 segundos y los tiempos al primer clic si la herramienta no los mide.
+## 0.4 Reglas generales de moderación
+Leer las instrucciones y tareas textualmente, siempre igual para todos.
+Repetir varias veces: «Estamos probando la app, no a ti. No hay respuestas incorrectas».
+No decir «muy bien» ni «correcto» después de una respuesta; usar «gracias» o «entendido» de forma neutra.
+Si el participante pregunta «¿está bien?», responder «¿qué esperarías que pasara?».
+Presentar las tareas y pantallas en orden rotado entre participantes (ver anexo de rotación) para que el aprendizaje no favorezca siempre a las mismas.
+Hacer una sesión piloto con alguien externo antes de la primera sesión real para ajustar tiempos y redacción.
+## 0.5 Registro de pantallas, clics y mapas de calor
+Además de las métricas de cada prueba, todas las sesiones registran dónde ocurre cada dato: a qué pantalla o flujo se refiere, en qué punto de la pantalla, cuándo y si fue un acierto. Con eso el Excel construye un mapa de calor por pantalla y calcula los miss clicks.
+### Catálogo de pantallas y flujos
+Antes de la primera sesión, el equipo asigna un código a cada pantalla (S01, S02…) y la ubica en un flujo (por ejemplo «Descubrir: explorar y guardar», «Ver: retomar y decidir», «Mazo: gestión»). Si una pantalla tiene versiones A y B, conserva el mismo código y se anota la versión.
+El catálogo vive en la hoja «Pantallas» del Excel. Todos los registros usan solo el código.
+### Cómo se registra un punto
+Coordenadas: X e Y en porcentaje del ancho y del alto de la pantalla (0 a 100), con el origen en la esquina superior izquierda. Las herramientas de clic (Lyssna, Maze, Optimal Workshop) exportan píxeles: se convierten dividiendo por el ancho y el alto de la pantalla.
+En papel: poner la cuadrícula del Anexo F sobre la pantalla impresa y anotar la celda (por ejemplo C7). El Excel acepta la celda en lugar de X e Y.
+Tiempo: segundos desde que se muestra la pantalla hasta cada clic, con un decimal.
+Primer clic: el primer toque de la tarea. Clic adicional: cualquier toque posterior (solo si se deja continuar; ver sección 2).
+Miss click: cualquier clic fuera de la zona correcta y de la zona aceptable de la tarea. El Excel lo calcula comparando el punto con la zona definida en la hoja «Zonas».
+### Qué se marca en cada prueba
+| Prueba | Qué se registra en «Puntos» | Qué muestra el mapa de calor
+| 5 segundos | Después de las preguntas, el punto de la pantalla donde estaba lo que más recuerda el participante | Qué zonas de la pantalla se recuerdan
+| 5 s sobre cards | El punto del primer elemento del card que llamó la atención | Dónde se va la atención en el card
+| Primer clic | Cada clic (el primero y los adicionales), con su tiempo; el Excel marca acierto, zona aceptable o miss click | Dónde cae el primer clic frente a la zona correcta, y dónde se pierden los miss clicks
+| Marca A/B | El punto de la primera mirada («¿qué ves primero?») en cada versión | Si la jerarquía visual dirige la mirada al mismo lugar en A y en B
+### Cómo leer el mapa de calor
+La hoja «Mapas de calor» muestra una cuadrícula de 10 × 20 celdas por pantalla; mientras más intenso el color, más puntos cayeron ahí. Se puede filtrar por prueba, versión (A/B) y tipo de clic (todos, solo primer clic, solo miss clicks, solo aciertos).
+Una mancha sobre la zona correcta indica que la estructura funciona; una mancha sobre otro elemento indica que ese elemento compite con la acción; puntos dispersos indican que nadie sabe dónde ir.
+Un mapa útil necesita al menos 8 participantes por pantalla. Con menos, léelo como pista y no como conclusión.
+## 0.6 Objetivos del protocolo y de cada prueba
+### Qué estamos validando
+Kinoo conecta lo que la gente descubre en redes sociales con la decisión de qué ver. Con prototipos de baja fidelidad validamos, antes de construir: (1) que cada pantalla comunica su propósito y su acción principal al primer vistazo; (2) que las personas encuentran dónde está cada acción en Descubrir y en Ver; (3) que la experiencia se percibe fácil, clara y atractiva (SEQ y UEQ); y (4) cuál de dos propuestas visuales (A/B) resulta más agradable y se lee mejor.
+### Objetivo general del protocolo
+Evaluar con 8–12 personas por ronda si los prototipos de Kinoo comunican su propósito, permiten encontrar las acciones principales y se perciben fáciles y agradables, para decidir con evidencia qué rediseñar y qué propuesta visual adoptar.
+### Objetivos específicos del protocolo
+Detectar problemas de comprensión, ubicación y legibilidad antes de construir.
+Priorizar los cambios por gravedad y por cuántas personas los tuvieron.
+Comparar alternativas visuales A/B con una regla de decisión explícita.
+Explicar cada resultado con un «por qué» (motivos codificados y diagrama de afinidad por prueba).
+### Objetivo general y objetivos específicos de cada prueba
+| Prueba | Objetivo general | Objetivos específicos (metas) | Indicador clave
+| Test de 5 segundos (pantallas) | Saber si cada pantalla comunica su propósito y su acción principal en los primeros 5 segundos. | • ≥ 80 % identifica el propósito.• ≥ 70 % recuerda la acción principal.• Claridad promedio ≥ 5,5 de 7.• Ver qué zona se recuerda (mapa de calor). | % que identifica el propósito (meta ≥ 80 %)
+| Test de 5 segundos (cards) | Saber qué elementos del card captan la atención y si el card comunica de qué trata la película y qué se puede hacer con él. | • ≥ 70 % con la primera mirada en un elemento prioritario.• ≥ 2 elementos recordados por card.• Interés promedio ≥ 5 de 7.• ≥ 70 % entiende la acción. | % con atención en un elemento prioritario (meta ≥ 70 %)
+| Test de primer clic | Verificar que las personas encuentran dónde está cada acción (estructura, etiquetas y ubicación) en Descubrir y en Ver. | • ≥ 80 % de primer clic correcto en cada tarea (T1–T5).• Mediana de tiempo al primer clic < 5 s.• Miss clicks ≤ 20 % de los clics.• Ubicar dónde se pierde la gente (mapa de calor). | % de primer clic correcto, promedio de tareas (meta ≥ 80 %)
+| Pregunta única de facilidad (SEQ) | Medir qué tan fácil percibe la persona cada tarea justo después de hacerla. | • SEQ promedio ≥ 5,5 de 7 por tarea.• Menos de 30 % de puntuaciones de 1 a 4.• Comparar la facilidad percibida de quienes acertaron y de quienes fallaron. | SEQ promedio (meta ≥ 5,5 de 7)
+| Cuestionario UEQ | Medir la experiencia percibida de las pantallas: utilidad práctica (pragmática) y atractivo emocional (hedónica). | • UEQ-S: pragmática y hedónica > 0,8 (valoración positiva).• Ver qué ítems pesan más hacia abajo.• Con UEQ completo: Atractivo, Claridad, Eficiencia, Confiabilidad, Estimulación y Novedad. | UEQ-S general (meta > 0,8, en una escala de −3 a +3)
+| Validación de marca (A/B) | Determinar cuál de dos propuestas visuales resulta más agradable y se lee mejor, y por qué (colores, tipografía, contraste y jerarquía). | • Preferencia directa A/B con prueba binomial (α = 0,05).• Agrado y legibilidad ≥ 5,5 de 7 en la versión elegida.• 100 % de las combinaciones de texto con contraste AA.• ≥ 70 % con la primera mirada en el elemento previsto. | Veredicto de preferencia (gana una versión con la prueba binomial)
+La hoja «Resumen» del Excel muestra estos mismos objetivos junto con el resultado de cada indicador y su estado (cumple, revisar o no cumple), además del número de personas entrevistadas.
+# 1. Test de 5 segundos
+Se aplica primero en la sesión. Corresponde al punto 2 de la solicitud original.
+## Objetivo
+Saber si una pantalla comunica su propósito y su acción principal de inmediato. Mide primera impresión y recuerdo inmediato; no mide usabilidad ni eficiencia (no dice si el usuario puede completar una tarea ni qué tan rápido).
+## Qué pantallas probar
+Inicio de Descubrir (la primera pantalla que ve un usuario nuevo).
+Pantalla de Ver (donde Kinoo propone algo guardado antes).
+Opcional: ficha de película y pantalla de bienvenida/onboarding.
+Máximo 3–4 pantallas por participante; a partir de ahí el participante ya «aprende» la app y deja de ser primera impresión.
+## Materiales
+Pantallas exportadas en tamaño real de celular (mockup o wireframe; esta prueba funciona mejor con algo de diseño visual, pero sirve en baja fidelidad).
+Un celular o pantalla para mostrarlas, o una herramienta como Lyssna (antes UsabilityHub), Maze o una presentación con temporizador automático de 5 s.
+Cronómetro (si se hace en persona).
+Hoja de registro «5 segundos» (Anexo D / Excel).
+## Procedimiento paso a paso
+No contar nada sobre Kinoo antes de la prueba: ni el nombre de la categoría («app de cine»), ni el problema que resuelve. Solo: «Te voy a mostrar una pantalla de una app durante 5 segundos. Mírala con normalidad».
+Mostrar la pantalla exactamente 5 segundos y retirarla (pantalla en negro o gris).
+Hacer las preguntas de recuerdo en este orden, sin volver a mostrar la pantalla:
+P1 (recuerdo libre): «¿Qué recuerdas de lo que viste?». Anotar textualmente, en el orden en que lo dice.
+P2 (propósito): «¿Para qué crees que sirve esta pantalla / esta app?».
+P3 (acción principal): «Si estuvieras usando esta pantalla, ¿qué harías primero?» o «¿Qué crees que te pedía hacer?».
+P4 (escala de claridad 1–7): «Del 1 al 7, ¿qué tan claro te quedó para qué sirve esta pantalla? 1 = nada claro, 7 = totalmente claro».
+Opcional P5: «¿Qué palabra usarías para describir la sensación que te dio?» (insumo para la prueba de marca).
+P6 (punto en la pantalla): al terminar las preguntas, mostrar la misma pantalla sin límite de tiempo y pedir «Señala dónde estaba lo que más recuerdas». Registrar el punto en la hoja «Puntos» (Anexo F si es en papel).
+Pasar a la siguiente pantalla y repetir.
+## Preguntas exactas (leer textualmente)
+Leer las preguntas sin cambiar palabras y en este orden. La pantalla no se vuelve a mostrar hasta la pregunta P6.
+| Código | Pregunta exacta | Respuesta | Se registra en «5 segundos»
+| Inicio | «Te voy a mostrar una pantalla de una app durante 5 segundos. Mírala con normalidad.» | — | —
+| P1 | «¿Qué recuerdas de lo que viste?» | Abierta. Anotar textual y en el orden en que lo dice | Recuerdo libre
+| P2 | «¿Para qué crees que sirve esta pantalla?» | Abierta. Codificar 1 / 0,5 / 0 con la clave | Propósito
+| P2b (solo si P2 o P3 fueron incorrectas) | «¿Qué de lo que viste te hizo pensar eso?» | Abierta. Elegir el motivo de la lista | Motivo (código)
+| P3 | «Si estuvieras usando esta pantalla, ¿qué harías primero?» | Abierta. Codificar 1 / 0,5 / 0 con la clave | Acción principal
+| P4 | «Del 1 al 7, ¿qué tan claro te quedó para qué sirve esta pantalla? 1 = nada claro, 7 = totalmente claro.» | Número del 1 al 7 | Claridad
+| P5 (opcional) | «¿Qué palabra usarías para describir la sensación que te dio?» | Una palabra | Palabra / sensación
+| P6 | Mostrar de nuevo la misma pantalla sin límite de tiempo: «Señala dónde estaba lo que más recuerdas.» | Un punto sobre la pantalla | Hoja «Puntos» (Prueba = 5 segundos)
+Para P3 se usa siempre la misma formulación en toda la ronda. Alternativa equivalente, si el equipo la prefiere desde la primera sesión: «¿Qué crees que te pedía hacer?».
+## Definir antes de la sesión (clave de corrección)
+Para cada pantalla, el equipo escribe de antemano qué cuenta como respuesta correcta. Sin esto, la codificación se vuelve subjetiva. Ejemplo:
+| Pantalla | Propósito correcto (acepta si menciona…) | Acción principal correcta | Elementos que debería recordar
+| Descubrir | Encontrar/descubrir películas o series; guardar lo que te interesa | Agregar o quitar película mediante el gesto del swipe | Póster destacado, el gesto de swipe, elementos característicos de la película
+| Ver | Retomar algo que ya te había interesado; decidir qué ver ahora | Aceptar o descartar la propuesta | La película propuesta, el «por qué» te la recomienda
+## Métricas y cómo registrarlas
+| Métrica | Cómo se calcula | Registro
+| % que identifica el propósito | Respuestas P2 codificadas como correctas ÷ total de participantes | 1 = correcto, 0,5 = parcialmente, 0 = incorrecto / no sabe
+| % que recuerda la acción principal | Respuestas P3 correctas ÷ total | 1 / 0,5 / 0
+| Claridad percibida (1–7) | Promedio y distribución de P4 | Número del 1 al 7
+| Elementos recordados | Frecuencia con que aparece cada elemento en P1; orden en que se menciona | Lista textual, luego se codifica
+| Mapa de calor de recuerdo | Puntos del P6 de todos los participantes, por pantalla (hoja «Mapas de calor») | X, Y o celda de la cuadrícula; pantalla y versión
+## Criterios de éxito
+Propósito: ≥ 80% de participantes lo identifican correctamente.
+Acción principal: ≥ 70% la recuerdan.
+Claridad: promedio ≥ 5,5 de 7 y nadie por debajo de 3.
+Señal de alerta: si los elementos más recordados son decorativos (fondo, ilustración) y no el contenido o la acción principal, hay un problema de jerarquía visual (se cruza con la prueba 4).
+Mapa de calor: el punto más marcado debe coincidir con el elemento que el equipo definió como principal de la pantalla.
+| Recordatorio: este test no dice si la pantalla es usable. Una pantalla puede comunicar muy bien su propósito y aun así tener la acción en un lugar difícil de encontrar; eso lo mide el test de primer clic.
+## Variante: test de 5 segundos sobre los cards
+Se aplica justo después del test de 5 segundos de pantallas completas. Responde a una necesidad concreta del equipo: saber qué le llama la atención al usuario de cada card.
+### Objetivo
+Saber qué elementos del card capturan la atención del usuario en los primeros 5 segundos (póster, título, indicadores, gesto de swipe, etc.), cuáles recuerda, si el card le comunica de qué trata la película y si le da ganas de verla. Mide atención y recuerdo; no mide si el usuario puede usar el card (eso lo mide el test de primer clic).
+### Qué cards probar
+De 4 a 6 cards de Descubrir por participante (máximo 6). Mezclar películas muy conocidas con otras poco conocidas, y géneros distintos (por ejemplo acción, comedia, drama, animación), para que el resultado no dependa de una sola película.
+Mostrar el card completo, tal como lo vería el usuario en la app (con el gesto de swipe y los indicadores visibles), no solo el póster.
+Rotar el orden de los cards entre participantes.
+Antes de la sesión, el equipo define la lista cerrada de elementos del card y cuáles deben destacar (ver clave de codificación más abajo).
+### Materiales
+Cards exportados en tamaño real de celular, o una presentación con temporizador automático de 5 s.
+Clave de codificación de elementos del card (tabla siguiente), impresa para el observador.
+Cronómetro (si se hace en persona).
+Hoja de registro «5 s – Cards» (Anexo D / Excel).
+### Clave de codificación (definir antes de la sesión)
+Lista cerrada de elementos para codificar lo que el usuario menciona. Ejemplo para ajustar a los elementos reales del card:
+| Elemento del card | Cuenta como mención si el usuario dice… | Prioridad (ejemplo, ajustar)
+| Póster / imagen principal | El póster, la imagen, los colores o los personajes de la imagen | 1 (debería verse primero)
+| Título | El nombre de la película | 2
+| Indicadores del card (pulsables) | Cualquiera de los indicadores (género, año, duración, calificación u otros que tenga el card) | 3
+| Información de la película | Sinopsis, reparto, género, año o cualquier dato de contenido | 3
+| Gesto de swipe / acciones | Que se puede deslizar, agregar o quitar la película | 4
+| Otro | Cualquier otro elemento (anotar cuál) | —
+### Procedimiento paso a paso
+Aplicar después del test de 5 segundos de pantallas completas. Decir: «Ahora te voy a mostrar una tarjeta de una película durante 5 segundos. Mírala con normalidad».
+Mostrar el card exactamente 5 segundos y retirarlo (pantalla en negro o gris).
+Hacer las preguntas en este orden, sin volver a mostrar el card:
+C0 (control): «¿Conocías esta película?». Registrar Sí o No.
+C1 (atención): «¿Qué fue lo primero que te llamó la atención?». Anotar textualmente y marcar el elemento de la clave.
+C2 (recuerdo): «¿Qué más recuerdas haber visto?». Anotar en el orden en que lo dice.
+C3 (contenido): «¿De qué crees que trata esta película?».
+C4 (interés, 1–7): «Del 1 al 7, ¿qué tantas ganas te dieron de ver esta película? 1 = ninguna, 7 = muchas».
+C5 (acción): «¿Qué crees que podrías hacer con esta tarjeta?».
+C6 (información faltante): «¿Qué información te faltó para decidir si la verías?».
+C7 (punto en el card): al final, mostrar el card de nuevo sin límite de tiempo y pedir «Señala lo primero que viste». Registrar el punto en la hoja «Puntos» (Prueba = 5 s – Cards, Estímulo = C1…C6).
+Pasar al siguiente card y repetir. No comentar si las respuestas son correctas.
+### Preguntas exactas (leer textualmente)
+Leer las preguntas sin cambiar palabras y en este orden. El card no se vuelve a mostrar hasta la pregunta C7.
+| Código | Pregunta exacta | Respuesta | Se registra en «5 s – Cards»
+| Inicio | «Ahora te voy a mostrar una tarjeta de una película durante 5 segundos. Mírala con normalidad.» | — | —
+| C0 | «¿Conocías esta película?» | Sí / No | ¿Conocía la película?
+| C1 | «¿Qué fue lo primero que te llamó la atención?» | Abierta. Anotar textual y marcar el elemento de la clave | Primer elemento que llamó la atención
+| C2 | «¿Qué más recuerdas haber visto?» | Abierta. Anotar en el orden en que lo dice | Otros elementos recordados
+| C3 | «¿De qué crees que trata esta película?» | Abierta. Codificar 1 / 0,5 / 0 | Contenido
+| C4 | «Del 1 al 7, ¿qué tantas ganas te dieron de ver esta película? 1 = ninguna, 7 = muchas.» | Número del 1 al 7 | Interés
+| C5 | «¿Qué crees que podrías hacer con esta tarjeta?» | Abierta. Codificar 1 / 0,5 / 0 | Acción principal
+| C5b (solo si C3 o C5 fueron incorrectas) | «¿Qué de lo que viste te hizo pensar eso?» | Abierta. Elegir el motivo de la lista | Motivo (código)
+| C6 | «¿Qué información te faltó para decidir si la verías?» | Abierta. Anotar textual | Información que faltó
+| C7 | Mostrar de nuevo el card sin límite de tiempo: «Señala lo primero que viste.» | Un punto sobre el card | Hoja «Puntos» (Prueba = 5 s – Cards)
+### Métricas y cómo registrarlas
+| Métrica | Cómo se calcula | Registro
+| Primer elemento que llamó la atención | Distribución de C1 por elemento de la clave, sobre el total de cards vistos | Elemento de la clave
+| % de atención en elemento prioritario | Cards donde el primer elemento mencionado es de prioridad 1 o 2 ÷ total de cards | 1 = sí, 0 = no
+| Elementos recordados por card | Promedio de elementos distintos mencionados en C1 y C2 | Número
+| % que identifica el contenido | Respuestas C3 correctas (género o tema) ÷ total | 1 / 0,5 / 0
+| Interés (1–7) | Promedio de C4, por separado para películas conocidas y no conocidas (C0) | Número del 1 al 7
+| % que entiende qué puede hacer con el card | Respuestas C5 que mencionan la acción principal (swipe o indicadores) ÷ total | 1 / 0,5 / 0
+| Información que faltó | Frecuencia de cada respuesta de C6, agrupadas por tema | Texto, luego se codifica
+| Mapa de calor de atención | Puntos del C7 de todos los participantes sobre el card (hoja «Mapas de calor») | X, Y o celda de la cuadrícula
+### Criterios de éxito
+Atención: ≥ 70% de los cards tienen como primer elemento mencionado uno de los prioritarios.
+Recuerdo: en promedio, el usuario recuerda al menos 2 elementos por card.
+Contenido: ≥ 70% identifica el género o el tema de la película.
+Interés: promedio ≥ 5 de 7. Si la diferencia entre películas conocidas y no conocidas supera 1,5 puntos, el interés depende de la película y no del diseño del card.
+Acción: ≥ 70% menciona la acción principal del card.
+Señal de alerta: si lo primero que llama la atención es un elemento secundario o decorativo, o si 30% o más pide la misma información faltante, replantear la jerarquía del card (se cruza con 4.4).
+| Recordatorio: este test mide qué llama la atención del card, no si se puede usar. Que el usuario sepa qué hacer con el card se valida con las tareas del test de primer clic (por ejemplo, T2).
+# 2. Test de primer clic (first-click test)
+Corresponde al punto 1 de la solicitud original.
+## Objetivo
+Validar la estructura de navegación y las etiquetas antes de invertir en diseño visual o desarrollo: se le da al usuario una tarea y se registra dónde haría el primer clic (o toque) sobre una pantalla estática. Funciona sobre wireframes o mockups de baja fidelidad. Es una prueba que vale la pena: los estudios de Bailey y Wolfson (2009) encontraron que cuando el primer clic es correcto, la tarea se completa con éxito alrededor del 87% de las veces, frente a cerca del 46% cuando el primer clic es incorrecto.
+## Materiales
+Wireframes o mockups estáticos, uno por tarea, en tamaño de celular.
+Herramienta que registre coordenadas y tiempo: Lyssna, Maze, Optimal Workshop (Chalkmark) o Useberry. Alternativa en persona: imprimir las pantallas en tamaño real y pedir que señalen con el dedo, con un observador marcando el punto en una copia y cronometrando.
+Mapa de zonas correctas por tarea (ver abajo). Con coordenadas: se cargan en la hoja «Zonas» del Excel.
+Escala de facilidad de 7 puntos para aplicar después de cada tarea (prueba 3).
+Hoja de registro «Primer clic + facilidad» (Anexo D / Excel).
+## Diseño de tareas
+Máximo 5 tareas por sesión. Más de cinco produce fatiga y aprendizaje del layout.
+Redactar escenarios, no instrucciones. Evitar repetir la etiqueta del botón en la tarea: si el botón dice «Guardar», la tarea no debe decir «guarda», porque se mide la coincidencia de palabras y no la comprensión. Mejor: «Viste un tráiler que te gustó y quieres acordarte de esa película después. ¿Dónde tocarías?».
+Una tarea = una pantalla = una zona correcta principal. Si hay dos caminos válidos, marcarlos ambos como correctos y registrar cuál usaron.
+Rotar el orden de las tareas entre participantes (excepto si una depende de otra).
+Tareas de ejemplo para Kinoo (ajustar a las pantallas reales):
+| # | Escenario (texto que se lee) | Pantalla | Zona correcta (definir con coordenadas o recuadro)
+| T1 | Acabas de ver una película y quieres decir qué te pareció. ¿Dónde tocarías para calificarla? | Ficha de película / Ver | Botón o área de calificación
+| T2 | Estás explorando películas en Kinoo y una te llama la atención. ¿Dónde tocarías para ver más información sobre ella? | Descubrir | Acción de pulsar alguno de los indicadores del card
+| T3 | Es viernes en la noche y quieres ver algo que ya habías marcado antes. ¿Dónde tocarías? | Inicio | Acceso al espacio Ver
+| T4 | Ya terminaste las películas de tu mazo activo y quieres seguir viendo más. ¿Dónde tocarías para tener un nuevo mazo? | Gestión de mazo | Acción de añadir / crear un nuevo mazo (definir sobre el mockup)
+| T5 | Kinoo te propone una película que no te interesa. ¿Dónde tocarías para decir que no? | Ver | Acción de descartar
+## Definir la zona correcta antes de la sesión
+Para cada pantalla, dibujar un recuadro sobre el área que cuenta como acierto (el elemento completo, con un margen de toque razonable; en móvil, al menos 44×44 pt, alrededor de 7–9 mm). Anotar sus coordenadas (X1, Y1, X2, Y2 en % de la pantalla) en la hoja «Zonas» para que el Excel clasifique cada clic como correcto, aceptable o miss click.
+Escribir también zonas «aceptables» (un camino alternativo válido) y «incorrectas cercanas» para analizar errores.
+Guardar este mapa con la versión de la pantalla: si se cambia el diseño, se cambia el mapa.
+## Procedimiento paso a paso
+Explicar: «Te voy a leer una situación y te voy a mostrar una pantalla. Toca o señala el primer lugar donde lo harías. Solo un toque; no hay respuestas incorrectas».
+Leer el escenario textual. Mostrar la pantalla y empezar a cronometrar en ese momento.
+Registrar el primer toque (coordenadas o celda de la cuadrícula) y el tiempo hasta ese toque en la hoja «Puntos». No dejar corregir: si cambia de opinión, se registra el primero (y se anota el comentario).
+Opcional, recomendado cuando hay un prototipo o varias pantallas encadenadas: dejar que el participante siga hasta llegar a la zona correcta, con un máximo de 3 clics, y registrar cada clic adicional con su tiempo. El dato principal sigue siendo el primer clic; los clics adicionales sirven para contar miss clicks y ver por dónde se pierde la gente.
+Aplicar de inmediato la pregunta de facilidad de 7 puntos (prueba 3).
+Opcional: preguntar «¿Qué esperabas que pasara al tocar ahí?». Ayuda a entender errores sin influir en la siguiente tarea.
+Pasar a la siguiente tarea. Al terminar las cinco, aplicar el cuestionario UEQ (sección 3.2) y después pasar a la prueba de marca.
+## Preguntas exactas (leer textualmente)
+Los escenarios son los de la tabla «Tareas de ejemplo»; si el equipo los cambia, se cambian también en la hoja «Config» y aquí. Leerlos sin cambiar palabras.
+| Momento / tarea | Texto exacto | Respuesta | Se registra en
+| Antes de la primera tarea | «Te voy a leer una situación y te voy a mostrar una pantalla. Toca o señala el primer lugar donde lo harías. Solo un toque; no hay respuestas incorrectas.» | — | —
+| T1 | «Acabas de ver una película y quieres decir qué te pareció. ¿Dónde tocarías para calificarla?» | Un toque sobre la pantalla | Hoja «Puntos» (Prueba = Primer clic, Estímulo = T1) con tiempo
+| T2 | «Estás explorando películas en Kinoo y una te llama la atención. ¿Dónde tocarías para ver más información sobre ella?» | Un toque sobre la pantalla | Hoja «Puntos» (Prueba = Primer clic, Estímulo = T2) con tiempo
+| T3 | «Es viernes en la noche y quieres ver algo que ya habías marcado antes. ¿Dónde tocarías?» | Un toque sobre la pantalla | Hoja «Puntos» (Prueba = Primer clic, Estímulo = T3) con tiempo
+| T4 | «Ya terminaste las películas de tu mazo activo y quieres seguir viendo más. ¿Dónde tocarías para tener un nuevo mazo?» | Un toque sobre la pantalla | Hoja «Puntos» (Prueba = Primer clic, Estímulo = T4) con tiempo
+| T5 | «Kinoo te propone una película que no te interesa. ¿Dónde tocarías para decir que no?» | Un toque sobre la pantalla | Hoja «Puntos» (Prueba = Primer clic, Estímulo = T5) con tiempo
+| Justo después de cada tarea | Pregunta de facilidad SEQ (sección 3.1), con la pregunta de seguimiento si responde 4 o menos. | Número del 1 al 7 | SEQ
+| Opcional, después del SEQ | «¿Qué esperabas que pasara al tocar ahí?» | Abierta | ¿Qué esperabas que pasara?
+| Opcional, si se deja continuar | «Sigue tocando hasta donde crees que lo lograrías. Máximo tres toques.» | Hasta 3 toques | Hoja «Puntos» (N.º de clic y tiempo)
+## Métricas y cómo registrarlas
+| Métrica | Cómo se calcula | Registro
+| % de primer clic correcto | Clics dentro de la zona correcta ÷ total de participantes, por tarea | 1 = zona correcta, 0,5 = zona aceptable alternativa, 0 = incorrecta
+| Tiempo al primer clic | Segundos desde que se muestra la pantalla hasta el toque. Reportar la mediana (el promedio se distorsiona con un participante muy lento) | Segundos con un decimal
+| Miss clicks | Clics fuera de la zona correcta y de la aceptable ÷ total de clics, por tarea (el Excel lo calcula con la hoja «Zonas») | Resultado automático: Correcto / Aceptable / Miss click
+| Clics por tarea y tiempo de cada clic | Promedio de clics hasta llegar a la zona correcta (máximo 3) y segundos de cada uno | N.º de clic y tiempo en la hoja «Puntos»
+| Mapa de calor / mapa de clics | Todos los puntos por pantalla, filtrables por primer clic y por miss clicks (hoja «Mapas de calor») | X, Y o celda de la cuadrícula
+| Errores frecuentes | Elemento incorrecto más tocado por tarea | Nombre del elemento
+## Criterios de éxito
+Primer clic correcto: ≥ 80% por tarea = la estructura funciona. Entre 60% y 79% = revisar etiqueta o ubicación. Menos de 60% = rediseñar ese punto.
+Tiempo al primer clic: en una pantalla de celular, una mediana menor a 5 segundos es buena señal; más de 10 segundos indica duda, aunque el clic sea correcto. Más útil comparar entre tareas y entre versiones que contra un número fijo.
+Error concentrado: si más del 25% toca el mismo elemento incorrecto, ese elemento está «robando» la tarea: revisar su etiqueta o jerarquía.
+Miss clicks: ≤ 20% de los clics fuera de la zona correcta = bien; entre 21% y 35% = revisar; más de 35% = rediseñar. Es un criterio de trabajo del equipo (no hay un estándar publicado), ajustable tras la primera ronda.
+# 3. Facilidad y experiencia percibida (SEQ y UEQ)
+Corresponde al punto 3 de la solicitud original. Se aplica después de la prueba 1 de la lista original (el test de primer clic), justo después de cada tarea. Además, al terminar las cinco tareas se aplica el cuestionario UEQ (sección 3.2), que mide la experiencia completa y no cada tarea.
+## 3.1 Pregunta única de facilidad (SEQ), después de cada tarea
+### Nota sobre el nombre del instrumento
+Lo que se describe en 3.1 (una sola pregunta de 7 puntos después de cada tarea) se conoce en UX research como SEQ, Single Ease Question (Sauro y Dumas, 2009). El UEQ (User Experience Questionnaire; Laugwitz, Held y Schrepp, 2008) es otro instrumento, de 26 pares de adjetivos opuestos en escala de 7 puntos, que se responde una sola vez al final y se describe en 3.2. SUS, de 10 preguntas de 5 puntos, no se usa en este protocolo. En el informe se cita cada instrumento por su nombre (SEQ, UEQ o UEQ-S) para que los resultados sean comparables con referencias publicadas.
+### Objetivo
+Medir la facilidad percibida de cada tarea inmediatamente después de hacerla. Con prototipos estáticos (que es el caso de la mayoría de grupos en esta etapa), mide qué tan fácil fue encontrar la acción, no qué tan fácil es ejecutarla: el participante no completa el flujo, solo decide dónde tocar. Cuando haya prototipos interactivos, la misma pregunta pasará a medir la ejecución completa.
+### Pregunta (texto exacto)
+| «En general, ¿qué tan difícil o fácil te pareció esta tarea?»1 — Muy difícil   2   3   4   5   6   7 — Muy fácil
+Pregunta por tarea. La pregunta del SEQ no cambia de una tarea a otra, para que los resultados sean comparables. Lo que cambia es la tarea que acaba de hacer la persona y la pregunta de seguimiento para quien responde 4 o menos:
+| Tarea | Tarea que acaba de hacer | Pregunta exacta del SEQ | Si responde 1 a 4, preguntar exactamente
+| T1 | Calificar una película | «En general, ¿qué tan difícil o fácil te pareció esta tarea?» (1 = muy difícil, 7 = muy fácil) | «¿Qué hizo difícil encontrar dónde calificar?»
+| T2 | Ver más información de una película en Descubrir | La misma | «¿Qué hizo difícil saber dónde tocar para ver más información?»
+| T3 | Llegar a lo ya marcado (espacio Ver) | La misma | «¿Qué hizo difícil encontrar dónde ver lo que habías marcado?»
+| T4 | Conseguir un nuevo mazo | La misma | «¿Qué hizo difícil encontrar cómo tener un nuevo mazo?»
+| T5 | Decir que no a una propuesta en Ver | La misma | «¿Qué hizo difícil encontrar cómo decir que no?»
+### Procedimiento
+Inmediatamente después del primer clic de cada tarea, mostrar o leer la escala.
+Pedir un número. No explicar los valores intermedios.
+Si el participante da una puntuación de 4 o menos, preguntar: «¿Qué la hizo difícil?» y anotar la respuesta textual. Es la información más valiosa de esta prueba.
+No mostrar al participante si su primer clic fue correcto antes de que responda (influiría su calificación).
+### Materiales
+Escala impresa o en pantalla con los extremos etiquetados.
+Columna «SEQ» en la hoja de registro del primer clic.
+### Métricas y cómo registrarlas
+| Métrica | Cómo se calcula
+| Promedio SEQ por tarea | Promedio de las respuestas 1–7 de todos los participantes
+| % de puntuaciones bajas | Participantes con 1–4 ÷ total
+| Cruce con primer clic | Promedio SEQ de quienes acertaron vs. de quienes fallaron. Si los que fallaron también califican alto, no notaron su error: el diseño les da falsa seguridad.
+### Criterios de éxito
+Referencia: el promedio histórico del SEQ en estudios publicados ronda 5,5 (MeasuringU). Tareas con promedio ≥ 5,5 están a nivel o por encima del promedio.
+Revisar: promedio entre 4,5 y 5,4.
+Problema: promedio menor a 4,5 o más del 30% de puntuaciones de 1–4.
+## 3.2 Cuestionario UEQ (al terminar las tareas)
+Mientras el SEQ mide qué tan fácil fue cada tarea, el UEQ mide la experiencia completa que dejó la app: qué tan clara, eficiente y confiable es (calidad pragmática), qué tan estimulante y novedosa (calidad hedónica) y qué tan atractiva resulta en general. Se responde una sola vez por participante.
+### Objetivo
+Medir la experiencia percibida después de ver las pantallas y detectar qué pares de adjetivos la bajan. Complementa al SEQ; no lo reemplaza. Con pantallas estáticas mide la impresión de la propuesta, no el uso real.
+### Cuándo y cómo se aplica
+Cuándo: una vez por participante, justo después de la última tarea del test de primer clic y antes de la prueba de marca. La persona ya vio las pantallas y todavía no está comparando versiones visuales.
+UEQ-S (formato por defecto): 8 pares de adjetivos, 2–3 minutos. Da la calidad pragmática, la hedónica y una nota general. Se elige porque la sesión ya es larga.
+UEQ completo (opcional): 26 pares, 4–5 minutos. Da las seis escalas. Conviene cuando se quiere decidir entre dos rediseños o ver en qué escala está el problema.
+Un solo formato por ronda: todos los participantes de una ronda responden el mismo formato. Se anota en la columna «Formato» de la hoja «UEQ».
+Autoaplicado: la persona lo responde sola, en papel (Anexo G) o en pantalla. El moderador no explica los pares ni sugiere respuestas.
+### Instrucciones y preguntas exactas
+Leer o mostrar estas instrucciones tal cual:
+| «Ahora te voy a pedir que califiques las pantallas que viste. En cada fila hay dos palabras opuestas y siete círculos entre ellas. Marca el círculo que mejor describa tu impresión de la app: cuanto más cerca de una palabra, más describe esa palabra tu impresión. No hay respuestas correctas ni incorrectas. Responde rápido, con tu primera impresión, y marca un círculo en cada fila.»
+Los 26 pares, en el orden en que se imprimen (la numeración es la de la hoja «UEQ» del Excel). La persona marca de 1 a 7 de izquierda a derecha; el 1 está junto a la palabra de la izquierda y el 7 junto a la de la derecha. La última columna señala los 8 pares del UEQ-S:
+| N.º | Palabra de la izquierda (1) | Palabra de la derecha (7) | Escala | UEQ-S
+| 1 | irritante | disfrutable | Atractivo | —
+| 2 | no comprensible | comprensible | Claridad | —
+| 3 | creativo | monótono | Novedad | —
+| 4 | fácil de aprender | difícil de aprender | Claridad | —
+| 5 | valioso | de poca calidad | Estimulación | —
+| 6 | aburrido | emocionante | Estimulación | Hedónica
+| 7 | no interesante | interesante | Estimulación | Hedónica
+| 8 | impredecible | predecible | Confiabilidad | —
+| 9 | rápido | lento | Eficiencia | —
+| 10 | original | convencional | Novedad | Hedónica
+| 11 | obstructivo | de apoyo | Confiabilidad | Pragmática
+| 12 | bueno | malo | Atractivo | —
+| 13 | complicado | fácil | Claridad | Pragmática
+| 14 | me desagrada | me agrada | Atractivo | —
+| 15 | habitual | de vanguardia | Novedad | Hedónica
+| 16 | desagradable | agradable | Atractivo | —
+| 17 | seguro | inseguro | Confiabilidad | —
+| 18 | motivador | desmotivador | Estimulación | —
+| 19 | cumple mis expectativas | no cumple mis expectativas | Confiabilidad | —
+| 20 | ineficiente | eficiente | Eficiencia | Pragmática
+| 21 | claro | confuso | Claridad | Pragmática
+| 22 | poco práctico | práctico | Eficiencia | —
+| 23 | ordenado | desordenado | Eficiencia | —
+| 24 | atractivo | poco atractivo | Atractivo | —
+| 25 | amigable | poco amigable | Atractivo | —
+| 26 | conservador | innovador | Novedad | —
+| Los pares en español de este protocolo son una traducción de trabajo del equipo. Antes de la primera ronda conviene contrastarlos con la versión oficial en español que publica ueq-online.org y usar esa si difiere. El cálculo de las escalas no cambia mientras se mantengan el orden y la dirección de los pares.
+Al terminar el cuestionario, la pregunta abierta: «Si pudieras cambiar una sola cosa de la app, ¿qué cambiarías?». Se anota textual en la columna «Comentario libre» de la hoja «UEQ».
+### Las seis escalas
+| Escala | Calidad | Qué mide | Pares (N.º)
+| Atractivo | Valoración general | impresión general de la app: si gusta o no. | 1, 12, 14, 16, 24, 25
+| Claridad | Pragmática | qué tan fácil es entender la app y familiarizarse con ella (perspicuity). | 2, 4, 13, 21
+| Eficiencia | Pragmática | si se puede usar sin esfuerzo innecesario y si se ve organizada. | 9, 20, 22, 23
+| Confiabilidad | Pragmática | sensación de control y seguridad; si cumple lo que la persona espera (dependability). | 8, 11, 17, 19
+| Estimulación | Hedónica | si resulta emocionante y motivadora. | 5, 6, 7, 18
+| Novedad | Hedónica | si resulta creativa e innovadora. | 3, 10, 15, 26
+### Cómo se calcula
+Transformar cada respuesta a −3…+3: si la palabra positiva está a la derecha, respuesta − 4; si está a la izquierda, 4 − respuesta. El Excel lo hace solo (hoja «UEQ»).
+Escala: promedio de los pares de la escala. Una escala solo se calcula si la persona respondió todos sus pares.
+UEQ-S: pragmática = promedio de los pares 11, 13, 20, 21; hedónica = promedio de los pares 6, 7, 10, 15; general = promedio de ambas.
+Grupo: promedio de las personas en cada escala. El Excel lo grafica y lista el promedio de cada par para ver cuáles bajan más.
+### Criterios de éxito
+Más de 0,8 en una escala (o en pragmática y hedónica del UEQ-S) = valoración positiva (verde). Entre −0,8 y 0,8 = neutra, revisar (amarillo). Menos de −0,8 = negativa, rediseñar (rojo). Los límites de ±0,8 son los que propone el manual del UEQ.
+Pragmática alta y hedónica baja: la app sirve pero no engancha. Hedónica alta y pragmática baja: atrae pero cuesta usarla.
+Cruzar con el SEQ y el primer clic: tareas con SEQ bajo y Claridad baja apuntan a un problema de estructura o de etiquetas.
+Muestra: el manual del UEQ suele recomendar alrededor de 20–30 personas para promedios estables; con 8–12 los resultados son una tendencia.
+### Materiales y registro
+Hoja del participante con el UEQ-S o el UEQ completo (Anexo G), o el mismo cuestionario en pantalla.
+Hoja «UEQ» del Excel: una fila por participante con el formato, la versión evaluada (Única, A o B), los pares 1 a 26 (en UEQ-S solo los 8 marcados) y el comentario libre.
+# 4. Validación de marca (prueba A/B de agrado)
+Corresponde al punto final de la solicitud original. Más que comprobar la marca de forma aislada, esta prueba compara dos propuestas visuales (A/B) para saber cuál resulta más agradable a los usuarios y por qué. Se aplica al final de la sesión, cuando el participante ya conoce la app.
+## Objetivo
+Determinar cuál de dos propuestas visuales de Kinoo (versión A y versión B) resulta más agradable a los usuarios, y entender por qué, mirando cuatro dimensiones: colores, tipografía, contraste y jerarquía visual. Además de gustar, la versión ganadora debe leerse sin dificultad, transmitir los atributos que la marca busca y cumplir los mínimos de contraste.
+## Antes de la sesión: definir la intención de marca
+El equipo escribe 3–5 atributos que la marca debe transmitir (por ejemplo: cercana, cinematográfica, confiable, tranquila) y 2–3 que debe evitar (por ejemplo: infantil, agresiva, genérica). Contra esta lista se comparan las percepciones de los usuarios. Además, documentar la paleta (códigos HEX), las fuentes y tamaños usados.
+## Diseño de la prueba A/B
+Qué se compara: dos versiones (A y B) de las mismas 2–3 pantallas clave, por ejemplo Descubrir con el card, Ver y la ficha de película. Mismo contenido y misma estructura; solo cambia lo visual.
+Una variable a la vez: lo ideal es que A y B difieran en una sola dimensión (paleta, tipografía o jerarquía) para saber qué causó la preferencia. Si se comparan propuestas completas, se sabrá cuál gusta más pero no por qué; en ese caso las preguntas por dimensión (4.1 a 4.4) ayudan a explicarlo.
+Orden balanceado: la mitad de los participantes ve A y luego B, y la otra mitad B y luego A (columna «Orden marca» de la hoja «Participantes»). El orden de presentación influye en la calificación.
+Etiquetas neutras: mostrar las versiones como «Opción 1» y «Opción 2», sin decir cuál es la actual ni cuál prefiere el equipo. Asignar al azar cuál opción es A y cuál B.
+Mismas condiciones: mismo celular, mismo brillo y mismas pantallas para las dos versiones.
+Participantes: cada persona evalúa las dos versiones. Con 8–12 participantes se obtiene una tendencia; para decidir con confianza se recomiendan 20 o más (ver 4.5).
+## Procedimiento paso a paso
+Mostrar la primera opción (según el orden asignado) durante 10–15 segundos y hacer las preguntas de esa versión: «Del 1 al 7, ¿qué tan agradable te parece esta pantalla? 1 = nada agradable, 7 = muy agradable», 3 adjetivos de la lista, las escalas de diferencial semántico y de legibilidad, y «¿qué ves primero?» (marcar el punto en la pantalla).
+Repetir con la segunda opción, con las mismas preguntas.
+Mostrar las dos opciones lado a lado y preguntar «¿Cuál te resulta más agradable?» (Opción 1, Opción 2 o Igual) y «¿Por qué?». Luego, por dimensión: «¿Cuál tiene colores que te gustan más?», «¿Cuál se lee mejor?» y «¿Cuál te parece más…?» (un atributo de marca).
+Repetir con el siguiente par de pantallas (máximo 3 pares por participante).
+Registrar en la hoja «Marca A-B», traduciendo Opción 1 y Opción 2 a A y B según el orden asignado.
+## Preguntas exactas de la prueba A/B (leer textualmente)
+Por cada opción (Opción 1 y luego Opción 2). Con cada opción, en este orden:
+| Código | Pregunta exacta | Respuesta | Se registra en «Marca A-B»
+| Inicio | «Te voy a mostrar dos versiones de unas pantallas, una a la vez. Mira cada una unos segundos y después te haré unas preguntas sobre ella. No hay respuestas correctas.» | — | —
+| M1 | «Del 1 al 7, ¿qué tan agradable te parece esta pantalla? 1 = nada agradable, 7 = muy agradable.» | Número del 1 al 7 | Agrado
+| M2 | «De esta lista de palabras, elige las 3 que mejor describen esta app.» | 3 palabras de la lista | # atributos deseados y # a evitar (0–3)
+| M3 | «Del 1 al 7, ¿qué tan fácil fue leer el texto de esta pantalla? 1 = muy difícil, 7 = muy fácil.» | Número del 1 al 7 | Legibilidad
+| M4 | «En cada fila, marca del 1 al 7 dónde ubicarías esta pantalla: aburrido (1) – emocionante (7); genérico (1) – distintivo (7); frío (1) – cálido (7); confuso (1) – claro (7).» | Cuatro números del 1 al 7 | Aburrido–Emocionante, Genérico–Distintivo, Frío–Cálido, Confuso–Claro
+| M5 | «¿Qué ves primero en esta pantalla? Señálalo.» | Un punto sobre la pantalla | Hoja «Puntos» (Prueba = Marca A-B) y primer elemento = jerarquía prevista (1/0)
+Después de ver las dos. Con las dos opciones lado a lado:
+| Código | Pregunta exacta | Respuesta | Se registra en «Marca A-B»
+| M6 | «¿Cuál te resulta más agradable: la Opción 1, la Opción 2 o te dan igual?» | Opción 1 / Opción 2 / Igual | Preferencia directa (A / B / Igual)
+| M7 | «¿Por qué?» | Abierta. Anotar textual | Motivo; el observador codifica la dimensión que más pesó (General, Colores, Tipografía, Contraste o Jerarquía)
+| M8 | «¿Cuál tiene colores que te gustan más?» | Opción 1 / Opción 2 / Igual | ¿Qué colores prefiere?
+| M9 | «¿Cuál se lee mejor?» | Opción 1 / Opción 2 / Igual | ¿Cuál se lee mejor?
+| M10 | «¿Cuál te parece más [atributo]?». Completar con un atributo deseado de la marca, por ejemplo «¿Cuál te parece más cinematográfica?» | Opción 1 / Opción 2 / Igual | Atributo preguntado y ¿Cuál es más [atributo]?
+La Opción 1 y la Opción 2 se traducen a A y B según el orden asignado en «Participantes». Las preguntas de lectura en voz alta (4.2) y de orden de lectura (4.4) se hacen tal como están escritas en esas secciones.
+Lista de palabras. Lista de palabras para M2. Ejemplo de 12 palabras: 4 atributos deseados, 3 a evitar y 5 neutras. Ajustarla a los atributos que defina el equipo y imprimirla en orden distinto para cada participante: cercana, cinematográfica, confiable, tranquila, infantil, agresiva, genérica, moderna, sencilla, colorida, oscura, elegante.
+## 4.1 Percepción de colores vs. teoría del color (A/B)
+Objetivo: verificar si lo que la teoría del color dice que debería transmitir la paleta coincide con lo que los usuarios perciben, y cuál de las dos paletas lo logra mejor.
+Procedimiento:
+Revisión del equipo (sin usuarios): analizar la paleta con teoría del color (armonía: complementaria, análoga, triádica; temperatura; asociaciones culturales en Colombia; convenciones del cine y el streaming). Escribir qué debería transmitir cada color principal. Hacerlo para las dos versiones.
+Con el usuario: mostrar cada versión (2–3 pantallas clave) y pedir que elija, de una lista de 10–12 adjetivos (mezclando los atributos deseados, los que se quieren evitar y neutrales), los 3 que mejor describen la app. Técnica de selección de palabras (basada en las Product Reaction Cards de Microsoft, versión reducida). Pedir también la calificación de agrado del 1 al 7.
+Escala de diferencial semántico de 7 puntos para 3–4 pares: frío–cálido, aburrido–emocionante, genérico–distintivo, confuso–claro. Se aplica a cada versión.
+Con las dos versiones lado a lado, preguntar qué paleta prefiere (Opción 1, Opción 2 o Igual) y por qué.
+Métricas: agrado promedio por versión; % de participantes que prefiere cada versión; % que elige al menos 2 atributos deseados en cada versión; frecuencia de cada adjetivo; promedio por par del diferencial semántico; coincidencia entre la intención del equipo, la teoría del color y la percepción.
+Éxito: la versión ganadora tiene ≥ 70% de participantes que eligen al menos 2 de los atributos deseados, y ningún atributo a evitar es elegido por más del 20%.
+## 4.2 Tipografía y legibilidad
+Procedimiento con usuario:
+Mostrar en el celular una pantalla con texto real (sinopsis corta, título, metadatos como año y duración, texto pequeño como etiquetas).
+Pedir que lea en voz alta un fragmento de texto pequeño (el tamaño más chico que use la app). Registrar errores de lectura y si acerca o aleja el celular.
+Preguntar: «Del 1 al 7, ¿qué tan fácil fue leer este texto?».
+Mostrar números y caracteres que se confunden fácilmente (1/l/I, 0/O, rn/m) en títulos o fechas y preguntar qué dice.
+Si las versiones usan tipografías distintas, repetir los pasos anteriores con cada una y preguntar «¿Cuál se lee mejor?».
+Verificación técnica del equipo: tamaño mínimo de texto de cuerpo 16 px/pt (mínimo absoluto 12 pt para etiquetas secundarias); interlineado de 1,4–1,5 para párrafos; que la tipografía soporte tildes y ñ; que la app respete el tamaño de texto del sistema (texto dinámico) sin romperse.
+Éxito: en cada versión, cero errores de lectura en texto de cuerpo, legibilidad promedio ≥ 5,5 de 7 y ningún participante necesita acercar el celular para leer el texto principal.
+## 4.3 Contraste
+Es la parte más técnica y no necesita usuarios: se mide en las dos versiones. Una versión que no cumple el mínimo se corrige antes de compararla, o se descarta aunque a los usuarios les resulte más agradable.
+| Elemento | Contraste mínimo (WCAG 2.2, nivel AA)
+| Texto normal (< 18 pt, o < 14 pt en negrita) | 4,5 : 1
+| Texto grande (≥ 18 pt, o ≥ 14 pt en negrita) | 3 : 1
+| Íconos, bordes de botones, campos y elementos de interfaz que se necesitan para usar la app | 3 : 1 contra el fondo adyacente
+| Recomendado para texto principal (nivel AAA) | 7 : 1
+Medir cada combinación de color de texto y fondo de la paleta con un verificador de contraste (WebAIM Contrast Checker, Stark en Figma, o el plugin «Contrast» de Figma).
+Atención especial con texto sobre pósteres o imágenes: el contraste cambia según la película. Verificar con al menos 3 pósteres claros y 3 oscuros, o usar degradado/sombra detrás del texto.
+Revisar que la información no dependa solo del color (por ejemplo, calificación positiva/negativa solo en verde/rojo); simular daltonismo (filtros de Figma o el simulador de Chrome DevTools).
+Si la app tiene modo oscuro y claro, medir ambos.
+Éxito: el 100% de las combinaciones de texto cumple AA en las dos versiones; los elementos interactivos cumplen 3:1.
+## 4.4 Jerarquía visual y de colores en pantallas
+Prueba de orden de lectura: mostrar una pantalla y preguntar «¿Qué ves primero, qué segundo y qué tercero?». Comparar con el orden que el equipo diseñó intencionalmente. Pedir además que marque en la pantalla dónde miró primero (hoja «Puntos», Prueba = Marca A-B) y comparar el mapa de calor de A con el de B.
+Prueba de entrecerrar los ojos (squint test), hecha por el equipo: ver la pantalla desenfocada (o aplicando desenfoque en Figma) y comprobar que lo que resalta es la acción principal y el contenido, no la decoración.
+Revisar que el color de acento (el color de marca más fuerte) se use solo para la acción principal y estados importantes; si aparece en todas partes, pierde capacidad de dirigir la mirada.
+Cruzar con los resultados del test de 5 segundos: los elementos más recordados deberían ser los que la jerarquía pretende destacar.
+Éxito: ≥ 70% de participantes nombran como primer elemento el que el equipo definió como principal. La versión con mayor coincidencia sostiene mejor su jerarquía.
+## 4.5 Cómo decidir la versión ganadora
+La versión ganadora no es solo la que más gusta: también tiene que cumplir los mínimos de legibilidad y contraste. Se decide en este orden:
+Contraste (obligatorio): la versión cumple AA en todas las combinaciones de texto (4.3). Una versión que no cumple se corrige o se descarta.
+Legibilidad y jerarquía: legibilidad promedio ≥ 5,5 de 7 y ≥ 70% con el primer elemento previsto (4.2 y 4.4).
+Preferencia: se cuentan los votos de «¿Cuál te resulta más agradable?» sin contar «Igual» y se comparan con la tabla siguiente.
+Agrado y atributos de marca: si hay empate en la preferencia, gana la versión con mayor agrado promedio y más participantes que eligen al menos 2 atributos deseados.
+| Votos decisivos (A + B) | Votos mínimos que debe tener una misma versión para declararla ganadora
+| 8 | 8
+| 10 | 9
+| 12 | 10
+| 16 | 13
+| 20 | 15
+| 30 | 21
+| La tabla sale de una prueba binomial bilateral con nivel de significancia de 0,05 (hipótesis: A y B gustan por igual). El Excel calcula el p-valor y el veredicto en la hoja «Resumen». Con menos votos que los de la tabla, el resultado es una tendencia: sirve para decidir qué ajustar y volver a probar con participantes nuevos, no para declarar un ganador. Por ejemplo, con 12 votos decisivos hacen falta 10 a favor de la misma versión; 8 de 12 no alcanza.
+## Materiales de la prueba 4
+Las versiones A y B de las mismas 2–3 pantallas, con diseño visual (alta o media fidelidad; esta prueba no funciona con wireframes en gris), en tamaño real de celular.
+Lista de adjetivos impresa o en tarjetas, escalas de diferencial semántico.
+Verificador de contraste, simulador de daltonismo.
+Celular de prueba (el mismo para todos, con el mismo brillo en ambas versiones).
+Hojas «Marca A-B», «Contraste» y «Puntos» del Excel (Anexo D).
+# 5. Análisis y reporte de resultados
+Pasar todos los datos al Excel el mismo día de la sesión, mientras las notas están frescas.
+Calcular las métricas por pantalla/tarea (el Excel lo hace automáticamente en la hoja «Resumen»).
+Revisar los mapas de calor de cada pantalla (hoja «Mapas de calor»): ¿los puntos caen sobre la zona correcta o sobre otro elemento? Cruzarlos con los miss clicks y con los comentarios.
+Marcar cada métrica con semáforo según los criterios de éxito: verde (cumple), amarillo (revisar), rojo (rediseñar).
+Agrupar los comentarios textuales por tema (por ejemplo: «no encontraba dónde calificar», «el gris se lee mal»).
+Priorizar los hallazgos por gravedad: 4 = impide la tarea, 3 = la dificulta mucho, 2 = molestia menor, 1 = cosmético; y por frecuencia (cuántos participantes lo tuvieron).
+Para cada hallazgo de gravedad 3–4, proponer un cambio concreto y probarlo en la siguiente ronda.
+Estructura sugerida del informe: resumen de una página con los 5 hallazgos principales; resultados por prueba (tabla + semáforo); hallazgos priorizados con evidencia (citas, mapas de clics); cambios propuestos; limitaciones (tamaño de muestra, fidelidad del prototipo). La página «Insights» del Excel sirve de base para ese resumen de una página.
+| Con 8–12 participantes, los porcentajes son indicativos, no estadísticamente concluyentes. Por ejemplo, 8 de 10 aciertos (80%) tiene un intervalo de confianza aproximado del 49% al 94%. Por eso se recomienda leer los resultados como tendencia y confirmar en una segunda ronda.
+## Diagrama de afinidad por prueba
+El diagrama de afinidad agrupa observaciones sueltas en temas para pasar de lo que dijo cada persona a lo que aprendimos (Beyer y Holtzblatt, 1998). Se hace una vez por prueba, después de cada ronda:
+Pasar cada cita u observación a una nota en la tabla «Notas» al final de la página «Análisis …» de la prueba: texto textual, participante, pantalla / tarea / card, tipo (Problema, Positivo o Idea) y gravedad de 1 a 4 si es un problema.
+Leer todas las notas y agruparlas en temas sin una lista previa. El tablero trae temas iniciales que son solo hipótesis del equipo: renombrarlos o reemplazarlos según lo que salga de las notas (hasta 8 temas por prueba).
+Escribir el tema de cada nota en la tabla. El tablero se arma solo: cada columna reúne las notas del tema y muestra cuántas son problemas y cuántas positivas, la gravedad promedio y el orden.
+Escribir el insight de cada tema y la acción propuesta. Fórmula sugerida: «[n] de [N] personas [hicieron / no pudieron hacer] [X] porque [motivo]».
+Los 3 temas con más notas de cada prueba pasan a la página «Insights».
+Si el equipo prefiere hacerlo en físico (post-its en una pared), el resultado se transcribe a la misma tabla.
+## Páginas de análisis y de insights del Excel
+Cada prueba tiene su propia página, con gráficas que responden cuántas personas hicieron cada cosa bien y por qué, una lectura automática en frases y su diagrama de afinidad. La última hoja junta todo:
+| Hoja | Qué muestra | Pregunta que responde
+| Resumen | Número de personas entrevistadas, qué se valida, objetivos de cada prueba, resumen de resultados y tablas con semáforo | ¿Cuántas personas hicieron la prueba y cumplimos las metas?
+| Análisis 5 s | % que entendió el propósito y recordó la acción por pantalla, claridad y motivos por los que no | ¿Qué pantallas comunican y por qué fallan las que no?
+| Análisis Cards | Primer elemento mirado, atención en elementos prioritarios, interés (películas conocidas y no conocidas), información que faltó y motivos | ¿Qué elementos del card captan la atención?
+| Análisis Clic + SEQ | Aciertos y tiempo por tarea, miss clicks, SEQ de quienes acertaron frente a quienes fallaron y motivos | ¿Cuántas personas encuentran cada acción y por qué se pierden?
+| Análisis UEQ | Escalas de −3 a +3, pragmática frente a hedónica y pares que más bajan | ¿Qué experiencia deja la app?
+| Análisis Marca A-B | Agrado, legibilidad, atributos, preferencia directa con prueba binomial y dimensión que más pesó | ¿Qué versión resulta más agradable y por qué?
+| Insights | Semáforo de metas, opiniones promedio, gráficas por tarea, escala y versión, los 3 temas principales de afinidad, hallazgos medibles en frases y tabla de hallazgos priorizados (gravedad × personas) | ¿Qué decidimos y qué cambiamos primero?
+# Anexo A. Guion de la sesión (moderador)
+| Bloque | Qué decir / hacer | Tiempo
+| Bienvenida | «Gracias por venir. Vamos a ver unas pantallas de una aplicación que estamos diseñando. No estamos evaluándote a ti, sino la app: si algo es difícil, es culpa del diseño. No hay respuestas correctas ni incorrectas. Puedes parar cuando quieras.» Firmar consentimiento (Anexo B). | 3 min
+| Preguntas de contexto | «¿Con qué frecuencia ves películas o series? ¿Dónde? ¿Cómo te enteras de qué ver?» (No mencionar Kinoo ni su propósito). Texto exacto de cada pregunta en la tabla siguiente. | 3 min
+| Prueba 1: 5 segundos | «Te voy a mostrar una pantalla durante 5 segundos. Mírala con normalidad.» Aplicar P1–P4 por pantalla. | 5–7 min
+| Prueba 1B: 5 segundos sobre cards | «Ahora te voy a mostrar una tarjeta de una película durante 5 segundos. Mírala con normalidad.» Aplicar C0–C6 por card. | 4–5 min
+| Prueba 2 + 3: primer clic y facilidad | «Ahora te leeré situaciones. Para cada una, toca el primer lugar donde lo harías. Solo un toque.» Después de cada tarea: pregunta de facilidad 1–7. | 10–12 min
+| Prueba 3B: UEQ | «Ahora te voy a pedir que califiques las pantallas que viste. En cada fila hay dos palabras opuestas y siete círculos entre ellas; marca el que mejor describa tu impresión. Responde rápido y marca un círculo en cada fila.» Entregar la hoja del Anexo G (UEQ-S de 8 pares, o completo de 26) y, al final: «Si pudieras cambiar una sola cosa de la app, ¿qué cambiarías?». | 2–3 min (UEQ-S) o 4–5 min (completo)
+| Prueba 4: marca (A/B) | Mostrar Opción 1 y Opción 2 en el orden asignado: agrado 1–7, adjetivos, legibilidad y primera mirada. Luego lado a lado: preferencia y motivo. Máximo 3 pares de pantallas. | 15–20 min
+| Cierre | «¿Hay algo más que quieras comentar? ¿Qué cambiarías?» Agradecer y entregar incentivo si aplica. | 3 min
+Preguntas de contexto y de cierre (texto exacto)
+| Momento | Pregunta exacta | Se registra en
+| Contexto 1 | «¿Con qué frecuencia ves películas o series, en cine o en streaming?» | «Participantes»: Frecuencia de consumo
+| Contexto 2 | «¿Dónde las ves normalmente?» | «Participantes»: Notas
+| Contexto 3 | «¿Cómo te enteras de qué ver?» | «Participantes»: Notas
+| Contexto 4 | «¿Descubres películas o series en redes sociales? ¿En cuáles?» | «Participantes»: Descubre en redes (Sí / No)
+| Contexto 5 | «¿Qué tan cómodo te sientes usando apps nuevas en el celular: poco, medianamente o muy cómodo?» | «Participantes»: Nivel tecnológico (Básico / Medio / Alto)
+| Cierre 1 | «¿Hay algo más que quieras comentar?» | Tabla «Notas» de la prueba que corresponda
+| Cierre 2 | «¿Qué cambiarías?» | Tabla «Notas» de la prueba que corresponda
+| Cierre 3 | «De todo lo que viste hoy, ¿qué fue lo que más te gustó y qué lo que menos?» | Tabla «Notas» (tipo Positivo o Problema)
+# Anexo B. Consentimiento informado (modelo)
+Yo, ____________________, acepto participar en una sesión de evaluación de la aplicación Kinoo, realizada por el equipo KARUK como parte de un proyecto académico. Entiendo que:
+La sesión dura entre 45 y 60 minutos y puedo retirarme en cualquier momento sin dar explicaciones.
+Se tomarán notas y, si lo autorizo, se grabará la pantalla y el audio: Sí ☐  No ☐.
+Mis datos se usarán solo para mejorar el diseño de la aplicación, de forma anónima, y no se compartirán con terceros (Ley 1581 de 2012 de protección de datos personales).
+Las pantallas que veré son confidenciales.
+Firma: ____________________   Fecha: ____________
+# Anexo C. Filtro de reclutamiento
+| Pregunta | Respuesta que califica
+| ¿Qué edad tienes? | 18–40
+| ¿Con qué frecuencia ves películas o series (cine o streaming)? | Al menos una vez por semana
+| ¿Alguna vez te enteraste de una película o serie por redes sociales y después no la viste? | Sí
+| ¿Trabajas o estudias diseño UX/UI, o participaste antes en entrevistas sobre Kinoo? | No
+# Anexo D. Hojas de registro
+Las hojas de registro para capturar datos en campo están en el archivo Excel adjunto Registro_Pruebas_Usabilidad_Kinoo_v1.3.xlsx, con estas pestañas:
+Participantes: código, perfil y orden de rotación.
+Config: tareas, umbrales, elementos del card y listas de motivos (se llena antes de la sesión).
+Pantallas: catálogo de pantallas y flujos (S01, S02…).
+Zonas: zona correcta de cada tarea en coordenadas (X1, Y1, X2, Y2 en %).
+5 segundos: una fila por participante y pantalla: recuerdo libre, propósito, acción, claridad, palabra y, si no entendió, el motivo (código).
+5 s – Cards: una fila por participante y card (atención, recuerdo, interés y, si no captó contenido o acción, el motivo).
+Primer clic + SEQ: una fila por participante y tarea; resultado, tiempo, miss clicks, SEQ y motivo del fallo.
+UEQ: una fila por participante: formato (UEQ-S o completo), pares 1 a 26 y comentario libre; calcula las seis escalas y el UEQ-S de −3 a +3.
+Puntos: un punto por fila (cada clic, punto de recuerdo y punto de primera mirada), con pantalla, versión, coordenadas o celda, y tiempo.
+Mapas de calor: un mapa por pantalla, con filtros por prueba, versión y tipo de clic.
+Marca A-B: agrado, legibilidad, atributos y preferencia directa por versión.
+Contraste: verificación técnica de combinaciones de color, por versión.
+Resumen: número de personas entrevistadas, qué se valida, objetivos de cada prueba, resumen de resultados y métricas con semáforo.
+Análisis …: gráficas por prueba, lectura automática en frases, diagrama de afinidad y tabla de notas. Una hoja por prueba: Análisis 5 s, Análisis Cards, Análisis Clic + SEQ, Análisis UEQ y Análisis Marca A-B.
+Insights: tablero final: semáforo de metas, opiniones promedio, gráficas, temas principales de afinidad, hallazgos medibles y hallazgos priorizados.
+Para ver cómo se llenan las gráficas hay una copia con datos ficticios (Registro_Pruebas_Usabilidad_Kinoo_v1.3_EJEMPLO_datos_ficticios.xlsx). No se usa para registrar datos reales.
+Códigos de motivo (por qué falló o dudó la persona). Se eligen de una lista en las hojas de 5 segundos, Cards y Primer clic, y se pueden editar en «Config»:
+| 5 segundos | Primer clic / SEQ | Cards
+| Texto o etiqueta poco clara | No vio el elemento | El póster o la imagen domina
+| Elemento principal poco visible | Etiqueta ambigua | Texto pequeño o poco legible
+| Demasiada información | Esperaba otro lugar o patrón | Información insuficiente
+| Imagen o ilustración distrae | Ícono no reconocible | Los indicadores no se entienden
+| Jerarquía visual confusa | Demasiadas opciones | No se ve que es accionable
+| No reconoce el tipo de app | Elemento muy pequeño o poco visible | Película poco conocida
+| Otro | Otro | Otro
+Versión para imprimir del registro de primer clic (una hoja por participante):
+| Tarea | Zona tocada | ¿Correcta? (1/0,5/0) | Tiempo (s) | Facilidad 1–7 | Comentario
+| T1 |  |  |  |  | 
+| T2 |  |  |  |  | 
+| T3 |  |  |  |  | 
+| T4 |  |  |  |  | 
+| T5 |  |  |  |  | 
+Versión para imprimir del registro de 5 segundos:
+| Pantalla | Recuerdo libre (textual) | Propósito (1/0,5/0) | Acción (1/0,5/0) | Claridad 1–7
+| Descubrir |  |  |  | 
+| Ver |  |  |  | 
+Versión para imprimir del registro de 5 segundos sobre cards (una hoja por participante):
+| Card | ¿Conocía? (S/N) | Primer elemento | Otros elementos recordados | Contenido (1/0,5/0) | Interés 1–7 | Acción (1/0,5/0) | Info que faltó
+| C1 |  |  |  |  |  |  | 
+| C2 |  |  |  |  |  |  | 
+| C3 |  |  |  |  |  |  | 
+| C4 |  |  |  |  |  |  | 
+Versión para imprimir del registro de clics en papel (con la cuadrícula del Anexo F):
+| Participante | Prueba / tarea | Pantalla | N.º de clic | Celda (ej. C7) | Tiempo (s)
+Versión para imprimir del registro de marca A/B (una hoja por participante):
+| Pantalla | Orden visto | Agrado A | Agrado B | Legibilidad A | Legibilidad B | Preferencia (A/B/Igual) | Motivo
+Versión para imprimir del cuestionario UEQ-S y del UEQ completo: ver el Anexo G.
+# Anexo E. Rotación de tareas (cuadrado latino para 5 tareas)
+| Participante | Orden de tareas
+| P01, P06, P11 | T1 – T2 – T5 – T3 – T4
+| P02, P07, P12 | T2 – T3 – T1 – T4 – T5
+| P03, P08 | T3 – T4 – T2 – T5 – T1
+| P04, P09 | T4 – T5 – T3 – T1 – T2
+| P05, P10 | T5 – T1 – T4 – T2 – T3
+# Anexo F. Cuadrícula para registrar puntos en papel
+Imprimir esta cuadrícula en transparencia (o dibujarla sobre la pantalla impresa) y ponerla sobre la pantalla. Cada celda mide 10% del ancho × 5% del alto de la pantalla. Anotar la celda con la letra de la columna (A a J, de izquierda a derecha) y el número de la fila (1 a 20, de arriba a abajo), por ejemplo C7. El Excel convierte la celda en coordenadas y la usa en el mapa de calor.
+|  | A | B | C | D | E | F | G | H | I | J
+| 1 |  |  |  |  |  |  |  |  |  | 
+| 2 |  |  |  |  |  |  |  |  |  | 
+| 3 |  |  |  |  |  |  |  |  |  | 
+| 4 |  |  |  |  |  |  |  |  |  | 
+| 5 |  |  |  |  |  |  |  |  |  | 
+| 6 |  |  |  |  |  |  |  |  |  | 
+| 7 |  |  |  |  |  |  |  |  |  | 
+| 8 |  |  |  |  |  |  |  |  |  | 
+| 9 |  |  |  |  |  |  |  |  |  | 
+| 10 |  |  |  |  |  |  |  |  |  | 
+| 11 |  |  |  |  |  |  |  |  |  | 
+| 12 |  |  |  |  |  |  |  |  |  | 
+| 13 |  |  |  |  |  |  |  |  |  | 
+| 14 |  |  |  |  |  |  |  |  |  | 
+| 15 |  |  |  |  |  |  |  |  |  | 
+| 16 |  |  |  |  |  |  |  |  |  | 
+| 17 |  |  |  |  |  |  |  |  |  | 
+| 18 |  |  |  |  |  |  |  |  |  | 
+| 19 |  |  |  |  |  |  |  |  |  | 
+| 20 |  |  |  |  |  |  |  |  |  | 
+# Anexo G. Hoja del participante: cuestionario UEQ
+Imprimir una hoja por participante, con el formato elegido para la ronda (UEQ-S o completo). La numeración de la primera columna es la de la hoja «UEQ» del Excel. Las palabras están en el mismo orden y la misma dirección que en la sección 3.2: el 1 queda junto a la palabra de la izquierda y el 7 junto a la de la derecha.
+Formato corto: UEQ-S (8 pares)
+Participante: ____________   Fecha: ____________   Versión evaluada:  Única ☐   A ☐   B ☐
+En cada fila hay dos palabras opuestas y siete círculos entre ellas. Marca el círculo que mejor describa tu impresión de la app: cuanto más cerca de una palabra, más describe esa palabra tu impresión. No hay respuestas correctas ni incorrectas. Responde rápido, con tu primera impresión, y marca un círculo en cada fila.
+| N.º | Palabra de la izquierda | 1 | 2 | 3 | 4 | 5 | 6 | 7 | Palabra de la derecha
+| 6 | aburrido | ○ | ○ | ○ | ○ | ○ | ○ | ○ | emocionante
+| 7 | no interesante | ○ | ○ | ○ | ○ | ○ | ○ | ○ | interesante
+| 10 | original | ○ | ○ | ○ | ○ | ○ | ○ | ○ | convencional
+| 11 | obstructivo | ○ | ○ | ○ | ○ | ○ | ○ | ○ | de apoyo
+| 13 | complicado | ○ | ○ | ○ | ○ | ○ | ○ | ○ | fácil
+| 15 | habitual | ○ | ○ | ○ | ○ | ○ | ○ | ○ | de vanguardia
+| 20 | ineficiente | ○ | ○ | ○ | ○ | ○ | ○ | ○ | eficiente
+| 21 | claro | ○ | ○ | ○ | ○ | ○ | ○ | ○ | confuso
+Si pudieras cambiar una sola cosa de la app, ¿qué cambiarías?
+______________________________________________________________________________
+Formato completo: UEQ (26 pares)
+Participante: ____________   Fecha: ____________   Versión evaluada:  Única ☐   A ☐   B ☐
+En cada fila hay dos palabras opuestas y siete círculos entre ellas. Marca el círculo que mejor describa tu impresión de la app: cuanto más cerca de una palabra, más describe esa palabra tu impresión. No hay respuestas correctas ni incorrectas. Responde rápido, con tu primera impresión, y marca un círculo en cada fila.
+| N.º | Palabra de la izquierda | 1 | 2 | 3 | 4 | 5 | 6 | 7 | Palabra de la derecha
+| 1 | irritante | ○ | ○ | ○ | ○ | ○ | ○ | ○ | disfrutable
+| 2 | no comprensible | ○ | ○ | ○ | ○ | ○ | ○ | ○ | comprensible
+| 3 | creativo | ○ | ○ | ○ | ○ | ○ | ○ | ○ | monótono
+| 4 | fácil de aprender | ○ | ○ | ○ | ○ | ○ | ○ | ○ | difícil de aprender
+| 5 | valioso | ○ | ○ | ○ | ○ | ○ | ○ | ○ | de poca calidad
+| 6 | aburrido | ○ | ○ | ○ | ○ | ○ | ○ | ○ | emocionante
+| 7 | no interesante | ○ | ○ | ○ | ○ | ○ | ○ | ○ | interesante
+| 8 | impredecible | ○ | ○ | ○ | ○ | ○ | ○ | ○ | predecible
+| 9 | rápido | ○ | ○ | ○ | ○ | ○ | ○ | ○ | lento
+| 10 | original | ○ | ○ | ○ | ○ | ○ | ○ | ○ | convencional
+| 11 | obstructivo | ○ | ○ | ○ | ○ | ○ | ○ | ○ | de apoyo
+| 12 | bueno | ○ | ○ | ○ | ○ | ○ | ○ | ○ | malo
+| 13 | complicado | ○ | ○ | ○ | ○ | ○ | ○ | ○ | fácil
+| 14 | me desagrada | ○ | ○ | ○ | ○ | ○ | ○ | ○ | me agrada
+| 15 | habitual | ○ | ○ | ○ | ○ | ○ | ○ | ○ | de vanguardia
+| 16 | desagradable | ○ | ○ | ○ | ○ | ○ | ○ | ○ | agradable
+| 17 | seguro | ○ | ○ | ○ | ○ | ○ | ○ | ○ | inseguro
+| 18 | motivador | ○ | ○ | ○ | ○ | ○ | ○ | ○ | desmotivador
+| 19 | cumple mis expectativas | ○ | ○ | ○ | ○ | ○ | ○ | ○ | no cumple mis expectativas
+| 20 | ineficiente | ○ | ○ | ○ | ○ | ○ | ○ | ○ | eficiente
+| 21 | claro | ○ | ○ | ○ | ○ | ○ | ○ | ○ | confuso
+| 22 | poco práctico | ○ | ○ | ○ | ○ | ○ | ○ | ○ | práctico
+| 23 | ordenado | ○ | ○ | ○ | ○ | ○ | ○ | ○ | desordenado
+| 24 | atractivo | ○ | ○ | ○ | ○ | ○ | ○ | ○ | poco atractivo
+| 25 | amigable | ○ | ○ | ○ | ○ | ○ | ○ | ○ | poco amigable
+| 26 | conservador | ○ | ○ | ○ | ○ | ○ | ○ | ○ | innovador
+Si pudieras cambiar una sola cosa de la app, ¿qué cambiarías?
+______________________________________________________________________________
+# Referencias
+Bailey, B. y Wolfson, C. (2009). FirstClick Usability Testing. Usability.gov / Human Factors International.
+Sauro, J. y Dumas, J. (2009). Comparison of three one-question, post-task usability questionnaires. CHI 2009.
+Sauro, J. (2012). 10 Things to Know About the Single Ease Question (SEQ). MeasuringU.
+Sauro, J. y Lewis, J. R. (2016). Quantifying the User Experience: Practical Statistics for User Research (2.ª ed.). Morgan Kaufmann.
+Nielsen, J. (2000). Why You Only Need to Test with 5 Users. Nielsen Norman Group.
+Laugwitz, B., Held, T. y Schrepp, M. (2008). Construction and Evaluation of a User Experience Questionnaire (UEQ).
+Schrepp, M., Hinderks, A. y Thomaschewski, J. (2017). Design and Evaluation of a Short Version of the User Experience Questionnaire (UEQ-S). International Journal of Interactive Multimedia and Artificial Intelligence, 4(6), 103–108.
+Schrepp, M. (s. f.). User Experience Questionnaire Handbook. www.ueq-online.org.
+Benedek, J. y Miner, T. (2002). Measuring Desirability: Product Reaction Cards. Microsoft.
+W3C (2023). Web Content Accessibility Guidelines (WCAG) 2.2.
+Perfetti, C. (2005). 5-Second Tests: Measuring Your Site's Content Pages. UIE.
+Beyer, H. y Holtzblatt, K. (1998). Contextual Design: Defining Customer-Centered Systems. Morgan Kaufmann.

@@ -1,31 +1,8 @@
-/** Cuadrado latino del Anexo E del protocolo v1.3 (5 tareas). P01, P06, P11… comparten fila. */
-export const CUADRADO_LATINO: string[][] = [
-  ['T1', 'T2', 'T5', 'T3', 'T4'],
-  ['T2', 'T3', 'T1', 'T4', 'T5'],
-  ['T3', 'T4', 'T2', 'T5', 'T1'],
-  ['T4', 'T5', 'T3', 'T1', 'T2'],
-  ['T5', 'T1', 'T4', 'T2', 'T3'],
-];
+// Aleatorización del protocolo v2.0 (§0 «Módulos y orden»): solo se aleatoriza el orden de los moods en M3c, el de las películas
+// en M3d, las opciones de cada pantalla de M3c y cuáles 3 moods se preguntan en M3a y M3b. Es determinista por participante
+// (misma semilla → mismo orden), así una sesión retomada ve lo mismo y los tests son reproducibles.
 
-/** indice = 1 para P01. */
-export function ordenTareasPara(indice: number): string {
-  return CUADRADO_LATINO[(indice - 1) % 5].join('-');
-}
-export function ordenMarcaPara(indice: number): 'A→B' | 'B→A' {
-  return (indice - 1) % 2 === 0 ? 'A→B' : 'B→A';
-}
-export function ordenFlujosPara(indice: number): 'Descubrir→Ver' | 'Ver→Descubrir' {
-  return (indice - 1) % 2 === 0 ? 'Descubrir→Ver' : 'Ver→Descubrir';
-}
-
-/** Rotación circular determinista: usada para pantallas de 5 s y cards. */
-export function rotar<T>(lista: T[], indice: number): T[] {
-  if (!lista.length) return [];
-  const k = (indice - 1) % lista.length;
-  return [...lista.slice(k), ...lista.slice(0, k)];
-}
-
-/** Barajado determinista (mulberry32) por semilla: ordena la lista de palabras de M2 por participante. */
+/** Barajado determinista (mulberry32) por semilla. */
 export function barajar<T>(lista: T[], semilla: number): T[] {
   const a = [...lista];
   let s = semilla >>> 0;
@@ -41,4 +18,14 @@ export function barajar<T>(lista: T[], semilla: number): T[] {
     [a[i], a[j]] = [a[j], a[i]];
   }
   return a;
+}
+
+/** `n` elementos al azar (sin repetir) de la lista. */
+export const elegir = <T,>(lista: T[], n: number, semilla: number): T[] => barajar(lista, semilla).slice(0, n);
+
+/** Semilla numérica estable a partir del id de sesión. */
+export function semillaDe(texto: string): number {
+  let h = 2166136261;
+  for (const ch of texto) h = Math.imul(h ^ ch.charCodeAt(0), 16777619) >>> 0;
+  return h;
 }

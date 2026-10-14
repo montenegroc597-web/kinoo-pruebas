@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Ver · Abriendo plataforma</title>
+<script src="../_prototipos/dc-runtime.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&amp;family=Figtree:ital,wght@0,400;0,500;0,600;0,700;0,800;1,600;1,800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{text-decoration:none;color:inherit}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;margin:0;cursor:pointer;text-align:inherit}
+.kscroll{scrollbar-width:none;-ms-overflow-style:none}
+.kscroll::-webkit-scrollbar{display:none}
+@keyframes kin{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes kfade{from{opacity:0}to{opacity:1}}
+@keyframes kpop{0%{transform:scale(1)}35%{transform:scale(1.06)}100%{transform:scale(1)}}
+@keyframes kbump{0%{transform:rotate(4deg) scale(1)}35%{transform:rotate(-8deg) scale(1.3)}100%{transform:rotate(4deg) scale(1)}}
+@keyframes kspin{to{transform:rotate(1turn)}}
+@keyframes kfill{from{width:0}to{width:100%}}
+@keyframes kshake{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+@keyframes kdeal{from{transform:translateY(-120px) scale(.75) rotate(-8deg);opacity:0}to{transform:none;opacity:1}}
+@keyframes kwig{0%,80%,100%{rotate:0deg}85%{rotate:-3deg}90%{rotate:3deg}95%{rotate:-2deg}}
+@keyframes kpulse{50%{transform:scale(1.12)}}
+@keyframes kblink{50%{opacity:.25}}
+@keyframes kchev{50%{transform:translateY(4px)}}
+@keyframes kmodal{from{transform:translateY(40px) scale(.92);opacity:0}to{transform:none;opacity:1}}
+@keyframes knotif{from{transform:translateY(-140px) scale(.9);opacity:0}to{transform:none;opacity:1}}
+@keyframes kwave{0%,100%{height:4px}50%{height:18px}}
+.kin{animation:kin .45s cubic-bezier(.2,.9,.25,1.05) both}
+.kfade{animation:kfade .3s ease both}
+.kpop{animation:kpop .4s ease-out}
+.kbump{animation:kbump .6s cubic-bezier(.3,1.7,.5,1)}
+.kspin{animation:kspin 40s linear infinite}
+.kfill{animation:kfill 2200ms linear both}
+.kshake{animation:kshake .4s}
+.kdeal{animation:kdeal .55s cubic-bezier(.2,.9,.25,1.1) both}
+.kwig{animation:kwig 1.8s ease-in-out infinite}
+.kpulse{animation:kpulse 1.4s ease-in-out infinite}
+.kblink{animation:kblink 1.2s infinite}
+.kchev{animation:kchev 1.6s ease-in-out infinite}
+.kmodal{animation:kmodal .5s cubic-bezier(.2,.9,.25,1.15) both}
+.knotif{animation:knotif .7s .4s cubic-bezier(.2,.9,.25,1.15) both}
+.kwave{animation:kwave .7s ease-in-out infinite}
+</style>
+</helmet>
+<div ref="{{setRoot}}" style="position:relative;width:402px;height:844px;overflow:hidden;background:#000;font-family:'Figtree',sans-serif;color:#f4e7d0;user-select:none">
+  <a ref="{{setA}}" href="FlujoV3_Funcion.dc.html" aria-label="Continuar" style="position:absolute;inset:0;display:block">
+    <sc-if value="{{run}}" hint-placeholder-val="{{ true }}">
+    <div class="kin" style="position:absolute;left:153px;top:330px;width:96px;height:96px;border-radius:22px;overflow:hidden;background:#000"><img src="_blob/e19e382cca13f7f21b95d85f9d925a77.svg" alt="Netflix" width="96" height="96"></div>
+    <div style="position:absolute;left:36px;right:36px;top:452px;text-align:center"><p style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:30px;text-transform:uppercase;color:#f4e7d0">Te llevamos a Netflix</p><p style="margin:6px 0 0;font-weight:600;font-size:13px;line-height:19px;color:#bfa98a">Dale play allá. Kinoo te avisa en los momentos clave para que juegues sin perderte nada.</p></div>
+    <div style="position:absolute;left:101px;right:101px;top:560px;height:4px;border-radius:2px;background:#222;overflow:hidden"><div class="kfill" style="height:100%;background:#e8642c"></div></div>
+    <p style="position:absolute;left:0;right:0;top:580px;margin:0;text-align:center;font-weight:600;font-size:11px;color:#6b5844">toca para seguir</p>
+    </sc-if>
+  </a>
+
+</div>
+<img src="_blob/8b30359e78d3b7a820aa4ac282357119.webp" alt="download" width="70" height="70" style="position: absolute; left: 64px; top: 364px; width: 70px; height: auto"></x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":402,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+  if (!this._sr) { this._sr = (el) => this._setRoot(el); this._sa = (el) => { if (el) this._a = el; }; }
+  return { setRoot: this._sr, setA: this._sa, run: (this.state || {}).run !== false };
+}
+_start() { this.setState({ run: false }); setTimeout(() => this.setState({ run: true }), 20); clearTimeout(this._t); this._t = setTimeout(() => { try { (this._a || document.querySelector('a[href="FlujoV3_Funcion.dc.html"]')).click(); } catch (_) {} }, 2600); }
+_stop() { clearTimeout(this._t); }
+_setRoot(el) {
+  if (!el || this._obs || typeof IntersectionObserver === 'undefined') return;
+  this._obs = new IntersectionObserver((es) => { const e = es[es.length - 1]; const v = e.isIntersecting && e.intersectionRatio >= 0.5; if (v && !this._live) { this._live = true; this._start(); } else if (!v && this._live) { this._live = false; this._stop(); } }, { threshold: [0, 0.5, 1] });
+  this._obs.observe(el);
+}
+componentDidMount() { this._fb = setTimeout(() => { if (!this._obs && !this._live) { this._live = true; this._start(); } }, 400); }
+componentWillUnmount() { this._stop(); clearTimeout(this._fb); if (this._obs) this._obs.disconnect(); }
+
+}
+</script>
+<script src="../_prototipos/embed.js"></script>
+</body>
+</html>

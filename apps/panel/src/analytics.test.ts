@@ -1,91 +1,105 @@
 // @vitest-environment node
+// La analítica del Panel v2.0 sobre datos sembrados en el backend REAL (migraciones de Supabase sobre PGlite).
 import { describe, it, expect, beforeAll } from 'vitest';
+import { aplicarEstudio } from '@kinoo/tracking';
 // @ts-expect-error módulo .mjs sin tipos
-import { crearBackend } from '../../../e2e/fake-gas.mjs';
+import { crearBackend } from '../../../e2e/pg-backend.mjs';
 // @ts-expect-error módulo .mjs sin tipos
-import { sembrar } from '../../../e2e/seed.mjs';
-import { cards, cincoSeg, flujos, marca, participantes, primerClic, puntos, resumen, salud, ueq, type Dump } from './analytics';
+import { ESTUDIO_SEED, VALIDAS, sembrar } from '../../../e2e/seed.mjs';
+import { comparacionAB, descubrir, mazos, moods, percepcion, personas, puntos, resumen, salud, ver, type Datos } from './analytics';
 
-let dump: Dump;
-const N = 10;
+let datos: Datos;
 
 beforeAll(async () => {
   const b = await crearBackend();
   await sembrar((x: any) => b.post(x));
-  dump = b.get({ action: 'dump', key: 'R' }).data;
+  // igual que el Panel: la «Config» publicada, las hojas sin «Eventos» y el resumen de eventos que calcula el servidor
+  aplicarEstudio((await b.post({ action: 'config', key: 'R', clave: 'estudio' })).data.estudio);
+  const hojas = (await b.post({ action: 'dump', key: 'R', excluir: ['Eventos'] })).data;
+  const eventos = (await b.post({ action: 'resumen-eventos', key: 'R' })).data;
+  datos = { hojas, eventos };
 });
 
-describe('analítica del Panel (contra el Sheet simulado)', () => {
-  it('el piloto (ronda 0) se excluye por defecto', () => {
-    expect(participantes(dump).length).toBe(N);
-    expect(participantes(dump, true).length).toBe(N + 1);
+const ind = (lista: { id: string; valor: number | null; estado: string }[], id: string) => lista.find((i) => i.id === id)!;
+
+describe('analítica del Panel v2.0 (contra el backend real)', () => {
+  it('validez: completó, control de atención, duración y exclusión; el piloto no cuenta', () => {
+    expect(ESTUDIO_SEED.umbrales.duracionMinima).toBe(0);
+    const ps = personas(datos);
+    expect(ps.length).toBe(12);
+    expect(ps.filter((p) => p.valido).length).toBe(VALIDAS);
+    expect(ps.find((p) => p.codigo === 'P11')!.motivos).toContain('no completó');
+    expect(ps.find((p) => p.codigo === 'P12')!.motivos).toContain('falló el control de atención');
+    expect(personas(datos, true).length).toBe(13);
+    expect(ps.filter((p) => p.variante === 'A').map((p) => p.codigo).slice(0, 3)).toEqual(['P01', 'P03', 'P05']); // A, B, A, B…
   });
-  it('resumen: personas, fases y semáforos', () => {
-    const r = resumen(dump);
-    expect(r.n).toBe(N);
-    expect(r.completos).toBe(8);
-    expect(r.ind.find((x) => x.prueba === 'Primer clic')!.valor).toBeCloseTo(70); // (90 + 50) / 2
-    expect(r.ind.find((x) => x.prueba === 'Primer clic')!.estado).toBe('amarillo');
-    expect(r.ind.find((x) => x.prueba === 'Marca A/B')!.estado).toBe('verde');
+  it('resumen: personas válidas por card y descartes', () => {
+    const r = resumen(datos);
+    expect(r.validas).toBe(10);
+    expect(r.porCard).toEqual({ A: 5, B: 5 });
+    expect(r.descartes.map(([m]) => m)).toEqual(expect.arrayContaining(['no completó', 'falló el control de atención']));
   });
-  it('5 segundos: propósito y acción desde los puntajes codificados', () => {
-    const c = cincoSeg(dump).porPantalla[0];
-    expect(c.proposito).toBeCloseTo(90);
-    expect(c.accion).toBeCloseTo(60);
-    expect(c.claridad).toBe(6);
-    expect(c.semProposito).toBe('verde');
-    expect(c.semAccion).toBe('amarillo');
+  it('M1 · Descubrir: gestos, comprensión y sorpresa, también por card', () => {
+    const t = descubrir(datos);
+    expect(ind(t.indicadores, 'D2').valor).toBeCloseTo(70); // 5 + 2 de 10
+    expect(ind(t.indicadores, 'D2').estado).toBe('amarillo');
+    expect(ind(t.indicadores, 'D1b').valor).toBeCloseTo(90);
+    expect(ind(t.indicadores, 'D1a').valor).toBeCloseTo(80);
+    expect(ind(t.indicadores, 'D4c').valor).toBeCloseTo(50);
+    expect(ind(t.indicadores, 'D4').valor).toBeCloseTo(90);
+    expect(ind(t.indicadores, 'D4e').valor).toBeCloseTo(6);
+    expect(ind(descubrir(datos, false, 'A').indicadores, 'D2').valor).toBeCloseTo(100);
+    expect(ind(descubrir(datos, false, 'B').indicadores, 'D2').valor).toBeCloseTo(40);
+    expect(t.gestos.d2[0]).toEqual(['drag:derecha', 7]);
   });
-  it('cards: atención 80 %, dependencia de la película detectada', () => {
-    const c = cards(dump);
-    expect(c.atencion).toBeCloseTo(80);
-    expect(c.interesConocidas).toBe(6); expect(c.interesNoConocidas).toBe(3);
-    expect(c.alertaDependePelicula).toBe(true); // 3 puntos de diferencia > 1,5
-    expect(c.faltante[0]).toEqual(['la duración', 10]);
+  it('M2 · Ver: lectura combinada del filtro (no se entiende solo, pero sirve)', () => {
+    const t = ver(datos);
+    expect(ind(t.indicadores, 'V1c').valor).toBeCloseTo(20);
+    expect(ind(t.indicadores, 'V1c').estado).toBe('rojo');
+    expect(t.lectura).toMatch(/concepto sirve/);
+    expect(ind(t.indicadores, 'V2').valor).toBeCloseTo(80);
+    expect(ind(t.indicadores, 'V4').valor).toBe(6);
   });
-  it('primer clic por tarea: %, mediana, miss, SEQ acertados vs fallados y elemento «robado»', () => {
-    const p = primerClic(dump);
-    const t1 = p.porTarea.find((t) => t.tarea === 'T1')!, t2 = p.porTarea.find((t) => t.tarea === 'T2')!;
-    expect(t1.correcto).toBeCloseTo(90); expect(t1.semCorrecto).toBe('verde');
-    expect(t2.correcto).toBeCloseTo(50); expect(t2.semCorrecto).toBe('rojo');
-    expect(t2.seqAcertaron).toBe(6); expect(t2.seqFallaron).toBe(3);
-    expect(t2.seqBajo).toBeCloseTo(50);
-    expect(t2.missPct).toBeCloseTo(50); // 10 miss de 20 clics
-    expect(t2.elementoRobado!.target).toBe('S02.card');
-    expect(t2.elementoRobado!.pct).toBeCloseTo(66.7, 0);
-    expect(t1.medianaTiempo).toBeCloseTo(2.55, 1);
+  it('M3 · Moods: acierto, confusión, acción sugerida y nombres propios', () => {
+    const t = moods(datos);
+    const sufrir = t.porMood.find((m) => m.mood === 'Sufrir bonito')!, raro = t.porMood.find((m) => m.mood === 'Algo raro')!;
+    expect(sufrir.acierto).toBeCloseTo(80);
+    expect(sufrir.confusiones[0]).toEqual(['Sentir algo', 2]);
+    expect(raro.acierto).toBeCloseTo(30);
+    expect(raro.accion).toMatch(/Renombrar/);
+    expect(t.total).toBeCloseTo(55);
+    const titanic = t.porPelicula.find((p) => p.titulo === 'Titanic')!;
+    expect(titanic.coincide).toBeCloseTo(70);
+    expect(titanic.nombres).toContainEqual(['drama de amor', 4]); // repetido por ≥ 3 personas: candidato a nombre del mood
   });
-  it('flujos: éxito directo/indirecto/abandono, embudo y salidas', () => {
-    const d1 = flujos(dump).porMision.find((m) => m.mision === 'D1')!;
-    expect(d1.directos).toBe(8); expect(d1.indirectos).toBe(1); expect(d1.abandonos).toBe(1);
-    expect(d1.exito).toBeCloseTo(90); expect(d1.directo).toBeCloseTo(80); expect(d1.abandono).toBeCloseTo(10);
-    expect(d1.embudo.map((e) => e.n)).toEqual([10, 10, 9, 9]);
-    expect(d1.salidas).toEqual([['S08', 1]]);
-    expect(d1.desvios[0]).toEqual(['S08', 2]);
+  it('M4 · Mazos y M5 · Percepción', () => {
+    const z = mazos(datos);
+    expect(ind(z.indicadores, 'Z1').valor).toBeCloseTo(50);
+    expect(ind(z.indicadores, 'Z2').valor).toBeCloseTo(75);
+    expect(ind(z.indicadores, 'Z3').valor).toBeCloseTo(80);
+    expect(ind(z.indicadores, 'Z4').valor).toBeCloseTo(50);
+    const f = percepcion(datos);
+    expect(ind(f.indicadores, 'UEQG').valor).toBeCloseTo(3);
+    expect(ind(f.indicadores, 'UEQG').estado).toBe('verde');
+    expect(ind(f.indicadores, 'F1').valor).toBe(6);
   });
-  it('UEQ-S: pragmática y hedónica +3 → verde', () => {
-    const u = ueq(dump);
-    expect(u.pragmatica).toBeCloseTo(3); expect(u.hedonica).toBeCloseTo(3); expect(u.semGen).toBe('verde');
-    expect(u.items.length).toBe(8);
-    expect(u.comentarios).toEqual(['Más claridad']);
+  it('card A vs B: Fisher y Welch, veredictos y regla de decisión con las primarias', () => {
+    const c = comparacionAB(datos);
+    expect(c.metricas.length).toBe(22);
+    const d2 = c.metricas.find((m) => m.id === 'D2')!;
+    expect(d2.p).toBeCloseTo(0.1667, 3);                 // Fisher 5/5 vs 2/5
+    expect(d2.veredicto).toBe('Tendencia');              // 60 puntos ≥ 20, pero no significativa
+    const d1d = c.metricas.find((m) => m.id === 'D1d')!;
+    expect(d1d.veredicto).toBe('Diferencia clara');      // 6 frente a 3, sin varianza
+    expect(d1d.favorece).toBe('A');
+    expect(c.gana).toBe('A');
+    expect(c.pequeno).toBe(true);                        // 5 por card < 12
   });
-  it('marca: 9 de 10 votos decisivos para B gana con binomial', () => {
-    const m = marca(dump);
-    expect(m.preferencia.a).toBe(1); expect(m.preferencia.b).toBe(9);
-    expect(m.preferencia.ganador).toBe('B');
-    expect(m.agradoB).toBe(6); expect(m.agradoA).toBe(4);
-    expect(m.dosAtributosB).toBe(100); expect(m.dosAtributosA).toBe(0);
-    expect(m.jerarquiaB).toBeCloseTo(80); expect(m.jerarquiaA).toBe(100);
-    expect(m.palabrasA[0]).toEqual(['oscura', 10]);
-  });
-  it('puntos: excluye participantes que no existen', () => {
-    expect(puntos(dump).length).toBe(1);
-  });
-  it('salud: sesiones activas, errores, incompletos y zonas sin definir', () => {
-    const s = salud(dump);
-    expect(s.activas.length).toBe(2);
+  it('puntos: solo de personas válidas; salud: eventos, errores y sin terminar', () => {
+    expect(puntos(datos).length).toBe(1);
+    const s = salud(datos);
+    expect(s.eventos).toBe(3);
     expect(s.errores.length).toBe(1);
-    expect(s.incompletos.length).toBe(3); // 2 con 2 fases + el piloto con 0
-    expect(s.sinZona.length).toBe(5);
+    expect(s.incompletos.map((p) => p['Código'])).toEqual(expect.arrayContaining(['P11']));
   });
 });

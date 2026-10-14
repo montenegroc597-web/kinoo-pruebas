@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Minijuego — ¿Esto o aquello?</title>
+<script src="../_prototipos/dc-runtime.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800;900&amp;family=Figtree:ital,wght@0,400;0,600;0,700;0,800;1,600;1,800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{text-decoration:none;color:inherit}
+@keyframes kpop{0%{transform:scale(1)}35%{transform:scale(1.045)}100%{transform:scale(1)}}
+@keyframes kin{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:none}}
+@keyframes kpulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+@keyframes kfill{from{width:0}to{width:100%}}
+@keyframes krise{from{opacity:0;transform:translateY(80px)}to{opacity:1;transform:none}}
+@keyframes ktw{0%,100%{opacity:.35;transform:scale(.8)}50%{opacity:1;transform:scale(1.1)}}
+@keyframes kshake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.kpop{animation:kpop 380ms ease-out}
+.kin{animation:kin 320ms ease-out both}
+.kpulse{animation:kpulse 700ms ease-in-out infinite}
+.krise{animation:krise 900ms cubic-bezier(.2,.85,.25,1) both}
+.ktw{animation:ktw 1.4s ease-in-out infinite}
+.kshake{animation:kshake 260ms ease-in-out 2}
+.kfill{animation:kfill 2300ms linear both}
+</style>
+</helmet>
+<div ref="{{setRoot}}" style="position:relative;width:402px;height:844px;overflow:hidden;background:#17120f;font-family:'Figtree',sans-serif;color:#f4e7d0">
+
+  <!-- Navegación superior -->
+  <div style="position:absolute;left:6px;top:0;width:390px;box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;padding:14px 20px 6px 20px">
+    <a href="Flujo2_Resumen.dc.html" aria-label="Volver" style="display:flex;align-items:center;height:44px">
+      <svg width="33" height="24" viewBox="0 0 33 24" fill="none" stroke="#f4e7d0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M31 12H2.5"></path><path d="M11.5 3 2.5 12l9 9"></path></svg>
+    </a>
+    <div style="display:flex;align-items:center;gap:10px">
+      <div style="box-sizing:border-box;border:1px solid #8a7458;border-radius:15px;padding:8px 13px;display:flex">
+        <p style="margin:0;font-weight:600;font-size:12px;line-height:14px;letter-spacing:1.2px;text-transform:uppercase;color:#d9c7a8;white-space:nowrap">Fin del mazo</p>
+      </div>
+      <div style="width:44px;height:44px;box-sizing:border-box;border:2px solid #ce7e01;border-radius:22px;background:#221a15;display:flex;align-items:center;justify-content:center">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f4e7d0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4.5 21v-1a5.5 5.5 0 0 1 5.5-5.5h4a5.5 5.5 0 0 1 5.5 5.5v1"></path></svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- Encabezado -->
+  <div style="position:absolute;left:26px;top:83px;width:350px;display:flex;flex-direction:column;gap:8px">
+    <div style="display:flex;align-items:center;justify-content:space-between;width:100%">
+      <p style="margin:0;font-style:italic;font-weight:600;font-size:16px;line-height:22px;color:#f2b544;white-space:nowrap">minijuego · 10 s</p>
+      <div class="{{timeCls}}" style="display:flex;align-items:center;gap:6px;padding:4px 10px;border-radius:12px;background:{{timeBg}};transition:background 200ms ease">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="{{timeInk}}" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9.5 2.5h5"/></svg>
+        <p style="margin:0;font-weight:800;font-size:14px;line-height:15px;color:{{timeInk}};white-space:nowrap">{{timeLabel}}</p>
+      </div>
+    </div>
+    <p style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:40px;line-height:38px;text-transform:uppercase;color:#f4e7d0">¿Esto o aquello?</p>
+    <p style="margin:0;font-weight:600;font-size:13px;line-height:17px;color:#d9c7a8">Elige rápido, sin pensarlo. Nos dice qué tipo de historia te mueve.</p>
+  </div>
+
+  <!-- Opción 1 -->
+  <button class="{{cls1}}" onClick="{{pick1}}" aria-pressed="{{sel1}}" aria-label="Hacerte amigo de una roca" style="position:absolute;left:26px;top:227px;width:350px;height:223px;box-sizing:border-box;padding:0;text-align:left;cursor:pointer;border:2px solid {{bc1}};border-radius:18px;overflow:hidden;background:#17120f;box-shadow:0 8px 20px rgba(0,0,0,0.25);opacity:{{op1}};transition:border-color 200ms ease,opacity 200ms ease">
+    <img src="_blob/898b391b9a5eaba68df05fef307a6e56.jpg" alt="" style="position: absolute; left: -96px; top: 2px; width: 508px; height: 221px; max-width: none; pointer-events:none">
+    <div style="position:absolute;left:0;top:118px;width:100%;height:170px;background:linear-gradient(to bottom,rgba(23,18,15,0),rgba(23,18,15,0.95))"></div>
+    <div style="position:absolute;inset:0;border:2px solid #f4e7d0;border-radius:16px;opacity:{{ring1}};transition:opacity 200ms ease;pointer-events:none"></div>
+    <div style="position:absolute;left:195px;top:161px;width:141px;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:24px;line-height:22px;text-transform:uppercase;color:#f4e7d0">
+      <p style="margin:0">Hacerte amigo</p>
+      <p style="margin:0">de una roca</p>
+    </div>
+  </button>
+
+  <!-- Opción 2 -->
+  <button class="{{cls2}}" onClick="{{pick2}}" aria-pressed="{{sel2}}" aria-label="Sudar en un laboratorio" style="position:absolute;left:26px;top:469px;width:349px;height:221px;box-sizing:border-box;padding:0;text-align:left;cursor:pointer;border:2px solid {{bc2}};border-radius:18px;overflow:hidden;background:#17120f;opacity:{{op2}};transition:border-color 200ms ease,opacity 200ms ease">
+    <img src="_blob/1632e88b436a4b0f52ce128f48b74984.jpg" alt="" style="position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover;object-position:50% 36%;border-radius:18px">
+    <div style="position:absolute;left:0;top:49px;width:345px;height:239px;background:linear-gradient(to bottom,rgba(23,18,15,0),rgba(23,18,15,0.95))"></div>
+    <p style="position:absolute;left:12px;top:156px;width:141px;margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:24px;line-height:22px;text-transform:uppercase;color:#f4e7d0">Sudar en un laboratorio</p>
+    <div style="position:absolute;inset:0;border:2px solid #f4e7d0;border-radius:16px;opacity:{{ring2}};transition:opacity 200ms ease;pointer-events:none"></div>
+  </button>
+
+  <!-- VS -->
+  <div style="position:absolute;left:173px;top:425px;width:56px;height:56px;box-sizing:border-box;border:3px solid #f4e7d0;border-radius:28px;background:#5e0c10;overflow:hidden;box-shadow:0 6px 12px rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center">
+    <p style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:24px;line-height:24px;color:#f4e7d0;text-align:center">VS</p>
+  </div>
+
+
+  <!-- Continuar (tras elegir) -->
+  <sc-if value="{{isDone}}" hint-placeholder-val="{{ false }}">
+  <a href="Flujo4_Eleccion.dc.html" style="position:absolute;left:26px;top:708px;width:350px;height:58px;box-sizing:border-box;display:flex;align-items:center;justify-content:center;overflow:hidden;border:2px solid #f4e7d0;border-radius:29px;background:#5e0c10">
+    <span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:24px;line-height:normal;text-transform:uppercase;color:#f4e7d0;white-space:nowrap">{{ctaLabel}}</span>
+  </a>
+  </sc-if>
+
+  <!-- Pie -->
+  <div style="position:absolute;left:25px;top:{{footTop}}px;width:350px;display:flex;align-items:flex-start;justify-content:space-between;line-height:15px;white-space:nowrap">
+    <p style="margin:0;font-weight:600;font-size:12.5px;color:#d9c7a8">Una pregunta · al cerrar el mazo</p>
+    <a href="Flujo4_Eleccion.dc.html" style="font-weight:700;font-size:13px;color:#f4e7d0;text-decoration:underline">Omitir</a>
+  </div>
+  <!-- Tiempo restante (barra superior) -->
+  <div aria-hidden="true" style="position:absolute;left:0;top:0;width:402px;height:5px;background:rgba(244,231,208,0.12);z-index:5"><div style="height:5px;width:{{timeW}}%;background:{{barBg}};transition:width 1s linear,background 200ms ease"></div></div>
+  <!-- Feedback de la acción -->
+  <sc-if value="{{isDone}}" hint-placeholder-val="{{ false }}">
+  <div class="kin" role="status" style="position:absolute;left:26px;top:70px;width:350px;box-sizing:border-box;display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:16px;background:{{toastBg}};border:2px solid #f4e7d0;box-shadow:0 10px 24px rgba(0,0,0,0.45);z-index:6">
+    <svg class="ktw" style="flex:none" width="22" height="22" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0l1.8 6.2L16 8l-6.2 1.8L8 16l-1.8-6.2L0 8l6.2-1.8Z" fill="#f2b544"/></svg>
+    <div style="flex:1;min-width:0">
+      <p style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:21px;line-height:21px;text-transform:uppercase;color:#f4e7d0">{{toastTitle}}</p>
+      <p style="margin:3px 0 0;font-weight:600;font-size:12.5px;line-height:16px;color:#e6d3b3">{{toastText}}</p>
+    </div>
+  </div>
+  </sc-if>
+  <!-- Carga: ven, vamos a preguntarte algo -->
+  <sc-if value="{{introOn}}" hint-placeholder-val="{{ false }}">
+  <button onClick="{{skipIntro}}" aria-label="Empezar ya" style="position:absolute;left:0;top:0;width:402px;height:844px;padding:0;border:0;margin:0;background:#17120f;z-index:40;cursor:pointer;text-align:left;font:inherit;color:inherit;opacity:{{introOp}};transition:opacity 340ms ease;overflow:hidden">
+    <svg class="krise" style="position:absolute;left:-49px;top:480px" width="500" height="500" viewBox="0 0 500 500" aria-hidden="true"><circle cx="250" cy="250" r="250" fill="#5e0c10"/><circle cx="250" cy="250" r="200" fill="#b83a26"/><circle cx="250" cy="250" r="150" fill="#e8642c"/><circle cx="250" cy="250" r="100" fill="#f2b544"/><circle cx="250" cy="250" r="50" fill="#f4e7d0"/></svg>
+    <svg class="ktw" style="position:absolute;left:330px;top:110px" width="22" height="22" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0l1.8 6.2L16 8l-6.2 1.8L8 16l-1.8-6.2L0 8l6.2-1.8Z" fill="#f2b544"/></svg>
+    <svg class="ktw" style="position:absolute;left:44px;top:96px;animation-delay:.5s" width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0l1.8 6.2L16 8l-6.2 1.8L8 16l-1.8-6.2L0 8l6.2-1.8Z" fill="#f2b544"/></svg>
+    <svg class="ktw" style="position:absolute;left:300px;top:418px;animation-delay:.9s" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0l1.8 6.2L16 8l-6.2 1.8L8 16l-1.8-6.2L0 8l6.2-1.8Z" fill="#f2b544"/></svg>
+    <div style="position:absolute;left:26px;top:150px;width:350px;display:flex;flex-direction:column;align-items:flex-start;gap:10px">
+      <p style="margin:0;font-style:italic;font-weight:600;font-size:18px;line-height:24px;color:#f2b544">antes de tu próximo mazo…</p>
+      <p style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:62px;line-height:56px;text-transform:uppercase;color:#f4e7d0">Ven, vamos a preguntarte algo</p>
+      <p style="margin:0;font-weight:600;font-size:15px;line-height:20px;color:#d9c7a8">Una pregunta · 10 segundos · sin respuestas malas</p>
+      <div style="margin-top:4px;box-sizing:border-box;border:1.5px solid #f4e7d0;border-radius:14px;padding:6px 12px"><p style="margin:0;font-weight:800;font-size:12px;line-height:14px;letter-spacing:1.2px;text-transform:uppercase;color:#f4e7d0;white-space:nowrap">¿Esto o aquello?</p></div>
+    </div>
+    <div style="position:absolute;left:26px;top:440px;width:350px;height:6px;border-radius:3px;background:rgba(244,231,208,0.15);overflow:hidden"><div class="kfill" style="height:6px;border-radius:3px;background:#f2b544"></div></div>
+    <p style="position:absolute;left:26px;top:456px;margin:0;font-weight:600;font-size:12px;line-height:14px;color:#bfa98a">toca para empezar ya</p>
+  </button>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":402,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+  const S = this.state || {};
+  const C = this._common(S);
+  const p = S.pick || 0;
+  const pick = (i) => () => {
+    const s = this.state || {};
+    if (s.done === 'timeout' || s.phase !== 'play') return;
+    this.setState({ pick: i });
+    this._finish('pick');
+  };
+  const FB = ['', 'Te tiran las amistades improbables y los viajes lejos de casa.', 'Te mueven las historias con presión, genio y consecuencias.'];
+  return Object.assign(C, {
+    pick1: pick(1), pick2: pick(2),
+    sel1: p === 1, sel2: p === 2,
+    cls1: p === 1 ? 'kpop' : (C.timedOut ? 'kshake' : ''), cls2: p === 2 ? 'kpop' : (C.timedOut ? 'kshake' : ''),
+    bc1: p === 1 ? '#f4e7d0' : '#8a7458', bc2: p === 2 ? '#f4e7d0' : '#8a7458',
+    ring1: p === 1 ? 1 : 0, ring2: p === 2 ? 1 : 0,
+    op1: (p === 2 || C.timedOut) ? 0.45 : 1, op2: (p === 1 || C.timedOut) ? 0.45 : 1,
+    footTop: C.isDone ? 782 : 753,
+    toastTitle: C.timedOut ? 'Se acabó el tiempo' : '¡Anotado!',
+    toastText: C.timedOut ? 'No pasa nada, lo dejamos para otra vez.' : FB[p]
+  });
+}
+_resetGame() { return { pick: 0 }; }
+
+// ——— Motor común de minijuego: carga → 10 s → feedback ———
+// Arranca cada vez que la pantalla entra en vista (y se detiene al salir).
+_begin() {
+  this._live = true; this._clear();
+  this.setState(Object.assign({ phase: 'intro', introOut: false, left: 10, done: null, runAt: 0 }, this._resetGame()));
+  this._ti1 = setTimeout(() => this.setState({ introOut: true }), 2300);
+  this._ti2 = setTimeout(() => this._play(), 2650);
+}
+_play() {
+  clearTimeout(this._ti1); clearTimeout(this._ti2);
+  if ((this.state || {}).phase === 'play') return;
+  this.setState({ phase: 'play', introOut: true, runAt: Date.now(), left: 10 });
+  clearInterval(this._iv);
+  this._iv = setInterval(() => {
+    const s = this.state || {};
+    if (s.done || s.phase !== 'play') { clearInterval(this._iv); return; }
+    const left = Math.max(0, 10 - Math.floor((Date.now() - s.runAt) / 1000));
+    if (left !== s.left) this.setState({ left });
+    if (left === 0) this._finish('timeout');
+  }, 200);
+}
+_finish(kind) {
+  const s = this.state || {};
+  if (s.done || s.phase !== 'play') return;
+  clearInterval(this._iv);
+  this.setState({ done: kind });
+}
+_clear() { clearTimeout(this._ti1); clearTimeout(this._ti2); clearInterval(this._iv); }
+_stop() { this._live = false; this._clear(); }
+_setRoot(el) {
+  if (!el || this._obs || typeof IntersectionObserver === 'undefined') return;
+  this._obs = new IntersectionObserver((es) => {
+    const e = es[es.length - 1];
+    const vis = e.isIntersecting && e.intersectionRatio >= 0.5;
+    if (vis && !this._live) this._begin();
+    else if (!vis && this._live) this._stop();
+  }, { threshold: [0, 0.5, 1] });
+  this._obs.observe(el);
+}
+componentDidMount() { this._fb = setTimeout(() => { if (!this._obs && !this._live) this._begin(); }, 400); }
+componentWillUnmount() { this._stop(); clearTimeout(this._fb); if (this._obs) this._obs.disconnect(); }
+_common(S) {
+  const phase = S.phase || 'intro';
+  const left = typeof S.left === 'number' ? S.left : 10;
+  const done = S.done || null;
+  const urgent = phase === 'play' && !done && left <= 3;
+  if (!this._sr) this._sr = (el) => this._setRoot(el);
+  return {
+    setRoot: this._sr,
+    introOn: phase === 'intro', introOp: S.introOut ? 0 : 1, skipIntro: () => this._play(),
+    timeLabel: (done === 'timeout' ? 0 : left) + ' s',
+    timeW: phase !== 'play' ? 100 : (done === 'timeout' ? 0 : left * 10),
+    timeBg: urgent ? '#b83a26' : '#f4e7d0', timeInk: urgent ? '#f4e7d0' : '#1a1411',
+    timeCls: urgent ? 'kpulse' : '', barBg: urgent ? '#b83a26' : '#f2b544',
+    isDone: !!done, notDone: !done, timedOut: done === 'timeout', picked: done === 'pick',
+    toastBg: done === 'timeout' ? '#2a1d18' : '#5e0c10',
+    ctaLabel: done === 'timeout' ? 'seguir' : 'continuar'
+  };
+}
+}
+</script>
+<script src="../_prototipos/embed.js"></script>
+</body>
+</html>

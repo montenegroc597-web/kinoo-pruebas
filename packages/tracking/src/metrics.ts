@@ -1,8 +1,7 @@
-// Fórmulas del protocolo v1.3. Las usan el Panel y los tests; son las mismas del Registro_Pruebas_Usabilidad_Kinoo_v1.3.xlsx.
-import type { ResultadoClic } from './schema';
+// Fórmulas del protocolo v2.0. Las usan el Panel y los tests; son las mismas del Registro_Pruebas_No_Moderadas_Kinoo_v2.0.xlsx.
+import { UMBRALES as U } from './catalog';
 
 export interface Rect { x1: number; y1: number; x2: number; y2: number }
-export interface Zonas { correcta?: Rect | null; aceptable?: Rect | null }
 
 export const mediana = (v: number[]): number | null => {
   if (!v.length) return null;
@@ -13,9 +12,10 @@ export const mediana = (v: number[]): number | null => {
 export const promedio = (v: number[]): number | null => (v.length ? v.reduce((a, b) => a + b, 0) / v.length : null);
 export const pct = (n: number, d: number): number | null => (d ? (n / d) * 100 : null);
 
+// ---------- Toques y gestos sobre el prototipo ----------
 const dentro = (x: number, y: number, r?: Rect | null) => !!r && x >= r.x1 && x <= r.x2 && y >= r.y1 && y <= r.y2;
 
-/** Agranda la zona hasta un mínimo (protocolo: área de toque ≥ 44×44 pt). Medidas en % del marco. */
+/** Agranda la zona hasta un mínimo (área de toque ≥ 44×44 pt). Medidas en % del marco. */
 export function expandirZona(r: Rect, minAnchoPct: number, minAltoPct: number): Rect {
   const w = r.x2 - r.x1, h = r.y2 - r.y1;
   let { x1, y1, x2, y2 } = r;
@@ -24,22 +24,22 @@ export function expandirZona(r: Rect, minAnchoPct: number, minAltoPct: number): 
   return { x1: Math.max(0, x1), y1: Math.max(0, y1), x2: Math.min(100, x2), y2: Math.min(100, y2) };
 }
 
-export function clasificarClic(x: number, y: number, z: Zonas): ResultadoClic {
-  if (!z.correcta && !z.aceptable) return 'Sin zona definida';
-  if (dentro(x, y, z.correcta)) return 'Correcto';
-  if (dentro(x, y, z.aceptable)) return 'Aceptable';
-  return 'Miss click';
+/** Primer clic (Z3): 1 dentro de la zona correcta, 0,5 en la aceptable, 0 fuera. */
+export function puntajeClic(x: number, y: number, correcta: Rect | null, aceptable?: Rect | null): number | null {
+  if (!correcta) return null;
+  return dentro(x, y, correcta) ? 1 : dentro(x, y, aceptable) ? 0.5 : 0;
 }
-export const puntaje = (r: ResultadoClic): number => (r === 'Correcto' ? 1 : r === 'Aceptable' ? 0.5 : 0);
 
-/** Celda de cuadrícula 10×20 (A–J, 1–20) → centro de la celda en %. Anexo F. */
-export function celdaAXY(celda: string): { x: number; y: number } | null {
-  const m = /^([A-J])(\d{1,2})$/i.exec(celda.trim());
-  if (!m) return null;
-  const col = m[1].toUpperCase().charCodeAt(0) - 65;
-  const fila = parseInt(m[2], 10);
-  if (fila < 1 || fila > 20) return null;
-  return { x: col * 10 + 5, y: (fila - 1) * 5 + 2.5 };
+/**
+ * Gesto de D2 / D3 («Config», sección B): 1 si es el gesto correcto (p. ej. deslizar a la derecha), 0,5 si es una alternativa
+ * aceptada (p. ej. tocar «Quiero verla»), 0 si no. `gesto` = 'drag:derecha' | 'tap:<texto del botón>' | …
+ */
+export function puntajeGesto(gesto: string, clave: { correcto: string; aceptables: string[] }): number {
+  const [tipo, valor = ''] = gesto.split(':');
+  const norm = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/\s+/g, ' ').trim();
+  if (tipo === 'drag' && norm(valor) === norm(clave.correcto)) return 1;
+  if (clave.aceptables.some((a) => norm(a) === norm(valor) || norm(a) === norm(gesto))) return 0.5;
+  return 0;
 }
 
 /** Mapa de calor 10×20: devuelve matriz [fila][col] con conteos. */
@@ -53,25 +53,16 @@ export function mapaCalor(puntos: { x: number; y: number }[]): number[][] {
   return g;
 }
 
-// ---------- UEQ ----------
-/** +1: la palabra positiva está a la derecha; −1: a la izquierda. Orden de los 26 pares del Anexo G. */
+// ---------- UEQ-S (Anexo C) ----------
+/** +1: la palabra positiva está a la derecha; −1: a la izquierda. Orden de los 26 pares del UEQ. */
 export const UEQ_POLARIDAD: number[] = [1, 1, -1, -1, -1, 1, 1, 1, -1, -1, 1, -1, 1, 1, 1, 1, -1, -1, -1, 1, -1, 1, -1, -1, -1, 1];
-export const UEQ_ESCALAS: Record<string, number[]> = {
-  Atractivo: [1, 12, 14, 16, 24, 25],
-  Claridad: [2, 4, 13, 21],
-  Eficiencia: [9, 20, 22, 23],
-  Confiabilidad: [8, 11, 17, 19],
-  Estimulación: [5, 6, 7, 18],
-  Novedad: [3, 10, 15, 26],
-};
 export const UEQ_S_PRAGMATICA = [11, 13, 20, 21];
 export const UEQ_S_HEDONICA = [6, 7, 10, 15];
 export const UEQ_S_ITEMS = [6, 7, 10, 11, 13, 15, 20, 21];
 
-/** respuesta 1–7 (de izquierda a derecha) → −3…+3. */
+/** respuesta 1–7 (de izquierda a derecha) → −3…+3, invirtiendo los ítems con el polo positivo a la izquierda. */
 export function ueqTransformar(item: number, respuesta: number): number {
-  const p = UEQ_POLARIDAD[item - 1];
-  return p === 1 ? respuesta - 4 : 4 - respuesta;
+  return UEQ_POLARIDAD[item - 1] === 1 ? respuesta - 4 : 4 - respuesta;
 }
 const promTrans = (resp: Record<number, number>, items: number[]): number | null => {
   const vals: number[] = [];
@@ -81,16 +72,10 @@ const promTrans = (resp: Record<number, number>, items: number[]): number | null
   }
   return promedio(vals);
 };
-export function ueqEscalas(resp: Record<number, number>): Record<string, number | null> {
-  const out: Record<string, number | null> = {};
-  for (const [k, items] of Object.entries(UEQ_ESCALAS)) out[k] = promTrans(resp, items);
-  return out;
-}
 export function ueqS(resp: Record<number, number>): { pragmatica: number | null; hedonica: number | null; general: number | null } {
   const pragmatica = promTrans(resp, UEQ_S_PRAGMATICA);
   const hedonica = promTrans(resp, UEQ_S_HEDONICA);
-  const general = pragmatica != null && hedonica != null ? (pragmatica + hedonica) / 2 : null;
-  return { pragmatica, hedonica, general };
+  return { pragmatica, hedonica, general: pragmatica != null && hedonica != null ? (pragmatica + hedonica) / 2 : null };
 }
 
 // ---------- Semáforo ----------
@@ -100,64 +85,76 @@ export function semaforo(valor: number | null, verde: number, amarillo: number):
   if (valor == null) return 'sin-datos';
   return valor >= verde ? 'verde' : valor >= amarillo ? 'amarillo' : 'rojo';
 }
-/** Menor es mejor (miss clicks, tiempo). */
-export function semaforoInverso(valor: number | null, verde: number, amarillo: number): Semaforo {
-  if (valor == null) return 'sin-datos';
-  return valor <= verde ? 'verde' : valor <= amarillo ? 'amarillo' : 'rojo';
-}
-export const semaforoPrimerClic = (p: number | null) => semaforo(p, 80, 60);
-export const semaforoMiss = (p: number | null) => semaforoInverso(p, 20, 35);
-export const semaforoSEQ = (m: number | null) => semaforo(m, 5.5, 4.5);
-export const semaforoUEQ = (m: number | null) => semaforo(m, 0.8, -0.8);
+export const semaforoUEQ = (m: number | null): Semaforo => (m == null ? 'sin-datos' : m > U.ueq ? 'verde' : m > U.ueqAmarillo ? 'amarillo' : 'rojo');
 
-// ---------- Binomial bilateral (prueba A/B, α = 0,05) ----------
-function logChoose(n: number, k: number): number {
-  let s = 0;
-  for (let i = 1; i <= k; i++) s += Math.log(n - k + i) - Math.log(i);
-  return s;
-}
-/** p-valor bilateral de observar `a` votos para A entre `n` decisivos con H0: p = 0,5. */
-export function binomialBilateral(a: number, n: number): number {
-  if (n === 0) return 1;
-  const pmf = (k: number) => Math.exp(logChoose(n, k) - n * Math.LN2);
-  const obs = pmf(a);
-  let p = 0;
-  for (let k = 0; k <= n; k++) if (pmf(k) <= obs + 1e-12) p += pmf(k);
-  return Math.min(1, p);
-}
-/** Votos mínimos que debe tener una misma versión para ganar con n decisivos (tabla del §4.5). */
-export function votosMinimosGanador(n: number): number {
-  for (let k = Math.ceil(n / 2); k <= n; k++) if (binomialBilateral(k, n) < 0.05) return k;
-  return n + 1; // imposible
-}
-export function veredictoAB(votosA: number, votosB: number): { ganador: 'A' | 'B' | null; p: number; n: number; minimo: number } {
-  const n = votosA + votosB;
-  const p = binomialBilateral(votosA, n);
-  const minimo = votosMinimosGanador(n);
-  const ganador = p < 0.05 ? (votosA > votosB ? 'A' : 'B') : null;
-  return { ganador, p, n, minimo };
+// ---------- Comparación A/B (§6) ----------
+function logFact(n: number): number { let s = 0; for (let i = 2; i <= n; i++) s += Math.log(i); return s; }
+/** Prueba exacta de Fisher bilateral para una tabla 2×2: a de nA en A frente a b de nB en B. */
+export function fisherExacta(a: number, nA: number, b: number, nB: number): number {
+  const n = nA + nB, k = a + b;
+  if (!nA || !nB) return 1;
+  const lc = (x: number, y: number) => logFact(x) - logFact(y) - logFact(x - y);
+  const p = (x: number) => Math.exp(lc(nA, x) + lc(nB, k - x) - lc(n, k));
+  const obs = p(a);
+  let total = 0;
+  for (let x = Math.max(0, k - nB); x <= Math.min(k, nA); x++) { const px = p(x); if (px <= obs * (1 + 1e-7)) total += px; }
+  return Math.min(1, total);
 }
 
-// ---------- Flujos (misiones) ----------
-export type ResultadoMision = 'Éxito directo' | 'Éxito indirecto' | 'Abandono' | 'Fallo por tiempo' | 'Error de flujo';
-
-/** Directo = éxito sin pasar por pantallas fuera de la ruta esperada (se permiten repeticiones); indirecto = con desvíos. */
-export function clasificarMision(opts: { exito: boolean; abandono: boolean; tiempoAgotado: boolean; error: boolean; ruta: string[]; rutaEsperada: string[] }): ResultadoMision {
-  if (opts.error) return 'Error de flujo';
-  if (opts.abandono) return 'Abandono';
-  if (!opts.exito) return opts.tiempoAgotado ? 'Fallo por tiempo' : 'Abandono';
-  const dedup = opts.ruta.filter((p, i) => i === 0 || p !== opts.ruta[i - 1]);
-  const permitidas = new Set(opts.rutaEsperada);
-  const sinDesvios = dedup.every((p) => permitidas.has(p));
-  // el éxito ya garantiza que se hicieron los pasos necesarios; lo que distingue directo de indirecto son las pantallas AJENAS a la ruta
-  return sinDesvios ? 'Éxito directo' : 'Éxito indirecto';
+/** Función beta incompleta regularizada (fracción continua de Lentz), para la distribución t. */
+function betaInc(x: number, a: number, b: number): number {
+  if (x <= 0) return 0;
+  if (x >= 1) return 1;
+  const lbeta = lgamma(a + b) - lgamma(a) - lgamma(b);
+  const front = Math.exp(Math.log(x) * a + Math.log(1 - x) * b + lbeta);
+  if (x > (a + 1) / (a + b + 2)) return 1 - betaInc(1 - x, b, a);
+  let f = 1, c = 1, d = 0;
+  for (let i = 0; i <= 300; i++) {
+    const m = Math.floor(i / 2); // división ENTERA: en los términos impares m = (i − 1) / 2
+    let num: number;
+    if (i === 0) num = 1;
+    else if (i % 2 === 0) num = (m * (b - m) * x) / ((a + 2 * m - 1) * (a + 2 * m));
+    else num = -((a + m) * (a + b + m) * x) / ((a + 2 * m) * (a + 2 * m + 1));
+    d = 1 + num * d; d = Math.abs(d) < 1e-30 ? 1e-30 : d; d = 1 / d;
+    c = 1 + num / c; c = Math.abs(c) < 1e-30 ? 1e-30 : c;
+    const cd = c * d; f *= cd;
+    if (Math.abs(1 - cd) < 1e-10) break;
+  }
+  return (front * (f - 1)) / a;
+}
+function lgamma(z: number): number {
+  const g = [676.5203681218851, -1259.1392167224028, 771.32342877765313, -176.61502916214059, 12.507343278686905, -0.13857109526572012, 9.9843695780195716e-6, 1.5056327351493116e-7];
+  if (z < 0.5) return Math.log(Math.PI / Math.sin(Math.PI * z)) - lgamma(1 - z);
+  z -= 1;
+  let x = 0.99999999999980993;
+  for (let i = 0; i < 8; i++) x += g[i] / (z + i + 1);
+  const t = z + 7.5;
+  return 0.5 * Math.log(2 * Math.PI) + (z + 0.5) * Math.log(t) - t + Math.log(x);
 }
 
-/** Pantallas visitadas fuera de la ruta esperada. */
-export const desvios = (ruta: string[], esperada: string[]): string[] => {
-  const ok = new Set(esperada);
-  return [...new Set(ruta.filter((p) => !ok.has(p)))];
-};
+/** Prueba t de Welch bilateral (escalas 1–7, tiempos, UEQ-S). Devuelve el p-valor; null con menos de 2 datos por grupo. */
+export function welch(x: number[], y: number[]): number | null {
+  if (x.length < 2 || y.length < 2) return null;
+  const m = (v: number[]) => v.reduce((a, b) => a + b, 0) / v.length;
+  const s2 = (v: number[], mv: number) => v.reduce((a, b) => a + (b - mv) ** 2, 0) / (v.length - 1);
+  const mx = m(x), my = m(y), vx = s2(x, mx) / x.length, vy = s2(y, my) / y.length;
+  if (vx + vy === 0) return mx === my ? 1 : 0;
+  const t = (mx - my) / Math.sqrt(vx + vy);
+  const df = (vx + vy) ** 2 / (vx ** 2 / (x.length - 1) + vy ** 2 / (y.length - 1));
+  return Math.min(1, betaInc(df / (df + t * t), df / 2, 0.5));
+}
+
+export type Veredicto = 'Diferencia clara' | 'Tendencia' | 'Sin diferencia' | 'Sin datos';
+/**
+ * Veredicto de tres niveles (§6): «Diferencia clara» si p < α; «Tendencia» si la diferencia supera el mínimo relevante sin ser
+ * significativa; si no, «Sin diferencia». `pequeno` marca n < mínimo por card.
+ */
+export function veredicto(p: number | null, diferencia: number | null, minimoRelevante: number, nA: number, nB: number): { veredicto: Veredicto; pequeno: boolean } {
+  const pequeno = nA < U.minimoTendencia || nB < U.minimoTendencia;
+  if (p == null || diferencia == null) return { veredicto: 'Sin datos', pequeno };
+  if (p < U.alfa) return { veredicto: 'Diferencia clara', pequeno };
+  return { veredicto: Math.abs(diferencia) >= minimoRelevante ? 'Tendencia' : 'Sin diferencia', pequeno };
+}
 
 // ---------- Intervalo de confianza (Wilson 95 %) ----------
 export function wilson(aciertos: number, n: number): [number, number] | null {

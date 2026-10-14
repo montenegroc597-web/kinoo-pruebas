@@ -1,233 +1,315 @@
-// Cálculos del Panel: todo sale de las hojas del Sheet con las fórmulas del protocolo v1.3 (packages/tracking/src/metrics.ts).
+// Cálculos del Panel (protocolo v2.0): todo sale de las hojas del registro con las fórmulas del Excel
+// Registro_Pruebas_No_Moderadas_Kinoo_v2.0.xlsx. La hoja «Eventos» no se descarga: el servidor manda su resumen (Salud).
 import {
-  FLUJO_NOMBRE, MARCA_DESEADOS, MISIONES, TAREAS, UMBRALES, UEQ_ESCALAS, UEQ_PARES, UEQ_S_ITEMS, mapaCalor, mediana, promedio, semaforo, semaforoInverso, semaforoMiss, semaforoPrimerClic,
-  semaforoSEQ, semaforoUEQ, ueqEscalas, ueqS, ueqTransformar, veredictoAB, type Semaforo,
+  CONTROL_CORRECTO, UEQ_PARES, UEQ_S_ITEMS, UMBRALES as U, estudio, fisherExacta, mediana, promedio, semaforo, semaforoUEQ, ueqS, ueqTransformar, veredicto, welch,
+  type Semaforo, type Variante, type Veredicto,
 } from '@kinoo/tracking';
 
 export type Hoja = { headers: string[]; rows: any[][] };
 export type Dump = Record<string, Hoja>;
 export type Fila = Record<string, any>;
 
+/** Resumen de «Eventos» calculado en Supabase (acción resumen-eventos). */
+export interface ResumenEventos {
+  total: number; provisionales: number; ahora: string;
+  sesiones: { sesionId: string; codigo: string; bloque: string; pantalla: string; ts: string }[];
+  porMinuto: { min: string; n: number }[];
+}
+export const RESUMEN_VACIO: ResumenEventos = { total: 0, provisionales: 0, ahora: '', sesiones: [], porMinuto: [] };
+export interface Datos { hojas: Dump; eventos: ResumenEventos }
+
 export const filas = (d: Dump, hoja: string): Fila[] => {
   const h = d[hoja];
-  if (!h) return [];
-  return h.rows.map((r) => Object.fromEntries(h.headers.map((k, i) => [k, r[i]])));
+  return h ? h.rows.map((r) => Object.fromEntries(h.headers.map((k, i) => [k, r[i]]))) : [];
 };
-const num = (v: unknown): number | null => { if (v === '' || v == null) return null; const n = Number(String(v).replace(',', '.')); return Number.isFinite(n) ? n : null; };
+export const num = (v: unknown): number | null => { if (v === '' || v == null) return null; const n = Number(String(v).replace(',', '.')); return Number.isFinite(n) ? n : null; };
 const nums = (a: Fila[], k: string) => a.map((r) => num(r[k])).filter((x): x is number => x != null);
+const suma = (v: number[]) => v.reduce((x, y) => x + y, 0);
 const pct = (n: number, d: number) => (d ? (n / d) * 100 : null);
-const uniq = <T,>(a: T[]) => [...new Set(a)];
-
-/** Participantes de la ronda (la ronda 0 es el piloto y se excluye por defecto). */
-export function participantes(d: Dump, incluirPiloto = false): Fila[] {
-  return filas(d, 'Participantes').filter((p) => incluirPiloto || Number(p['Ronda']) !== 0);
-}
-export function codigosValidos(d: Dump, incluirPiloto = false): Set<string> {
-  return new Set(participantes(d, incluirPiloto).map((p) => String(p['Código'])));
-}
-const deValidos = (d: Dump, hoja: string, incluirPiloto: boolean, col = 'Participante'): Fila[] => {
-  const ok = codigosValidos(d, incluirPiloto);
-  return filas(d, hoja).filter((r) => ok.has(String(r[col])));
+export const contar = (claves: string[]): [string, number][] => {
+  const o: Record<string, number> = {};
+  claves.filter(Boolean).forEach((k) => { o[k] = (o[k] ?? 0) + 1; });
+  return Object.entries(o).sort((a, b) => b[1] - a[1]);
 };
 
-// ------------------------------------------------------------------ 5 segundos
-export function cincoSeg(d: Dump, piloto = false) {
-  const rs = deValidos(d, '5 segundos', piloto);
-  const porPantalla = uniq(rs.map((r) => String(r['Pantalla ID']))).sort().map((id) => {
-    const a = rs.filter((r) => r['Pantalla ID'] === id);
-    const prop = nums(a, 'Propósito (1/0,5/0)'), acc = nums(a, 'Acción principal (1/0,5/0)'), cla = nums(a, 'Claridad 1–7');
-    const sum = (v: number[]) => v.reduce((x, y) => x + y, 0);
-    const proposito = prop.length ? (sum(prop) / prop.length) * 100 : null;
-    const accion = acc.length ? (sum(acc) / acc.length) * 100 : null;
-    const claridad = promedio(cla);
-    return {
-      id, n: a.length, proposito, accion, claridad, codificadas: Math.min(prop.length, acc.length),
-      semProposito: semaforo(proposito, UMBRALES.proposito5s, 60), semAccion: semaforo(accion, UMBRALES.accion5s, 50), semClaridad: semaforo(claridad, UMBRALES.claridad5s, 4.5),
-      distClaridad: [1, 2, 3, 4, 5, 6, 7].map((k) => cla.filter((x) => x === k).length),
-      palabras: a.map((r) => String(r['Palabra / sensación'] ?? '')).filter(Boolean),
-      motivos: a.map((r) => String(r['Motivo si no entendió propósito o acción (código)'] ?? '')).filter(Boolean),
-    };
+// ------------------------------------------------------------------ participantes y validez (§0.3)
+export interface Persona { codigo: string; variante: Variante; valido: boolean; motivos: string[]; fila: Fila }
+/**
+ * «Válido (auto)» del Excel: completó, pasó el control de atención («marca la opción 5»), duró al menos la duración mínima y no
+ * fue excluido a mano. El piloto (ronda 0) se excluye salvo que se pida.
+ */
+export function personas(d: Datos, incluirPiloto = false): Persona[] {
+  return filas(d.hojas, 'Participantes').filter((p) => incluirPiloto || Number(p['Ronda']) !== 0).map((p) => {
+    const motivos: string[] = [];
+    if (p['Completó (Sí/No)'] !== 'Sí') motivos.push('no completó');
+    if (num(p['Control de atención']) !== CONTROL_CORRECTO) motivos.push('falló el control de atención');
+    if ((num(p['Duración (min)']) ?? 0) < U.duracionMinima) motivos.push(`menos de ${U.duracionMinima} min`);
+    if (String(p['Excluir a mano (Sí)']).trim().toLowerCase() === 'sí') motivos.push('excluido a mano');
+    return { codigo: String(p['Código']), variante: p['Variante de card (A/B)'] === 'B' ? 'B' : 'A', valido: motivos.length === 0, motivos, fila: p };
   });
-  return { porPantalla, n: uniq(rs.map((r) => r['Participante'])).length };
+}
+/** Filas de una hoja de módulo solo de personas válidas (opcionalmente de una card). */
+export function deValidos(d: Datos, hoja: string, piloto = false, variante?: Variante): Fila[] {
+  const ok = new Map(personas(d, piloto).filter((p) => p.valido && (!variante || p.variante === variante)).map((p) => [p.codigo, p.variante]));
+  return filas(d.hojas, hoja).filter((r) => ok.has(String(r['Participante']))).map((r) => ({ ...r, __variante: ok.get(String(r['Participante'])) }));
 }
 
-// ------------------------------------------------------------------ cards
-export function cards(d: Dump, piloto = false) {
-  const rs = deValidos(d, '5 s – Cards', piloto);
-  const prior = rs.map((r) => num(r['¿Prioritario? (auto)'])).filter((x): x is number => x != null);
-  const conoc = rs.filter((r) => r['¿Conocía la película? (Sí/No)'] === 'Sí'), noc = rs.filter((r) => r['¿Conocía la película? (Sí/No)'] === 'No');
-  const iC = promedio(nums(conoc, 'Interés 1–7')), iN = promedio(nums(noc, 'Interés 1–7'));
-  const primer: Record<string, number> = {};
-  rs.forEach((r) => { const k = String(r['Primer elemento que llamó la atención'] ?? '').split(' — ')[0]; if (k) primer[k] = (primer[k] ?? 0) + 1; });
-  const falto: Record<string, number> = {};
-  rs.forEach((r) => { const k = String(r['Información que faltó'] ?? '').trim().toLowerCase(); if (k) falto[k] = (falto[k] ?? 0) + 1; });
-  const atencion = pct(prior.filter((x) => x === 1).length, prior.length);
-  const dif = iC != null && iN != null ? Math.abs(iC - iN) : null;
+// ------------------------------------------------------------------ indicadores
+export interface Indicador { id: string; nombre: string; meta: string; valor: number | null; formato: 'pct' | 'num' | 'ueq'; estado: Semaforo; n: number }
+const ind = (id: string, nombre: string, valor: number | null, formato: Indicador['formato'], verde: number, amarillo: number, n: number, signo = '≥'): Indicador => ({
+  id, nombre, valor, formato, n, meta: `${signo} ${String(verde).replace('.', ',')}${formato === 'pct' ? ' %' : ''}`, estado: formato === 'ueq' ? semaforoUEQ(valor) : semaforo(valor, verde, amarillo),
+});
+/** % de filas con código 1 (respuestas codificadas 1 / 0,5 / 0); solo cuenta las ya codificadas. */
+const pctUno = (rs: Fila[], col: string) => { const v = nums(rs, col); return { valor: pct(v.filter((x) => x === 1).length, v.length), n: v.length }; };
+const prom = (rs: Fila[], col: string) => { const v = nums(rs, col); return { valor: promedio(v), n: v.length }; };
+
+// ------------------------------------------------------------------ M1 · Descubrir
+export function descubrir(d: Datos, piloto = false, variante?: Variante) {
+  const rs = deValidos(d, 'Descubrir', piloto, variante);
+  const prior = pctUno(rs, '¿Prioritario? (auto)');
+  const d1b = pctUno(rs, 'D1b · Propósito de la pantalla (1/0,5/0)'), d1c = pctUno(rs, 'D1c · Qué haría con la card (1/0,5/0)');
+  const d2 = pctUno(rs, 'D2 · Gesto «me interesa» (1 correcto · 0,5 alternativo · 0 incorrecto)'), d3 = pctUno(rs, 'D3 · Gesto «no me interesa» (1 · 0,5 · 0)');
+  const ant = pctUno(rs.flatMap((r) => [{ v: r['D2b · Consecuencia esperada (1/0,5/0)'] }, { v: r['D3b · Consecuencia esperada (1/0,5/0)'] }]), 'v');
+  const d4a = pctUno(rs, 'D4a · Interpretación del match (1/0,5/0)');
+  const tipo = rs.map((r) => String(r['D4c · Tipo de sorpresa'] ?? '')).filter(Boolean);
+  const seq = { valor: promedio([...nums(rs, 'D2a · SEQ 1–7'), ...nums(rs, 'D3a · SEQ 1–7')]), n: rs.length };
+  const llego = pctUno(rs, 'D4 · Llegó al resumen (1/0)');
+  const indicadores: Indicador[] = [
+    ind('D1a', 'Primer elemento mirado es prioritario', prior.valor, 'pct', U.primerElemento, U.comprensionAmarillo, prior.n),
+    ind('D1b', 'Entiende para qué sirve la pantalla', d1b.valor, 'pct', U.comprension, U.comprensionAmarillo, d1b.n),
+    ind('D1c', 'Sabe qué hacer con la card', d1c.valor, 'pct', U.comprension, U.comprensionAmarillo, d1c.n),
+    ind('D1d', 'Interés en la película (1–7)', prom(rs, 'D1d · Interés en la película 1–7').valor, 'num', U.opinion, U.opinionAmarillo, rs.length),
+    ind('D2', 'Gesto correcto «me interesa»', d2.valor, 'pct', U.gesto, U.gestoAmarillo, d2.n),
+    ind('D3', 'Gesto correcto «no me interesa»', d3.valor, 'pct', U.gesto, U.gestoAmarillo, d3.n),
+    ind('SEQ', 'Facilidad del gesto (SEQ)', seq.valor, 'num', U.seq, U.seqAmarillo, seq.n),
+    ind('D2b', 'Anticipa la consecuencia del gesto', ant.valor, 'pct', U.comprension, U.comprensionAmarillo, ant.n),
+    ind('D4', 'Completa el mazo y llega a su resumen', llego.valor, 'pct', U.gesto, U.gestoAmarillo, llego.n),
+    ind('D4e', 'Facilidad de completar el mazo (SEQ)', prom(rs, 'D4e · SEQ 1–7').valor, 'num', U.seq, U.seqAmarillo, rs.length),
+    ind('D4a', 'Entiende qué dice el mazo de él/ella', d4a.valor, 'pct', U.comprension, U.comprensionAmarillo, d4a.n),
+    ind('D4c', 'Lo que dice el mazo sorprende para bien', pct(tipo.filter((t) => t === 'Agradable').length, tipo.length), 'pct', U.sorpresaAgradable, U.sorpresaAgradableAmarillo, tipo.length),
+    ind('D4d', 'Ganas de ver lo que eligió (1–7)', prom(rs, 'D4d · Ganas de ver lo sugerido 1–7').valor, 'num', U.opinion, U.opinionAmarillo, rs.length),
+  ];
   return {
-    n: rs.length, atencion, semAtencion: semaforo(atencion, UMBRALES.atencionCards, 50),
-    recuerdo: promedio(nums(rs, '# elementos recordados')), interes: promedio(nums(rs, 'Interés 1–7')), interesConocidas: iC, interesNoConocidas: iN,
-    alertaDependePelicula: dif != null && dif > 1.5, primerElemento: Object.entries(primer).sort((a, b) => b[1] - a[1]), faltante: Object.entries(falto).sort((a, b) => b[1] - a[1]),
-    contenido: pct(nums(rs, 'Contenido (1/0,5/0)').reduce((a, b) => a + b, 0), nums(rs, 'Contenido (1/0,5/0)').length), codificadas: nums(rs, 'Contenido (1/0,5/0)').length,
+    n: rs.length, indicadores,
+    tiempos: { d2: mediana(nums(rs, 'D2 · Tiempo hasta el gesto (s)')), d3: mediana(nums(rs, 'D3 · Tiempo hasta el gesto (s)')), fueraD2: promedio(nums(rs, 'D2 · Toques fuera de lugar (n)')), fueraD3: promedio(nums(rs, 'D3 · Toques fuera de lugar (n)')), d4: mediana(nums(rs, 'D4 · Tiempo hasta el resumen (s)')) },
+    confusiones: contar(rs.map((r) => String(r['D4f · Qué le confundió'] ?? '').trim())),
+    gestos: { d2: contar(rs.map((r) => String(r['D2 · Gesto hecho'] ?? ''))), d3: contar(rs.map((r) => String(r['D3 · Gesto hecho'] ?? ''))) },
+    sorpresa: promedio(nums(rs, 'D4b · Sorpresa 1–7')), tipoSorpresa: contar(tipo),
+    primerElemento: contar(rs.map((r) => String(r['D1a · Primer elemento que llamó la atención'] ?? ''))),
+    motivos: contar([...rs.map((r) => String(r['Motivo si falló el gesto (código)'] ?? '')), ...rs.map((r) => String(r['Motivo si no entendió la pantalla o el match (código)'] ?? ''))]),
   };
 }
 
-// ------------------------------------------------------------------ primer clic + SEQ
-export function primerClic(d: Dump, piloto = false) {
-  const rs = deValidos(d, 'Primer clic + SEQ', piloto);
-  const ev = filas(d, 'Eventos').filter((e) => codigosValidos(d, piloto).has(String(e.codigo)));
-  const porTarea = TAREAS.map((t) => {
-    const a = rs.filter((r) => r['Tarea'] === t.id);
-    const puntajes = a.map((r) => num(r['Puntaje final']) ?? num(r['Puntaje auto (1/0,5/0)'])).filter((x): x is number => x != null);
-    const correcto = puntajes.length ? (puntajes.reduce((x, y) => x + y, 0) / puntajes.length) * 100 : null;
-    const tiempos = nums(a, 'Tiempo al 1er clic (s)');
-    const clics = nums(a, 'Clics totales').reduce((x, y) => x + y, 0), miss = nums(a, 'Miss clicks').reduce((x, y) => x + y, 0);
-    const missPct = pct(miss, clics);
-    const seq = nums(a, 'SEQ 1–7');
-    const acert = a.filter((r) => r['Resultado 1er clic (auto)'] === 'Correcto'), fallo = a.filter((r) => r['Resultado 1er clic (auto)'] !== 'Correcto');
-    // elemento incorrecto más tocado: toques en miss dentro de la tarea
-    const mal: Record<string, number> = {};
-    ev.filter((e) => e.bloque === 'primer-clic' && e.estimulo === t.id && (e.tipo === 'tap' || e.tipo === 'drag') && e.resultado === 'Miss click').forEach((e) => { const k = String(e.target || 'none'); mal[k] = (mal[k] ?? 0) + 1; });
-    const malTop = Object.entries(mal).sort((x, y) => y[1] - x[1]);
-    const totalMiss = malTop.reduce((x, y) => x + y[1], 0);
-    const med = mediana(tiempos);
-    return {
-      tarea: t.id, escenario: t.escenario, pantalla: t.pantalla, n: a.length, correcto, semCorrecto: semaforoPrimerClic(correcto),
-      medianaTiempo: med, semTiempo: semaforoInverso(med, UMBRALES.medianaTiempoBueno, UMBRALES.medianaTiempoDuda), missPct, semMiss: semaforoMiss(missPct),
-      seq: promedio(seq), semSEQ: semaforoSEQ(promedio(seq)), seqBajo: pct(seq.filter((x) => x <= 4).length, seq.length),
-      seqAcertaron: promedio(nums(acert, 'SEQ 1–7')), seqFallaron: promedio(nums(fallo, 'SEQ 1–7')),
-      falsaSeguridad: fallo.length > 0 && (promedio(nums(fallo, 'SEQ 1–7')) ?? 0) >= 5.5,
-      elementoRobado: malTop[0] && totalMiss ? { target: malTop[0][0], pct: (malTop[0][1] / totalMiss) * 100 } : null,
-      motivos: a.map((r) => String(r['Si SEQ ≤ 4: ¿qué la hizo difícil?'] ?? '')).filter(Boolean),
-    };
-  });
-  const global = promedio(porTarea.map((t) => t.correcto).filter((x): x is number => x != null));
-  return { porTarea, global, semGlobal: semaforoPrimerClic(global), n: uniq(rs.map((r) => r['Participante'])).length };
-}
-
-// ------------------------------------------------------------------ flujos (misiones tipo Maze)
-export function flujos(d: Dump, piloto = false) {
-  const rs = deValidos(d, 'Flujos', piloto);
-  const ev = filas(d, 'Eventos').filter((e) => codigosValidos(d, piloto).has(String(e.codigo)) && e.bloque === 'flujos');
-  const porMision = MISIONES.map((m) => {
-    const a = rs.filter((r) => r['Misión'] === m.id);
-    const cuenta = (res: string) => a.filter((r) => r['Resultado'] === res).length;
-    const directos = cuenta('Éxito directo'), indirectos = cuenta('Éxito indirecto'), abandonos = cuenta('Abandono'), tiempo = cuenta('Fallo por tiempo'), errores = cuenta('Error de flujo');
-    const toques = nums(a, 'Toques').reduce((x, y) => x + y, 0), miss = nums(a, 'Misclicks').reduce((x, y) => x + y, 0);
-    const exito = pct(directos + indirectos, a.length);
-    // embudo: Notas = "Pasos alcanzados: 3/4 [1110]"
-    const embudo = m.pasos.map((p, i) => ({ paso: p.etiqueta, n: a.filter((r) => /\[([01]+)\]/.exec(String(r['Notas']))?.[1]?.[i] === '1').length }));
-    const rutas: Record<string, number> = {};
-    a.forEach((r) => { const k = String(r['Pantallas visitadas (ruta)'] ?? ''); if (k) rutas[k] = (rutas[k] ?? 0) + 1; });
-    const desv: Record<string, number> = {};
-    a.forEach((r) => String(r['Desvíos'] ?? '').split(',').map((x) => x.trim()).filter(Boolean).forEach((x) => { desv[x] = (desv[x] ?? 0) + 1; }));
-    const salida: Record<string, number> = {};
-    a.filter((r) => ['Abandono', 'Fallo por tiempo'].includes(String(r['Resultado']))).forEach((r) => { const ruta = String(r['Pantallas visitadas (ruta)'] ?? '').split(' > '); const k = ruta[ruta.length - 1] || m.pantallaInicio; salida[k] = (salida[k] ?? 0) + 1; });
-    const evm = ev.filter((e) => e.estimulo === m.id);
-    return {
-      mision: m.id, flujo: m.flujo, titulo: m.titulo, escenario: m.escenario, n: a.length, directos, indirectos, abandonos, tiempo, errores, exito, directo: pct(directos, a.length), abandono: pct(abandonos, a.length),
-      mediana: mediana(nums(a, 'Tiempo (s)')), missPct: pct(miss, toques), toquesProm: promedio(nums(a, 'Toques')), seq: promedio(nums(a, 'SEQ')), ayuda: nums(a, 'Ayuda abierta').reduce((x, y) => x + y, 0),
-      embudo, rutas: Object.entries(rutas).sort((x, y) => y[1] - x[1]).slice(0, 5), desvios: Object.entries(desv).sort((x, y) => y[1] - x[1]), salidas: Object.entries(salida).sort((x, y) => y[1] - x[1]),
-      gestos: {
-        izquierda: evm.filter((e) => e.tipo === 'drag' && e.valor === 'izquierda').length, derecha: evm.filter((e) => e.tipo === 'drag' && e.valor === 'derecha').length, arriba: evm.filter((e) => e.tipo === 'drag' && e.valor === 'arriba').length,
-        arribaBloqueado: evm.filter((e) => e.tipo === 'action' && e.valor === 'gesture.blocked').length, mantener: evm.filter((e) => e.tipo === 'longpress').length, deshacer: evm.filter((e) => e.tipo === 'action' && e.valor === 'undo').length,
-      },
-    };
-  });
-  const porFlujo = (['F-D', 'F-M', 'F-V'] as const).map((f) => ({ flujo: f, nombre: FLUJO_NOMBRE[f], misiones: porMision.filter((m) => m.flujo === f) }));
-  return { porMision, porFlujo, n: uniq(rs.map((r) => r['Participante'])).length };
-}
-
-// ------------------------------------------------------------------ UEQ
-export function ueq(d: Dump, piloto = false) {
-  const rs = deValidos(d, 'UEQ', piloto);
-  const resp = (r: Fila): Record<number, number> => { const o: Record<number, number> = {}; for (let i = 1; i <= 26; i++) { const v = num(r[String(i)]); if (v != null) o[i] = v; } return o; };
-  const filasS = rs.map((r) => ({ cod: String(r['Participante']), s: ueqS(resp(r)), esc: ueqEscalas(resp(r)), formato: String(r['Formato']), comentario: String(r['Comentario libre'] ?? '') }));
-  const prag = promedio(filasS.map((x) => x.s.pragmatica).filter((x): x is number => x != null));
-  const hed = promedio(filasS.map((x) => x.s.hedonica).filter((x): x is number => x != null));
-  const gen = prag != null && hed != null ? (prag + hed) / 2 : null;
-  const items = (rs.some((r) => r['Formato'] === 'UEQ') ? Array.from({ length: 26 }, (_, i) => i + 1) : UEQ_S_ITEMS).map((i) => {
-    const v = rs.map((r) => num(r[String(i)])).filter((x): x is number => x != null).map((x) => ueqTransformar(i, x));
-    return { item: i, izq: UEQ_PARES[i - 1][0], der: UEQ_PARES[i - 1][1], media: promedio(v), n: v.length };
-  }).sort((a, b) => (a.media ?? 9) - (b.media ?? 9));
-  const escalas = Object.keys(UEQ_ESCALAS).map((k) => ({ escala: k, media: promedio(filasS.map((x) => x.esc[k]).filter((x): x is number => x != null)) }));
-  return { n: rs.length, pragmatica: prag, hedonica: hed, general: gen, semPrag: semaforoUEQ(prag), semHed: semaforoUEQ(hed), semGen: semaforoUEQ(gen), items, escalas, comentarios: filasS.map((x) => x.comentario).filter(Boolean),
-    lectura: prag != null && hed != null ? (prag > 0.8 && hed < 0.8 ? 'Sirve pero no engancha' : hed > 0.8 && prag < 0.8 ? 'Atrae pero cuesta usarla' : '') : '' };
-}
-
-// ------------------------------------------------------------------ marca A/B
-export function marca(d: Dump, piloto = false) {
-  const rs = deValidos(d, 'Marca A-B', piloto);
-  const m = (k: string) => promedio(nums(rs, k));
-  const votos = (k: string) => rs.filter((r) => r[k] === 'A').length;
-  const votosB = (k: string) => rs.filter((r) => r[k] === 'B').length;
-  const dec = (col: string) => { const a = votos(col), b = votosB(col); return { a, b, igual: rs.filter((r) => r[col] === 'Igual').length, ...veredictoAB(a, b) }; };
-  const dosAtributos = (v: 'A' | 'B') => pct(rs.filter((r) => (num(r[`${v} · # atributos deseados (0–3)`]) ?? 0) >= 2).length, rs.length);
-  const jer = (v: 'A' | 'B') => pct(rs.filter((r) => num(r[`${v} · Primer elemento = jerarquía prevista (1/0)`]) === 1).length, rs.filter((r) => num(r[`${v} · Primer elemento = jerarquía prevista (1/0)`]) != null).length);
-  const palabras = (v: 'A' | 'B') => { const o: Record<string, number> = {}; rs.forEach((r) => String(r[`${v} · Palabras`] ?? '').split(';').map((x) => x.trim()).filter(Boolean).forEach((w) => { o[w] = (o[w] ?? 0) + 1; })); return Object.entries(o).sort((a, b) => b[1] - a[1]); };
-  const porPantalla = uniq(rs.map((r) => String(r['Pantalla ID']))).sort().map((id) => {
-    const a = rs.filter((r) => r['Pantalla ID'] === id);
-    return { id, n: a.length, agradoA: promedio(nums(a, 'A · Agrado 1–7')), agradoB: promedio(nums(a, 'B · Agrado 1–7')), leerA: promedio(nums(a, 'A · Legibilidad 1–7')), leerB: promedio(nums(a, 'B · Legibilidad 1–7')) };
-  });
-  const pref = dec('Preferencia directa (A/B/Igual)');
-  const agA = m('A · Agrado 1–7'), agB = m('B · Agrado 1–7'), leA = m('A · Legibilidad 1–7'), leB = m('B · Legibilidad 1–7');
+// ------------------------------------------------------------------ M2 · Ver
+export function ver(d: Datos, piloto = false, variante?: Variante) {
+  const rs = deValidos(d, 'Ver', piloto, variante);
+  const v1c = pctUno(rs, 'V1c · Entiende para qué sirve el filtro (1/0,5/0)');
+  const util = prom(rs, 'V3b · Utilidad del filtro 1–7');
+  const conf = prom(rs, 'Índice de confianza (auto, 1–7)');
+  const indicadores: Indicador[] = [
+    ind('V1a', 'Entiende para qué sirve la pantalla', pctUno(rs, 'V1a · Propósito de la pantalla (1/0,5/0)').valor, 'pct', U.comprension, U.comprensionAmarillo, pctUno(rs, 'V1a · Propósito de la pantalla (1/0,5/0)').n),
+    ind('V1b', 'Claridad de la pantalla (1–7)', prom(rs, 'V1b · Claridad 1–7').valor, 'num', U.opinion, U.opinionAmarillo, rs.length),
+    ind('V1c', 'Entiende el filtro SIN explicación', v1c.valor, 'pct', U.filtroSinExplicacion, U.filtroSinExplicacionAmarillo, v1c.n),
+    ind('V1d', 'Anticipa qué pasa al moverlo', pctUno(rs, 'V1d · Qué espera al moverlo (1/0,5/0)').valor, 'pct', U.filtroSinExplicacion, U.filtroSinExplicacionAmarillo, pctUno(rs, 'V1d · Qué espera al moverlo (1/0,5/0)').n),
+    ind('V2', 'Llega al mood correcto', pctUno(rs, 'V2 · Mood alcanzado (1 correcto · 0,5 cercano · 0 otro)').valor, 'pct', U.gesto, U.gestoAmarillo, rs.length),
+    ind('V2a', 'Facilidad de la tarea (SEQ)', prom(rs, 'V2a · SEQ 1–7').valor, 'num', U.seq, U.seqAmarillo, rs.length),
+    ind('V3b', 'Utilidad del filtro (1–7)', util.valor, 'num', U.opinion, U.opinionAmarillo, util.n),
+    ind('V4', 'Índice de confianza (1–7)', conf.valor, 'num', U.confianza, U.confianzaAmarillo, conf.n),
+    ind('V4d', 'Ganas de ver la recomendada (1–7)', prom(rs, 'V4d · Ganas de ver la película 1–7').valor, 'num', U.opinion, U.opinionAmarillo, rs.length),
+  ];
+  // lectura combinada de V1c y V3b (§2, criterios de éxito)
+  const lectura = v1c.valor == null || util.valor == null ? '' : v1c.valor >= U.filtroSinExplicacion ? 'La interfaz del filtro se explica sola.'
+    : v1c.valor < U.filtroSinExplicacionAmarillo && util.valor >= U.opinion ? 'El concepto sirve, pero falta una pista visual o un texto breve.'
+    : v1c.valor < U.filtroSinExplicacionAmarillo && util.valor < U.opinionAmarillo ? 'Hay que replantear el filtro.' : 'Zona intermedia: revisar la barra antes de construir.';
   return {
-    n: rs.length, personas: uniq(rs.map((r) => r['Participante'])).length, preferencia: pref, colores: dec('¿Qué colores prefiere? (A/B/Igual)'), lectura: dec('¿Cuál se lee mejor? (A/B/Igual)'), cinematografica: dec('¿Cuál es más [atributo]? (A/B/Igual)'),
-    agradoA: agA, agradoB: agB, leerA: leA, leerB: leB, semLeerA: semaforo(leA, UMBRALES.legibilidadMarca, 4.5), semLeerB: semaforo(leB, UMBRALES.legibilidadMarca, 4.5),
-    dosAtributosA: dosAtributos('A'), dosAtributosB: dosAtributos('B'), jerarquiaA: jer('A'), jerarquiaB: jer('B'), palabrasA: palabras('A'), palabrasB: palabras('B'),
-    emocionanteA: m('A · Aburrido–Emocionante 1–7'), emocionanteB: m('B · Aburrido–Emocionante 1–7'), distintivoA: m('A · Genérico–Distintivo 1–7'), distintivoB: m('B · Genérico–Distintivo 1–7'),
-    calidoA: m('A · Frío–Cálido'), calidoB: m('B · Frío–Cálido'), claroA: m('A · Confuso–Claro'), claroB: m('B · Confuso–Claro'),
-    porPantalla, motivos: rs.map((r) => ({ cod: String(r['Participante']), pantalla: String(r['Pantalla ID']), texto: String(r['Motivo (textual)'] ?? ''), pref: String(r['Preferencia directa (A/B/Igual)']) })).filter((x) => x.texto),
-    /** orden de la decisión (protocolo §4.5): contraste → legibilidad y jerarquía → preferencia */
-    deseadosEstanDeseados: MARCA_DESEADOS,
+    n: rs.length, indicadores, lectura, confianzaBaja: conf.valor != null && conf.valor < 4.5,
+    moodFinal: contar(rs.map((r) => String(r['V2 · Mood en el que terminó'] ?? ''))),
+    v2: { tiempo: mediana(nums(rs, 'V2 · Tiempo hasta terminar (s)')), movimientos: promedio(nums(rs, 'V2 · Movimientos de la barra (n)')), fuera: promedio(nums(rs, 'V2 · Toques fuera de lugar (n)')) },
+    expectativa: contar(rs.map((r) => String(r['V3a · ¿Era lo que esperabas?'] ?? ''))), preferencia: contar(rs.map((r) => String(r['V3c · Preferencia'] ?? ''))),
+    cambios: rs.map((r) => String(r['V3d · Qué cambiaría del filtro'] ?? '')).filter(Boolean),
   };
 }
 
-// ------------------------------------------------------------------ mapas de calor
-export interface PuntoMapa { x: number; y: number; resultado: string; prueba: string; estimulo: string; pantalla: string; version: string; nClic: number; participante: string }
-export function puntos(d: Dump, piloto = false): PuntoMapa[] {
+// ------------------------------------------------------------------ M3 · Moods
+export function moods(d: Datos, piloto = false) {
+  const cfg = estudio();
+  const rs = deValidos(d, 'Moods', piloto), ps = deValidos(d, 'Películas', piloto);
+  const categorias = [...cfg.moods.map((m) => m.nombre), 'Otra película', 'Ninguna / no sé'];
+  const porMood = cfg.moods.map((m) => {
+    const a = rs.filter((r) => r['Mood'] === m.nombre);
+    const ac = nums(a, '¿Acierta? (auto)');
+    const acierto = pct(ac.filter((x) => x === 1).length, ac.length);
+    const conf = contar(a.map((r) => String(r['Mood con el que lo confundió (auto)'] ?? '')));
+    const pelis = ps.filter((p) => p['Mood previsto'] === m.nombre);
+    const coincide = pct(nums(pelis, '¿Coincide con el previsto? (auto)').filter((x) => x === 1).length, nums(pelis, '¿Coincide con el previsto? (auto)').length);
+    const sig = pctUno(a, 'M3a · Significado abierto (1/0,5/0) (solo 3 moods por persona)');
+    // §3 «Cómo decidir qué hacer con cada mood»
+    const dominante = conf[0] && conf[0][0] !== 'Otra película' && conf[0][0] !== 'Ninguna / no sé' ? conf[0][0] : '';
+    const accion = acierto == null ? '' : acierto >= U.moodAcierto && (coincide == null || coincide >= U.peliculaMood) ? 'Mantener'
+      : acierto >= U.moodAcierto ? 'Cambiar la película o la definición'
+      : acierto < U.moodAciertoAmarillo && !dominante ? 'Renombrar (ver nombres propios)' : dominante ? `Diferenciar de «${dominante}» o fusionar` : 'Revisar';
+    return {
+      mood: m.nombre, n: a.length, acierto, estado: semaforo(acierto, U.moodAcierto, U.moodAciertoAmarillo), confusiones: conf,
+      fila: categorias.map((c) => c === m.nombre ? ac.filter((x) => x === 1).length : a.filter((r) => r['Mood con el que lo confundió (auto)'] === c).length),
+      significado: sig.valor, nSignificado: sig.n, claridad: promedio(nums(a, 'M3b · Claridad 1–7 (solo esos 3)')), tiempo: promedio(nums(a, 'M3c · Tiempo (s)')),
+      peliculaAMood: coincide, accion,
+    };
+  });
+  const porPelicula = cfg.peliculasM3d.map((p) => {
+    const a = ps.filter((r) => r['Película'] === p.titulo);
+    const c = nums(a, '¿Coincide con el previsto? (auto)');
+    return {
+      titulo: p.titulo, previsto: p.moodPrevisto, n: a.length, coincide: pct(c.filter((x) => x === 1).length, c.length),
+      estado: semaforo(pct(c.filter((x) => x === 1).length, c.length), U.peliculaMood, U.peliculaMoodAmarillo),
+      asociado: contar(a.map((r) => String(r['M3d · Mood con el que la asocia'] ?? ''))), nombres: contar(a.map((r) => String(r['M3e · Nombre que le pondría'] ?? '').trim().toLowerCase())),
+    };
+  });
+  const todos = nums(rs, '¿Acierta? (auto)');
+  const total = pct(todos.filter((x) => x === 1).length, todos.length);
+  return { porMood, porPelicula, categorias, total, estadoTotal: semaforo(total, U.moodAcierto, U.moodAciertoAmarillo), personas: new Set(rs.map((r) => r['Participante'])).size };
+}
+
+// ------------------------------------------------------------------ M4 · Mazos
+export function mazos(d: Datos, piloto = false, variante?: Variante) {
+  const cfg = estudio();
+  const rs = deValidos(d, 'Mazos', piloto, variante);
+  const ideas = nums(rs, 'Ideas clave captadas (auto, 0–4)'), frases = nums(rs, 'Frases acertadas (auto, 0–4)');
+  const z4 = nums(rs, '¿Acierta? (auto)');
+  const indicadores: Indicador[] = [
+    ind('Z1', 'Ideas clave captadas', ideas.length ? (promedio(ideas)! / 4) * 100 : null, 'pct', U.mazoIdeas, U.mazoIdeasAmarillo, ideas.length),
+    ind('Z2', 'Frases acertadas', frases.length ? (promedio(frases)! / 4) * 100 : null, 'pct', U.mazoFrases, U.mazoFrasesAmarillo, frases.length),
+    ind('Z3', 'Primer clic correcto', pctUno(rs, 'Z3 · Primer clic para controlar el contenido (1 · 0,5 · 0)').valor, 'pct', U.gesto, U.gestoAmarillo, rs.length),
+    ind('Z3a', 'Facilidad de Z3 (SEQ)', prom(rs, 'Z3a · SEQ 1–7').valor, 'num', U.seq, U.seqAmarillo, rs.length),
+    ind('Z4', 'Anticipa la consecuencia', pct(z4.filter((x) => x === 1).length, z4.length), 'pct', U.comprension, U.comprensionAmarillo, z4.length),
+    ind('Z5a', 'Claridad de cómo funciona (1–7)', prom(rs, 'Z5a · Claridad de cómo funciona 1–7').valor, 'num', U.opinion, U.opinionAmarillo, rs.length),
+    ind('Z5b', 'Utilidad de tener mazos (1–7)', prom(rs, 'Z5b · Utilidad de tener mazos 1–7').valor, 'num', U.opinion, U.opinionAmarillo, rs.length),
+  ];
+  const porFrase = cfg.mazos.frases.map((f, i) => {
+    const r = rs.map((x) => x[`Z2 · Frase ${i + 1}`]).filter(Boolean);
+    return { texto: f.texto, correcta: f.correcta, acierto: pct(r.filter((x) => x === f.correcta).length, r.length), noSe: pct(r.filter((x) => x === 'No sé').length, r.length) };
+  });
+  const porIdea = cfg.mazos.ideas.map((t, i) => ({ texto: t, pct: pctUno(rs, i === 0 ? 'Z1 · Idea clave 1 mencionada (1/0)' : `Z1 · Idea clave ${i + 1} (1/0)`).valor }));
+  return { n: rs.length, indicadores, porFrase, porIdea, z3Tiempo: mediana(nums(rs, 'Z3 · Tiempo al primer clic (s)')), z4: contar(rs.map((r) => String(r['Z4 · Consecuencia que espera'] ?? ''))) };
+}
+
+// ------------------------------------------------------------------ M5 · Percepción
+const UEQ_COL = (i: number) => `F3 · UEQ-S ítem ${i}: ${UEQ_PARES[i - 1][0]} (1) – ${UEQ_PARES[i - 1][1]} (7)`;
+export function percepcion(d: Datos, piloto = false, variante?: Variante) {
+  const rs = deValidos(d, 'Percepción', piloto, variante);
+  const porPersona = rs.map((r) => ueqS(Object.fromEntries(UEQ_S_ITEMS.map((i) => [i, num(r[UEQ_COL(i)])]).filter(([, v]) => v != null)) as Record<number, number>));
+  const media = (k: 'pragmatica' | 'hedonica' | 'general') => promedio(porPersona.map((x) => x[k]).filter((x): x is number => x != null));
+  const indicadores: Indicador[] = [
+    ind('F1', 'Qué tan chévere (1–7)', prom(rs, 'F1 · Qué tan chévere 1–7').valor, 'num', U.confianza, U.confianzaAmarillo, rs.length),
+    ind('F2', 'Probabilidad de usar una app así (1–7)', prom(rs, 'F2 · Probabilidad de usar una app así 1–7').valor, 'num', U.opinion, U.opinionAmarillo, rs.length),
+    ind('UEQP', 'UEQ-S pragmática (−3…+3)', media('pragmatica'), 'ueq', U.ueq, U.ueqAmarillo, porPersona.length, '>'),
+    ind('UEQH', 'UEQ-S hedónica (−3…+3)', media('hedonica'), 'ueq', U.ueq, U.ueqAmarillo, porPersona.length, '>'),
+    ind('UEQG', 'UEQ-S general (−3…+3)', media('general'), 'ueq', U.ueq, U.ueqAmarillo, porPersona.length, '>'),
+  ];
+  const items = UEQ_S_ITEMS.map((i) => ({ item: i, izq: UEQ_PARES[i - 1][0], der: UEQ_PARES[i - 1][1], media: promedio(nums(rs, UEQ_COL(i)).map((x) => ueqTransformar(i, x))) }))
+    .sort((a, b) => (a.media ?? 9) - (b.media ?? 9));
+  return { n: rs.length, indicadores, items, comentarios: rs.map((r) => String(r['F4 · Qué cambiaría (texto)'] ?? '')).filter(Boolean), porPersona };
+}
+
+// ------------------------------------------------------------------ comparación A/B (§6)
+export interface MetricaAB {
+  id: string; nombre: string; tipo: 'Porcentaje' | 'Escala 1–7' | 'Tiempo (s)' | 'UEQ-S'; mejor: 'mayor' | 'menor'; primaria: boolean;
+  a: number | null; b: number | null; nA: number; nB: number; dif: number | null; p: number | null; veredicto: Veredicto; pequeno: boolean; favorece: Variante | null;
+}
+type DefAB = { id: string; nombre: string; hoja: string; tipo: MetricaAB['tipo']; col?: string; valor?: (r: Fila) => number | null; uno?: boolean; mejor?: 'mayor' | 'menor'; primaria?: boolean };
+const UEQ_DE = (k: 'pragmatica' | 'hedonica' | 'general') => (r: Fila) => ueqS(Object.fromEntries(UEQ_S_ITEMS.map((i) => [i, num(r[UEQ_COL(i)])]).filter(([, v]) => v != null)) as Record<number, number>)[k];
+/** Las 22 métricas de la hoja «Comparación A-B»; las 5 primarias deciden (§6 «Regla de decisión»). */
+export const METRICAS_AB: DefAB[] = [
+  { id: 'D1a', nombre: 'Primer elemento mencionado es un elemento prioritario', hoja: 'Descubrir', tipo: 'Porcentaje', col: '¿Prioritario? (auto)', uno: true },
+  { id: 'D1b', nombre: 'Entiende para qué sirve la pantalla', hoja: 'Descubrir', tipo: 'Porcentaje', col: 'D1b · Propósito de la pantalla (1/0,5/0)', uno: true, primaria: true },
+  { id: 'D1c', nombre: 'Entiende qué hacer con la card', hoja: 'Descubrir', tipo: 'Porcentaje', col: 'D1c · Qué haría con la card (1/0,5/0)', uno: true, primaria: true },
+  { id: 'D2', nombre: 'Hace el gesto correcto cuando la película le interesa', hoja: 'Descubrir', tipo: 'Porcentaje', col: 'D2 · Gesto «me interesa» (1 correcto · 0,5 alternativo · 0 incorrecto)', uno: true, primaria: true },
+  { id: 'D3', nombre: 'Hace el gesto correcto cuando la película no le interesa', hoja: 'Descubrir', tipo: 'Porcentaje', col: 'D3 · Gesto «no me interesa» (1 · 0,5 · 0)', uno: true, primaria: true },
+  { id: 'D2b', nombre: 'Anticipa la consecuencia del gesto «me interesa»', hoja: 'Descubrir', tipo: 'Porcentaje', col: 'D2b · Consecuencia esperada (1/0,5/0)', uno: true },
+  { id: 'D4a', nombre: 'Entiende qué dice el mazo (resumen)', hoja: 'Descubrir', tipo: 'Porcentaje', col: 'D4a · Interpretación del match (1/0,5/0)', uno: true },
+  { id: 'D4c', nombre: 'Lo que dice el mazo sorprende para bien', hoja: 'Descubrir', tipo: 'Porcentaje', valor: (r) => (r['D4c · Tipo de sorpresa'] ? (r['D4c · Tipo de sorpresa'] === 'Agradable' ? 1 : 0) : null), uno: true },
+  { id: 'D1d', nombre: 'Interés en la película (1–7)', hoja: 'Descubrir', tipo: 'Escala 1–7', col: 'D1d · Interés en la película 1–7', primaria: true },
+  { id: 'D2a', nombre: 'Facilidad del gesto «me interesa» (SEQ, 1–7)', hoja: 'Descubrir', tipo: 'Escala 1–7', col: 'D2a · SEQ 1–7' },
+  { id: 'D3a', nombre: 'Facilidad del gesto «no me interesa» (SEQ, 1–7)', hoja: 'Descubrir', tipo: 'Escala 1–7', col: 'D3a · SEQ 1–7' },
+  { id: 'D4b', nombre: 'Sorpresa con el resumen del mazo (1–7)', hoja: 'Descubrir', tipo: 'Escala 1–7', col: 'D4b · Sorpresa 1–7' },
+  { id: 'D4d', nombre: 'Ganas de ver las películas elegidas en el mazo (1–7)', hoja: 'Descubrir', tipo: 'Escala 1–7', col: 'D4d · Ganas de ver lo sugerido 1–7' },
+  { id: 'V4', nombre: 'Índice de confianza en la recomendación (1–7)', hoja: 'Ver', tipo: 'Escala 1–7', col: 'Índice de confianza (auto, 1–7)' },
+  { id: 'V4d', nombre: 'Ganas de ver la película recomendada en Ver (1–7)', hoja: 'Ver', tipo: 'Escala 1–7', col: 'V4d · Ganas de ver la película 1–7' },
+  { id: 'F1', nombre: 'Qué tan chévere le parece (1–7)', hoja: 'Percepción', tipo: 'Escala 1–7', col: 'F1 · Qué tan chévere 1–7' },
+  { id: 'F2', nombre: 'Probabilidad de usar una app así (1–7)', hoja: 'Percepción', tipo: 'Escala 1–7', col: 'F2 · Probabilidad de usar una app así 1–7' },
+  { id: 'D2t', nombre: 'Tiempo hasta el gesto «me interesa» (s)', hoja: 'Descubrir', tipo: 'Tiempo (s)', col: 'D2 · Tiempo hasta el gesto (s)', mejor: 'menor' },
+  { id: 'D3t', nombre: 'Tiempo hasta el gesto «no me interesa» (s)', hoja: 'Descubrir', tipo: 'Tiempo (s)', col: 'D3 · Tiempo hasta el gesto (s)', mejor: 'menor' },
+  { id: 'UEQG', nombre: 'UEQ-S general (−3 a +3)', hoja: 'Percepción', tipo: 'UEQ-S', valor: UEQ_DE('general') },
+  { id: 'UEQP', nombre: 'UEQ-S pragmática (−3 a +3)', hoja: 'Percepción', tipo: 'UEQ-S', valor: UEQ_DE('pragmatica') },
+  { id: 'UEQH', nombre: 'UEQ-S hedónica (−3 a +3)', hoja: 'Percepción', tipo: 'UEQ-S', valor: UEQ_DE('hedonica') },
+];
+
+export function comparacionAB(d: Datos, piloto = false) {
+  const ps = personas(d, piloto).filter((p) => p.valido);
+  const nPorCard = { A: ps.filter((p) => p.variante === 'A').length, B: ps.filter((p) => p.variante === 'B').length };
+  const metricas: MetricaAB[] = METRICAS_AB.map((m) => {
+    const vals = (v: Variante) => deValidos(d, m.hoja, piloto, v).map((r) => (m.valor ? m.valor(r) : num(r[m.col!]))).filter((x): x is number => x != null);
+    const xa = vals('A'), xb = vals('B'), mejor = m.mejor ?? 'mayor';
+    let a: number | null, b: number | null, p: number | null, minimo: number;
+    if (m.uno) {
+      const ka = xa.filter((x) => x === 1).length, kb = xb.filter((x) => x === 1).length;
+      a = pct(ka, xa.length); b = pct(kb, xb.length); p = xa.length && xb.length ? fisherExacta(ka, xa.length, kb, xb.length) : null; minimo = U.difPorcentaje;
+    } else {
+      a = promedio(xa); b = promedio(xb); p = welch(xa, xb);
+      minimo = m.tipo === 'UEQ-S' ? U.difUeq : m.tipo === 'Tiempo (s)' ? (U.difTiempo / 100) * Math.max(a ?? 0, b ?? 0) : U.difEscala;
+    }
+    const dif = a != null && b != null ? a - b : null;
+    const v = veredicto(p, dif, minimo, xa.length, xb.length);
+    const favorece: Variante | null = dif == null || dif === 0 || v.veredicto === 'Sin diferencia' || v.veredicto === 'Sin datos' ? null : (dif > 0) === (mejor === 'mayor') ? 'A' : 'B';
+    return { id: m.id, nombre: m.nombre, tipo: m.tipo, mejor, primaria: !!m.primaria, a, b, nA: xa.length, nB: xb.length, dif, p, ...v, favorece };
+  });
+  // gana la card con diferencia clara a su favor en ≥ 1 primaria y ninguna clara en contra entre las primarias
+  const prim = metricas.filter((m) => m.primaria && m.veredicto === 'Diferencia clara');
+  const gana = (['A', 'B'] as const).find((c) => prim.some((m) => m.favorece === c) && !prim.some((m) => m.favorece && m.favorece !== c)) ?? null;
+  const soloTendencias = !prim.length && metricas.some((m) => m.primaria && m.veredicto === 'Tendencia');
+  const lectura = gana ? `Gana la card ${gana}: tiene diferencia clara a su favor en ${prim.filter((m) => m.favorece === gana).map((m) => m.id).join(', ')} y ninguna en contra entre las primarias.`
+    : soloTendencias ? `Solo hay tendencias: ampliar la muestra a ${U.validosPorVariante + 5} por card antes de decidir.`
+    : 'Sin diferencias claras en las métricas primarias: decidir por criterios de equipo (costo de construcción, coherencia con la marca).';
+  return { metricas, nPorCard, gana, lectura, pequeno: nPorCard.A < U.minimoTendencia || nPorCard.B < U.minimoTendencia };
+}
+
+// ------------------------------------------------------------------ resumen («Insights»)
+export function resumen(d: Datos, piloto = false) {
+  const ps = personas(d, piloto);
+  const validas = ps.filter((p) => p.valido);
+  const indicadores = [
+    ...descubrir(d, piloto).indicadores.map((i) => ({ ...i, modulo: 'M1 · Descubrir' })),
+    ...ver(d, piloto).indicadores.map((i) => ({ ...i, modulo: 'M2 · Ver' })),
+    { ...ind('M3c', 'Acierta la película del mood', moods(d, piloto).total, 'pct', U.moodAcierto, U.moodAciertoAmarillo, moods(d, piloto).personas), modulo: 'M3 · Moods' },
+    ...mazos(d, piloto).indicadores.map((i) => ({ ...i, modulo: 'M4 · Mazos' })),
+    ...percepcion(d, piloto).indicadores.map((i) => ({ ...i, modulo: 'M5 · Percepción' })),
+  ];
+  return {
+    abrieron: ps.length, validas: validas.length, completaron: ps.filter((p) => p.fila['Completó (Sí/No)'] === 'Sí').length,
+    porCard: { A: validas.filter((p) => p.variante === 'A').length, B: validas.filter((p) => p.variante === 'B').length },
+    porFlujo: contar(ps.map((p) => String(p.fila['Flujo (Completo / Link 1 / Link 2)'] ?? ''))),
+    porSistema: contar(ps.map((p) => String(p.fila['Dispositivo'] ?? ''))),
+    porVersionTextos: contar(ps.map((p) => String(p.fila['Versión de textos'] || 'protocolo'))),
+    porVersionEstudio: contar(ps.map((p) => String(p.fila['Versión del estudio'] || 'inicial'))),
+    descartes: contar(ps.flatMap((p) => p.motivos)),
+    indicadores,
+  };
+}
+
+// ------------------------------------------------------------------ mapas y salud
+export interface PuntoMapa { x: number; y: number; tarea: string; tipo: string; dir: string; resultado: string; n: number; variante: string; pantalla: string }
+export function puntos(d: Datos, piloto = false): PuntoMapa[] {
   return deValidos(d, 'Puntos', piloto).map((r) => ({
-    x: Number(r['X (% ancho)']), y: Number(r['Y (% alto)']), resultado: String(r['Resultado'] ?? ''), prueba: String(r['Prueba']), estimulo: String(r['Estímulo (tarea T1…T5 / card C1…C6 / par)']),
-    pantalla: String(r['Pantalla ID']), version: String(r['Versión']), nClic: Number(r['N.º de clic (1 = primero)']), participante: String(r['Participante']),
+    x: Number(r['X (% ancho)']), y: Number(r['Y (% alto)']), tarea: String(r['Tarea']), tipo: String(r['Tipo (toque / gesto)']), dir: String(r['Dirección'] ?? ''),
+    resultado: String(r['Resultado'] ?? ''), n: Number(r['N.º de toque (1 = primero)']), variante: String(r['__variante']), pantalla: String(r['Pantalla']),
   })).filter((p) => Number.isFinite(p.x) && Number.isFinite(p.y));
 }
-export const calor = (pts: PuntoMapa[]) => mapaCalor(pts);
 
-// ------------------------------------------------------------------ resumen
-export interface Indicador { prueba: string; indicador: string; meta: string; valor: number | null; formato: 'pct' | 'num' | 'ueq'; estado: Semaforo }
-export function resumen(d: Dump, piloto = false) {
-  const ps = participantes(d, piloto);
-  const fases = [0, 1, 2, 3, 4].map((k) => ps.filter((p) => Number(p['Fases completadas']) === k).length);
-  const completos = fases[4];
-  const c5 = cincoSeg(d, piloto), cd = cards(d, piloto), pc = primerClic(d, piloto), fl = flujos(d, piloto), uq = ueq(d, piloto), mr = marca(d, piloto);
-  const prop = promedio(c5.porPantalla.map((p) => p.proposito).filter((x): x is number => x != null));
-  const seqAll = promedio(pc.porTarea.map((t) => t.seq).filter((x): x is number => x != null));
-  const exitoFl = promedio(fl.porMision.map((m) => m.exito).filter((x): x is number => x != null));
-  const ind: Indicador[] = [
-    { prueba: '5 segundos', indicador: '% que identifica el propósito', meta: '≥ 80 %', valor: prop, formato: 'pct', estado: semaforo(prop, 80, 60) },
-    { prueba: '5 s · Cards', indicador: '% con atención en elemento prioritario', meta: '≥ 70 %', valor: cd.atencion, formato: 'pct', estado: cd.semAtencion },
-    { prueba: 'Primer clic', indicador: '% de primer clic correcto (promedio T1–T5)', meta: '≥ 80 %', valor: pc.global, formato: 'pct', estado: pc.semGlobal },
-    { prueba: 'SEQ', indicador: 'SEQ promedio', meta: '≥ 5,5 de 7', valor: seqAll, formato: 'num', estado: semaforoSEQ(seqAll) },
-    { prueba: 'Flujos', indicador: '% de éxito en misiones (directo + indirecto)', meta: '≥ 80 %', valor: exitoFl, formato: 'pct', estado: semaforo(exitoFl, 80, 60) },
-    { prueba: 'UEQ-S', indicador: 'Experiencia general (−3…+3)', meta: '> 0,8', valor: uq.general, formato: 'ueq', estado: uq.semGen },
-    { prueba: 'Marca A/B', indicador: 'Veredicto de preferencia', meta: 'binomial α = 0,05', valor: mr.preferencia.ganador ? 1 : 0, formato: 'num', estado: mr.preferencia.n === 0 ? 'sin-datos' : mr.preferencia.ganador ? 'verde' : 'amarillo' },
-  ];
-  return { n: ps.length, completos, fases, ind, porRonda: uniq(ps.map((p) => Number(p['Ronda']))).sort().map((r) => ({ ronda: r, n: ps.filter((p) => Number(p['Ronda']) === r).length })) };
+export function salud(d: Datos) {
+  const ev = d.eventos;
+  const ahora = Date.parse(ev.ahora) || Date.now(); // reloj del servidor
+  const ps = filas(d.hojas, 'Participantes');
+  return {
+    eventos: ev.total, activas: ev.sesiones.filter((s) => ahora - Date.parse(s.ts) < 5 * 60_000), porMin: ev.porMinuto, provisionales: ev.provisionales,
+    errores: filas(d.hojas, 'Errores'), incompletos: ps.filter((p) => p['Completó (Sí/No)'] !== 'Sí'),
+  };
 }
-
-// ------------------------------------------------------------------ salud
-export function salud(d: Dump, ahora = Date.now()) {
-  const ev = filas(d, 'Eventos');
-  const ult: Record<string, { ts: number; cod: string; nombre: string; pantalla: string }> = {};
-  ev.forEach((e) => { const t = Date.parse(String(e.ts)); if (!Number.isNaN(t) && (!ult[e.sesionId] || t > ult[e.sesionId].ts)) ult[e.sesionId] = { ts: t, cod: String(e.codigo), nombre: String(e.nombreMostrado), pantalla: String(e.pantalla) }; });
-  const activas = Object.values(ult).filter((u) => ahora - u.ts < 5 * 60_000);
-  const porMin: Record<string, number> = {};
-  ev.forEach((e) => { const t = Date.parse(String(e.ts)); if (!Number.isNaN(t) && ahora - t < 15 * 60_000) { const k = new Date(Math.floor(t / 60_000) * 60_000).toISOString().slice(11, 16); porMin[k] = (porMin[k] ?? 0) + 1; } });
-  const errores = filas(d, 'Errores');
-  const ps = filas(d, 'Participantes');
-  const incompletos = ps.filter((p) => Number(p['Fases completadas']) < 4);
-  const zonas = filas(d, 'Zonas');
-  const sinZona = TAREAS.filter((t) => !zonas.some((z) => z['Tarea'] === t.id && num(z['X1 (%)']) != null));
-  const provisionales = ev.filter((e) => String(e.codigo).startsWith('TMP-')).length;
-  return { eventos: ev.length, activas, porMin: Object.entries(porMin).sort(), errores, incompletos, sinZona, provisionales, dispositivos: uniq(ps.map((p) => String(p['Dispositivo'] ?? '').split('|')[0].slice(0, 60))).filter(Boolean) };
-}
-void MISIONES;

@@ -29,16 +29,13 @@ textarea.sh-input { min-height: 120px; resize: vertical; line-height: 1.4; }
 .sh-progress { height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; }
 .sh-progress > i { display: block; height: 100%; background: var(--sun); transition: width .3s; }
 .sh-stage { display: flex; flex-direction: column; align-items: center; gap: 10px; width: 100%; }
-.sh-pill { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; background: var(--surface-inverse); color: var(--ink-inverse); font-size: 13px; font-weight: 700; border: 0; cursor: pointer; }
-.sh-task { width: 100%; padding: 12px 14px; border-radius: 14px; background: var(--surface-inverse); color: var(--ink-inverse); font-size: 14px; line-height: 1.4; }
 .sh-marker { position: absolute; width: 26px; height: 26px; margin: -13px 0 0 -13px; border-radius: 50%; border: 3px solid var(--sun); background: color-mix(in srgb, var(--sun) 35%, transparent); pointer-events: none; box-shadow: 0 0 0 3px #000; }
-.sh-gray { background: #3a3a3a; }
-.sh-word { padding: 10px 14px; border-radius: 999px; border: 2px solid var(--line-strong); background: transparent; color: var(--ink); font: inherit; font-size: 15px; font-weight: 700; cursor: pointer; }
-.sh-word[aria-pressed="true"] { background: var(--sun); color: var(--on-sun); border-color: var(--sun-core); }
-.sh-wrap { display: flex; flex-wrap: wrap; gap: 8px; }
-.sh-net { position: fixed; right: 8px; bottom: 8px; font-size: 11px; padding: 4px 8px; border-radius: 999px; background: #000a; color: #fff; z-index: 50; }
-.sh-modbtn { position: fixed; top: 0; right: 0; width: 56px; height: 56px; z-index: 60; opacity: 0; background: transparent; border: 0; }
-.sh-mod { position: fixed; inset: 0; z-index: 70; background: #000d; display: flex; align-items: flex-end; justify-content: center; }
-.sh-mod > div { width: 100%; max-width: 480px; background: var(--surface-inverse); color: var(--ink-inverse); padding: 18px; border-radius: 22px 22px 0 0; display: flex; flex-direction: column; gap: 10px; max-height: 90dvh; overflow: auto; }
 .sh-qr { display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; }
+.sh-cargando { position: absolute; inset: 0; z-index: 2; background: var(--surface); border-radius: 14px; display: flex; align-items: center; justify-content: center; color: var(--ink-subtle); font-size: 14px; }
+.sh-banner { width: 100%; padding: 12px 14px; border-radius: 14px; background: var(--surface-inverse); color: var(--ink-inverse); font-size: 15px; line-height: 1.4; font-weight: 600; }
+.sh-peli { display: flex; gap: 12px; align-items: center; padding: 10px; border-radius: 14px; border: 2px solid var(--line-strong); background: transparent; color: var(--ink); text-align: left; width: 100%; font: inherit; }
+.sh-peli img, .sh-peli-sin { width: 52px; height: 74px; flex: none; border-radius: 8px; object-fit: cover; background: var(--surface-raised); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 30px; font-weight: 900; color: var(--ink-subtle); }
+.sh-peli-txt { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+button.sh-peli { cursor: pointer; }
+button.sh-peli[aria-checked="true"] { border-color: var(--sun-core); background: color-mix(in srgb, var(--sun) 25%, transparent); }
 @media (prefers-reduced-motion: reduce) { .sh-progress > i { transition: none; } }

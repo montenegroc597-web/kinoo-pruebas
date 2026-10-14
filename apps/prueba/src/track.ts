@@ -1,5 +1,4 @@
-import { TrackingClient, flujoDePantalla, type Bloque, type EventTipo, type KinooEvent, type Version } from '@kinoo/tracking';
-import type { Tracker } from '@kinoo/ui';
+import { TrackingClient, type Bloque, type EventTipo, type KinooEvent } from '@kinoo/tracking';
 import { getSession, modoEquipo } from './session';
 
 const URL_BACKEND = import.meta.env.VITE_APPS_SCRIPT_URL ?? '';
@@ -19,59 +18,33 @@ if (typeof window !== 'undefined') {
   document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') flush(); });
 }
 
-/** Contexto "actual": lo que va en cada evento sin que cada llamador lo repita. */
-export const ctx: { bloque: Bloque; estimulo: string | null; pantalla: string; version: Version; fase: number } = { bloque: 'registro', estimulo: null, pantalla: '', version: 'U', fase: 0 };
+/** Contexto «actual»: lo que va en cada evento sin que cada llamador lo repita. */
+export const ctx: { bloque: Bloque; estimulo: string | null; pantalla: string } = { bloque: 'registro', estimulo: null, pantalla: '' };
 export const setCtx = (p: Partial<typeof ctx>) => { Object.assign(ctx, p); };
 
 let t0 = performance.now();
 export const resetReloj = () => { t0 = performance.now(); };
-export const ahoraSesion = () => performance.now() - t0;
 
 const uuid = (): string => (typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : 'e' + Date.now().toString(36) + Math.random().toString(36).slice(2, 10));
 export const nuevoId = uuid;
+export const round1 = (n: number) => Math.round(n * 10) / 10;
 
 export function emit(tipo: EventTipo, extra: Partial<KinooEvent> = {}): void {
   const s = getSession();
-  const e: KinooEvent = {
-    eventId: uuid(), sesionId: s?.sesionId ?? 'sin-sesion', codigo: s?.codigo ?? '', nombreMostrado: s?.nombreMostrado ?? '', ronda: s?.ronda ?? 0,
-    fase: ctx.fase, ts: new Date().toISOString(), tSesion: Math.round(ahoraSesion()), bloque: ctx.bloque, estimulo: ctx.estimulo, pantalla: ctx.pantalla,
-    version: ctx.version, tipo, ua: navigator.userAgent, viewport: `${window.innerWidth}x${window.innerHeight}@${window.devicePixelRatio || 1}`,
+  client.enqueueEvent({
+    eventId: uuid(), sesionId: s?.sesionId ?? 'sin-sesion', codigo: s?.codigo ?? '', ronda: s?.ronda ?? 0, variante: s?.variante ?? '',
+    ts: new Date().toISOString(), tSesion: Math.round(performance.now() - t0), bloque: ctx.bloque, estimulo: ctx.estimulo, pantalla: ctx.pantalla,
+    tipo, ua: navigator.userAgent, viewport: `${window.innerWidth}x${window.innerHeight}@${window.devicePixelRatio || 1}`,
     ...extra,
-  };
-  client.enqueueEvent(e);
+  });
 }
 
-/** Fila de una hoja del Registro v1.3, ya ligada al participante. */
-export function fila(hoja: string, rowKey: string, datos: Record<string, unknown>): void {
+/** Fila de una hoja del registro, ya ligada a la persona. `clave` hace la fila única (una por persona, por mood, por película…). */
+export function fila(hoja: string, clave: string, datos: Record<string, unknown>): void {
   const s = getSession();
   if (!s) return;
-  client.enqueueRows(hoja, {
-    Participante: s.codigo, 'Nombre mostrado': s.nombreMostrado, 'Sesión ID': s.sesionId,
-    ...datos, 'Row ID': `${s.sesionId}|${hoja}|${rowKey}`,
-  });
-}
-
-/** Punto en pantalla (clic, recuerdo o primera mirada): hoja «Puntos». */
-export function punto(opts: { prueba: string; estimulo: string; pantallaId: string; version: Version; nClic: number; x: number; y: number; t: number; resultado?: string; key: string }): void {
-  fila('Puntos', opts.key, {
-    Prueba: opts.prueba, 'Estímulo (tarea T1…T5 / card C1…C6 / par)': opts.estimulo, 'Pantalla ID': opts.pantallaId, 'Versión': opts.version,
-    'N.º de clic (1 = primero)': opts.nClic, 'X (% ancho)': round1(opts.x), 'Y (% alto)': round1(opts.y), 'Tiempo desde que se mostró (s)': round1(opts.t), Resultado: opts.resultado ?? '',
-  });
-}
-export const round1 = (n: number) => Math.round(n * 10) / 10;
-
-/** Rastreador que se le inyecta al producto: sus pantallas avisan y aquí se vuelve evento. */
-export function trackerProducto(listeners?: { onScreen?: (id: string) => void; onAction?: (name: string, extra?: Record<string, unknown>) => void }): Tracker {
-  return {
-    screen: (id) => { setCtx({ pantalla: id }); emit('screen.view', { pantalla: id, extra: { flujo: flujoDePantalla(id) } }); listeners?.onScreen?.(id); },
-    action: (name, extra) => { emit('action', { valor: name, extra }); listeners?.onAction?.(name, extra); },
-  };
+  client.enqueueRows(hoja, { Participante: s.codigo, 'Variante (auto)': s.variante, Variante: s.variante, 'Sesión ID': s.sesionId, ...datos, 'Row ID': `${s.sesionId}|${hoja}|${clave}` });
 }
 
 export const estadoRed = () => client.red();
 export const modoLocal = !URL_BACKEND;
-
-/** Fila compartida por todos los participantes (p. ej. Zonas): el Row ID no lleva sesión. */
-export function filaGlobal(hoja: string, rowId: string, datos: Record<string, unknown>): void {
-  client.enqueueRows(hoja, { ...datos, 'Row ID': rowId });
-}

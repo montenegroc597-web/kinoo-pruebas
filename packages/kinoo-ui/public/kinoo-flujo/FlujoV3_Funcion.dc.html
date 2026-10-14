@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Ver · En función</title>
+<script src="../_prototipos/dc-runtime.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Figtree:ital,wght@0,400;0,500;0,600;0,700;0,800;1,600;1,800&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{text-decoration:none;color:inherit}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;margin:0;cursor:pointer;text-align:inherit}
+.kscroll{scrollbar-width:none;-ms-overflow-style:none}
+.kscroll::-webkit-scrollbar{display:none}
+@keyframes kin{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes kfade{from{opacity:0}to{opacity:1}}
+@keyframes kpop{0%{transform:scale(1)}35%{transform:scale(1.06)}100%{transform:scale(1)}}
+@keyframes kbump{0%{transform:rotate(4deg) scale(1)}35%{transform:rotate(-8deg) scale(1.3)}100%{transform:rotate(4deg) scale(1)}}
+@keyframes kspin{to{transform:rotate(1turn)}}
+@keyframes kfill{from{width:0}to{width:100%}}
+@keyframes kshake{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+@keyframes kdeal{from{transform:translateY(-120px) scale(.75) rotate(-8deg);opacity:0}to{transform:none;opacity:1}}
+@keyframes kwig{0%,80%,100%{rotate:0deg}85%{rotate:-3deg}90%{rotate:3deg}95%{rotate:-2deg}}
+@keyframes kpulse{50%{transform:scale(1.12)}}
+@keyframes kblink{50%{opacity:.25}}
+@keyframes kchev{50%{transform:translateY(4px)}}
+@keyframes kmodal{from{transform:translateY(40px) scale(.92);opacity:0}to{transform:none;opacity:1}}
+@keyframes knotif{from{transform:translateY(-140px) scale(.9);opacity:0}to{transform:none;opacity:1}}
+@keyframes kwave{0%,100%{height:4px}50%{height:18px}}
+.kin{animation:kin .45s cubic-bezier(.2,.9,.25,1.05) both}
+.kfade{animation:kfade .3s ease both}
+.kpop{animation:kpop .4s ease-out}
+.kbump{animation:kbump .6s cubic-bezier(.3,1.7,.5,1)}
+.kspin{animation:kspin 40s linear infinite}
+.kfill{animation:kfill 2200ms linear both}
+.kshake{animation:kshake .4s}
+.kdeal{animation:kdeal .55s cubic-bezier(.2,.9,.25,1.1) both}
+.kwig{animation:kwig 1.8s ease-in-out infinite}
+.kpulse{animation:kpulse 1.4s ease-in-out infinite}
+.kblink{animation:kblink 1.2s infinite}
+.kchev{animation:kchev 1.6s ease-in-out infinite}
+.kmodal{animation:kmodal .5s cubic-bezier(.2,.9,.25,1.15) both}
+.knotif{animation:knotif .7s .4s cubic-bezier(.2,.9,.25,1.15) both}
+.kwave{animation:kwave .7s ease-in-out infinite}
+</style>
+</helmet>
+<div ref="{{setRoot}}" style="position:relative;width:402px;height:844px;overflow:hidden;background:#17120f;font-family:'Figtree',sans-serif;color:#f4e7d0;user-select:none">
+  <div aria-hidden="true" style="position:absolute;width:760px;height:760px;left:-179px;top:150px;border-radius:50%;background:#1e1713;pointer-events:none"></div>
+  <div aria-hidden="true" style="position:absolute;width:540px;height:540px;left:-69px;top:260px;border-radius:50%;background:rgba(34,26,21,.7);pointer-events:none"></div>
+  <div style="position:absolute;left:6px;top:0;width:390px;height:844px">
+    <p style="position:absolute;left:20px;top:18px;margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:32px;line-height:32px;color:#f4e7d0">Kinoo</p>
+    <div style="position:absolute;left:20px;top:84px;height:30px;box-sizing:border-box;border-radius:15px;background:#221a15;border:1px solid #3a2c22;padding:0 12px;display:flex;align-items:center;gap:7px;font-weight:700;font-size:11.5px"><span class="kblink" style="width:8px;height:8px;border-radius:50%;background:#e8642c"></span>En función · Interstellar en Netflix</div>
+    <div style="position:absolute;right:20px;top:84px;height:30px;box-sizing:border-box;border-radius:15px;background:#f2b544;color:#1a1411;padding:0 12px;font-weight:800;font-size:12px;line-height:30px">{{chip}}</div>
+    <sc-if value="{{isQ}}" hint-placeholder-val="{{ true }}">
+      <p style="position:absolute;left:0;right:0;top:138px;margin:0;text-align:center;font-family:'Figtree',sans-serif;font-style:italic;font-weight:600;font-size:17px;color:#f2b544">{{Q.k}}</p>
+      <p style="position:absolute;left:30px;right:30px;top:162px;margin:0;text-align:center;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:40px;line-height:36px;text-transform:uppercase">{{Q.t}}</p>
+      <div class="{{shakeCls}}">
+      <sc-for list="{{opts}}" as="o" hint-placeholder-count="4">
+        <button onClick="{{o.pick}}" style="position:absolute;left:{{o.x}}px;top:{{o.y}}px;width:125px;display:flex;flex-direction:column;align-items:center;gap:10px;opacity:{{o.op}};transition:opacity .4s">
+          <span style="position:absolute;top:-14px;left:50%;white-space:nowrap;background:#e8642c;color:#f4e7d0;font-weight:800;font-size:12px;line-height:12px;padding:5px 10px;border-radius:12px;transform:translateX(-50%) rotate(-6deg) scale({{o.tagS}});transition:transform .45s cubic-bezier(.3,1.7,.5,1);z-index:3;box-shadow:0 4px 10px rgba(0,0,0,.4)">{{o.tag}}</span>
+          <span style="width:125px;height:125px;border-radius:50%;background:#221a15;box-shadow:{{o.ring}};display:flex;align-items:center;justify-content:center;overflow:hidden;transform:scale({{o.sc}});transition:transform .3s cubic-bezier(.3,1.6,.5,1),box-shadow .3s"><img src="{{o.svg}}" alt="" width="{{o.sz}}" height="{{o.sz}}"></span>
+          <span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:20px;line-height:20px;text-transform:uppercase;color:{{o.fg}};text-align:center;transition:color .3s">{{o.n}}</span>
+        </button>
+      </sc-for>
+      </div>
+      <div style="position:absolute;left:0;right:0;top:704px;display:flex;justify-content:center;align-items:center;gap:8px;font-weight:700;font-size:12px;color:#bfa98a">
+        <svg width="18" height="18" viewBox="0 0 20 20" style="transform:rotate(-90deg)" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="none" stroke="#3a2c22" stroke-width="3"></circle><circle cx="10" cy="10" r="8" fill="none" stroke="#f2b544" stroke-width="3" stroke-dasharray="50.3" stroke-dashoffset="{{rg}}" style="transition:{{rgTr}}"></circle></svg>
+        <span>{{fh}}</span>
+      </div>
+    </sc-if>
+    <sc-if value="{{isI}}" hint-placeholder-val="{{ false }}">
+      <div class="kin" style="position:absolute;left:0;right:0;top:230px;text-align:center">
+        <p style="margin:0;font-family:'Figtree',sans-serif;font-style:italic;font-weight:600;font-size:17px;color:#f2b544">{{iK}}</p>
+        <p style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:120px;line-height:120px;color:#f4e7d0">{{clock}}</p>
+        <p style="margin:6px 0 0;font-weight:800;font-size:11px;letter-spacing:1px;color:#f2b544;text-transform:uppercase">{{iCap}}</p>
+        <p style="max-width:270px;margin:14px auto 22px;font-weight:600;font-size:13px;line-height:19px;color:#bfa98a">{{iP}}</p>
+        <sc-if value="{{notEnd}}" hint-placeholder-val="{{ true }}"><button onClick="{{goOn}}" style="height:40px;padding:0 20px;border-radius:20px;border:1.5px solid #f4e7d0;font-weight:800;font-size:13px;color:#f4e7d0">{{iBtn}}</button></sc-if>
+        <sc-if value="{{isEnd}}" hint-placeholder-val="{{ false }}"><a ref="{{setA}}" href="FlujoV4_Calificar.dc.html" style="display:inline-flex;align-items:center;height:40px;padding:0 20px;border-radius:20px;background:#f2b544;color:#1a1411;font-weight:800;font-size:13px">Calificar la película →</a></sc-if>
+      </div>
+    </sc-if>
+    <div style="position:absolute;left:20px;right:20px;top:770px">
+      <div style="display:flex;justify-content:space-between;font-weight:700;font-size:11px;color:#bfa98a;margin-bottom:8px"><span>{{now}}</span><span>2:49</span></div>
+      <div style="position:relative;height:4px;border-radius:2px;background:#3a2c22">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:{{tw}}%;background:#f2b544;border-radius:2px;transition:width 1.2s cubic-bezier(.4,0,.2,1)"></div>
+        <sc-for list="{{dots}}" as="d" hint-placeholder-count="7"><span style="position:absolute;top:50%;left:{{d.l}}%;width:{{d.s}}px;height:{{d.s}}px;margin:{{d.m}};box-sizing:border-box;border-radius:50%;background:{{d.bg}};border:{{d.bd}};transition:all .4s"></span></sc-for>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":402,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+  const Q = [{"at": 47, "k": "minuto 0:47 · momento clave", "t": "¿Cómo te hace sentir?", "hint": "Toca una máscara", "full": false, "opts": [["Feliz", "_blob/66590479a9c4cea3536842ca1f2a891d.svg", 12], ["Triste", "_blob/d5930e1eb371e4dc83a6c05d521da71b.svg", 41], ["Nervios", "_blob/4e50cf12778e720cebf2c9aa982a2a26.svg", 29], ["Asombro", "_blob/90552ab39677ff5124aff317f95e93a6.svg", 18]], "tag": "{o} · {p} % igual"}, {"at": 91, "k": "minuto 1:31 · alta tensión", "t": "¿A quién estás odiando?", "hint": "Toca un personaje", "full": true, "opts": [["Cooper", "_blob/dd847b3641714f3130eecc47efa0cf56.svg", 9], ["Dr. Mann", "_blob/85588a35e7cedc3330bdd190d9aeaec8.svg", 68], ["Brand", "_blob/651dfa592a83b3bfab3bb78deda7db35.svg", 14], ["TARS", "_blob/dae51a13b095fcadedab316a5f93bdd9.svg", 9]], "tag": "Lo odias · {p} % también"}, {"at": 134, "k": "minuto 2:14 · plot twist", "t": "¿Quééé? ¿Te lo esperabas?", "hint": "Responde rápido", "full": false, "opts": [["¡Lo sabía!", "_blob/8493595f97f654fd38d3fd3245baab4f.svg", 11], ["No lo vi venir", "_blob/19de48495e78648025646c30e5e98995.svg", 47], ["Me voló la cabeza", "_blob/0e5c169a3bff29d4e88cce6d4b0b47a1.svg", 33], ["Sigo confundido", "_blob/ec8e9ba8b52551cddc5e37aeab5e08c5.svg", 9]], "tag": "{p} % dijo lo mismo"}];
+  const KM = [20, 47, 70, 91, 118, 134, 155], RT = 169;
+  const fmt = (m) => Math.floor(m / 60) + ':' + String(m % 60).padStart(2, '0');
+  const S = this.state || {};
+  const q = Math.max(0, Math.min(2, Math.floor(Number(S.q)) || 0)), ph = S.ph === 'i' ? 'i' : 'q', pick = typeof S.pick === 'number' ? S.pick : -1, closed = !!S.closed;
+  const cur = Q[q] || Q[0];
+  const nxt = Q[Math.min(q + 1, Q.length - 1)] || cur;
+  const pos = [[51, 274], [215, 288], [51, 469], [215, 483]];
+  const end = ph === 'i' && q === 2;
+  const at = ph === 'q' ? cur.at : (S.clockV || cur.at);
+  const curK = ph === 'q' ? cur.at : (end ? RT + 1 : nxt.at);
+  if (!this._sr) { this._sr = (el) => this._setRoot(el); this._sa = (el) => { if (el) this._a = el; }; }
+  return {
+    setRoot: this._sr, setA: this._sa,
+    chip: 'Momento ' + (q + 1) + ' de 3', isQ: ph === 'q', isI: ph === 'i', isEnd: end, notEnd: !end,
+    Q: cur, shakeCls: closed ? 'kshake' : '',
+    opts: cur.opts.map((o, i) => { const on = i === pick; return { n: o[0], svg: o[1], sz: cur.full ? 125 : 93, x: pos[i][0], y: pos[i][1],
+      tag: cur.tag.replace('{o}', o[0]).replace('{p}', o[2]), tagS: on ? 1 : 0, op: (pick >= 0 && !on) ? 0.38 : 1,
+      ring: on ? '0 0 0 6.25px #e8642c,0 0 30px rgba(232,100,44,.6)' : '0 0 0 3.75px #f4e7d0,0 0 22px rgba(244,231,208,.18)', sc: on ? 1.06 : 1, fg: on ? '#e8642c' : '#f4e7d0',
+      pick: () => this._pick(i) }; }),
+    rg: S.rgOff || 0, rgTr: S.rgRun ? 'stroke-dashoffset 8s linear' : 'none',
+    fh: closed ? 'Se cerró · seguimos' : (pick >= 0 ? '¡Respuesta guardada!' : cur.hint + ' · se cierra en ' + (S.left || 8) + ' s'),
+    iK: end ? 'se acabó la función' : 'sigue viendo', clock: fmt(at), iCap: end ? 'Créditos finales' : 'Próximo momento clave',
+    iP: end ? 'Respondiste ' + (S.got || 0) + ' de 3 momentos clave. Ahora cuéntanos qué te pareció.' : 'Guarda el cel. Te vibramos cuando llegue la próxima escena para responder.',
+    iBtn: end ? '' : 'Ir al minuto ' + fmt(nxt.at) + ' →', goOn: () => this._nextQ(),
+    now: fmt(at), tw: ((ph === 'i' ? (end ? RT : nxt.at) : cur.at) / RT * 100).toFixed(1),
+    dots: KM.map((k) => { const c = k === curK, p = k < curK; return { l: (k / RT * 100).toFixed(1), s: c ? 16 : 10, m: c ? '-8px 0 0 -8px' : '-5px 0 0 -5px', bg: c ? '#e8642c' : (p ? '#f2b544' : '#17120f'), bd: c ? '3px solid #f4e7d0' : (p ? '2px solid #f2b544' : '2px solid #bfa98a') }; })
+  };
+}
+_q(q) {
+  this._clear();
+  this.setState({ q, ph: 'q', pick: -1, closed: false, left: 8, rgOff: 0, rgRun: false });
+  this._ta = setTimeout(() => this.setState({ rgRun: true, rgOff: 50.3 }), 40);
+  const tick = () => { const s = this.state || {}; if (s.pick >= 0 || s.closed) return; const l = (s.left || 8) - 1; if (l <= 0) { this.setState({ closed: true, left: 0 }); this._tb = setTimeout(() => this._inter(), 1300); return; } this.setState({ left: l }); this._tc = setTimeout(tick, 1000); };
+  this._tc = setTimeout(tick, 1000);
+}
+_pick(i) {
+  const s = this.state || {};
+  if (s.ph !== 'q' || s.pick >= 0 || s.closed) return;
+  clearTimeout(this._tc);
+  this.setState({ pick: i, rgRun: false, rgOff: 50.3 * (1 - (s.left || 8) / 8), got: (s.got || 0) + 1 });
+  this._tb = setTimeout(() => this._inter(), 1700);
+}
+_inter() {
+  const Q = [47, 91, 134], RT = 169;
+  const s = this.state || {}; const q = s.q || 0;
+  const from = Q[q], to = q === 2 ? RT : Q[q + 1];
+  this.setState({ ph: 'i', clockV: from });
+  let i = 0; const steps = 28;
+  const run = () => { i++; this.setState({ clockV: Math.round(from + (to - from) * i / steps) }); if (i < steps) this._td = setTimeout(run, 60); };
+  this._td = setTimeout(run, 300);
+  this._te = setTimeout(() => { if (q < 2) this._nextQ(); else { try { (this._a || document.querySelector('a[href="FlujoV4_Calificar.dc.html"]')).click(); } catch (_) {} } }, q < 2 ? 3600 : 5200);
+}
+_nextQ() { const s = this.state || {}; if ((s.q || 0) < 2) this._q((s.q || 0) + 1); }
+_clear() { ['_ta', '_tb', '_tc', '_td', '_te'].forEach((k) => clearTimeout(this[k])); }
+_start() { this.setState({ got: 0 }); this._q(0); }
+_stop() { this._clear(); }
+_setRoot(el) {
+  if (!el || this._obs || typeof IntersectionObserver === 'undefined') return;
+  this._obs = new IntersectionObserver((es) => { const e = es[es.length - 1]; const v = e.isIntersecting && e.intersectionRatio >= 0.5; if (v && !this._live) { this._live = true; this._start(); } else if (!v && this._live) { this._live = false; this._stop(); } }, { threshold: [0, 0.5, 1] });
+  this._obs.observe(el);
+}
+componentDidMount() { this._fb = setTimeout(() => { if (!this._obs && !this._live) { this._live = true; this._start(); } }, 400); }
+componentWillUnmount() { this._stop(); clearTimeout(this._fb); if (this._obs) this._obs.disconnect(); }
+
+}
+</script>
+<script src="../_prototipos/embed.js"></script>
+</body>
+</html>

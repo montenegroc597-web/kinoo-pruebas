@@ -14,12 +14,10 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - name: Backend generado al día con schema.ts
-        run: node scripts/build-backend.mjs && git diff --exit-code backend/Code.gs
+      - name: supabase/hojas.sql al día con schema.ts
+        run: node scripts/hojas-sql.mjs --check
       - run: npm run typecheck
       - run: npm test
-      - name: Contraste AA (versiones A y B)
-        run: npm run contrast
       - run: npm run build
         env:
           VITE_BASE: ./

@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Elección del mazo</title>
+<script src="../_prototipos/dc-runtime.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800;900&family=Figtree:ital,wght@0,400;0,600;0,700;0,800;1,600;1,800&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{text-decoration:none;color:inherit}
+.kscroll{scrollbar-width:none;-ms-overflow-style:none}
+.kscroll::-webkit-scrollbar{display:none}
+</style>
+</helmet>
+<div style="position:relative;width:402px;height:844px;overflow:hidden;background:#17120f;font-family:'Figtree',sans-serif;color:#f4e7d0">
+
+  <div style="position:absolute;left:6px;top:0;width:390px;box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;padding:14px 20px 6px 20px">
+    <p style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:32px;line-height:32px;letter-spacing:0.5px;color:#f4e7d0">Kinoo</p>
+    <div style="width:44px;height:44px;box-sizing:border-box;border:2px solid #ce7e01;border-radius:22px;background:#221a15;display:flex;align-items:center;justify-content:center">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f4e7d0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4.5 21v-1a5.5 5.5 0 0 1 5.5-5.5h4a5.5 5.5 0 0 1 5.5 5.5v1"/></svg>
+    </div>
+  </div>
+  <div style="position:absolute;left:199px;top:23px;box-sizing:border-box;border:1px solid #8a7458;border-radius:15px;padding:8px 13px;display:flex">
+    <p style="margin:0;font-weight:600;font-size:12px;line-height:14px;letter-spacing:1.2px;text-transform:uppercase;color:#d9c7a8;white-space:nowrap">Fin del mazo</p>
+  </div>
+
+  <div style="position:absolute;left:26px;top:86px;width:350px;display:flex;flex-direction:column;gap:2px">
+    <p style="margin:0;font-style:italic;font-weight:600;font-size:16px;line-height:22px;color:#f2b544">tres caminos para hoy</p>
+    <p style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:44px;line-height:39.6px;text-transform:uppercase;color:#f4e7d0">Tu próximo mazo</p>
+  </div>
+
+  <!-- Lista de mazos (con scroll, como en el celular) -->
+  <div class="kscroll" style="position:absolute;left:0;top:150px;width:402px;height:490px;overflow-y:auto;overscroll-behavior:contain">
+    <div style="box-sizing:border-box;width:402px;padding:14px 26px 40px;display:flex;flex-direction:column;gap:32px">
+      <sc-for list="{{decks}}" as="d" hint-placeholder-count="3">
+        <div style="flex:none;position:relative;width:350px">
+        <!-- Cartas de atrás: el mazo -->
+        <div aria-hidden="true" style="position:absolute;left:16px;right:16px;top:16px;bottom:-16px;box-sizing:border-box;border:2px solid #f4e7d0;border-radius:16px;background:{{d.c2}};transform:{{d.t2}};transition:transform 260ms cubic-bezier(.2,.85,.25,1);overflow:hidden"><div style="position:absolute;left:50%;bottom:-40px;width:70px;height:70px;margin-left:-35px;border-radius:35px;background:#f2b544;opacity:0.5"></div></div>
+        <div aria-hidden="true" style="position:absolute;left:8px;right:8px;top:8px;bottom:-8px;box-sizing:border-box;border:2px solid #f4e7d0;border-radius:17px;background:{{d.c1}};transform:{{d.t1}};transition:transform 260ms cubic-bezier(.2,.85,.25,1)"></div>
+        <button onClick="{{d.pick}}" aria-pressed="{{d.sel}}" style="flex:none;position:relative;box-sizing:border-box;width:350px;padding:16px 18px;background:#221a15;border-radius:18px;overflow:hidden;text-align:left;cursor:pointer;font:inherit;color:inherit;z-index:2;border:2px solid {{d.bc}};box-shadow:{{d.sh}};transition:border-color 200ms ease,box-shadow 200ms ease">
+          <div aria-hidden="true" style="position:absolute;inset:5px;border:1px solid rgba(244,231,208,0.14);border-radius:13px;pointer-events:none"></div>
+          <!-- Sol de círculos concéntricos (70s) -->
+          <svg style="position:absolute;right:-34px;top:-34px;opacity:{{d.artOp}};transition:opacity 200ms ease" width="140" height="140" viewBox="0 0 140 140" aria-hidden="true">
+            <circle cx="70" cy="70" r="70" fill="{{d.c1}}"/><circle cx="70" cy="70" r="53" fill="{{d.c2}}"/><circle cx="70" cy="70" r="36" fill="{{d.c3}}"/><circle cx="70" cy="70" r="19" fill="{{d.c4}}"/>
+          </svg>
+          <svg style="position:absolute;right:112px;top:84px;opacity:{{d.artOp}}" width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0l1.8 6.2L16 8l-6.2 1.8L8 16l-1.8-6.2L0 8l6.2-1.8Z" fill="#f2b544"/></svg>
+
+          <div style="position:relative;width:222px;display:flex;flex-direction:column;align-items:flex-start;gap:6px">
+            <div style="display:flex;align-items:center;gap:6px;box-sizing:border-box;border:1px solid {{d.kb}};border-radius:11px;padding:4px 9px">
+              <p style="margin:0;font-weight:800;font-size:10px;line-height:12px;letter-spacing:1.3px;text-transform:uppercase;color:{{d.kc}};white-space:nowrap">{{d.kind}} · 10 cartas</p>
+            </div>
+            <p style="margin:2px 0 0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:25px;line-height:24px;text-transform:uppercase;color:#f4e7d0">{{d.title}}</p>
+            <p style="margin:0;font-family:'Figtree',sans-serif;font-style:italic;font-weight:600;font-size:15px;line-height:19px;color:#f2b544">{{d.voice}}</p>
+          </div>
+
+          <sc-if value="{{d.sel}}" hint-placeholder-val="{{ false }}">
+            <div style="position:relative;display:flex;flex-wrap:wrap;gap:6px;margin-top:12px">
+              <sc-for list="{{d.chips}}" as="c" hint-placeholder-count="3">
+                <div style="box-sizing:border-box;border:1px solid #5a4838;border-radius:12px;padding:5px 10px"><p style="margin:0;font-weight:600;font-size:12px;line-height:14px;color:#e6d3b3;white-space:nowrap">{{c.label}}</p></div>
+              </sc-for>
+            </div>
+            <div style="position:relative;margin:14px -18px 0;height:0;border-top:1.5px dashed #5a4838"></div>
+            <div style="position:relative;margin-top:12px;display:flex;flex-direction:column;gap:3px">
+              <p style="margin:0;font-style:italic;font-weight:600;font-size:13px;line-height:16px;color:#e8642c">{{d.peekLabel}}</p>
+              <sc-if value="{{d.peekPremise}}" hint-placeholder-val="{{ true }}">
+                <p style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:20px;line-height:21px;text-transform:uppercase;color:#f4e7d0">“{{d.peek}}”</p>
+              </sc-if>
+              <sc-if value="{{d.peekNote}}" hint-placeholder-val="{{ false }}">
+                <p style="margin:0;font-family:'Figtree',sans-serif;font-style:italic;font-weight:600;font-size:16px;line-height:20px;color:#f4e7d0">“{{d.peek}}”</p>
+              </sc-if>
+            </div>
+          </sc-if>
+        </button>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="position:absolute;left:26px;top:648px;width:350px;display:flex;flex-direction:column;gap:4px">
+    <sc-if value="{{hasPick}}" hint-placeholder-val="{{ true }}">
+    <a href="Flujo5_Inicio.dc.html" style="box-sizing:border-box;width:100%;height:58px;display:flex;align-items:center;justify-content:center;gap:10px;padding:2px 26px;background:#5e0c10;border:2px solid #f4e7d0;border-radius:29px">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f4e7d0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 18h1.4c1.3 0 2.5-.6 3.3-1.7l6.1-8.6c.7-1.1 2-1.7 3.3-1.7H22"/><path d="m18 2 4 4-4 4"/><path d="M2 6h1.9c1.5 0 2.9.9 3.6 2.2"/><path d="M22 18h-5.9c-1.3 0-2.6-.7-3.3-1.8l-.5-.8"/><path d="m18 14 4 4-4 4"/></svg>
+      <span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:24px;line-height:29px;letter-spacing:0.4px;text-transform:uppercase;color:#f4e7d0;white-space:nowrap">Empezar este mazo</span>
+    </a>
+    </sc-if>
+    <sc-if value="{{noPick}}" hint-placeholder-val="{{ false }}">
+    <div aria-disabled="true" style="box-sizing:border-box;width:100%;height:58px;display:flex;align-items:center;justify-content:center;gap:10px;padding:2px 26px;background:#2a1d18;border:2px solid #8a7458;border-radius:29px;opacity:0.6">
+      <span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:24px;line-height:29px;letter-spacing:0.4px;text-transform:uppercase;color:#d9c7a8;white-space:nowrap">Elige un mazo</span>
+    </div>
+    </sc-if>
+    <div style="height:44px;display:flex;align-items:center;justify-content:center;padding:2px 18px">
+      <p style="margin:0;font-weight:600;font-size:14px;line-height:40px;color:#d9c7a8;text-decoration:underline;white-space:nowrap">Mejor ver algo ahora</p>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":402,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+  const p = (this.state || {}).pick || 0;
+  // Datos de ejemplo. Sin porcentajes: el mazo se describe, no se califica.
+  const DECKS = [
+    { kind: 'Mood', title: 'Lentas y melancólicas', voice: 'para una noche sin prisa',
+      chips: ['Ritmo pausado', 'Finales que duelen', 'Dramas íntimos'],
+      peekLabel: 'un adelanto, sin título', peek: 'Un padre cruza el universo para volver.', note: false,
+      c: ['#b83a26', '#e8642c', '#f2b544', '#f4e7d0'] },
+    { kind: 'Hilo', title: 'Sigue a Christopher Nolan', voice: 'porque marcaste Interstellar ○',
+      chips: ['Su obra', 'Lo que lo inspiró', 'Ciencia ficción'],
+      peekLabel: 'un adelanto, sin título', peek: 'Dos magos se arruinan por un truco.', note: false,
+      c: ['#8e3714', '#e8642c', '#f2b544', '#f4e7d0'] },
+    { kind: 'Creadores', title: 'Lo que guardaron Ana y Leo', voice: 'lo firman ellos dos',
+      chips: ['Cine de autor', 'Nuevas para ti', 'Con nota del curador'],
+      peekLabel: 'una nota de Ana', peek: 'La vimos dos veces seguidas.', note: true,
+      c: ['#5e0c10', '#b83a26', '#e8642c', '#f2b544'] }
+  ];
+  const decks = DECKS.map((d, i) => {
+    const on = p === i + 1;
+    return {
+      kind: d.kind, title: d.title, voice: d.voice, peekLabel: d.peekLabel, peek: d.peek,
+      peekNote: d.note, peekPremise: !d.note,
+      chips: d.chips.map((l) => ({ label: l })),
+      c1: d.c[0], c2: d.c[1], c3: d.c[2], c4: d.c[3],
+      pick: () => this.setState({ pick: i + 1 }), sel: on,
+      bc: on ? '#f4e7d0' : '#3a2c22', sh: on ? '0 14px 14px rgba(0,0,0,0.5)' : 'none',
+      kc: on ? '#f4e7d0' : '#bfa98a',
+      t1: on ? 'translate(-10px,2px) rotate(-3deg)' : 'none', t2: on ? 'translate(12px,4px) rotate(4deg)' : 'none', kb: on ? '#f4e7d0' : '#5a4838', artOp: on ? 1 : 0.6
+    };
+  });
+  return { decks, hasPick: p !== 0, noPick: p === 0 };
+}
+}
+</script>
+<script src="../_prototipos/embed.js"></script>
+</body>
+</html>

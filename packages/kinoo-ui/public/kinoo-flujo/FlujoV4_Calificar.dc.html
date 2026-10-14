@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Ver · Calificación 1</title>
+<script src="../_prototipos/dc-runtime.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Figtree:ital,wght@0,400;0,500;0,600;0,700;0,800;1,600;1,800&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{text-decoration:none;color:inherit}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;margin:0;cursor:pointer;text-align:inherit}
+.kscroll{scrollbar-width:none;-ms-overflow-style:none}
+.kscroll::-webkit-scrollbar{display:none}
+@keyframes kin{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes kfade{from{opacity:0}to{opacity:1}}
+@keyframes kpop{0%{transform:scale(1)}35%{transform:scale(1.06)}100%{transform:scale(1)}}
+@keyframes kbump{0%{transform:rotate(4deg) scale(1)}35%{transform:rotate(-8deg) scale(1.3)}100%{transform:rotate(4deg) scale(1)}}
+@keyframes kspin{to{transform:rotate(1turn)}}
+@keyframes kfill{from{width:0}to{width:100%}}
+@keyframes kshake{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+@keyframes kdeal{from{transform:translateY(-120px) scale(.75) rotate(-8deg);opacity:0}to{transform:none;opacity:1}}
+@keyframes kwig{0%,80%,100%{rotate:0deg}85%{rotate:-3deg}90%{rotate:3deg}95%{rotate:-2deg}}
+@keyframes kpulse{50%{transform:scale(1.12)}}
+@keyframes kblink{50%{opacity:.25}}
+@keyframes kchev{50%{transform:translateY(4px)}}
+@keyframes kmodal{from{transform:translateY(40px) scale(.92);opacity:0}to{transform:none;opacity:1}}
+@keyframes knotif{from{transform:translateY(-140px) scale(.9);opacity:0}to{transform:none;opacity:1}}
+@keyframes kwave{0%,100%{height:4px}50%{height:18px}}
+.kin{animation:kin .45s cubic-bezier(.2,.9,.25,1.05) both}
+.kfade{animation:kfade .3s ease both}
+.kpop{animation:kpop .4s ease-out}
+.kbump{animation:kbump .6s cubic-bezier(.3,1.7,.5,1)}
+.kspin{animation:kspin 40s linear infinite}
+.kfill{animation:kfill 2200ms linear both}
+.kshake{animation:kshake .4s}
+.kdeal{animation:kdeal .55s cubic-bezier(.2,.9,.25,1.1) both}
+.kwig{animation:kwig 1.8s ease-in-out infinite}
+.kpulse{animation:kpulse 1.4s ease-in-out infinite}
+.kblink{animation:kblink 1.2s infinite}
+.kchev{animation:kchev 1.6s ease-in-out infinite}
+.kmodal{animation:kmodal .5s cubic-bezier(.2,.9,.25,1.15) both}
+.knotif{animation:knotif .7s .4s cubic-bezier(.2,.9,.25,1.15) both}
+.kwave{animation:kwave .7s ease-in-out infinite}
+</style>
+</helmet>
+<div style="position:relative;width:402px;height:844px;overflow:hidden;background:#17120f;font-family:'Figtree',sans-serif;color:#f4e7d0;user-select:none">
+  <div aria-hidden="true" style="position:absolute;width:760px;height:760px;left:-179px;top:-50px;border-radius:50%;background:#1e1713;pointer-events:none"></div>
+  <div aria-hidden="true" style="position:absolute;width:540px;height:540px;left:-69px;top:60px;border-radius:50%;background:rgba(34,26,21,.7);pointer-events:none"></div>
+  <div style="position:absolute;left:6px;top:0;width:390px;height:844px">
+    <p style="position:absolute;left:20px;top:18px;margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:32px;line-height:32px;color:#f4e7d0">Kinoo</p>
+    <a aria-label="Tu perfil" style="position:absolute;left:326px;top:14px;width:44px;height:44px;box-sizing:border-box;border-radius:22px;background:#221a15;border:2px solid #ce7e01;display:flex;align-items:center;justify-content:center"><img src="_blob/af0ff6915cfda5a557cef50b14e485d2.svg" alt="" width="22" height="22"></a>
+    <a href="FlujoV1_Feed.dc.html" style="position:absolute;left:20px;top:78px;display:flex;align-items:center;gap:10px;font-weight:700;font-size:14px;color:#f4e7d0"><img src="_blob/ce164a19586227b0592a1dded43b62d5.svg" alt="" width="36" height="36">Calificación</a>
+    <div style="position:absolute;right:20px;top:82px;height:26px;box-sizing:border-box;padding:0 12px;border-radius:13px;border:1.5px solid #3a2c22;font-weight:800;font-size:10.5px;line-height:23px;letter-spacing:1.2px;color:#d9c7a8">1 DE 2</div>
+    <p style="position:absolute;left:0;right:0;top:134px;margin:0;text-align:center;font-family:'Figtree',sans-serif;font-style:italic;font-weight:600;font-size:17px;color:#f2b544">se acabó la función</p>
+    <p style="position:absolute;left:30px;right:30px;top:154px;margin:0;text-align:center;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:40px;line-height:36px;text-transform:uppercase">¿Qué te pareció?</p>
+    <div aria-hidden="true" style="position:absolute;left:95px;top:190px;width:200px;height:200px;border-radius:50%;background:{{halo}};filter:blur(10px);transition:background .4s"></div>
+    <div class="{{popCls}}" style="position:absolute;left:119px;top:205px;width:151px;height:168px">
+      <svg width="151" height="168" viewBox="0 0 151 168" fill="none" aria-hidden="true"><path d="M26.75 39.95C26.75 31.15 37.75 26.75 75.15 26.75C112.55 26.75 123.55 31.15 123.55 39.95V77.35C123.55 114.75 101.55 141.15 75.15 141.15C48.75 141.15 26.75 114.75 26.75 77.35V39.95Z" fill="#F4E7D0" stroke="#1A1411" stroke-width="5.5"></path><sc-if value="{{f0}}" hint-placeholder-val="{{ false }}"><path d="M48 86h20M82 86h20" stroke="#1A1411" stroke-width="6.6" stroke-linecap="round"></path><ellipse cx="75" cy="112" rx="7" ry="8" fill="#1A1411"></ellipse><path d="M108 40h10l-10 12h10M120 30h7l-7 9h7" stroke="#1A1411" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"></path></sc-if><sc-if value="{{f1}}" hint-placeholder-val="{{ false }}"><path d="M46 74l20 8M104 74l-20 8" stroke="#1A1411" stroke-width="6.6" stroke-linecap="round"></path><circle cx="58" cy="90" r="5" fill="#1A1411"></circle><circle cx="92" cy="90" r="5" fill="#1A1411"></circle><path d="M55 118c13-12 27-12 40 0" stroke="#1A1411" stroke-width="6.6" stroke-linecap="round" fill="none"></path></sc-if><sc-if value="{{f2}}" hint-placeholder-val="{{ false }}"><circle cx="58" cy="86" r="6" fill="#1A1411"></circle><circle cx="92" cy="86" r="6" fill="#1A1411"></circle><path d="M58 110h34" stroke="#1A1411" stroke-width="6.6" stroke-linecap="round"></path></sc-if><sc-if value="{{f3}}" hint-placeholder-val="{{ true }}"><path d="M46.55 86.15C53.88 78.82 61.22 78.82 68.55 86.15M81.75 86.15C89.08 78.82 96.42 78.82 103.75 86.15M53.15 103.75C67.82 118.42 82.48 118.42 97.15 103.75" stroke="#1A1411" stroke-width="6.6" stroke-linecap="round" fill="none"></path></sc-if><sc-if value="{{f4}}" hint-placeholder-val="{{ false }}"><path d="M57 92c-8-6-12-10-12-15a6 6 0 0 1 12-2 6 6 0 0 1 12 2c0 5-4 9-12 15zM93 92c-8-6-12-10-12-15a6 6 0 0 1 12-2 6 6 0 0 1 12 2c0 5-4 9-12 15z" fill="#B83A26"></path><path d="M50 104c0 20 50 20 50 0z" fill="#1A1411"></path></sc-if></svg>
+    </div>
+    <div style="position:absolute;left:0;right:0;top:372px;text-align:center"><p style="margin:0;font-family:'Figtree',sans-serif;font-style:italic;font-weight:600;font-size:22px;line-height:26px;color:#f2b544">{{lvN}}</p><p style="margin:0;font-weight:600;font-size:13px;color:#bfa98a">{{lvS}}</p></div>
+    <svg class="kchev" style="position:absolute;left:186px;top:428px" width="18" height="16" viewBox="0 0 18 16" fill="none" aria-hidden="true"><path d="M3 3l6 5 6-5M3 9l6 5 6-5" stroke="#bfa98a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+    <div role="slider" tabindex="0" aria-label="Qué te pareció" aria-valuemin="0" aria-valuemax="4" aria-valuenow="{{lv}}" onPointerDown="{{gDown}}" onPointerMove="{{gMove}}" onPointerUp="{{gUp}}" onPointerCancel="{{gUp}}" onKeyDown="{{gKey}}" style="position:absolute;left:10px;top:468px;width:370px;height:200px;touch-action:none;outline:none;cursor:pointer">
+      <img src="_blob/513762ed7827c19df481e902d1e1b241.svg" alt="" width="370" height="200" style="position:absolute;left:0;top:0;pointer-events:none">
+      <svg width="370" height="200" viewBox="0 0 370 200" style="position:absolute;left:0;top:0;overflow:visible" aria-hidden="true"><path d="{{hl}}" fill="none" stroke="#f2b544" stroke-width="3"></path><path d="M17 196C17 160.522 28.2316 125.954 49.0851 97.252L110.57 141.924C99.1507 157.642 93 176.571 93 196H17Z" fill="transparent" onClick="{{s0}}" style="cursor:pointer"></path><path d="M49.0852 97.252C69.9387 68.5496 99.3435 47.1858 133.085 36.2224L156.57 108.503C138.093 114.506 121.99 126.206 110.57 141.924L49.0852 97.252Z" fill="transparent" onClick="{{s1}}" style="cursor:pointer"></path><path d="M133.085 36.2225C166.827 25.2592 203.173 25.2592 236.915 36.2225L213.43 108.503C194.952 102.499 175.048 102.499 156.57 108.503L133.085 36.2225Z" fill="transparent" onClick="{{s2}}" style="cursor:pointer"></path><path d="M236.915 36.2224C270.657 47.1858 300.061 68.5496 320.915 97.252L259.43 141.924C248.01 126.206 231.907 114.506 213.43 108.503L236.915 36.2224Z" fill="transparent" onClick="{{s3}}" style="cursor:pointer"></path><path d="M320.915 97.252C341.768 125.954 353 160.522 353 196H277C277 176.571 270.849 157.642 259.43 141.924L320.915 97.252Z" fill="transparent" onClick="{{s4}}" style="cursor:pointer"></path></svg>
+      <div style="position:absolute;inset:0;transform:rotate({{ang}}deg);transform-origin:185px 196px;transition:{{angTr}};pointer-events:none"><img src="_blob/ce663d2c3b75d4aef633694e024e61b3.svg" alt="" width="370" height="200"></div>
+    </div>
+    <p style="position:absolute;left:0;right:0;top:678px;margin:0;text-align:center;font-weight:600;font-size:12px;color:#bfa98a">Gira la aguja o toca una máscara</p>
+    <a href="FlujoV5_Version.dc.html" style="position:absolute;left:20px;top:716px;width:350px;height:56px;box-sizing:border-box;border-radius:28px;background:#b83a26;border:2px solid #f4e7d0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:24px;line-height:52px;color:#f4e7d0;text-transform:uppercase;letter-spacing:.5px;text-align:center">Continuar</a>
+    <a href="FlujoV1_Feed.dc.html" style="position:absolute;left:0;right:0;top:786px;text-align:center;font-weight:600;font-size:12.5px;color:#bfa98a">Saltar por ahora</a>
+
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":402,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+  const L = [['Me dormí', 'Ni llegué al final', 'rgba(94,12,16,.6)'], ['No era para mí', 'No conecté con ella', 'rgba(142,55,20,.55)'], ['Estuvo bien', 'Se deja ver', 'rgba(184,58,38,.5)'], ['¡Me encantó!', 'Se la recomiendo a todos', 'rgba(232,100,44,.55)'], ['¡Obra maestra!', 'De las que se quedan para siempre', 'rgba(242,181,68,.55)']];
+  const SEGS = ["M17 196C17 160.522 28.2316 125.954 49.0851 97.252L110.57 141.924C99.1507 157.642 93 176.571 93 196H17Z", "M49.0852 97.252C69.9387 68.5496 99.3435 47.1858 133.085 36.2224L156.57 108.503C138.093 114.506 121.99 126.206 110.57 141.924L49.0852 97.252Z", "M133.085 36.2225C166.827 25.2592 203.173 25.2592 236.915 36.2225L213.43 108.503C194.952 102.499 175.048 102.499 156.57 108.503L133.085 36.2225Z", "M236.915 36.2224C270.657 47.1858 300.061 68.5496 320.915 97.252L259.43 141.924C248.01 126.206 231.907 114.506 213.43 108.503L236.915 36.2224Z", "M320.915 97.252C341.768 125.954 353 160.522 353 196H277C277 176.571 270.849 157.642 259.43 141.924L320.915 97.252Z"];
+  const S = this.state || {};
+  const lv = typeof S.lv === 'number' ? S.lv : 3;
+  const ang = typeof S.ang === 'number' ? S.ang - 36 : (lv - 3) * 36;
+  const set = (l, a) => { const s = this.state || {}; const cur = typeof s.lv === 'number' ? s.lv : 3; const up = { lv: l, ang: a }; if (l !== cur) { up.pop = false; setTimeout(() => this.setState({ pop: true }), 10); } this.setState(up); };
+  const angleOf = (e) => { const r = e.currentTarget.getBoundingClientRect(); const k = r.width / 370 || 1; const cx = r.left + 185 * k, cy = r.top + 196 * k; return Math.max(-88, Math.min(88, Math.atan2(e.clientX - cx, cy - e.clientY) * 180 / Math.PI)); };
+  const o = {
+    lv, lvN: L[lv][0], lvS: L[lv][1], halo: 'radial-gradient(circle,' + L[lv][2] + ',transparent 65%)', hl: SEGS[lv], popCls: S.pop ? 'kpop' : '',
+    ang, angTr: S.drag ? 'none' : 'transform .45s cubic-bezier(.3,1.5,.5,1)',
+    gDown: (e) => { try { e.currentTarget.setPointerCapture(e.pointerId); } catch (_) {} this.setState({ drag: true }); const a = angleOf(e); set(Math.max(0, Math.min(4, Math.floor((a + 90) / 36))), a); },
+    gMove: (e) => { if (!(this.state || {}).drag) return; const a = angleOf(e); set(Math.max(0, Math.min(4, Math.floor((a + 90) / 36))), a); },
+    gUp: () => { const s = this.state || {}; if (!s.drag) return; this.setState({ drag: false, ang: null }); },
+    gKey: (e) => { const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0; if (d) { e.preventDefault(); set(Math.max(0, Math.min(4, lv + d)), null); } }
+  };
+  for (let i = 0; i < 5; i++) { o['f' + i] = i === lv; o['s' + i] = () => set(i, null); }
+  return o;
+}
+}
+</script>
+<script src="../_prototipos/embed.js"></script>
+</body>
+</html>

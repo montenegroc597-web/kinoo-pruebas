@@ -1,30 +1,33 @@
-# Kinoo · Pruebas de usabilidad
+# Kinoo · Pruebas de usabilidad no moderadas
 
-Herramienta para evaluar la app **Kinoo** con personas reales siguiendo el *Protocolo de pruebas de usabilidad v1.3*, y recoger los datos en un Google Sheet casi en tiempo real.
+Herramienta para aplicar el **Protocolo de pruebas no moderadas por link v2.0** de Kinoo: cada persona abre un link en su celular y prueba el **prototipo real** sin moderador; los datos llegan a Supabase en tiempo real y el Panel los analiza con las fórmulas del Excel de registro v2.0.
 
-- **`/prueba/`** — la app Kinoo real + el guion de la prueba (4 fases). Cada participante, en su celular.
-- **Google Sheet** — mismas hojas y columnas que `Registro_Pruebas_Usabilidad_Kinoo_v1.3.xlsx`.
-- **`/panel/`** — métricas, mapas de calor sobre la pantalla real, errores de flujo, codificación y exportación.
+- **`/prueba/`** — el link: introducción y los módulos M1–M5 sobre el prototipo «Kinoo · Prueba Maze · Flujo» (gestos, toques y tiempos medidos dentro del prototipo). Variantes: `?link=1`, `?link=2`, `?card=A|B`.
+- **Supabase** (proyecto «Pruebas Kinoo») — hojas y columnas de `Registro_Pruebas_No_Moderadas_Kinoo_v2.0.xlsx` (ver `supabase/README.md`).
+- **`/panel/`** — validez, métricas por módulo, card A vs B (Fisher / Welch), moods, codificación a ciegas, «Config» del estudio y textos editables, exportación.
 
-📖 **Empieza por [`COMO-USAR.md`](COMO-USAR.md).**
+📖 **Empieza por [`COMO-USAR.md`](COMO-USAR.md).** Últimos cambios: [`CAMBIOS.md`](CAMBIOS.md).
 
 | Documento | Para qué |
 |---|---|
 | [`COMO-USAR.md`](COMO-USAR.md) | Cómo usar la herramienta, de punta a punta |
-| [`AVANCES-Y-CAMBIOS.md`](AVANCES-Y-CAMBIOS.md) | Qué se construyó, qué se verificó, qué cambió respecto al plan y qué falta |
-| [`docs/GUIA-DESPLIEGUE.md`](docs/GUIA-DESPLIEGUE.md) | Publicar el backend (Google) y las apps (GitHub Pages) |
-| [`docs/GUIA-MODERADOR.md`](docs/GUIA-MODERADOR.md) | Cómo moderar una sesión |
-| [`docs/GUIA-ANALISIS.md`](docs/GUIA-ANALISIS.md) | Leer el Panel y armar el informe |
+| [`docs/GUIA-ENVIO.md`](docs/GUIA-ENVIO.md) | Cómo y a quién enviar los links |
+| [`docs/GUIA-ANALISIS.md`](docs/GUIA-ANALISIS.md) | Leer el Panel, codificar y decidir A vs B |
+| [`docs/GUIA-DESPLIEGUE.md`](docs/GUIA-DESPLIEGUE.md) · [`supabase/README.md`](supabase/README.md) | Publicar el backend y las apps |
+| [`CAMBIOS.md`](CAMBIOS.md) | Registro de cambios por versión |
+| [`.claude/skills/kinoo-protocolo/SKILL.md`](.claude/skills/kinoo-protocolo/SKILL.md) | Cómo adaptar el sistema a un protocolo o un artefacto nuevo |
+| [`docs/protocolo/`](docs/protocolo/) | Texto de cada versión del protocolo (base para comparar la siguiente) |
 
 ```
 npm install
-npm test            # 122 pruebas de lógica y pantallas
-npm run e2e         # 14 pruebas de extremo a extremo con un celular virtual
-npm run mock        # backend simulado en :8787
-npm run dev:prueba  # app de prueba (:5173, en escritorio usa ?forzar=1)
+npm test            # fórmulas, «Config», textos, analítica y el SQL real de Supabase (sobre PGlite)
+npm run e2e         # un celular virtual hace el link completo sobre el prototipo real
+npm run mock        # backend local en :8787 (las migraciones de Supabase sobre PGlite)
+npm run dev:prueba  # el link (:5173, en escritorio usa ?forzar=1)
 npm run dev:panel   # Panel (:5174)
+npm run carga       # simulación de 10, 20 y 100 personas
 ```
 
-Stack: TypeScript estricto · React 18 · Vite 5 · Zustand · Recharts · SheetJS · Google Apps Script · Playwright.
+Stack: TypeScript estricto · React 18 · Vite 5 · Zustand · Recharts · SheetJS · Supabase (Postgres + Edge Function) · PGlite · Playwright.
 
-**Privacidad:** el repositorio es público. Los nombres solo viven en el Google Sheet y en el Panel; lo que se publica en `data/` está **anonimizado** (solo códigos P01, P02…).
+**Privacidad:** el repositorio es público. El v2.0 es anónimo (solo códigos P01, P02…); lo que se publica en `data/` no lleva nombres.

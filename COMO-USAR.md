@@ -1,124 +1,97 @@
-# Kinoo · Cómo usar la herramienta de pruebas
+# Kinoo · Cómo usar la herramienta de pruebas (protocolo v2.0, no moderado)
 
-Esta herramienta sirve para **evaluar la app Kinoo con personas reales** y recoger los resultados en un Excel (Google Sheet) casi en tiempo real. Está formada por tres piezas:
+La herramienta aplica el **Protocolo de pruebas no moderadas por link v2.0**: cada persona abre un link en su celular y responde sola, sin moderador. Los resultados llegan a Supabase en tiempo real y el Panel los muestra con las mismas fórmulas del `Registro_Pruebas_No_Moderadas_Kinoo_v2.0.xlsx`.
 
-| Pieza | Para quién | Qué hace |
+| Pieza | Quién la usa | Para qué |
 |---|---|---|
-| **App de prueba** (`/prueba/`) | Cada participante, en su celular | La app Kinoo real + el guion del protocolo. Registra cada toque, tiempo y respuesta |
-| **Google Sheet «Kinoo · Registro en vivo»** | El equipo | El «Excel» donde llega todo, fila por fila, con las mismas hojas y columnas del `Registro_Pruebas_Usabilidad_Kinoo_v1.3.xlsx` |
-| **Panel** (`/panel/`) | El equipo | Métricas con semáforo, mapas de calor sobre la pantalla real, errores de flujo, codificación y exportación |
+| **Link de la prueba** (`/prueba/`) | Cada participante, en su celular | Introducción y las partes del protocolo sobre el **prototipo real** («Kinoo · Prueba Maze · Flujo»), con gestos, toques y tiempos medidos |
+| **Supabase «Pruebas Kinoo»** | Nadie directamente | La base donde llega todo, con las hojas y columnas del Excel v2.0 |
+| **Panel** (`/panel/`) | El equipo | Validez de cada persona, métricas por módulo con semáforo, card A vs B, moods, codificación a ciegas, edición de textos y de la «Config», exportación |
 
-El método es el del **Protocolo de pruebas v1.3** (`Documentos ux/`). Cuando algo no esté aquí, manda el protocolo.
+## 1. Antes de lanzar (una vez por ronda)
 
----
+1. **Panel → Estudio** (la hoja «Config» del Excel). Define lo que el protocolo deja «(definir)»: qué cambia en la card B, la clave de codificación (resumen del mazo, propósito…), la definición de cada mood con su película objetivo y sus 3 distractores, las películas de M3d, los textos de los mazos y los umbrales. El Panel avisa de lo pendiente y no deja publicar lo inválido. **Publica** con un nombre de versión (p. ej. `ronda1-v1`).
+2. **Panel → Textos** (opcional): ajusta la redacción de alguna pregunta. Guarda borrador → **Vista previa** → publica.
+3. **Piloto** con 2 o 3 personas ajenas (§0.3), usando el enlace con `?ronda=0`: `…/prueba/?ronda=0`. Sus datos quedan marcados como ronda 0 y el Panel los excluye por defecto. Revisa que entendieron las instrucciones, que en **Salud** no hay errores y que la duración es razonable.
 
-## 1. Antes de la primera sesión (una sola vez)
+## 2. Los links
 
-1. **Despliegue**: sigue `docs/GUIA-DESPLIEGUE.md` (crear el Sheet, pegar `backend/Code.gs` en Apps Script, subir el repo a GitHub público, activar Pages y los 3 secretos). Son ~20 minutos.
-2. **Llenar Config, Pantallas y Contraste del Sheet**:
-   ```
-   npm run contrast
-   APPS_SCRIPT_URL=<url> READ_KEY=<clave> npm run seed-config
-   ```
-3. **Sesión piloto** con alguien externo (protocolo §0.4), usando el enlace con `?ronda=0`:
-   `https://<usuario>.github.io/<repo>/prueba/?ronda=0`
-   Los datos del piloto quedan marcados como ronda 0 y el Panel los excluye por defecto.
-4. Abre el Panel (`/panel/`), entra con la URL del Apps Script y la `READ_KEY`, y revisa en **Salud** que el piloto llegó sin errores. Corrige lo que haya salido en el piloto.
+| Link | Enlace | Partes |
+|---|---|---|
+| Completo | `…/prueba/` | Introducción → M1 Descubrir → M2 Ver → M3 Moods → M4 Mazos → M5 Percepción (17–24 min) |
+| Link 1 | `…/prueba/?link=1` | Introducción → M1 → M2 → M5 (12–17 min) |
+| Link 2 | `…/prueba/?link=2` | Introducción → M3 → M4 (6–8 min); se envía a **otras** personas, para que los nombres de los moods del filtro no ayuden en M3 |
 
-## 2. Cómo se hace una sesión
+- **Card A / B:** sin parámetro, el servidor la asigna alternando (A, B, A, B…) según el orden en que las personas abren el link, así los grupos quedan parejos. Para el esquema del protocolo con dos copias del link, usa `?card=A` y `?card=B` (Link 1-A / Link 1-B). Se combinan: `?link=1&card=B`.
+- El mensaje de invitación del Anexo A **no describe la app** (está en `docs/GUIA-ENVIO.md`).
+- Es para el celular, en vertical. En un computador muestra un QR con el enlace.
+- Si la persona cierra la pestaña y vuelve, retoma al principio de la parte que no terminó, con la misma card, textos y «Config».
 
-**El participante** abre `https://<usuario>.github.io/<repo>/prueba/` **en su celular** (envía el enlace por WhatsApp o muéstrale el QR que aparece si lo abre desde un computador). La prueba es **autoguiada**: todo el guion sale en pantalla con el texto exacto del protocolo. Dura de 45 a 60 minutos y se divide en 4 fases con una pausa entre cada una:
+### Modo equipo (probar sin registrar a nadie)
+`…/prueba/?equipo=1`: eliges card, link y desde qué parte empezar. **No se guarda nada**. Con `?equipo=1&textos=borrador` ves los borradores de Textos y Estudio antes de publicarlos.
 
-| Fase | Qué hace el participante |
+## 3. Qué mide cada parte
+
+| Parte | Cómo se mide |
 |---|---|
-| **1 · Primera impresión** | Nombre y consentimiento → preguntas de contexto → test de 5 segundos (4 pantallas, incluida la de **mazos**) → 3 tarjetas distintas, cada una **dentro de la pantalla completa**, que al final la persona **prueba tocando y deslizando** |
-| **2 · Encontrar acciones** | 5 situaciones de «¿dónde tocarías?» sobre las pantallas reales, cada una con la pregunta de facilidad (SEQ) |
-| **3 · Usar la app** | 5 situaciones tipo «de la pantalla inicial a la pantalla objetivo» (Descubrir, mazos y Ver): la persona navega sola; al llegar sale **«¡Felicidades! Completaste la tarea»** y pasa a la siguiente. Después, SEQ + cuestionario UEQ-S |
-| **4 · Marca y cierre** | Compara las dos versiones visuales sobre 3 pantallas (cartas, Ver y **mazos**): A «Noche» y B = **el prototipo real «Kino»** (el de la página H del lienzo, con su estética y su lógica) → 3 preguntas finales |
+| M1 · Descubrir | La card A o B **5 s** (el reloj empieza cuando la pantalla ya cargó) → D1a–D1d → **D2 y D3 en el prototipo vivo**: se registra el primer gesto (deslizar → / ←, o tocar un botón), el tiempo y los toques fuera de lugar, y se puntúa 1 / 0,5 / 0 con la clave → SEQ y consecuencia → **D4: explora con libertad, completa su mazo de 10 cartas y llega al resumen** («qué dice este mazo de ti»; «Listo» se habilita al llegar, «No logro llegar» a los 2 min) → D4e, D4a–D4d, D4f |
+| M2 · Ver | Ver 5 s → V1a–V1b → el filtro de mood **marcado con un círculo rojo** (V1c–V1d, sin explicación) → **V2 en el prototipo vivo**: elegir el mood objetivo (se leen el mood final, los movimientos de la barra y los toques) → explicación breve y V3a–V3d → la recomendación con su «por qué» y la confianza V4a–V4d |
+| M3 · Moods | M3a–M3b para 3 moods al azar → M3c: cada mood con sus 4 películas barajadas (acierto y confusión automáticos, tiempo) → M3d y M3e por película |
+| M4 · Mazos | La pantalla de mazos sin explicación → Z1, Z2 (4 frases) → **Z3: primer toque** sobre la pantalla (puntuado con la zona medida en el prototipo) → Z3a, Z4, Z5a, Z5b |
+| M5 · Percepción | F1, F2, **control de atención** («marca la opción 5»; en el Link 2 va al final de M4), UEQ-S de 8 pares, F4 |
 
-- **Nombre y repetidos.** Al empezar escribe su nombre. La primera persona que se llame «Juan» queda como **Juan 1**, la siguiente **Juan 2**, y así (da igual si escribe «JUÁN» o «juan »). Cada fila de cada hoja queda ligada a su código (P01, P02…) y a su nombre numerado.
-- **Si cierra la página**, al volver a abrir el mismo enlace en el mismo celular **retoma en la fase donde iba** (esa fase empieza desde su principio; lo ya respondido está guardado).
-- **Si se cae el internet**, la prueba sigue. Todo queda en el celular y se envía cuando vuelve la red, sin duplicados.
+## 4. Ver los resultados (Panel)
 
-**El moderador** (en persona o por videollamada) no necesita hacer nada durante la prueba, pero puede abrir la **barra del moderador** con un **toque largo de 2 segundos en la esquina superior derecha**:
-pausar, saltar el paso actual, escribir una nota (tipo Problema / Positivo / Idea y gravedad 1–4), marcar «cambió de opinión» y ver el estado de la red. Ese toque no cuenta como clic de la prueba.
-
-Reglas de moderación del protocolo (resumen): no ayudar, no decir «muy bien», si pregunta «¿está bien?» responder «¿qué esperarías que pasara?», y no contar nada de Kinoo antes de la prueba de 5 segundos. Detalle en `docs/GUIA-MODERADOR.md`.
-
-### Modo equipo (para los host: probar sin registrar a nadie)
-
-Abre la app con **`?equipo=1`** (en un computador, el botón **«Continuar como equipo (no se guarda nada)»** de la pantalla del QR hace lo mismo):
-
-- **No se registra a nadie**: no se envía nada al Sheet, no se guarda nada en el navegador y nada se marca como terminado ni cuenta como participante. Los códigos P01, P02… y la numeración de nombres no se tocan.
-- Hay una **cinta amarilla** arriba con **◀ Atrás**, **Saltar ▶**, **Menú** y **Salir**: puedes volver un paso, saltar el paso actual o empezar de nuevo.
-- El **menú** deja elegir **desde qué fase** probar y **con los órdenes de qué participante** (P01…P10: cambia el orden de tareas, de flujos y de la marca A/B).
-- Al final de la fase 4 **no** sale «gracias, terminaste»: sale «Recorrido terminado · no se guardó nada».
-- Un enlace normal (sin `?equipo=1`) sigue registrando como siempre.
-
-## 3. Ver los resultados (Panel)
-
-Entra a `https://<usuario>.github.io/<repo>/panel/` con la URL del Apps Script y la `READ_KEY` (no se guarda; solo vive en esa pestaña). Se actualiza solo cada 10 segundos.
+`https://<usuario>.github.io/<repo>/panel/` con la URL de la Edge Function (`…/functions/v1/kinoo`) y la `READ_KEY`. Se actualiza cada 15 s mientras la pestaña está visible.
 
 | Vista | Responde |
 |---|---|
-| **Resumen** | ¿Cuántas personas hicieron la prueba y cumplimos las metas? (semáforo por indicador) |
-| **Participantes** | Quién hizo qué; al tocar una fila, su línea de tiempo completa |
-| **5 segundos / Cards** | ¿Qué pantallas comunican y qué capta la atención? + mapas de recuerdo y atención |
-| **Primer clic + SEQ** | % de acierto, tiempo, **miss clicks**, SEQ, elemento que «roba» la tarea, y **mapa de calor / mapa de clics sobre la pantalla real** con la zona correcta dibujada |
-| **Flujos** | Por misión: éxito directo / indirecto / abandono, embudo de pasos, rutas más frecuentes, desvíos, puntos de salida, gestos (←, →, ↑, mantener presionado, deshacer) |
-| **UEQ** | Pragmática, hedónica y los pares que más bajan |
-| **Marca A/B** | Agrado, legibilidad, atributos, preferencia con prueba binomial y quién gana |
-| **Codificación** | Convertir respuestas escritas en 1 / 0,5 / 0 con la clave de corrección, y agrupar notas en temas (afinidad) |
-| **Salud** | Eventos por minuto, sesiones activas, **errores de flujo**, tareas sin zona, sesiones incompletas |
-| **Exportar** | `.xlsx` en el formato del Registro v1.3, `.xlsx` completo, `.xlsx` anónimo, CSV por hoja y PNG de los mapas |
+| **Resumen** | Personas válidas por card, descartes, lectura A vs B y el semáforo de todos los indicadores |
+| **Participantes** | Quién cuenta: **Válido** = completó + control de atención = 5 + duración ≥ mínimo + no excluido a mano. Casilla «excluir» para quien responde siempre lo mismo. Al tocar una fila, su recorrido |
+| **M1 … M5** | Indicadores con semáforo (y por card en M1), gestos, tiempos, mapas de gestos y toques sobre la pantalla real, motivos y citas |
+| **M3 · Moods** | Acierto por mood, **matriz de confusión**, película → mood, nombres propios (★ si ≥ 3 personas repiten uno) y la acción sugerida por mood (§3) |
+| **Card A vs B** | Las 22 métricas con Fisher (porcentajes) o Welch (escalas, tiempos, UEQ-S), veredicto «Diferencia clara / Tendencia / Sin diferencia» y la **regla de decisión** con las 5 primarias |
+| **Codificación** | Respuestas abiertas → 1 / 0,5 / 0 con la clave de «Config», **sin ver la card**; D1a con la lista de elementos; ideas clave del mazo; equivalencia de los nombres propios; notas del diagrama de afinidad |
+| **Estudio / Textos** | La «Config» y la redacción, versionadas (borrador → vista previa → publicar) |
+| **Salud** | Eventos por minuto, quién está respondiendo, errores de la app, sesiones sin terminar |
+| **Exportar** | `.xlsx` en el formato del Registro v2.0 (para pegar en la plantilla, con «Válido» calculado), `.xlsx` completo y CSV por hoja |
 
-> **Importante:** con menos de 8 personas los porcentajes son indicativos, no concluyentes. El Panel lo avisa en cada vista.
-> «Propósito», «Acción» y «Contenido» **no se calculan solos**: el equipo los codifica en la vista **Codificación** con la clave del protocolo. Hasta entonces esas métricas salen «sin datos».
+> Con menos de 12 personas válidas por card, la comparación A/B es solo una pista (el Panel lo marca «n pequeño»). Las respuestas abiertas **no se califican solas**: hasta codificarlas, esas métricas salen «sin datos».
 
-Cómo leer cada vista, cómo hacer los gráficos a mano en Excel y cómo armar el informe: `docs/GUIA-ANALISIS.md`.
+## 5. Dónde quedan los datos
 
-## 4. Dónde quedan los datos
+- **Supabase** (privado, proyecto «Pruebas Kinoo»): todo. Es anónimo: solo códigos P01, P02… Los datos del estudio v1.3 quedaron archivados como «v1.3 · <hoja>».
+- **GitHub, carpeta `data/`** (público): cada noche un proceso baja los datos y guarda CSV + `.xlsx`.
 
-- **Google Sheet** (privado, en tu cuenta): todo, **con nombres**. Es la fuente única de verdad.
-- **GitHub, carpeta `data/`** (público): cada noche (23:00 hora de Colombia) un proceso automático baja el Sheet y guarda CSV + un `.xlsx` **sin nombres** (solo el código P01, P02…; y si alguien escribió su nombre dentro de una respuesta, se tacha como `[nombre]`). También se puede ejecutar a mano desde la pestaña *Actions → Exportar datos*.
-
-## 5. Probar todo en tu computador (sin Google)
+## 6. Probar en tu computador (sin Supabase)
 
 ```
 npm install
-npm run mock          # backend simulado en http://localhost:8787 (ejecuta el Code.gs real sobre un Sheet en memoria)
-npm run dev:prueba    # http://localhost:5173/?forzar=1   (en escritorio hace falta ?forzar=1)
+npm run mock          # backend local en http://localhost:8787 (las migraciones reales de Supabase sobre PGlite)
+npm run dev:prueba    # http://localhost:5173/?forzar=1   (VITE_APPS_SCRIPT_URL=http://localhost:8787 VITE_WRITE_KEY=W)
 npm run dev:panel     # http://localhost:5174  → URL http://localhost:8787, clave R
 ```
-(`VITE_APPS_SCRIPT_URL=http://localhost:8787 VITE_WRITE_KEY=W` al arrancar `dev:prueba`.)
+El prototipo completo, navegable, queda en `…/prueba/kinoo-flujo/Flujo1_Descubrir.dc.html`.
 
-El prototipo Kino completo (con su panel de pantallas) queda publicado en `…/prueba/kino/index.html`.
-
-Dos parámetros de ayuda, **nunca con participantes**: `?catalogo=1` muestra todas las pantallas en A y B lado a lado (B es el prototipo Kino y se puede usar); `?rapido=1` acorta la mirada de 12 s de la prueba de marca (para pruebas automáticas).
-
-## 6. Comandos
+## 7. Comandos
 
 | Comando | Qué hace |
 |---|---|
-| `npm test` | 100+ pruebas de lógica (fórmulas, nombres, backend, Panel, pantallas) |
-| `npm run e2e` | Pruebas de extremo a extremo con un celular virtual: sesión completa, registro concurrente, sin red, retomar, moderador y Panel |
-| `npm run typecheck` | TypeScript estricto |
-| `npm run contrast` | Contraste WCAG AA de las versiones A y B → `data/contraste.csv` |
-| `npm run seed-config` | Llena Config, Pantallas y Contraste del Sheet |
-| `npm run export-data` | Baja el Sheet y lo guarda anonimizado en `data/` |
-| `npm run build` | Compila la app de prueba y el Panel |
+| `npm test` | Fórmulas (Fisher, Welch, UEQ-S…), textos, «Config», analítica del Panel y el SQL real de Supabase |
+| `npm run e2e` | Un celular virtual hace el link completo sobre el prototipo real, el Link 2, sin red, el modo equipo, el Panel y los textos |
+| `npm run carga` | Simula 10, 20 y 100 personas y mide el backend y lo que descarga el Panel |
+| `npm run importar-prototipo` | Importa un prototipo de lienzo nuevo (ver el skill `kinoo-protocolo`) |
+| `npm run protocolo-texto` | Extrae el texto de un protocolo .docx y lo compara con el anterior |
+| `npm run hojas-sql` | Regenera `supabase/hojas.sql` si cambian las columnas en `schema.ts` |
+| `npm run typecheck` / `npm run build` | TypeScript estricto / compila la app y el Panel |
+| `npm run export-data` | Baja los datos a `data/` |
 
-## 7. Si algo falla
+## 8. Si algo falla
 
 | Síntoma | Qué hacer |
 |---|---|
-| «Registrando…» y queda con código `TMP-…` | No hay red o el Apps Script no responde. La prueba sigue; cuando vuelve la red se corrige solo. Revisa `?action=health` |
-| El Panel dice «no autorizado» | La `READ_KEY` no coincide con la de Script Properties |
-| No aparecen datos en el Panel | Mira la vista **Salud** (eventos por minuto, errores) y confirma que el celular tiene red; la cola se envía cada 3 s |
-| Una tarea sale «sin zona» | La zona se mide sola la primera vez que alguien hace la tarea; hazla tú una vez en el piloto |
-| Cambiaste `Code.gs` | En Apps Script: *Implementar → Administrar implementaciones → Editar → Nueva versión* |
-| Una persona se registró con el nombre equivocado | Corrígelo en el Sheet (hoja Participantes, «Nombre ingresado» y «Nombre mostrado») |
-
-## 8. Qué no hace (todavía)
-
-Comunidad, economía de sobres, modo a ciegas y captura externa (TikTok/Instagram/WhatsApp) están **fuera de alcance** de esta versión. El resumen de lo que cambió respecto al plan y lo que queda pendiente está en `AVANCES-Y-CAMBIOS.md`.
+| El Panel dice «no autorizado» | La `READ_KEY` no coincide con la guardada (como hash) en la tabla `claves` |
+| No llegan datos | Mira **Salud** (eventos por minuto, errores) y que el celular tenga red; la app envía cada 3 s y reintenta sola |
+| Quedó con código `TMP-…` | No había red al empezar; se corrige solo al volver la red |
+| La pantalla del prototipo no carga | Revisa en el navegador `…/prueba/kinoo-flujo/<página>.dc.html`; si cambiaste el lienzo, vuelve a importarlo (skill `kinoo-protocolo`) |
+| Una persona responde siempre lo mismo | Participantes → «excluir» |

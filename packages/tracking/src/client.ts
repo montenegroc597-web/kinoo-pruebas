@@ -1,5 +1,5 @@
 import type { Asignacion, KinooEvent, PerfilRegistro } from './schema';
-import { ordenFlujosPara, ordenMarcaPara, ordenTareasPara } from './rotation';
+import { semillaDe } from './rotation';
 
 type Item = { kind: 'event'; payload: KinooEvent } | { kind: 'rows'; hoja: string; payload: Record<string, unknown> };
 
@@ -80,7 +80,7 @@ export class TrackingClient {
   private async post(body: unknown): Promise<{ ok: boolean; data?: any; error?: string }> {
     const res = await this.fetchFn(this.cfg.url, {
       method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // evita preflight CORS (Apps Script no lo soporta)
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // text/plain no dispara el preflight CORS: una petición menos por lote
       body: JSON.stringify(body),
     });
     return (await res.json()) as { ok: boolean; data?: any; error?: string };
@@ -146,16 +146,22 @@ export class TrackingClient {
     let n = 0;
     for (const it of this.cola) {
       if (it.kind === 'event') {
-        if (it.payload.codigo === tmp) { it.payload.codigo = a.codigo; it.payload.nombreMostrado = a.nombreMostrado; n++; }
-      } else if (it.payload.Participante === tmp) {
-        it.payload.Participante = a.codigo; it.payload['Nombre mostrado'] = a.nombreMostrado; n++;
-      }
+        if (it.payload.codigo === tmp) { it.payload.codigo = a.codigo; n++; }
+      } else if (it.payload.Participante === tmp) { it.payload.Participante = a.codigo; n++; }
     }
     if (n) { this.guardar(); this.avisar(); }
     return n;
   }
 
   // ---- llamadas directas (no van por la cola) ----
+  /**
+   * Configuración publicada: redacción de textos o «Config» del estudio (o su borrador, para la vista previa del equipo).
+   * Es solo lectura: funciona también en modo equipo.
+   */
+  async leerConfig<T>(clave: ClaveConfig): Promise<T | null> {
+    if (!this.cfg.url) return null;
+    try { const r = await this.post({ action: 'config', key: this.cfg.key, clave }); return r.ok ? (r.data as T | null) : null; } catch { return null; }
+  }
   async registrar(perfil: PerfilRegistro, sesionId: string): Promise<Asignacion & { provisional?: boolean }> {
     if (this.cfg.url && !this.inerte) {
       try {
@@ -163,23 +169,24 @@ export class TrackingClient {
         if (r.ok && r.data) return r.data as Asignacion;
       } catch { /* sin red: código provisional */ }
     }
-    return asignacionProvisional(perfil.nombre, sesionId);
+    return asignacionProvisional(perfil, sesionId);
   }
-  async reanudar(codigo: string, sesionId: string): Promise<(Asignacion & { fasesCompletadas?: number }) | null> {
+  async reanudar(codigo: string, sesionId: string): Promise<(Asignacion & { partes?: number }) | null> {
     if (this.inerte || !this.cfg.url) return null;
     try {
       const r = await this.post({ action: 'resume', key: this.cfg.key, codigo, sesionId });
-      return r.ok ? (r.data as Asignacion & { fasesCompletadas?: number }) : null;
+      return r.ok ? (r.data as Asignacion & { partes?: number }) : null;
     } catch { return null; }
   }
-  /** true si el servidor lo recibió (quien llama reintenta si es false). */
+  /** Perfil (I1–I4) y control de atención. true si el servidor lo recibió (quien llama reintenta si es false). */
   async perfil(sesionId: string, cambios: Record<string, string | number>): Promise<boolean> {
     if (this.inerte || !this.cfg.url) return true;
     try { const r = await this.post({ action: 'profile', key: this.cfg.key, sesionId, cambios }); return !!(r.ok && r.data?.ok); } catch { return false; }
   }
-  async faseCompletada(sesionId: string, fasesCompletadas: number): Promise<boolean> {
+  /** Partes terminadas; con `completo` el servidor marca «Completó = Sí» y calcula la duración con su propio reloj. */
+  async progreso(sesionId: string, partes: number, completo: boolean): Promise<boolean> {
     if (this.inerte || !this.cfg.url) return true;
-    try { const r = await this.post({ action: 'phase', key: this.cfg.key, sesionId, fasesCompletadas }); return !!(r.ok && r.data?.ok); } catch { return false; }
+    try { const r = await this.post({ action: 'progress', key: this.cfg.key, sesionId, partes, completo }); return !!(r.ok && r.data?.ok); } catch { return false; }
   }
   async reasignar(tmp: string, asignacion: Asignacion): Promise<void> {
     if (this.inerte || !this.cfg.url) return;
@@ -187,18 +194,15 @@ export class TrackingClient {
   }
 }
 
-/** Sin red al registrar: la sesión sigue con un código TMP-… y órdenes derivados del sesionId. */
-export function asignacionProvisional(nombre: string, sesionId: string): Asignacion & { provisional: true } {
-  let h = 0;
-  for (const ch of sesionId) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
-  const idx = (h % 5) + 1;
+export type ClaveConfig = 'textos' | 'textos-borrador' | 'estudio' | 'estudio-borrador';
+
+/** Sin red al registrar: la sesión sigue con un código TMP-…; la card sale del sesionId (se corrige al reconectar). */
+export function asignacionProvisional(perfil: PerfilRegistro, sesionId: string): Asignacion & { provisional: true } {
   return {
     codigo: 'TMP-' + sesionId.slice(0, 8),
-    nombreMostrado: nombre.trim() + ' (provisional)',
     sesionId,
-    ordenTareas: ordenTareasPara(idx),
-    ordenMarca: ordenMarcaPara(idx),
-    ordenFlujos: ordenFlujosPara(idx),
+    variante: perfil.variante ?? (semillaDe(sesionId) % 2 ? 'B' : 'A'),
+    flujo: perfil.flujo,
     provisional: true,
   };
 }

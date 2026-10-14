@@ -1,0 +1,362 @@
+Kinoo
+Protocolo de pruebas no moderadas por link
+KARUK · Bogotá, octubre de 2026 · Versión 2.0 (prototipo de media fidelidad, prueba de conceptos y mini-flujos)
+# 0. Cómo usar este protocolo
+Este protocolo reemplaza al v1.3 (moderado). La diferencia de fondo es que ahora todo se hace por un link que se envía a cada persona: no hay moderador, no hay explicación en vivo y cada quien responde solo desde su celular. En lugar de evaluar flujos completos (hacer X o Y), se evalúan mini-flujos y conceptos: si queda claro cuándo y cómo hacer un gesto (deslizar cuando una película interesa o no, mover la barra de mood), si el sistema de match sorprende bien, si cada mood y cada mazo se entienden con poco contexto, y si las recomendaciones dan confianza y resultan chéveres.
+Mantiene la estructura anterior: objetivos, materiales, procedimiento, preguntas exactas, métricas, criterios de éxito, análisis y reporte, y la herramienta de registro en Excel (Registro_Pruebas_No_Moderadas_Kinoo_v2.0.xlsx). El Excel se llena con los resultados de la herramienta de pruebas y calcula solo los porcentajes, las gráficas, la comparación entre card A y card B y los insights.
+### Qué cambia frente al v1.3
+| Aspecto | v1.3 (moderado) | v2.0 (no moderado por link)
+| Modalidad | Sesión con moderador, 45–60 min | Link enviado a cada persona, sin moderador, 17–24 min (o dos links más cortos)
+| Qué se prueba | Pantallas y flujos: 5 segundos, primer clic, SEQ, UEQ, marca A/B | Mini-flujos y conceptos: gestos de Descubrir, match, filtro de mood, moods, mazos, confianza y «chévere»
+| Explicación | El moderador contextualiza y aclara | Ninguna: la persona solo ve el prototipo. La explicación del filtro llega después de medir qué entendió sin ella
+| Comparación A/B | Marca (cada persona ve las dos versiones) | Card de Descubrir (cada persona ve solo una: A o B)
+| Muestra | 8–12 personas | 15–20 válidas por card (30–40 en total); mínimo 12 por card para leer una tendencia
+| Calidad de datos | La asegura el moderador | Pregunta de control, duración mínima y exclusión manual (columna «Válido» del Excel)
+| Preguntas abiertas | El moderador repregunta | No se puede repreguntar: se pregunta una vez, con texto exacto, y se codifica 1 / 0,5 / 0
+### Módulos y orden
+| Módulo | Qué responde | Instrumentos | Tiempo
+| Introducción y perfil | ¿Quién responde? | I1 a I4 (edad, frecuencia, redes, comodidad tecnológica) | 1 min
+| M1 · Descubrir | ¿Entienden la card? ¿Saben qué gesto hacer cuando una película interesa o no? ¿Entienden el match y les sorprende bien? ¿Cuál card funciona mejor? | 5 segundos, gesto en el prototipo (primer clic), SEQ, comprensión abierta, escalas 1–7 | 5–7 min
+| M2 · Ver | ¿Entienden el filtro de mood sin explicación? ¿Lo usan bien? ¿Les sirve? ¿Confían en la recomendación? | 5 segundos, tarea con el filtro, SEQ, explicación breve y preguntas guía, escala de confianza | 4–6 min
+| M3 · Moods | ¿Se entiende cada mood? ¿Con qué película lo asocian? ¿Cómo lo llamarían ellos? | Significado abierto, elegir película entre 4, película → mood, nombre propio | 3–4 min
+| M4 · Mazos | ¿Entienden qué es un mazo y cómo funciona? | Pregunta abierta, verdadero/falso, primer clic, SEQ, consecuencia esperada | 2–3 min
+| M5 · Percepción final | ¿Les parece chévere? ¿La usarían? ¿Qué experiencia perciben? | F1, F2, UEQ-S de 8 pares, comentario libre, control de atención | 2–3 min
+Orden fijo: Introducción → M1 → M2 → M3 → M4 → M5. Lo que no puede contaminarse va primero: la card se ve sin contexto y el filtro de mood se prueba sin explicación antes de explicarlo. Lo único que se aleatoriza es la card (A o B por persona), el orden de los moods en M3c, el de las películas en M3d y cuáles 3 moods se preguntan en M3a y M3b. Opción más limpia: dividir en dos links. Link 1 = Introducción + M1 + M2 + M5 (12–17 min). Link 2 = Introducción + M3 + M4 (6–8 min), enviado a personas que no hicieron el Link 1, para que los nombres de los moods que aparecen en el filtro no ayuden a responder M3. En el Excel se registra en «Participantes → Flujo».
+## 0.1 Qué se está evaluando de Kinoo
+Kinoo se organiza en dos espacios. En Descubrir la persona explora películas en cards, deja señales de interés con un gesto (por ejemplo, deslizar) y puede encontrarse con el sistema de match, que busca sorprenderla. En Ver la persona usa el filtro de mood (una barra que se desliza) para elegir qué ver según cómo se siente, y recibe recomendaciones. Además hay dos conceptos que deben entenderse solos: los moods (Épica, Sufrir bonito, etc., categorías que define el equipo) y los mazos (filtran mis gustos y controlan cuánto contenido veo).
+Esta prueba busca saber qué tanto se entiende con poco contexto. Por eso no se explica la app: si una persona no sabe qué hacer o qué significa algo, es información de diseño, no un error suyo.
+## 0.2 Participantes y reclutamiento
+Perfil: personas de 18 a 40 años en Bogotá que ven películas o series al menos una vez por semana (cine, streaming o ambos). Mezclar género, edad, nivel tecnológico y sistema del celular (iOS y Android). Incluir tanto a quienes descubren contenido en redes sociales como a quienes no.
+Quién no participa: integrantes del equipo y personas que ayudaron a diseñar o conocen el prototipo.
+Cuántas personas: 15–20 válidas por card (30–40 en total). Como entre un 15 % y un 25 % de las respuestas se descartan (no completan, fallan el control, responden con prisa), conviene enviar el link a 45–50 personas. Si se usa el Link 2, sumar 15–20 válidas adicionales.
+Por qué tantas: con 15 personas, un resultado de 70 % puede corresponder a un valor real entre 45 % y 88 %. Con menos de 12 por card, la comparación A/B solo sirve como pista.
+Asignación de la card: la mitad ve la card A y la otra mitad la B. Se crean dos copias del link (Link 1-A y Link 1-B) y se reparten alternando por orden de envío (A, B, A, B…) para que los dos grupos sean parecidos en edad y dispositivo. La variante se anota en «Participantes».
+Anonimato: en el Excel no se escriben nombres; solo códigos P01, P02…
+## 0.3 Reglas de una prueba no moderada
+Sin explicación extra. El mensaje de invitación no describe la app (modelo en el Anexo A). Todo el texto que la persona necesita está en el link y es el mismo para todos.
+Una vez por persona, desde el celular, en vertical, en un lugar tranquilo y en un plazo de 24 horas desde que recibe el link.
+Texto exacto. Las preguntas se copian tal cual de las tablas de este documento; una palabra distinta puede cambiar lo que se mide.
+Las pantallas de 5 segundos se muestran con temporizador automático y se ocultan solas; las preguntas aparecen después.
+Control de calidad. Una pregunta de control de atención («marca la opción 5»), una duración mínima (6 minutos por defecto, ajustable en «Config») y la posibilidad de excluir a mano a quien responde siempre lo mismo. En el Link 2 la pregunta de control va al final de M4. Solo cuentan las personas con «Válido = Sí» en el Excel.
+Piloto antes de lanzar. Probar el link completo con 2 o 3 personas ajenas al estudio y verificar que (1) entienden las instrucciones sin ayuda, (2) la herramienta registra gestos, clics y tiempos, y (3) el prototipo no falla. Los datos del piloto no se mezclan con los del estudio.
+Codificación a ciegas. Las respuestas abiertas las codifican dos personas por separado (1 = correcto, 0,5 = parcial, 0 = incorrecto) sin ver la variante A/B; si difieren, discuten y acuerdan. Con 30–40 personas son menos de dos horas.
+## 0.4 Herramientas
+Se necesitan tres cosas: (1) un prototipo clicable de Figma con las interacciones que se prueban (deslizar la card, mover la barra de mood, tocar en la pantalla de mazos); (2) una herramienta de pruebas no moderadas que ejecute test de 5 segundos, primer clic y preguntas, y entregue los resultados exportables (por ejemplo Maze, Useberry, Lyssna u otra equivalente; para las partes sin interacción también sirve un formulario con imágenes); y (3) el Excel de registro.
+| Verificar antes de elegir la herramienta: que registre el gesto o el toque sobre el prototipo, el tiempo hasta la primera acción y los toques fuera de lugar. Si no registra gestos de deslizar, plan B: mostrar la card con una captura y preguntar «¿hacia dónde la deslizarías para decir que te interesa?» con las opciones de dirección. Es una medida menos fiel que el gesto real y debe anotarse como limitación en el reporte.
+## 0.5 Cómo se registran los datos
+La herramienta entrega una tabla por persona. Se copia al Excel así: «Participantes» (una fila por persona que abrió el link: variante, dispositivo, duración, si completó, control de atención), y una hoja por módulo: «Descubrir», «Ver», «Mazos» y «Percepción» (una fila por persona), «Moods» (una fila por persona y mood) y «Películas» (una fila por persona y película). Las respuestas abiertas se codifican con la clave de «Config». El Anexo E explica cada hoja.
+## 0.6 Objetivos del protocolo y de cada módulo
+### Qué estamos validando
+Antes de construir, validar con un prototipo de baja fidelidad y sin explicación previa: (1) que en Descubrir se entiende la card, se sabe qué gesto hacer cuando una película interesa o no, y el match sorprende de forma agradable; (2) que el filtro de mood se entiende con poco contexto, se usa bien y las recomendaciones dan confianza; (3) que cada mood se entiende y se reconoce con una película; (4) que se entiende para qué sirven los mazos y cómo funcionan; y (5) que la experiencia resulta chévere y se percibe clara y atractiva.
+### Objetivo general del protocolo
+Evaluar, con una prueba no moderada por link y 15–20 personas válidas por card, si los mini-flujos y conceptos centrales de Kinoo (Descubrir, Ver, moods y mazos) se entienden con poco contexto, generan confianza y resultan chéveres, y decidir con evidencia qué rediseñar y cuál de dos cards adoptar.
+### Objetivos específicos del protocolo
+Medir comprensión y uso sin explicación previa en cada mini-flujo.
+Detectar qué moods y qué ideas del mazo no se entienden, y con qué se confunden.
+Recoger los nombres que la gente le pondría a cada categoría y compararlos con los del equipo.
+Comparar la card A con la B con una regla estadística explícita.
+Priorizar los cambios por gravedad y número de personas afectadas.
+### Objetivo general y objetivos específicos de cada módulo
+| Módulo | Objetivo general | Objetivos específicos (metas ajustables en «Config»)
+| M1 · Descubrir | Saber si la pantalla de Descubrir se entiende, si las personas saben qué gesto hacer cuando una película les interesa o no, y si el match sorprende de forma agradable. | ≥ 70 % entiende para qué sirve la pantalla y qué hacer con la card. ≥ 80 % hace bien cada gesto. SEQ ≥ 5,5. ≥ 70 % interpreta el match y ≥ 60 % lo vive como sorpresa agradable. Comparar card A vs B.
+| M2 · Ver | Medir cuánto se entiende el filtro de mood sin explicación, si se usa bien para llegar a un mood y si las recomendaciones dan confianza y parecen útiles. | ≥ 50 % entiende el filtro SIN explicación. ≥ 80 % llega al mood correcto. Utilidad ≥ 5 de 7. Índice de confianza ≥ 5,5 de 7.
+| M3 · Moods | Verificar que cada mood se entiende: que la gente lo explica, reconoce una película que encaja y lo nombraría de forma parecida. | ≥ 70 % elige la película correcta (el azar es 25 %). La película asociada coincide con el mood previsto en ≥ 60 %. Identificar moods que se confunden entre sí. Recoger nombres alternativos.
+| M4 · Mazos | Saber si se entiende la mecánica y la función de los mazos: filtrar mis gustos y controlar la cantidad de contenido que veo. | ≥ 60 % de las ideas clave mencionadas con sus palabras. ≥ 75 % de frases acertadas. ≥ 80 % primer clic correcto. Utilidad ≥ 5 de 7.
+| M5 · Percepción final | Medir qué tan chévere resulta Kinoo, si la usarían y la experiencia percibida. | «Chévere» ≥ 5,5 de 7. Intención de uso ≥ 5 de 7. UEQ-S pragmática y hedónica > 0,8.
+| Las metas son criterios de trabajo del equipo, no estándares de la industria; se pueden editar en «Config» y todo el Excel se recalcula. La meta del filtro sin explicación (≥ 50 %) es deliberadamente más baja que la del resto porque mide si la interfaz se explica sola con muy poco contexto.
+# 1. Módulo 1 · Descubrir (card, gestos y match)
+## Objetivo
+Saber si la pantalla de Descubrir se entiende en pocos segundos, si las personas saben qué gesto hacer cuando una película les llama la atención y cuando no, y si el sistema de match se interpreta bien y sorprende de forma agradable. Una mitad de las personas ve la card A y la otra la card B.
+## Qué se prueba
+Pantalla de Descubrir con la card A o la B (único elemento que cambia entre los dos grupos).
+Dos tarjetas de película en el prototipo: una para «me interesa» y otra para «no me interesa».
+Pantalla del match, mostrada sin explicación.
+## Materiales
+Prototipo en Figma con el gesto de deslizar funcionando en las dos direcciones y los dos finales de cada gesto (la película pasa a la lista de interés o se descarta).
+Dos versiones del prototipo, A y B, idénticas salvo la card.
+Pantalla del match con el estado que verá un usuario real (definir en «Config» qué significa el match en la mecánica de Kinoo).
+Herramienta que registre el gesto, el tiempo y los toques fuera de lugar.
+## Procedimiento: lo que vive la persona
+Ve una pantalla de Descubrir durante 5 segundos (D1) y responde cuatro preguntas.
+Usa la pantalla: una película le llama la atención y hace lo que haría (D2); responde cuán fácil fue y qué cree que pasó.
+Aparece otra película que no le llama la atención y hace lo que haría (D3); mismas dos preguntas.
+Ve la pantalla del match sin explicación (D4) y responde qué cree que significa, cuánto la sorprende, si la sorpresa le resulta agradable y cuántas ganas tiene de ver lo que sugiere.
+## Preguntas exactas
+| Código | Texto exacto (mostrar tal cual en la herramienta) | Tipo de respuesta | Dónde se registra
+| Inicio | «Imagina que abres una app para encontrar qué ver. Te vamos a mostrar una pantalla durante 5 segundos. Mírala con normalidad.» | — | —
+| D1a | «¿Qué fue lo primero que te llamó la atención?» | Abierta; se codifica con la lista de elementos del card | Descubrir: Primer elemento
+| D1b | «¿Para qué crees que sirve esta pantalla?» | Abierta; se codifica 1 / 0,5 / 0 | Descubrir: Propósito
+| D1c | «¿Qué crees que podrías hacer con esta tarjeta?» | Abierta; se codifica 1 / 0,5 / 0 | Descubrir: Acción con el card
+| D1d | «Del 1 al 7, ¿qué tantas ganas te dieron de ver esta película? 1 = ninguna, 7 = muchas.» | Escala 1–7 | Descubrir: Interés
+| D2 | «Ahora puedes usar la pantalla. Imagina que esta película te llama la atención. Haz lo que harías.» | Gesto en el prototipo (la herramienta lo registra) | Descubrir: Gesto me interesa, tiempo, toques fuera de lugar
+| D2a | «Del 1 al 7, ¿qué tan difícil o fácil fue saber qué hacer? 1 = muy difícil, 7 = muy fácil.» | Escala 1–7 (SEQ) | Descubrir: SEQ gesto me interesa
+| D2b | «¿Qué crees que pasó con esa película cuando lo hiciste?» | Abierta; se codifica 1 / 0,5 / 0 | Descubrir: Consecuencia esperada
+| D3 | «Ahora aparece otra película y esta no te llama la atención. Haz lo que harías.» | Gesto en el prototipo (la herramienta lo registra) | Descubrir: Gesto no me interesa, tiempo, toques fuera de lugar
+| D3a | «Del 1 al 7, ¿qué tan difícil o fácil fue saber qué hacer? 1 = muy difícil, 7 = muy fácil.» | Escala 1–7 (SEQ) | Descubrir: SEQ gesto no me interesa
+| D3b | «¿Qué crees que pasó con esa película cuando lo hiciste?» | Abierta; se codifica 1 / 0,5 / 0 | Descubrir: Consecuencia esperada
+| D4 | Mostrar la pantalla del match sin explicarla: «Mientras exploras, aparece esto. Tómate el tiempo que quieras.» | — | —
+| D4a | «¿Qué crees que significa esto?» | Abierta; se codifica 1 / 0,5 / 0 | Descubrir: Interpretación del match
+| D4b | «Del 1 al 7, ¿qué tan sorprendente te parece? 1 = nada sorprendente, 7 = muy sorprendente.» | Escala 1–7 | Descubrir: Sorpresa
+| D4c | «Esa sorpresa te resulta…» | Agradable / Indiferente / Desagradable | Descubrir: Tipo de sorpresa
+| D4d | «Del 1 al 7, ¿qué tantas ganas te dan de ver la película que te sugiere? 1 = ninguna, 7 = muchas.» | Escala 1–7 | Descubrir: Ganas de ver lo sugerido
+## Definir antes de lanzar (clave de corrección)
+Variantes A y B: qué cambia exactamente entre las dos cards (se escribe en «Config», sección A). Debe cambiar una sola cosa conceptual; si cambian varias, no se sabrá cuál explica la diferencia.
+Gesto correcto para «me interesa» y «no me interesa» (dirección o acción) y qué gestos alternativos se aceptan como 0,5 (sección B de «Config»).
+Qué debería entender de la card: propósito (descubrir y marcar películas de interés) y acción (deslizar). Se codifica 1 = lo dice, 0,5 = parcial, 0 = no.
+Qué significa el match en palabras del equipo, y qué respuesta cuenta como entenderlo.
+Elementos de la card y cuáles son prioritarios (por defecto, póster y título) para codificar D1a.
+## Métricas y cómo registrarlas
+| Métrica | Cómo se calcula | Meta
+| % primer elemento prioritario | Personas cuyo D1a es un elemento prioritario ÷ personas válidas | ≥ 70 %
+| % entiende para qué sirve la pantalla (D1b) | Personas con código 1 ÷ válidas | ≥ 70 %
+| % sabe qué hacer con la card (D1c) | Personas con código 1 ÷ válidas | ≥ 70 %
+| Interés en la película (D1d) | Promedio 1–7 | ≥ 5
+| % gesto correcto «me interesa» (D2) y «no me interesa» (D3) | Código 1 ÷ válidas, por gesto y por card | ≥ 80 % (amarillo ≥ 60 %)
+| Tiempo hasta el gesto y toques fuera de lugar | Promedio en segundos y número de toques | Sin meta: diagnóstico de vacilación
+| Facilidad del gesto (D2a, D3a: SEQ) | Promedio 1–7 | ≥ 5,5
+| % anticipa la consecuencia del gesto (D2b, D3b) | Código 1 ÷ válidas | ≥ 70 %
+| % interpreta bien el match (D4a) | Código 1 ÷ válidas | ≥ 70 %
+| Sorpresa (D4b) y % sorpresa agradable (D4c) | Promedio 1–7 y «Agradable» ÷ válidas | % agradable ≥ 60 %
+| Ganas de ver lo sugerido (D4d) | Promedio 1–7 | ≥ 5
+Si falla algo, se anota el motivo con la lista de «Config» (por ejemplo «no vio qué hacer», «esperaba un botón»). Esos motivos alimentan la gráfica de causas de la página «Análisis Descubrir».
+## Criterios de éxito
+El módulo cumple si la comprensión y los dos gestos alcanzan la meta y el match es entendido por ≥ 70 % y vivido como sorpresa agradable por ≥ 60 %. Entre 50 % y 70 % (o 60 % y 80 % en los gestos) es amarillo: revisar la card o el gesto antes de construir. Por debajo, rediseñar. Cada card se evalúa por separado; la comparación A vs B sigue la regla del apartado 6.
+# 2. Módulo 2 · Ver (filtro de mood y confianza en la recomendación)
+## Objetivo
+Medir cuánto se entiende el filtro de mood con poco contexto, si las personas lo usan bien para encontrar una película según cómo se sienten, y si las recomendaciones les dan confianza y les parecen útiles. La idea es no explicar el filtro de entrada: primero se observa qué percepción tienen, después se les cuenta en una frase y se les pregunta qué prefieren con preguntas guía.
+## Materiales
+Pantalla de Ver con la barra de mood funcionando en el prototipo.
+Una versión de la misma pantalla con el filtro marcado con un círculo rojo (para V1c).
+Texto de la explicación breve (en «Config»), una sola frase.
+Una recomendación con su «por qué te la propone».
+## Procedimiento: lo que vive la persona
+Ve la pantalla de Ver durante 5 segundos y responde para qué cree que sirve y qué tan clara le quedó (V1a, V1b).
+Ve la misma pantalla con el filtro marcado y responde para qué cree que sirve y qué pasaría si lo mueve (V1c, V1d). Esta es la lectura sin explicación.
+Hace una tarea: encontrar una película con un mood concreto usando el filtro (V2) y responde cuán fácil fue (V2a).
+Lee la explicación breve y responde si era lo que esperaba, qué tan útil le parece, qué prefiere y qué cambiaría (V3a a V3d).
+Ve una recomendación y puntúa su confianza (V4a a V4d).
+## Preguntas exactas
+| Código | Texto exacto (mostrar tal cual en la herramienta) | Tipo de respuesta | Dónde se registra
+| Inicio | «Ahora vamos a otra parte de la app. Verás una pantalla durante 5 segundos.» | — | —
+| V1a | «¿Para qué crees que sirve esta pantalla?» | Abierta; se codifica 1 / 0,5 / 0 | Ver: Propósito de la pantalla
+| V1b | «Del 1 al 7, ¿qué tan clara te quedó? 1 = nada clara, 7 = totalmente clara.» | Escala 1–7 | Ver: Claridad
+| V1c | Mostrar la pantalla otra vez con el filtro de mood marcado con un círculo rojo: «¿Para qué crees que sirve el elemento marcado con el círculo rojo?» | Abierta; se codifica 1 / 0,5 / 0 | Ver: Entiende el filtro sin explicación
+| V1d | «¿Qué crees que pasa si lo mueves?» | Abierta; se codifica 1 / 0,5 / 0 | Ver: Expectativa al moverlo
+| V2 | «Hoy tienes ganas de ver algo que te haga sentir [mood objetivo]. Haz lo que harías en esta pantalla para encontrarlo.» (el equipo completa el mood en Config) | Interacción en el prototipo | Ver: Resultado, mood elegido, tiempo, movimientos, toques fuera de lugar
+| V2a | «Del 1 al 7, ¿qué tan difícil o fácil fue saber qué hacer? 1 = muy difícil, 7 = muy fácil.» | Escala 1–7 (SEQ) | Ver: SEQ
+| V3 | Mostrar la explicación breve (texto en Config): «Este es tu filtro de mood: al moverlo, Kinoo te propone películas según cómo te sientes en ese momento.» | — | —
+| V3a | «¿Era lo que esperabas?» | Sí / En parte / No | Ver: Expectativa cumplida
+| V3b | «Del 1 al 7, ¿qué tan útil te parece este filtro para decidir qué ver? 1 = nada útil, 7 = muy útil.» | Escala 1–7 | Ver: Utilidad
+| V3c | «¿Qué preferirías?» | Mover el filtro yo mismo / Que Kinoo me sugiera el mood / Las dos opciones | Ver: Preferencia
+| V3d | «¿Qué cambiarías de este filtro?» | Abierta | Ver: Cambio sugerido
+| V4 | Mostrar una recomendación con su «por qué te la propone»: «Kinoo te propone esta película.» | — | —
+| V4a | «Confío en que esta recomendación me va a gustar.» (1 = totalmente en desacuerdo, 7 = totalmente de acuerdo) | Escala 1–7 | Ver: Confío
+| V4b | «Entiendo por qué Kinoo me propone esta película.» (1–7) | Escala 1–7 | Ver: Entiendo el porqué
+| V4c | «Kinoo parece conocer mis gustos.» (1–7) | Escala 1–7 | Ver: Conoce mis gustos
+| V4d | «Del 1 al 7, ¿qué tantas ganas te dan de verla? 1 = ninguna, 7 = muchas.» | Escala 1–7 | Ver: Ganas de verla
+## Definir antes de lanzar
+Mood objetivo de la tarea V2 y qué mood cercano se acepta como 0,5.
+Texto de la explicación breve (una frase, sin jerga).
+Qué respuesta cuenta como entender el filtro en V1c y V1d (por ejemplo: «es para elegir qué ver según cómo me siento»).
+Recomendación de prueba: película, motivo mostrado y qué se espera que la persona entienda del motivo.
+## Métricas y cómo registrarlas
+| Métrica | Cómo se calcula | Meta
+| % entiende para qué sirve la pantalla (V1a) y claridad (V1b) | Código 1 ÷ válidas; promedio 1–7 | ≥ 70 %; ≥ 5
+| % entiende el filtro SIN explicación (V1c) | Código 1 ÷ válidas | ≥ 50 % (amarillo ≥ 30 %)
+| % anticipa qué pasa al moverlo (V1d) | Código 1 ÷ válidas | ≥ 50 %
+| % llega al mood correcto (V2) | Código 1 ÷ válidas; mood en el que terminó | ≥ 80 %
+| Tiempo, movimientos de la barra y toques fuera de lugar (V2) | Promedios | Sin meta: diagnóstico
+| Facilidad de la tarea (V2a: SEQ) | Promedio 1–7 | ≥ 5,5
+| Expectativa cumplida (V3a) | Sí / En parte / No | Sin meta: lectura
+| Utilidad del filtro (V3b) | Promedio 1–7 | ≥ 5
+| Preferencia (V3c) | Conteo: mover yo / que Kinoo sugiera / las dos | Sin meta: lectura
+| Índice de confianza (V4a, V4b, V4c) | Promedio de las tres frases, 1–7 | ≥ 5,5
+| Ganas de ver la recomendada (V4d) | Promedio 1–7 | ≥ 5
+## Criterios de éxito
+Lectura combinada de V1c y V3b. Si ≥ 50 % entiende el filtro sin explicación, la interfaz se explica sola. Si menos de 30 % lo entiende pero la utilidad tras la explicación es ≥ 5, el concepto sirve y lo que falta es una pista visual o un texto breve. Si menos de 30 % lo entiende y la utilidad es < 4, hay que replantear el filtro. La confianza se evalúa con el índice; si es < 4,5, la recomendación necesita explicar mejor por qué se propone.
+# 3. Módulo 3 · Moods (¿se entiende cada categoría?)
+## Objetivo
+Probar todos los moods del filtro, uno por uno: si la gente entiende a qué se refiere cada uno (por ejemplo «Épica» o «Sufrir bonito»), si reconoce una película que encaja, con qué otro mood lo confunde y cómo lo llamaría ella con sus propias palabras. Los nombres y definiciones los define el equipo; esta prueba dice cuáles funcionan.
+## Qué se prueba
+Significado abierto (M3a, M3b): para 3 moods al azar por persona, antes de ver opciones. Preguntar por todos cansa; con 3 por persona y 30–40 personas, cada mood recibe unas 9–12 respuestas.
+Película que encaja (M3c): para todos los moods, una pantalla por mood, con 4 películas (1 objetivo y 3 distractores). Es la medida principal porque se compara con el azar (25 %).
+De la película al mood (M3d): al revés. Se muestran películas y se elige con qué mood se asocian. Verifica que la categoría es reconocible desde ambos lados.
+Nombre propio (M3e): cómo llamaría ella a ese tipo de película. Si muchas personas repiten un nombre distinto, es un candidato a renombrar el mood.
+## Definir antes de lanzar: la tabla de moods
+Para cada mood se llena una fila en «Config» (sección C) con: nombre exacto como lo ve la persona, definición del equipo en una frase, película objetivo y tres distractores. La plantilla está en el Anexo D. Reglas para elegir las películas:
+Conocidas por el perfil de participantes y sin ambigüedad: una película que encaje en dos moods confunde la medida.
+Distractor 1: de un mood cercano (la confusión más probable). Distractor 2: de un mood opuesto. Distractor 3: neutra.
+Variar época, género y país entre moods para que la elección no dependa de un solo rasgo.
+Para M3d, 4 a 6 películas distintas de las del M3c, con el mood previsto anotado en «Config» (sección D).
+| Moods ya nombrados: «Épica» y «Sufrir bonito». Sus definiciones y los demás moods están pendientes del equipo; en el Excel aparecen como «(definir)». El archivo de ejemplo usa 8 moods ficticios solo para mostrar cómo se llena.
+## Preguntas exactas
+| Código | Texto exacto (mostrar tal cual en la herramienta) | Tipo de respuesta | Dónde se registra
+| Inicio | «Ahora te vamos a mostrar algunas categorías para elegir qué ver, sin explicarlas. Responde con lo primero que pienses.» | — | —
+| M3a | (Solo para 3 categorías elegidas al azar por persona, antes de las opciones) «¿Qué esperarías encontrar en la categoría «[mood]»?» | Abierta; se codifica 1 / 0,5 / 0 con la definición del equipo | Moods: Significado abierto
+| M3b | (Mismas 3 categorías) «Del 1 al 7, ¿qué tan claro te queda lo que significa «[mood]»? 1 = nada claro, 7 = totalmente claro.» | Escala 1–7 | Moods: Claridad
+| M3c | (Todas las categorías, una por pantalla, en orden aleatorio) «¿Cuál de estas 4 películas encaja mejor con «[mood]»?» | Una de 4 películas, o «Ninguna / no sé» | Moods: Película elegida (el Excel marca el acierto)
+| M3d | (Cada una de las películas de la prueba, una por pantalla, con póster y sinopsis breve) «¿Con cuál de estas categorías asociarías esta película?» | Lista de todas las categorías, o «Ninguna» | Películas: Mood elegido (el Excel marca la coincidencia)
+| M3e | «Si tuvieras que ponerle tú un nombre a este tipo de película, ¿cómo la llamarías? Una o dos palabras.» | Abierta corta | Películas: Nombre propio y a qué mood equivale
+## Métricas y cómo registrarlas
+| Métrica | Cómo se calcula | Meta
+| % acierta la película (M3c), por mood y total | Elecciones correctas ÷ elecciones. El azar es 25 % | ≥ 70 % (amarillo ≥ 50 %)
+| Matriz de confusión | Para cada mood, con qué otro mood (o «otra película» / «ninguna») se confundió | Sin meta: detecta moods parecidos
+| % explica el significado (M3a) y claridad (M3b) | Código 1 ÷ respuestas; promedio 1–7 | ≥ 70 %; ≥ 5
+| % asocia la película al mood previsto (M3d) | Coincidencias ÷ asociaciones, por película | ≥ 60 % (amarillo ≥ 40 %)
+| Nombres propios (M3e) | Se codifica a qué mood equivale: previsto, otro mood, nombre nuevo, ninguno | Sin meta: léxico propio de los usuarios
+| Tiempo de elección (M3c) | Promedio en segundos por mood | Sin meta: un mood lento suele ser ambiguo
+## Cómo decidir qué hacer con cada mood
+| Resultado | Lectura | Acción
+| Acierto ≥ 70 % y película → mood ≥ 60 % | El mood es claro | Mantener
+| Acierto < 70 % y se confunde sobre todo con otro mood | Dos categorías se parecen | Diferenciar las definiciones o fusionarlas; revisar los ejemplos
+| Acierto < 50 % sin confusión dominante | El nombre no comunica | Renombrar. Mirar los nombres propios (M3e) para ideas
+| Acierto alto pero película → mood bajo | La categoría se reconoce por el nombre pero la película prevista no la representa | Cambiar la película o la definición
+| Mismo nombre propio repetido por ≥ 3 personas | El público ya tiene una palabra | Evaluar usarla como nombre del mood
+## Criterios de éxito
+El módulo cumple si el acierto total es ≥ 70 % y ningún mood queda en rojo. Un mood en rojo no invalida el módulo: se rediseña esa categoría y se vuelve a probar solo ese mood.
+# 4. Módulo 4 · Mazos (mecánica y función)
+## Objetivo
+Saber si se entiende qué es un mazo y cómo debe funcionar: que sirve para filtrar mis gustos y que controla la cantidad de contenido que veo.
+## Materiales
+Pantalla de mazos del prototipo, sin explicación.
+Escenario para el primer clic: la pantalla donde la persona controlaría cuánto contenido le aparece (definir la zona correcta).
+Las ideas clave (K1 a K4), las 4 frases verdadero/falso (S1 a S4, con su respuesta correcta) y las 4 opciones de Z4 en «Config», sección E. Los textos que trae el Excel son ejemplos que se ajustan a la mecánica real.
+## Preguntas exactas
+| Código | Texto exacto (mostrar tal cual en la herramienta) | Tipo de respuesta | Dónde se registra
+| Inicio | «Ahora vamos a ver otra parte de la app. Mira esta pantalla.» (pantalla de mazos, sin explicación) | — | —
+| Z1 | «¿Qué crees que es un mazo en esta app?» | Abierta; se marcan las ideas clave que menciona (K1 a K4) | Mazos: Ideas clave
+| Z2 | «Marca si cada frase es verdadera o falsa según lo que crees. Si no sabes, marca «No sé».» (4 frases, ver Config) | Verdadero / Falso / No sé, por frase | Mazos: Respuestas S1 a S4
+| Z3 | «Quieres controlar cuánto contenido te aparece. ¿Dónde tocarías?» (el equipo ajusta el escenario en Config) | Un toque sobre la pantalla (first click) | Mazos: Resultado del primer clic y tiempo
+| Z3a | «Del 1 al 7, ¿qué tan difícil o fácil fue saber dónde tocar? 1 = muy difícil, 7 = muy fácil.» | Escala 1–7 (SEQ) | Mazos: SEQ
+| Z4 | «Si activas un mazo con pocas películas, ¿qué esperas que pase con lo que te aparece en Descubrir?» (4 opciones, ver Config) | Una opción | Mazos: Consecuencia elegida (el Excel marca el acierto)
+| Z5a | «Del 1 al 7, ¿qué tan claro te queda cómo funciona un mazo? 1 = nada claro, 7 = totalmente claro.» | Escala 1–7 | Mazos: Claridad
+| Z5b | «Del 1 al 7, ¿qué tan útil te parece tener mazos? 1 = nada útil, 7 = muy útil.» | Escala 1–7 | Mazos: Utilidad
+## Métricas y cómo registrarlas
+| Métrica | Cómo se calcula | Meta
+| % de ideas clave mencionadas (Z1) | Promedio de ideas marcadas (0–4) ÷ 4 | ≥ 60 % (amarillo ≥ 40 %)
+| % de frases acertadas (Z2) | Promedio de aciertos (0–4) ÷ 4; por frase | ≥ 75 % (amarillo ≥ 50 %)
+| % primer clic correcto (Z3) y tiempo | Código 1 ÷ válidas | ≥ 80 %
+| Facilidad de Z3 (Z3a: SEQ) | Promedio 1–7 | ≥ 5,5
+| % anticipa la consecuencia (Z4) | Opción correcta ÷ válidas | ≥ 70 %
+| Claridad (Z5a) y utilidad (Z5b) | Promedio 1–7 | ≥ 5
+## Criterios de éxito
+Se cumple si captan en promedio ≥ 60 % de las ideas clave y aciertan ≥ 75 % de las frases. Una frase con muchos errores señala un malentendido concreto (por ejemplo, confundir mazo con lista de películas guardadas). Si Z1 es bajo pero Z2 es alto, la persona entiende el concepto cuando se le da la opción pero no lo deduce sola: falta una pista o un nombre más claro.
+# 5. Módulo 5 · Percepción final (chévere, intención de uso y UEQ-S)
+## Objetivo
+Medir qué tan chévere resulta Kinoo para la persona, si la usaría y qué experiencia percibe (pragmática y hedónica), y recoger una sola cosa que cambiaría.
+## Preguntas exactas
+| Código | Texto exacto (mostrar tal cual en la herramienta) | Tipo de respuesta | Dónde se registra
+| F1 | «Del 1 al 7, ¿qué tan chévere te parece esta forma de descubrir y elegir qué ver? 1 = nada chévere, 7 = muy chévere.» | Escala 1–7 | Percepción: Chévere
+| F2 | «Del 1 al 7, ¿qué tan probable es que uses una app así? 1 = nada probable, 7 = muy probable.» | Escala 1–7 | Percepción: Intención de uso
+| F3 | UEQ-S: «En cada fila hay dos palabras opuestas y siete círculos entre ellas. Marca el círculo que mejor describa tu impresión de la app. Responde rápido, con tu primera impresión.» (8 pares, Anexo C) | 8 filas de 1 a 7 | Percepción: ítems 6, 7, 10, 11, 13, 15, 20, 21
+| F4 | «Si pudieras cambiar una sola cosa de lo que viste, ¿qué cambiarías?» | Abierta | Percepción: Comentario libre
+| Control | Pregunta de control de atención, dentro de la escala de F2: «Para comprobar que estás leyendo, marca la opción 5.» | Debe marcar 5 | Participantes: Control de atención
+El UEQ-S (Schrepp, Hinderks y Thomaschewski, 2017) son 8 pares de adjetivos opuestos; se calcula de −3 a +3 (cuatro ítems pragmáticos y cuatro hedónicos). El Excel invierte solo los ítems que lo necesitan. Los 8 pares en español están en el Anexo C; la traducción es de trabajo y conviene validarla con 2–3 personas en el piloto.
+## Métricas y criterios de éxito
+| Métrica | Cómo se calcula | Meta
+| Qué tan chévere (F1) | Promedio 1–7 | ≥ 5,5 (amarillo ≥ 4,5)
+| Probabilidad de uso (F2) | Promedio 1–7 | ≥ 5 (amarillo ≥ 4)
+| UEQ-S pragmática, hedónica y general | Media de −3 a +3 | > 0,8 positiva; entre −0,8 y 0,8 neutra
+| Comentario libre (F4) | Notas de afinidad | Sin meta
+# 6. Comparación de la card A y la B
+## Diseño
+Entre personas: cada persona ve solo una card. Así no se contamina por haber visto la otra y se puede medir comprensión desde cero.
+Una sola variable: las dos versiones del prototipo son idénticas salvo la card.
+Reparto alternado (A, B, A, B…) y registro de la variante en «Participantes».
+Qué se compara: las 22 métricas de la hoja «Comparación A-B» (comprensión, gestos, tiempos, sorpresa, interés, confianza, «chévere», UEQ-S).
+## Prueba estadística
+| Tipo de métrica | Prueba | Cómo leerla
+| Porcentajes (comprensión, gesto correcto, match, sorpresa agradable) | Prueba exacta de Fisher (bilateral) | p < 0,05: la diferencia difícilmente es azar
+| Escalas 1–7, tiempos y UEQ-S | Prueba t de Welch (bilateral) | p < 0,05: la diferencia difícilmente es azar
+El veredicto del Excel tiene tres niveles: «Diferencia clara» (p < α, con α = 0,05), «Tendencia» (diferencia mayor que el mínimo relevante pero sin significancia: 20 puntos porcentuales, 1 punto en una escala 1–7, 0,5 en UEQ-S o 20 % en tiempos) y «Sin diferencia». Con menos de 12 personas por card se marca «(n pequeño)».
+## Regla de decisión
+Métricas primarias (5): entiende para qué sirve la pantalla (D1b), entiende qué hacer con la card (D1c), gesto correcto «me interesa» (D2), gesto correcto «no me interesa» (D3) e interés en la película (D1d).
+Gana la card que tenga diferencia clara a su favor en al menos 1 métrica primaria y ninguna diferencia clara en contra entre las primarias. La hoja «Insights» lo resume en la «Lectura sugerida».
+Si solo hay tendencias, se amplía la muestra a 20 por card antes de decidir. Si no hay diferencias, se decide por criterios de equipo (costo de construcción, coherencia con la marca).
+Las otras 17 métricas son apoyo para explicar por qué una card funciona mejor, no para decidir.
+| Con 22 métricas y α = 0,05, es esperable que una salga «clara» solo por azar. Por eso la decisión se toma sobre las 5 primarias y se pide consistencia con las demás. Con 15–20 personas por card solo se detectan diferencias grandes (alrededor de 30 puntos porcentuales o más de 1 punto en una escala 1–7).
+# 7. Análisis y reporte de resultados
+## Páginas de análisis del Excel
+Cada módulo tiene su página «Análisis …» con resumen rápido, tablas con semáforo, gráficas (cuántas personas hicieron cada cosa bien, por qué falló y card A vs B), una lectura automática en frases y un diagrama de afinidad. «Insights» reúne el semáforo de 24 indicadores, las opiniones promedio, el resumen A vs B, los temas de afinidad con más notas y los hallazgos medibles ya escritos. «Resumen» muestra la ficha del estudio, los objetivos y el estado de cada módulo.
+## Diagrama de afinidad
+Cada cita u observación (respuestas abiertas, motivos, comentarios finales) se escribe como una nota en la tabla de la página del módulo, con tipo (Problema, Positivo o Idea), tema y gravedad. El tablero se arma solo. Los temas iniciales son hipótesis; se renombran según lo que salga de las notas (técnica de Beyer y Holtzblatt, 1998).
+## Cómo traducir resultados en decisiones
+| Señal | Lectura | Acción
+| Gesto correcto < 60 % | El gesto no es evidente | Agregar pista visual o animación inicial; probar dirección o afordancia alternativa
+| Entiende el match < 50 % | La pantalla no comunica la coincidencia | Revisar texto e ícono; probar una frase corta de contexto
+| Entiende el filtro < 30 % pero utilidad ≥ 5 tras la explicación | El concepto sirve, la interfaz no se explica sola | Etiqueta o microcopy en la barra; onboarding mínimo
+| Entiende el filtro < 30 % y utilidad < 4 | El concepto no convence | Replantear el filtro o su propuesta de valor
+| Confianza < 4,5 | La recomendación no se siente creíble | Mostrar mejor el «por qué te la propone»
+| Mood con acierto < 50 % | El nombre no comunica | Renombrar o cambiar la película; ver nombres propios
+| Ideas clave del mazo < 40 % | La palabra «mazo» o la pantalla no transmiten la función | Cambiar el nombre, el ícono o agregar una línea de ayuda
+| Una card con diferencia clara en las métricas primarias | Esa card se entiende mejor | Adoptarla y conservar lo que explica la diferencia
+## Estructura sugerida del reporte
+Resumen ejecutivo de una página: personas válidas por card, semáforo y 3 decisiones.
+Un apartado por módulo: porcentaje de personas que hizo bien cada cosa, motivos de fallo, citas y qué cambia.
+Card A vs B: tabla de veredictos, métricas primarias y decisión.
+Moods: tabla por mood (acierto, confusión, nombre propio) y decisión por mood.
+Limitaciones del estudio (Anexo F) y próximos pasos.
+# Anexo A. Textos del link
+### Mensaje de invitación (no describe la app)
+| «Hola [nombre]. Estamos diseñando una app y necesitamos tu ayuda: es una prueba de unos 20 minutos que haces tú solo desde tu celular, cuando quieras en las próximas 24 horas. No es un examen: nos ayuda a ver qué se entiende y qué no. Tus respuestas son anónimas. Entra aquí: [link]. Gracias.»
+### Pantalla de bienvenida y consentimiento
+| «Hola, gracias por ayudarnos. Vamos a mostrarte unas pantallas de una app que estamos diseñando. No te estamos evaluando a ti: si algo no se entiende, es culpa del diseño, no tuya. Dura unos 20 minutos (15 si es el Link 1; 8 si es el Link 2). Hazlo desde tu celular, en un lugar tranquilo, sin buscar ayuda ni respuestas, y responde con lo primero que pienses. Tus respuestas son anónimas y se usan solo para mejorar el diseño de la app. Al continuar aceptas participar.»
+### Pantalla final
+| «Listo, terminaste. Gracias por tu tiempo. Tus respuestas nos ayudan a mejorar la app. Ya puedes cerrar esta ventana.»
+# Anexo B. Filtro de reclutamiento y preguntas de perfil
+| Código | Texto exacto (mostrar tal cual en la herramienta) | Tipo de respuesta | Dónde se registra
+| I1 | «¿Cuántos años tienes?» | Rangos: 18–24, 25–31, 32–40, otro | Participantes: Edad
+| I2 | «¿Con qué frecuencia ves películas o series, en cine o en streaming?» | Todos los días / Varias veces por semana / Una vez por semana / Menos de una vez por semana | Participantes: Frecuencia
+| I3 | «¿Descubres películas o series en redes sociales?» | Sí / No | Participantes: Descubre en redes
+| I4 | «¿Qué tan cómodo te sientes usando apps nuevas en el celular?» | Poco / Medianamente / Muy cómodo | Participantes: Nivel tecnológico (Básico / Medio / Alto)
+Incluir: 18 a 40 años, ven películas o series al menos una vez por semana, celular iOS o Android, Bogotá.
+Excluir: equipo de Kinoo, quienes participaron en el diseño o en pruebas anteriores del mismo prototipo.
+Distribuir entre iOS y Android y entre quienes descubren y no descubren contenido en redes.
+# Anexo C. UEQ-S: los 8 pares
+Instrucción: «En cada fila hay dos palabras opuestas y siete círculos entre ellas. Marca el círculo que mejor describa tu impresión de la app. Responde rápido, con tu primera impresión.»
+| Ítem | Polo izquierdo (1) | Escala | Polo derecho (7) | Escala UEQ-S
+| 6 | aburrido | ○  ○  ○  ○  ○  ○  ○ | emocionante | Hedónica
+| 7 | no interesante | ○  ○  ○  ○  ○  ○  ○ | interesante | Hedónica
+| 10 | original | ○  ○  ○  ○  ○  ○  ○ | convencional | Hedónica
+| 11 | obstructivo | ○  ○  ○  ○  ○  ○  ○ | de apoyo | Pragmática
+| 13 | complicado | ○  ○  ○  ○  ○  ○  ○ | fácil | Pragmática
+| 15 | habitual | ○  ○  ○  ○  ○  ○  ○ | de vanguardia | Hedónica
+| 20 | ineficiente | ○  ○  ○  ○  ○  ○  ○ | eficiente | Pragmática
+| 21 | claro | ○  ○  ○  ○  ○  ○  ○ | confuso | Pragmática
+Cálculo: cada respuesta se lleva a −3…+3 (posición − 4) y se invierte la dirección en los ítems con el polo positivo a la izquierda. Pragmática = promedio de 4 ítems; hedónica = promedio de los otros 4; general = promedio de ambas. La traducción de los pares es de trabajo (no es la versión oficial validada).
+# Anexo D. Plantilla de definición de moods y películas
+| Mood (nombre exacto) | Definición del equipo (una frase) | Película objetivo | Distractor 1: mood cercano | Distractor 2: mood opuesto | Distractor 3: neutra
+| Épica | (definir) | (elegir) |  |  | 
+| Sufrir bonito | (definir) | (elegir) |  |  | 
+| [Ejemplo ficticio] Reír sin pensar | Comedia ligera para desconectarse | Superbad | Vidas pasadas | Interestelar | El conjuro
+Hasta 10 moods en el Excel. Para M3d se agregan 4 a 6 películas con su mood previsto («Config», sección D).
+# Anexo E. Hojas del Excel
+| Hoja | Qué contiene | Quién la llena
+| Instrucciones | Cómo usar el archivo | —
+| Resumen | Ficha del estudio, qué se valida, objetivos con estado y resumen de resultados | Automática
+| Participantes | Una fila por persona que abrió el link: variante A/B, dispositivo, flujo, duración, completó, control de atención, exclusión. Calcula «Válido» | Equipo
+| Config | Variantes, respuestas esperadas, moods (con película objetivo y distractores), películas M3d, mazos, elementos de la card, umbrales y listas de motivos | Equipo (antes de lanzar)
+| Descubrir · Ver · Mazos · Percepción | Una fila por persona, con una columna por pregunta (códigos D, V, Z, F) | Equipo, con el export de la herramienta
+| Moods · Películas | Una fila por persona y mood / por persona y película; calcula acierto y confusión | Equipo
+| Comparación A-B | 22 métricas, valor A, valor B, diferencia, p-valor y veredicto (Fisher y Welch) | Automática
+| Análisis Descubrir / Ver / Moods / Mazos / Percepción | Resumen, tablas con semáforo, gráficas, lectura automática y diagrama de afinidad | Automática + notas del equipo
+| Insights | Semáforo de 24 indicadores, opiniones promedio, A vs B, temas de afinidad, hallazgos medibles y priorizados | Automática + hallazgos del equipo
+# Anexo F. Limitaciones y supuestos
+No se puede repreguntar. Una respuesta abierta ambigua se codifica como parcial (0,5); el motivo de un fallo se infiere del comportamiento, no se pregunta.
+Los gestos dependen de lo que la herramienta capture. Si no registra deslizamientos, el plan B (preguntar la dirección sobre una captura) mide intención, no ejecución.
+El match y el filtro se prueban en un prototipo de baja fidelidad: la sorpresa y la confianza son una simulación de lo que se vivirá con datos reales.
+Si se usa un solo link, los nombres de los moods que aparecen en el filtro de M2 pueden ayudar a responder M3; el Link 2 con personas distintas evita ese efecto.
+Los umbrales (70 %, 80 %, 5,5…) son criterios de trabajo del equipo, no estándares; se calibran con el piloto.
+Las pruebas estadísticas con 15–20 personas por card tienen poca potencia: solo detectan diferencias grandes. Excel trunca los grados de libertad a un entero en la prueba t, lo que puede cambiar ligeramente el p-valor frente a otros programas.
+Los moods, definiciones, películas, ideas clave del mazo y frases verdadero/falso que trae el Excel son marcadores de posición hasta que el equipo los defina.
+La muestra por conveniencia (contactos del equipo) puede sesgar hacia personas con más afinidad tecnológica.
+# Referencias
+Bailey, B. y Wolfson, C. (2009). FirstClick Usability Testing. Usability.gov / Human Factors International.
+Sauro, J. y Dumas, J. (2009). Comparison of three one-question, post-task usability questionnaires. CHI 2009.
+Sauro, J. (2012). 10 Things to Know About the Single Ease Question (SEQ). MeasuringU.
+Sauro, J. y Lewis, J. R. (2016). Quantifying the User Experience: Practical Statistics for User Research (2.ª ed.). Morgan Kaufmann.
+Nielsen, J. (2000). Why You Only Need to Test with 5 Users. Nielsen Norman Group.
+Schrepp, M., Hinderks, A. y Thomaschewski, J. (2017). Design and Evaluation of a Short Version of the User Experience Questionnaire (UEQ-S). International Journal of Interactive Multimedia and Artificial Intelligence, 4(6), 103–108.
+Schrepp, M. (s. f.). User Experience Questionnaire Handbook. www.ueq-online.org.
+Perfetti, C. (2005). 5-Second Tests: Measuring Your Site's Content Pages. UIE.
+Beyer, H. y Holtzblatt, K. (1998). Contextual Design: Defining Customer-Centered Systems. Morgan Kaufmann.

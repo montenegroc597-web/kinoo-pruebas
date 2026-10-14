@@ -1,0 +1,658 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Descubrir — mazo de 10 cartas</title>
+<script src="../_prototipos/dc-runtime.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800;900&family=Figtree:ital,wght@0,400;0,600;0,700;0,800;1,600;1,800&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{text-decoration:none;color:inherit}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;margin:0;cursor:pointer}
+</style>
+</helmet>
+<div style="position:relative;width:402px;height:874px;overflow:hidden;background:#17120f;font-family:'Figtree',sans-serif;color:#f4e7d0;user-select:none;-webkit-user-select:none">
+
+  <!-- Encabezado -->
+  <div style="position:absolute;left:6px;top:0;width:390px;box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;padding:14px 20px 6px 20px">
+    <p style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:32px;line-height:32px;letter-spacing:0.5px;color:#f4e7d0">Kinoo</p>
+    <div style="display:flex;align-items:center;gap:10px">
+      <div style="box-sizing:border-box;border:1px solid #8a7458;border-radius:15px;padding:8px 13px;display:flex">
+        <p style="margin:0;font-weight:600;font-size:12px;line-height:14px;letter-spacing:1.2px;text-transform:uppercase;color:#d9c7a8;white-space:nowrap">{{chip}}</p>
+      </div>
+      <div style="width:44px;height:44px;box-sizing:border-box;border:2px solid #ce7e01;border-radius:22px;background:#221a15;display:flex;align-items:center;justify-content:center">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f4e7d0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4.5 21v-1a5.5 5.5 0 0 1 5.5-5.5h4a5.5 5.5 0 0 1 5.5 5.5v1"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- Progreso -->
+  <div style="position:absolute;left:6px;top:64px;width:390px;box-sizing:border-box;padding:6px 20px 4px 20px">
+    <div style="display:flex;align-items:center;gap:10px;width:100%">
+      <div style="flex:1;min-width:0;display:flex;gap:3px;height:4px">
+        <sc-for list="{{segs}}" as="sg" hint-placeholder-count="10">
+          <div style="flex:1;height:100%;border-radius:2px;background:{{sg.bg}}"></div>
+        </sc-for>
+      </div>
+      <p style="margin:0;font-weight:600;font-size:12px;line-height:14px;color:#bfa98a;white-space:nowrap">{{counter}}</p>
+    </div>
+  </div>
+
+  <!-- Carta de abajo (siguiente) -->
+  <sc-if value="{{showNext}}" hint-placeholder-val="{{ true }}">
+    <div style="position:absolute;left:26px;top:96px;width:350px;height:564px;box-sizing:border-box;border:3px solid #f4e7d0;border-radius:20px;background:#5e0c10;opacity:0.85;transform:translateY(10px) scale(0.96);overflow:hidden">
+      <div style="position:absolute;left:115px;top:210px;width:120px;height:120px;border-radius:60px;background:#f2b544;opacity:0.9"></div>
+      <div style="position:absolute;left:140px;top:235px;width:70px;height:70px;border-radius:35px;background:#f4e7d0"></div>
+    </div>
+  </sc-if>
+
+  <!-- Carta activa -->
+  <sc-if value="{{inDeck}}" hint-placeholder-val="{{ true }}">
+    <div onPointerDown="{{onDown}}" onPointerMove="{{onMove}}" onPointerUp="{{onUp}}" onPointerCancel="{{onCancel}}" style="position:absolute;left:26px;top:96px;width:350px;height:564px;perspective:{{persp}};touch-action:none;cursor:grab;transform:{{dragT}};transition:{{dragTr}};z-index:3">
+      <div style="position:absolute;left:0;top:0;width:350px;height:564px;transform-style:{{ts}};-webkit-transform-style:{{ts}};transform:{{flipT}};transition:{{flipTr}}">
+
+        <!-- CARA FRONTAL -->
+        <div style="position:absolute;left:0;top:0;width:350px;height:564px;box-sizing:border-box;border:3px solid #f4e7d0;border-radius:20px;padding:3px;overflow:hidden;background:#5e0c10;box-shadow:0 6px 16px rgba(0,0,0,0.35);backface-visibility:{{bfv}};-webkit-backface-visibility:{{bfv}};visibility:{{frontVis}}">
+          <div style="position:relative;width:100%;height:100%">
+            <div style="position:absolute;left:18px;top:16px;width:308px;display:flex;align-items:center;justify-content:space-between">
+              <div style="height:25px;box-sizing:border-box;display:flex;align-items:flex-start;padding:6px 10px;border-radius:12.5px;background:#f4e7d0">
+                <p style="margin:0;font-weight:800;font-size:11px;line-height:13px;letter-spacing:1.4px;text-transform:uppercase;color:#1a1411;white-space:nowrap">Premisa</p>
+              </div>
+              <div style="display:flex;align-items:center;gap:6px">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#f4e7d0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 0 1 15.5-6.2L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15.5 6.2L3 16"/><path d="M8 16H3v5"/></svg>
+                <p style="margin:0;font-weight:700;font-size:12px;line-height:14px;color:#f4e7d0;white-space:nowrap">Toca para revelar</p>
+              </div>
+            </div>
+
+            <div style="position:absolute;left:18px;top:53px;width:267px;display:flex;flex-direction:column;gap:4px">
+              <p style="margin:0;font-style:italic;font-weight:600;font-size:22px;line-height:22px;color:#f2b544">{{card.kicker}}</p>
+              <p style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:30px;line-height:27.6px;text-transform:uppercase;color:#f4e7d0">{{card.premise}}</p>
+            </div>
+
+            <div style="position:absolute;left:18px;top:148px;height:101px;display:flex;flex-direction:column;gap:5px;color:#f4e7d0;white-space:nowrap">
+              <p style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:112px;line-height:87.4px">{{card.match}}</p>
+              <p style="margin:0;font-weight:800;font-size:10px;line-height:13px;letter-spacing:1.4px;text-transform:uppercase">% contigo</p>
+            </div>
+
+            <div style="position:absolute;left:202px;top:155px;width:117px;height:87px;display:flex;flex-direction:column;align-items:flex-end;justify-content:center;gap:6px">
+              <sc-for list="{{card.tags}}" as="tg" hint-placeholder-count="3">
+                <div style="height:24px;box-sizing:border-box;border:1px solid #8a7458;border-radius:12px;padding:5px 11px;display:flex"><p style="margin:0;font-weight:600;font-size:12px;line-height:14px;color:#d9c7a8;white-space:nowrap">{{tg}}</p></div>
+              </sc-for>
+            </div>
+
+            <div style="position:absolute;left:18px;top:268px;width:308px;display:flex;flex-direction:column">
+              <sc-for list="{{card.rows}}" as="r" hint-placeholder-count="4">
+                <div style="height:61px;box-sizing:border-box;border-top:1px solid #f4e7d0;padding:9px 0 8px;display:flex;align-items:flex-start;gap:12px">
+                  <div style="flex:none;width:44px;height:44px;border-radius:12px;background:{{r.bg}};display:flex;align-items:center;justify-content:center">
+                    <sc-if value="{{r.isRitmo}}" hint-placeholder-val="{{ true }}">
+                      <svg width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true"><path d="M4.5 16.5C8 11 11.5 11 15 15.5S22 20 25.5 14" stroke="#f4e7d0" stroke-width="2" stroke-linecap="round"/><circle cx="6.5" cy="21.5" r="1.3" fill="#f2b544"/><circle cx="23.5" cy="9" r="1.3" fill="#f2b544"/></svg>
+                    </sc-if>
+                    <sc-if value="{{r.isTono}}" hint-placeholder-val="{{ false }}">
+                      <svg width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true"><path d="M17.5 7.5A8.5 8.5 0 1 0 22.5 21 7 7 0 0 1 17.5 7.5Z" fill="#f2b544"/><circle cx="8.5" cy="10" r="1.2" fill="#f4e7d0"/><circle cx="24" cy="10" r="1.2" fill="#f4e7d0"/></svg>
+                    </sc-if>
+                    <sc-if value="{{r.isHistoria}}" hint-placeholder-val="{{ false }}">
+                      <svg width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true"><path d="M3 24 11 11l4 6 3-4 9 11Z" fill="#1a1411"/><path d="M11 11V4" stroke="#1a1411" stroke-width="1.4" stroke-linecap="round"/><path d="M11 4h4.2l-1.2 1.6 1.2 1.6H11Z" fill="#b83a26"/></svg>
+                    </sc-if>
+                    <sc-if value="{{r.isVisual}}" hint-placeholder-val="{{ false }}">
+                      <svg width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true"><path d="M9 22a6 6 0 0 1 12 0Z" fill="#f2b544"/><path d="M4 23.5h22" stroke="#f4e7d0" stroke-width="1.8" stroke-linecap="round"/><path d="M15 5v3M7.5 9.5l1.8 1.8M22.5 9.5l-1.8 1.8" stroke="#f4e7d0" stroke-width="1.6" stroke-linecap="round"/></svg>
+                    </sc-if>
+                  </div>
+                  <div style="width:213px;display:flex;flex-direction:column;gap:2px">
+                    <div style="display:flex;align-items:baseline;gap:8px;text-transform:uppercase;white-space:nowrap">
+                      <p style="margin:0;font-weight:800;font-size:10px;line-height:13px;letter-spacing:1.2px;color:#f4e7d0">{{r.label}}</p>
+                      <p style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:20px;line-height:20px;color:#f4e7d0">{{r.value}}</p>
+                      <sc-if value="{{r.sparkle}}" hint-placeholder-val="{{ false }}">
+                        <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 0l1.4 4.6L12 6 7.4 7.4 6 12 4.6 7.4 0 6l4.6-1.4Z" fill="#f2b544"/></svg>
+                      </sc-if>
+                    </div>
+                    <p style="margin:0;font-weight:400;font-size:12.5px;line-height:15px;color:#d9c7a8">{{r.sub}}</p>
+                  </div>
+                  <button onPointerDown="{{stop}}" onPointerUp="{{stop}}" onClick="{{r.open}}" aria-label="{{r.aria}}" style="flex:none;width:33px;height:33px;margin:-9px;padding:0;border:0;background:none;display:flex;align-items:center;justify-content:center;cursor:pointer"><span style="box-sizing:border-box;width:15px;height:15px;border:1px solid #f4e7d0;border-radius:7.5px;opacity:0.6;padding:1px;display:flex;justify-content:center"><span style="font-style:italic;font-weight:800;font-size:9.5px;line-height:12px;color:#f4e7d0">i</span></span></button>
+                </div>
+              </sc-for>
+            </div>
+
+            <p style="position:absolute;left:18px;top:528px;margin:0;font-weight:400;font-size:12.5px;line-height:15px;color:#bfa98a;white-space:nowrap">{{card.similar}}</p>
+          </div>
+        </div>
+
+        <!-- CARA POSTERIOR -->
+        <div style="position:absolute;left:0;top:-3px;width:350px;height:564px;box-sizing:border-box;border:2px solid #f4e7d0;border-radius:20px;overflow:hidden;background:#1a1411;transform:{{backT}};backface-visibility:{{bfv}};-webkit-backface-visibility:{{bfv}};visibility:{{backVis}}">
+          <div style="position:absolute;left:0;top:0;width:346px;height:383px;overflow:hidden;background:#221a15">
+            <sc-if value="{{card.hasImg}}" hint-placeholder-val="{{ true }}">
+              <img src="{{card.img}}" alt="" draggable="false" style="{{card.imgStyle}}">
+            </sc-if>
+            <sc-if value="{{card.noImg}}" hint-placeholder-val="{{ false }}">
+              <div style="position:absolute;left:0;top:0;width:100%;height:100%;background:{{card.phBg}}">
+                <div style="position:absolute;left:113px;top:110px;width:120px;height:120px;border-radius:60px;background:#f2b544"></div>
+                <div style="position:absolute;left:138px;top:135px;width:70px;height:70px;border-radius:35px;background:#f4e7d0"></div>
+                <p style="position:absolute;left:0;top:300px;width:100%;margin:0;text-align:center;font-weight:800;font-size:10.5px;letter-spacing:1.4px;text-transform:uppercase;color:#f4e7d0;opacity:0.8">Póster pendiente</p>
+              </div>
+            </sc-if>
+          </div>
+          <div style="position:absolute;left:-2px;top:381px;width:350px;height:2px;background:#f4e7d0"></div>
+
+          <p style="position:absolute;left:20px;top:391px;margin:0;font-style:italic;font-weight:600;font-size:16px;line-height:22px;color:#f2b544;white-space:nowrap">{{card.subtitle}}</p>
+          <p style="position:absolute;left:20px;top:413px;margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:{{card.titleSize}}px;line-height:38px;text-transform:uppercase;color:#f4e7d0;white-space:nowrap">{{card.title}}</p>
+
+          <div style="position:absolute;left:17px;top:461px;display:flex;gap:8px">
+            <div style="box-sizing:border-box;border:1px solid #5a4838;border-radius:12px;padding:5px 11px;display:flex;align-items:center"><p style="margin:0;font-weight:600;font-size:12px;line-height:14px;color:#e6d3b3;white-space:nowrap">{{card.dur}}</p></div>
+            <div style="box-sizing:border-box;border:1px solid #5a4838;border-radius:12px;padding:5px 11px;display:flex;align-items:center"><p style="margin:0;font-weight:600;font-size:12px;line-height:14px;color:#e6d3b3;white-space:nowrap">{{card.genre}}</p></div>
+            <div style="box-sizing:border-box;border:1px solid #5a4838;border-radius:12px;padding:5px 11px;display:flex;align-items:center"><p style="margin:0;font-weight:600;font-size:12px;line-height:14px;color:#e6d3b3;white-space:nowrap">{{card.year}}</p></div>
+          </div>
+
+          <p style="position:absolute;left:20px;top:492px;width:305.5px;margin:0;font-weight:400;font-size:14px;line-height:19.6px;color:#d9c7a8">{{card.desc}} <span style="font-weight:700;color:#f2b544">Ver mas</span></p>
+
+          <button onPointerDown="{{stop}}" onPointerUp="{{stop}}" onClick="{{openAdn}}" aria-label="Ver el ADN de la película" style="position:absolute;left:7px;top:7px;height:44px;box-sizing:border-box;display:flex;align-items:center;justify-content:center;gap:8px;padding:2px 18px;border:2px solid #f4e7d0;border-radius:20px;background:#f4e7d0;cursor:pointer;font:inherit">
+            <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1l1.7 5.3L15 8l-5.3 1.7L8 15l-1.7-5.3L1 8l5.3-1.7Z" fill="#f2b544"/></svg>
+            <p style="margin:0;font-weight:700;font-size:15px;line-height:18px;color:#1a1411;white-space:nowrap">ADN</p>
+          </button>
+
+          <div style="position:absolute;left:16px;top:341px;box-sizing:border-box;height:34px;padding:3px 12px;display:flex;align-items:flex-start;border-radius:20px;background:#f4e7d0;overflow:hidden">
+            <div style="display:flex;align-items:center;gap:6px;height:28px">
+              <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5v11l9-5.5Z" fill="#1a1411"/></svg>
+              <p style="margin:0;font-weight:700;font-size:12px;line-height:normal;color:#1a1411;white-space:nowrap">Tráiler</p>
+            </div>
+          </div>
+
+          <sc-if value="{{card.disney}}" hint-placeholder-val="{{ true }}">
+            <img src="_blob/a0afee9d3b5af26c6da2c52427198b79.png" alt="Disney+" draggable="false" style="position:absolute;left:283px;top:64px;width:41px;height:41px;object-fit:cover">
+          </sc-if>
+          <sc-if value="{{card.netflix}}" hint-placeholder-val="{{ true }}">
+            <div style="position:absolute;left:291px;top:9px;width:25px;height:38px;overflow:hidden">
+              <img src="_blob/f3affb2eb3ea61f8111513b776ca2a9a.png" alt="Netflix" draggable="false" style="position:absolute;left:-0.65px;top:-3.4px;width:27.7px;height:42px;max-width:none">
+            </div>
+          </sc-if>
+        </div>
+      </div>
+
+      <!-- Sellos de swipe -->
+      <div style="position:absolute;left:18px;top:26px;transform:rotate(-8deg);opacity:{{opWant}};pointer-events:none;z-index:5;box-sizing:border-box;border:3px solid #f4e7d0;border-radius:12px;background:#5e0c10;padding:4px 12px">
+        <span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:28px;line-height:30px;text-transform:uppercase;color:#f4e7d0">Quiero verla</span>
+      </div>
+      <div style="position:absolute;right:18px;top:26px;transform:rotate(8deg);opacity:{{opPass}};pointer-events:none;z-index:5;box-sizing:border-box;border:3px solid #f4e7d0;border-radius:12px;background:#17120f;padding:4px 12px">
+        <span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:28px;line-height:30px;text-transform:uppercase;color:#f4e7d0">No me interesa</span>
+      </div>
+      <div style="position:absolute;left:96px;bottom:36px;opacity:{{opSeen}};pointer-events:none;z-index:5;box-sizing:border-box;border:3px solid #1a1411;border-radius:12px;background:#f2b544;padding:4px 14px">
+        <span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:28px;line-height:30px;text-transform:uppercase;color:#1a1411">Ya la vi</span>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- Fin del mazo -->
+  <sc-if value="{{isDone}}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;left:26px;top:96px;width:350px;height:564px;box-sizing:border-box;border:3px solid #f4e7d0;border-radius:20px;overflow:hidden;background:#5e0c10;box-shadow:0 6px 16px rgba(0,0,0,0.35)">
+      <div style="position:absolute;left:21px;top:19px;height:25px;box-sizing:border-box;display:flex;align-items:flex-start;padding:6px 10px;border-radius:12.5px;background:#f4e7d0">
+        <p style="margin:0;font-weight:800;font-size:11px;line-height:13px;letter-spacing:1.4px;text-transform:uppercase;color:#1a1411;white-space:nowrap">Fin del mazo</p>
+      </div>
+      <div style="position:absolute;left:21px;top:62px;width:290px;display:flex;flex-direction:column;gap:4px">
+        <p style="margin:0;font-style:italic;font-weight:600;font-size:22px;line-height:22px;color:#f2b544">cuando salen los créditos…</p>
+        <p style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:56px;line-height:52px;text-transform:uppercase;color:#f4e7d0">Mazo terminado</p>
+        <p style="margin:6px 0 0;font-weight:400;font-size:14px;line-height:19.6px;color:#d9c7a8">Viste las 10 cartas de Lentas y melancólicas.</p>
+      </div>
+      <!-- Tus ○ de este mazo: los pósters que marcaste "Quiero verla" -->
+      <sc-if value="{{hasWants}}" hint-placeholder-val="{{ true }}">
+        <div style="position:absolute;left:0;top:246px;width:344px;height:134px;display:flex;align-items:center;justify-content:center">
+          <sc-for list="{{wants}}" as="w" hint-placeholder-count="3">
+            <div style="flex:none;position:relative;box-sizing:border-box;width:84px;height:124px;margin-left:{{w.ml}}px;padding:3px;border-radius:6px;background:#1a1411;box-shadow:0 7px 12px rgba(0,0,0,0.4);transform:rotate({{w.rot}}deg);z-index:{{w.z}};overflow:hidden">
+              <sc-if value="{{w.hasImg}}" hint-placeholder-val="{{ true }}">
+                <img src="{{w.img}}" alt="{{w.title}}" draggable="false" style="display:block;width:100%;height:100%;object-fit:cover;object-position:{{w.pos}};border-radius:3px;pointer-events:none">
+              </sc-if>
+              <sc-if value="{{w.noImg}}" hint-placeholder-val="{{ false }}">
+                <div style="width:100%;height:100%;box-sizing:border-box;border-radius:3px;background:{{w.bg}};padding:8px 6px;display:flex;align-items:flex-end">
+                  <p style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:16px;line-height:15px;text-transform:uppercase;color:#f4e7d0">{{w.title}}</p>
+                </div>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+      <sc-if value="{{noWants}}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;left:18px;top:262px;width:308px;height:102px;box-sizing:border-box;border:1px dashed #8a7458;border-radius:14px;display:flex;align-items:center;justify-content:center;padding:0 24px">
+          <p style="margin:0;text-align:center;font-style:italic;font-weight:600;font-size:15px;line-height:20px;color:#d9c7a8">Esta vez no marcaste ninguna ○. Pasa también.</p>
+        </div>
+      </sc-if>
+      <div style="position:absolute;left:18px;top:392px;width:308px;display:flex;gap:8px">
+        <div style="flex:1;min-width:0;box-sizing:border-box;padding:10px;border-radius:12px;background:#f4e7d0">
+          <p style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:34px;line-height:1;color:#1a1411">{{nWant}}</p>
+          <p style="margin:4px 0 0;font-weight:600;font-size:11px;color:#1a1411;white-space:nowrap">quieres ver</p>
+        </div>
+        <div style="flex:1;min-width:0;box-sizing:border-box;padding:10px;border-radius:12px;border:1px solid #f4e7d0">
+          <p style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:34px;line-height:1;color:#f4e7d0">{{nSeen}}</p>
+          <p style="margin:4px 0 0;font-weight:600;font-size:11px;color:#d9c7a8;white-space:nowrap">ya la viste</p>
+        </div>
+        <div style="flex:1;min-width:0;box-sizing:border-box;padding:10px;border-radius:12px;border:1px solid #8a7458">
+          <p style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:34px;line-height:1;color:#f4e7d0">{{nPass}}</p>
+          <p style="margin:4px 0 0;font-weight:600;font-size:11px;color:#d9c7a8;white-space:nowrap">dejaste pasar</p>
+        </div>
+      </div>
+    </div>
+    <div style="position:absolute;left:26px;top:683px;width:350px;display:flex;flex-direction:column;align-items:center;gap:6px">
+      <a href="Flujo2_Resumen.dc.html" onClick="{{newDeckOnLeave}}" style="box-sizing:border-box;width:100%;height:58px;display:flex;align-items:center;justify-content:center;gap:9px;border:2px solid #f4e7d0;border-radius:29px;background:#5e0c10">
+        <span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:24px;line-height:29px;letter-spacing:0.4px;text-transform:uppercase;color:#f4e7d0;white-space:nowrap">Ver cómo te fue</span>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f4e7d0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </a>
+      <button onClick="{{restart}}" style="height:30px;font-weight:600;font-size:14px;color:#d9c7a8;text-decoration:underline">Repetir el mazo</button>
+    </div>
+  </sc-if>
+
+  <!-- Acciones -->
+  <sc-if value="{{inDeck}}" hint-placeholder-val="{{ true }}">
+    <div style="position:absolute;left:6px;top:673px;width:390px;height:105px;box-sizing:border-box;padding:4px 20px 6px;display:flex;flex-wrap:wrap;align-items:flex-start;column-gap:53px">
+      <button onClick="{{doPass}}" style="display:flex;flex-direction:column;align-items:center;gap:7px">
+        <span style="width:58px;height:58px;box-sizing:border-box;border:2px solid #f4e7d0;border-radius:29px;display:flex;align-items:center;justify-content:center">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#f4e7d0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+        </span>
+        <span style="width:81.5px;text-align:center;font-weight:600;font-size:12.5px;line-height:15px;color:#d9c7a8">No me interesa</span>
+      </button>
+      <button onClick="{{doSeen}}" aria-disabled="{{seenOff}}" style="display:flex;flex-direction:column;align-items:center;gap:7px;opacity:{{seenOp}};transition:opacity .25s;cursor:{{seenCursor}}">
+        <span style="width:58px;height:58px;box-sizing:border-box;border:2px solid #f4e7d0;border-radius:29px;display:flex;align-items:center;justify-content:center">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#f4e7d0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>
+        </span>
+        <span style="width:81.5px;text-align:center;font-weight:600;font-size:12.5px;line-height:15px;color:#d9c7a8">{{seenLabel}}</span>
+      </button>
+      <button onClick="{{doWant}}" style="display:flex;flex-direction:column;align-items:center;gap:7px">
+        <span style="width:66px;height:66px;box-sizing:border-box;border:2px solid #f4e7d0;border-radius:33px;background:#5e0c10;display:flex;align-items:center;justify-content:center">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#f4e7d0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </span>
+        <span style="font-weight:700;font-size:12.5px;line-height:15px;color:#f4e7d0;white-space:nowrap">Quiero verla</span>
+      </button>
+    </div>
+  </sc-if>
+
+  <!-- Barra de pestañas -->
+  <div style="position:absolute;left:0;top:790px;width:402px;height:84px;box-sizing:border-box;padding:10px 16px 22px;display:flex;align-items:flex-start;background:#f4e7d0;border-radius:26px 26px 0 0;z-index:4">
+    <a href="FlujoV1_Feed.dc.html" aria-label="Ir a Ver" style="width:119px;height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6b5844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="m10 8.5 5.5 3.5-5.5 3.5Z"/></svg>
+      <p style="margin:0;font-weight:600;font-size:12px;line-height:14px;color:#6b5844">Ver</p>
+    </a>
+    <div style="width:119px;height:52px;box-sizing:border-box;border:2px solid #1a1411;border-radius:26px;background:#5e0c10;padding:3px 8px;display:flex;align-items:center;justify-content:center;gap:7px">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f4e7d0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="m15.5 8.5-2 5-5 2 2-5Z"/></svg>
+      <p style="margin:0;font-weight:700;font-size:14px;line-height:17px;color:#f4e7d0;white-space:nowrap">Descubrir</p>
+    </div>
+    <div style="width:119px;height:52px;box-sizing:border-box;padding:1px 6px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6b5844" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20v-1a5 5 0 0 1 5-5h3a5 5 0 0 1 5 5v1"/><path d="M15.5 4.7a3.5 3.5 0 0 1 0 6.6"/><path d="M18 14.2a5 5 0 0 1 3.5 4.8v1"/></svg>
+      <p style="margin:0;font-weight:600;font-size:12px;line-height:14px;color:#6b5844;white-space:nowrap">Comunidad</p>
+    </div>
+  </div>
+
+  <!-- Hoja: qué significa cada aspecto (pantalla 04, generalizada) -->
+  <sc-if value="{{sheetMounted}}" hint-placeholder-val="{{ false }}">
+    <button onClick="{{closeSheet}}" aria-label="Cerrar" style="position:absolute;left:0;top:0;width:402px;height:874px;padding:0;border:0;background:rgba(23,18,15,0.6);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);z-index:10;cursor:default;opacity:{{sheetBackOp}};transition:opacity 280ms ease"></button>
+    <sc-if value="{{aspectPanel}}" hint-placeholder-val="{{ true }}">
+    <div style="position:absolute;left:0;top:385px;width:402px;height:489px;background:#f4e7d0;border-radius:28px 28px 0 0;z-index:11;color:#1a1411;transform:translateY({{sheetY}});transition:transform 340ms cubic-bezier(.2,.85,.25,1);box-shadow:0 -12px 32px rgba(0,0,0,0.35)">
+      <button onClick="{{closeSheet}}" aria-label="Cerrar" style="position:absolute;left:131px;top:0;width:140px;height:30px;padding:0;border:0;background:none;cursor:pointer"><span style="position:absolute;left:48px;top:12px;width:44px;height:5px;border-radius:2.5px;background:#6b5844"></span></button>
+      <div style="position:absolute;left:20px;top:31px;width:350px;display:flex;flex-direction:column;gap:2px">
+        <p style="margin:0;font-style:italic;font-weight:600;font-size:16px;line-height:22px;color:#a8401a">{{sheetD.eyebrow}}</p>
+        <p style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:36px;line-height:34.2px;text-transform:uppercase;color:#1a1411">{{sheetD.title}}</p>
+      </div>
+      <div style="position:absolute;left:20px;top:103px;width:350px;box-sizing:border-box;display:flex;align-items:center;gap:16px;padding:14px 18px 14px 14px;border-radius:18px;overflow:hidden;background:{{sheetD.bg}}">
+        <div style="position:absolute;left:240px;top:12px;width:150px;height:150px;border-radius:75px;background:#f4e7d0;opacity:0.08"></div>
+        <sc-if value="{{sheetD.kMoon}}" hint-placeholder-val="{{ true }}">
+          <svg style="position:relative;flex:none" width="84" height="84" viewBox="0 0 84 84" fill="none" aria-hidden="true"><path d="M48 18A27 27 0 1 0 66 62 22 22 0 0 1 48 18Z" fill="#f2b544"/><circle cx="21" cy="24" r="2.6" fill="#f4e7d0"/><circle cx="67" cy="22" r="3.6" fill="#f4e7d0"/></svg>
+        </sc-if>
+        <sc-if value="{{sheetD.kSun}}" hint-placeholder-val="{{ false }}">
+          <svg style="position:relative;flex:none" width="84" height="84" viewBox="0 0 84 84" fill="none" aria-hidden="true"><path d="M20 56a22 22 0 0 1 44 0Z" fill="#f2b544"/><path d="M12 62h60M20 70h44" stroke="#f4e7d0" stroke-width="4" stroke-linecap="round"/></svg>
+        </sc-if>
+        <sc-if value="{{sheetD.kRitmo}}" hint-placeholder-val="{{ false }}">
+          <svg style="position:relative;flex:none" width="84" height="84" viewBox="0 0 30 30" fill="none" aria-hidden="true"><path d="M4.5 16.5C8 11 11.5 11 15 15.5S22 20 25.5 14" stroke="#f4e7d0" stroke-width="2" stroke-linecap="round"/><circle cx="6.5" cy="21.5" r="1.3" fill="#f2b544"/><circle cx="23.5" cy="9" r="1.3" fill="#f2b544"/></svg>
+        </sc-if>
+        <sc-if value="{{sheetD.kHistoria}}" hint-placeholder-val="{{ false }}">
+          <svg style="position:relative;flex:none" width="84" height="84" viewBox="0 0 30 30" fill="none" aria-hidden="true"><path d="M3 24 11 11l4 6 3-4 9 11Z" fill="#1a1411"/><path d="M11 11V4" stroke="#1a1411" stroke-width="1.4" stroke-linecap="round"/><path d="M11 4h4.2l-1.2 1.6 1.2 1.6H11Z" fill="#b83a26"/></svg>
+        </sc-if>
+        <sc-if value="{{sheetD.kVisual}}" hint-placeholder-val="{{ false }}">
+          <svg style="position:relative;flex:none" width="84" height="84" viewBox="0 0 30 30" fill="none" aria-hidden="true"><path d="M9 22a6 6 0 0 1 12 0Z" fill="#f2b544"/><path d="M4 23.5h22" stroke="#f4e7d0" stroke-width="1.8" stroke-linecap="round"/><path d="M15 5v3M7.5 9.5l1.8 1.8M22.5 9.5l-1.8 1.8" stroke="#f4e7d0" stroke-width="1.6" stroke-linecap="round"/></svg>
+        </sc-if>
+        <div style="position:relative;display:flex;flex-direction:column;gap:4px;width:176px;flex:none;text-transform:uppercase;color:{{sheetD.ink}}">
+          <p style="margin:0;font-weight:800;font-size:10.5px;line-height:13px;letter-spacing:1.3px;opacity:0.75">En esta película</p>
+          <p style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:34px;line-height:31.3px;width:187px;white-space:nowrap">{{sheetD.word}}</p>
+        </div>
+      </div>
+      <p style="position:absolute;left:20px;top:229px;width:351.5px;margin:0;font-weight:400;font-size:15px;line-height:21.8px;color:#1a1411">{{sheetD.def}}</p>
+      <p style="position:absolute;left:20px;top:283px;width:351.5px;margin:0;font-weight:700;font-size:14px;line-height:20.3px;color:#1a1411">{{sheetD.name}}:<span style="font-weight:400;color:#6b5844"> {{sheetD.line}}</span></p>
+      <div style="position:absolute;left:20px;top:337px;width:350px;display:flex;flex-direction:column;gap:8px">
+        <p style="margin:0;font-weight:800;font-size:11px;line-height:13px;letter-spacing:1.3px;text-transform:uppercase;color:#6b5844">{{sheetD.others}}</p>
+        <div style="display:flex;gap:8px;width:352px">
+          <sc-for list="{{sheetD.opts}}" as="o" hint-placeholder-count="4">
+            <div style="width:82px;display:flex;flex-direction:column;align-items:center;gap:6px;opacity:{{o.op}}">
+              <div style="width:58px;height:58px;border-radius:14px;background:{{sheetD.bg}};display:flex;align-items:center;justify-content:center">
+                <sc-if value="{{o.kMoon}}" hint-placeholder-val="{{ true }}">
+                  <svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M23 9A13 13 0 1 0 31 29 10.5 10.5 0 0 1 23 9Z" fill="#f2b544"/><circle cx="10" cy="12" r="1.5" fill="#f4e7d0"/><circle cx="31" cy="11" r="1.8" fill="#f4e7d0"/></svg>
+                </sc-if>
+                <sc-if value="{{o.kSun}}" hint-placeholder-val="{{ false }}">
+                  <svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M10 25a10 10 0 0 1 20 0Z" fill="#f2b544"/><path d="M7 28h26M11 32h18" stroke="#f4e7d0" stroke-width="2" stroke-linecap="round"/></svg>
+                </sc-if>
+                <sc-if value="{{o.kRitmo}}" hint-placeholder-val="{{ false }}">
+                  <svg width="40" height="40" viewBox="0 0 30 30" fill="none" aria-hidden="true"><path d="M4.5 16.5C8 11 11.5 11 15 15.5S22 20 25.5 14" stroke="#f4e7d0" stroke-width="2" stroke-linecap="round"/><circle cx="6.5" cy="21.5" r="1.3" fill="#f2b544"/><circle cx="23.5" cy="9" r="1.3" fill="#f2b544"/></svg>
+                </sc-if>
+                <sc-if value="{{o.kHistoria}}" hint-placeholder-val="{{ false }}">
+                  <svg width="40" height="40" viewBox="0 0 30 30" fill="none" aria-hidden="true"><path d="M3 24 11 11l4 6 3-4 9 11Z" fill="#1a1411"/><path d="M11 11V4" stroke="#1a1411" stroke-width="1.4" stroke-linecap="round"/><path d="M11 4h4.2l-1.2 1.6 1.2 1.6H11Z" fill="#b83a26"/></svg>
+                </sc-if>
+                <sc-if value="{{o.kVisual}}" hint-placeholder-val="{{ false }}">
+                  <svg width="40" height="40" viewBox="0 0 30 30" fill="none" aria-hidden="true"><path d="M9 22a6 6 0 0 1 12 0Z" fill="#f2b544"/><path d="M4 23.5h22" stroke="#f4e7d0" stroke-width="1.8" stroke-linecap="round"/><path d="M15 5v3M7.5 9.5l1.8 1.8M22.5 9.5l-1.8 1.8" stroke="#f4e7d0" stroke-width="1.6" stroke-linecap="round"/></svg>
+                </sc-if>
+              </div>
+              <p style="margin:0;font-weight:700;font-size:11.5px;line-height:13.2px;color:#1a1411;white-space:nowrap">{{o.label}}</p>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+    <sc-if value="{{adnPanel}}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;left:0;top:314px;width:402px;height:560px;background:#f4e7d0;border-radius:28px 28px 0 0;z-index:11;color:#1a1411;transform:translateY({{sheetY}});transition:transform 340ms cubic-bezier(.2,.85,.25,1);box-shadow:0 -12px 32px rgba(0,0,0,0.35)">
+      <button onClick="{{closeSheet}}" aria-label="Cerrar" style="position:absolute;left:131px;top:0;width:140px;height:30px;padding:0;border:0;background:none;cursor:pointer"><span style="position:absolute;left:48px;top:12px;width:44px;height:5px;border-radius:2.5px;background:#6b5844"></span></button>
+      <div style="position:absolute;left:20px;top:31px;width:350px;display:flex;flex-direction:column;gap:2px">
+        <p style="margin:0;font-style:italic;font-weight:600;font-size:16px;line-height:22px;color:#a8401a">el ADN de esta película</p>
+        <p style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:36px;line-height:34.2px;text-transform:uppercase;color:#1a1411">ADN</p>
+      </div>
+      <div style="position:absolute;left:20px;top:100px;width:350px;height:88px;box-sizing:border-box;border-radius:18px;overflow:hidden;background:#5e0c10;padding:14px 18px">
+        <div style="position:absolute;left:240px;top:-30px;width:170px;height:170px;border-radius:85px;background:#f4e7d0;opacity:0.08"></div>
+        <svg style="position:absolute;right:14px;top:12px" width="22" height="22" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1l1.7 5.3L15 8l-5.3 1.7L8 15l-1.7-5.3L1 8l5.3-1.7Z" fill="#f2b544"/></svg>
+        <p style="position:relative;margin:0;font-weight:800;font-size:10px;line-height:13px;letter-spacing:1.3px;text-transform:uppercase;color:#f4e7d0;opacity:0.75">En una frase</p>
+        <p style="position:relative;margin:4px 0 0;width:290px;font-family:'Figtree',sans-serif;font-style:italic;font-weight:600;font-size:20px;line-height:25px;color:#f4e7d0">{{adnD.phrase}}</p>
+      </div>
+      <p style="position:absolute;left:20px;top:206px;margin:0;font-weight:800;font-size:11px;line-height:13px;letter-spacing:1.3px;text-transform:uppercase;color:#6b5844">Se siente</p>
+      <div style="position:absolute;left:20px;top:226px;width:350px;display:flex;flex-wrap:wrap;gap:8px">
+        <sc-for list="{{adnD.feel}}" as="a" hint-placeholder-count="4">
+          <div style="box-sizing:border-box;width:171px;height:44px;display:flex;align-items:center;gap:10px;padding:0 10px 0 6px;border-radius:12px;background:rgba(26,20,17,0.07)">
+            <div style="flex:none;width:32px;height:32px;border-radius:9px;background:{{a.bg}};display:flex;align-items:center;justify-content:center">
+              <sc-if value="{{a.kMoon}}" hint-placeholder-val="{{ true }}">
+                <svg width="22" height="22" viewBox="0 0 30 30" fill="none" aria-hidden="true"><path d="M17.5 7.5A8.5 8.5 0 1 0 22.5 21 7 7 0 0 1 17.5 7.5Z" fill="#f2b544"/><circle cx="8.5" cy="10" r="1.2" fill="#f4e7d0"/><circle cx="24" cy="10" r="1.2" fill="#f4e7d0"/></svg>
+              </sc-if>
+              <sc-if value="{{a.kSun}}" hint-placeholder-val="{{ false }}">
+                <svg width="22" height="22" viewBox="0 0 30 30" fill="none" aria-hidden="true"><path d="M7 21a8 8 0 0 1 16 0Z" fill="#f2b544"/><path d="M4 24h22" stroke="#f4e7d0" stroke-width="2" stroke-linecap="round"/></svg>
+              </sc-if>
+              <sc-if value="{{a.kRitmo}}" hint-placeholder-val="{{ false }}">
+                <svg width="22" height="22" viewBox="0 0 30 30" fill="none" aria-hidden="true"><path d="M4.5 16.5C8 11 11.5 11 15 15.5S22 20 25.5 14" stroke="#f4e7d0" stroke-width="2" stroke-linecap="round"/><circle cx="6.5" cy="21.5" r="1.3" fill="#f2b544"/><circle cx="23.5" cy="9" r="1.3" fill="#f2b544"/></svg>
+              </sc-if>
+              <sc-if value="{{a.kHistoria}}" hint-placeholder-val="{{ false }}">
+                <svg width="22" height="22" viewBox="0 0 30 30" fill="none" aria-hidden="true"><path d="M3 24 11 11l4 6 3-4 9 11Z" fill="#1a1411"/><path d="M11 11V4" stroke="#1a1411" stroke-width="1.4" stroke-linecap="round"/><path d="M11 4h4.2l-1.2 1.6 1.2 1.6H11Z" fill="#b83a26"/></svg>
+              </sc-if>
+              <sc-if value="{{a.kVisual}}" hint-placeholder-val="{{ false }}">
+                <svg width="22" height="22" viewBox="0 0 30 30" fill="none" aria-hidden="true"><path d="M9 22a6 6 0 0 1 12 0Z" fill="#f2b544"/><path d="M4 23.5h22" stroke="#f4e7d0" stroke-width="1.8" stroke-linecap="round"/><path d="M15 5v3M7.5 9.5l1.8 1.8M22.5 9.5l-1.8 1.8" stroke="#f4e7d0" stroke-width="1.6" stroke-linecap="round"/></svg>
+              </sc-if>
+            </div>
+            <div style="min-width:0;display:flex;flex-direction:column;gap:1px">
+              <p style="margin:0;font-weight:800;font-size:9px;line-height:11px;letter-spacing:1.1px;text-transform:uppercase;color:#6b5844">{{a.label}}</p>
+              <p style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:17px;line-height:17px;text-transform:uppercase;color:#1a1411;white-space:nowrap">{{a.value}}</p>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+      <p style="position:absolute;left:20px;top:338px;margin:0;font-weight:800;font-size:11px;line-height:13px;letter-spacing:1.3px;text-transform:uppercase;color:#6b5844">Temas</p>
+      <div style="position:absolute;left:20px;top:358px;width:350px;display:flex;gap:8px">
+        <sc-for list="{{adnD.themes}}" as="t" hint-placeholder-count="3">
+          <div style="box-sizing:border-box;border:1.5px solid #1a1411;border-radius:14px;padding:5px 11px;display:flex;align-items:center"><p style="margin:0;font-weight:700;font-size:12.5px;line-height:15px;color:#1a1411;white-space:nowrap">{{t.label}}</p></div>
+        </sc-for>
+      </div>
+      <p style="position:absolute;left:20px;top:402px;margin:0;font-weight:800;font-size:11px;line-height:13px;letter-spacing:1.3px;text-transform:uppercase;color:#6b5844">Se parece a</p>
+      <div style="position:absolute;left:20px;top:422px;width:350px;display:flex;gap:10px">
+        <sc-for list="{{adnD.similar}}" as="m" hint-placeholder-count="3">
+          <div style="position:relative;flex:none;box-sizing:border-box;width:110px;height:112px;border:3px solid #1a1411;border-radius:10px;overflow:hidden;background:{{m.bg}}">
+            <div style="position:absolute;left:62px;top:8px;width:30px;height:30px;border-radius:15px;background:#f2b544;opacity:0.9"></div>
+            <div style="position:absolute;left:8px;right:6px;bottom:8px">
+              <p style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:16px;line-height:15px;text-transform:uppercase;color:#f4e7d0">{{m.title}}</p>
+              <p style="margin:3px 0 0;font-weight:700;font-size:10px;line-height:12px;color:#f4e7d0;opacity:0.8">{{m.year}}</p>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    </sc-if>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":402,"height":874}}'>
+class Component extends DCLogic {
+renderVals() {
+  const S = this.state || {};
+  const TOTAL = 10;
+  const idx = S.idx || 0;
+  const flipped = !!S.flipped;
+  const exit = S.exit || null;
+  const drag = !!S.drag;
+  const anim = S.anim !== false;
+  const dx = S.dx || 0, dy = S.dy || 0;
+  const results = S.results || [];
+  const isDone = idx >= TOTAL;
+  const inDeck = !isDone;
+  const st = () => this.state || {};
+  const clamp = (v) => Math.max(0, Math.min(1, v));
+
+  const BG = { ritmo: '#e8642c', tono: '#b83a26', historia: '#f2b544', visual: '#8e3714' };
+  const LBL = { ritmo: 'Ritmo', tono: 'Tono', historia: 'Historia', visual: 'Visual' };
+  const TONE = {
+    'melancólico': { name: 'Melancólico', moon: true, sub: 'tristeza bonita', line: 'deja una tristeza bonita, de esas que se quedan contigo.' },
+    'nostálgico': { name: 'Nostálgico', moon: false, sub: 'añoranza dulce', line: 'te hace extrañar algo que ya pasó, aunque no lo hayas vivido.' },
+    'oscuro': { name: 'Oscuro', moon: true, sub: 'sombras y peso', line: 'se queda en las sombras: te inquieta y te hace pensar.' },
+    'cálido': { name: 'Cálido', moon: false, sub: 'abrazo suave', line: 'te deja el corazón tibio, con ganas de quedarte.' }
+  };
+  const PH = ['#e8642c', '#b83a26', '#8e3714'];
+  const mk = (o) => o;
+  const CARDS = [
+    mk({ kicker: 'muy, muy tú', premise: 'Un padre cruza el universo para volver.', match: 93, tags: ['Ciencia ficción', 'Drama', 'Aventura'], similar: 'Se parece a 2 películas que marcaste como ya vistas.', title: 'Interstellar', subtitle: 'Una película de Christopher Nolan', dur: '2 h 49', genre: 'Ciencia ficción', year: '2014', desc: 'Un grupo de astronautas viaja más allá de nuestra galaxia en busca de un nuevo hogar para la humanidad.', img: '_blob/8d36ec8e6ab2e36a214159e1cc93d1c6.jpg', pos: '50% 100%', netflix: true, disney: true, tono: 'melancólico', rows: [['ritmo', 'pausado', 'se toma su tiempo'], ['tono', 'melancólico', 'tristeza bonita'], ['historia', 'épica', 'mucho en juego'], ['visual', 'inmenso', 'para pantalla grande']] }),
+    mk({ kicker: 'tu lado soñador', premise: 'Dos soñadores se aman a destiempo.', match: 88, tags: ['Musical', 'Romance', 'Drama'], similar: 'Se parece a 1 película que marcaste como ya vista.', title: 'La La Land', subtitle: 'Una película de Damien Chazelle', dur: '2 h 8', genre: 'Musical', year: '2016', desc: 'Una pianista de jazz y una aspirante a actriz se enamoran en Los Ángeles mientras persiguen sus sueños.', img: '_blob/47a12c3c151f8da9df8a65897c8a3b7b.jpg', pos: '50% 30%', netflix: false, disney: false, tono: 'nostálgico', rows: [['ritmo', 'fluido', 'se deja llevar'], ['tono', 'nostálgico', 'añoranza dulce'], ['historia', 'romántica', 'amor y sueños'], ['visual', 'colorido', 'luces de ciudad']] }),
+    mk({ kicker: 'para creadores', premise: 'Un compositor lucha contra el reloj.', match: 84, tags: ['Musical', 'Drama', 'Biografía'], similar: 'Se parece a 3 películas que marcaste como ya vistas.', title: 'tick, tick...BOOM!', subtitle: 'Una película de Lin-Manuel Miranda', dur: '1 h 55', genre: 'Musical', year: '2021', desc: 'Un joven compositor de teatro lucha por estrenar su obra mientras el tiempo y la vida le pisan los talones.', img: '_blob/665a0569e72a0a72bc75b7aed03e2424.jpg', pos: '50% 35%', netflix: true, disney: false, tono: 'cálido', rows: [['ritmo', 'vibrante', 'late con la música'], ['tono', 'cálido', 'abrazo suave'], ['historia', 'íntima', 'un sueño en juego'], ['visual', 'teatral', 'escenario y luces']] }),
+    mk({ kicker: 'pesa y fascina', premise: 'Un genio crea lo que no puede deshacer.', match: 81, tags: ['Drama', 'Historia', 'Thriller'], similar: 'Se parece a 2 películas que marcaste como ya vistas.', title: 'Oppenheimer', subtitle: 'Una película de Christopher Nolan', dur: '3 h', genre: 'Drama', year: '2023', desc: 'El físico que lideró el Proyecto Manhattan enfrenta las consecuencias de crear la bomba atómica.', img: '_blob/1632e88b436a4b0f52ce128f48b74984.jpg', pos: '50% 30%', netflix: false, disney: false, tono: 'oscuro', rows: [['ritmo', 'denso', 'no suelta'], ['tono', 'oscuro', 'sombras y peso'], ['historia', 'épica', 'el peso de la historia'], ['visual', 'imponente', 'fuego y escala']] }),
+    mk({ kicker: 'una amistad improbable', premise: 'Despierta solo para salvar la Tierra.', match: 90, tags: ['Ciencia ficción', 'Aventura'], similar: 'Se parece a 1 película que marcaste como ya vista.', title: 'Project Hail Mary', subtitle: 'Una película de Phil Lord y Chris Miller', dur: '2 h 36', genre: 'Ciencia ficción', year: '2026', desc: 'Un profesor despierta solo en una nave y debe salvar la Tierra con la ayuda de un aliado inesperado.', img: '_blob/898b391b9a5eaba68df05fef307a6e56.jpg', pos: '42% 50%', netflix: false, disney: false, tono: 'cálido', rows: [['ritmo', 'curioso', 'un enigma a la vez'], ['tono', 'cálido', 'abrazo suave'], ['historia', 'épica', 'el mundo en juego'], ['visual', 'inmenso', 'el espacio profundo']] }),
+    mk({ kicker: 'sin reglas', premise: 'Un héroe enfrenta un caos sin reglas.', match: 76, tags: ['Acción', 'Crimen', 'Drama'], similar: 'Se parece a 3 películas que marcaste como ya vistas.', title: 'The Dark Knight', subtitle: 'Una película de Christopher Nolan', dur: '2 h 32', genre: 'Acción', year: '2008', desc: 'Batman, Gordon y Harvey Dent enfrentan al Joker, un criminal que quiere hundir Gotham en el caos.', img: '_blob/afe4882e107c9f765350409c23f76f18.jpg', pos: '50% 30%', netflix: false, disney: false, tono: 'oscuro', rows: [['ritmo', 'tenso', 'sin respiro'], ['tono', 'oscuro', 'sombras y peso'], ['historia', 'épica', 'una ciudad en juego'], ['visual', 'urbano', 'noche y neón']] }),
+    mk({ kicker: 'el último intento', premise: 'Intentan deshacer lo que ya pasó.', match: 72, tags: ['Acción', 'Ciencia ficción', 'Aventura'], similar: 'Se parece a 2 películas que marcaste como ya vistas.', title: 'Avengers: Endgame', subtitle: 'Una película de Anthony y Joe Russo', dur: '3 h 1', genre: 'Acción', year: '2019', desc: 'Tras la devastación de Thanos, los Vengadores que quedan se unen una vez más para revertir lo ocurrido.', img: '_blob/2ddf67b0dbcf78d9591cf0c449c8991c.jpg', pos: '50% 12%', netflix: false, disney: true, tono: 'melancólico', rows: [['ritmo', 'extenso', 'una maratón emocional'], ['tono', 'melancólico', 'tristeza bonita'], ['historia', 'épica', 'todo en juego'], ['visual', 'espectáculo', 'efectos a gran escala']] }),
+    mk({ kicker: 'amor sin cuerpo', premise: 'Un solitario se enamora de una voz.', match: 86, tags: ['Romance', 'Ciencia ficción', 'Drama'], similar: 'Se parece a 1 película que marcaste como ya vista.', title: 'Her', subtitle: 'Una película de Spike Jonze', dur: '2 h 6', genre: 'Romance', year: '2013', desc: 'Theodore, un escritor solitario, desarrolla un vínculo profundo con el sistema operativo que lo acompaña.', img: '', pos: '', netflix: false, disney: false, tono: 'melancólico', rows: [['ritmo', 'pausado', 'se toma su tiempo'], ['tono', 'melancólico', 'tristeza bonita'], ['historia', 'íntima', 'dos almas'], ['visual', 'cálido', 'tonos suaves']] }),
+    mk({ kicker: 'dos en la noche', premise: 'Dos extraños insomnes en otra ciudad.', match: 83, tags: ['Drama', 'Romance'], similar: 'Se parece a 2 películas que marcaste como ya vistas.', title: 'Lost in Translation', subtitle: 'Una película de Sofia Coppola', dur: '1 h 42', genre: 'Drama', year: '2003', desc: 'Un actor en declive y una joven recién casada se encuentran en Tokio y conectan en medio del insomnio.', img: '', pos: '', netflix: false, disney: false, tono: 'nostálgico', rows: [['ritmo', 'lento', 'horas de insomnio'], ['tono', 'nostálgico', 'añoranza dulce'], ['historia', 'íntima', 'conexión inesperada'], ['visual', 'neón', 'Tokio de noche']] }),
+    mk({ kicker: 'recordar para olvidar', premise: 'Borran a su ex para no sufrir.', match: 79, tags: ['Ciencia ficción', 'Romance', 'Drama'], similar: 'Se parece a 3 películas que marcaste como ya vistas.', title: 'Eternal Sunshine', subtitle: 'Una película de Michel Gondry', dur: '1 h 48', genre: 'Ciencia ficción', year: '2004', desc: 'Tras una ruptura, Joel decide borrar a Clementine de su memoria, pero a mitad del proceso se arrepiente.', img: '', pos: '', netflix: false, disney: false, tono: 'melancólico', rows: [['ritmo', 'fragmentado', 'va y viene'], ['tono', 'melancólico', 'tristeza bonita'], ['historia', 'romántica', 'amor y memoria'], ['visual', 'onírico', 'entre sueños']] })
+  ];
+
+  const raw = CARDS[Math.min(idx, TOTAL - 1)];
+  const T = TONE[raw.tono];
+  const card = {
+    kicker: raw.kicker, premise: raw.premise, match: raw.match, tags: raw.tags, similar: raw.similar,
+    title: raw.title, subtitle: raw.subtitle, dur: raw.dur, genre: raw.genre, year: raw.year, desc: raw.desc,
+    titleSize: raw.title.length <= 12 ? 40 : (raw.title.length <= 15 ? 38 : 34),
+    hasImg: !!raw.img, noImg: !raw.img, img: raw.img, phBg: PH[idx % 3],
+    imgStyle: 'position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover;object-position:' + (raw.pos || '50% 50%') + ';pointer-events:none',
+    netflix: raw.netflix, disney: raw.disney,
+    rows: raw.rows.map((r) => ({
+      label: LBL[r[0]], value: r[1], sub: r[2], bg: BG[r[0]],
+      isRitmo: r[0] === 'ritmo', isTono: r[0] === 'tono', notTono: r[0] !== 'tono',
+      aria: 'Qué significa ' + LBL[r[0]], open: (e) => { e.stopPropagation(); openSheet(r[0]); },
+      isHistoria: r[0] === 'historia', isVisual: r[0] === 'visual', sparkle: idx === 0 && r[0] === 'visual'
+    }))
+  };
+
+  const KEYS = ['ritmo', 'tono', 'historia', 'visual'];
+  const OTHERS = {
+    ritmo: ['pausado', 'fluido', 'vibrante', 'tenso'],
+    tono: ['melancólico', 'nostálgico', 'oscuro', 'cálido'],
+    historia: ['épica', 'íntima', 'romántica', 'misteriosa'],
+    visual: ['inmenso', 'colorido', 'onírico', 'urbano']
+  };
+  const DEF = {
+    ritmo: 'La velocidad a la que avanza la historia: si se toma su tiempo o no te suelta ni un segundo.',
+    tono: 'La emoción que te deja en el cuerpo: cómo te sientes mientras la ves y cuando salen los créditos.',
+    historia: 'El tipo de historia que cuenta: qué tan grande es lo que está en juego y para quién.',
+    visual: 'Cómo se ve la película: los colores, la luz y la escala con la que te entra por los ojos.'
+  };
+  const OTHERS_T = { ritmo: 'Otros ritmos', tono: 'Otras formas de tono', historia: 'Otras formas de historia', visual: 'Otros estilos visuales' };
+  const kinds = (k, v) => ({
+    kMoon: k === 'tono' && TONE[v] ? !!TONE[v].moon : false,
+    kSun: k === 'tono' && TONE[v] ? !TONE[v].moon : false,
+    kRitmo: k === 'ritmo', kHistoria: k === 'historia', kVisual: k === 'visual'
+  });
+  const sk = S.sheet || null;
+  const rowOf = (k) => raw.rows.filter((r) => r[0] === k)[0];
+  let sheetD = { eyebrow: '', title: '', bg: '#b83a26', ink: '#f4e7d0', word: '', def: '', name: '', line: '', others: '', opts: [], kMoon: false, kSun: false, kRitmo: false, kHistoria: false, kVisual: false };
+  if (sk && sk !== 'adn') {
+    const r = rowOf(sk); const cur = r[1];
+    let list = OTHERS[sk].slice(); if (list.indexOf(cur) < 0) list[3] = cur;
+    const isT = sk === 'tono';
+    sheetD = Object.assign({
+      eyebrow: 'qué es ' + (sk === 'ritmo' ? 'el ritmo' : sk === 'tono' ? 'el tono' : sk === 'historia' ? 'la historia' : 'lo visual'),
+      title: LBL[sk], bg: BG[sk], ink: sk === 'historia' ? '#1a1411' : '#f4e7d0', word: cur, def: DEF[sk],
+      name: isT ? T.name : cur.charAt(0).toUpperCase() + cur.slice(1),
+      line: isT ? T.line : r[2] + '.',
+      others: OTHERS_T[sk],
+      opts: list.map((v) => Object.assign({ label: isT && v === 'cálido' ? 'Calido' : v, op: v === cur ? 1 : 0.55 }, kinds(sk, v)))
+    }, kinds(sk, cur));
+  }
+  const sheetShow = !!S.sheetShow;
+
+  // ADN de cada película (datos de ejemplo, mismo orden que CARDS)
+  const ADN = [
+    { phrase: 'Ciencia ficción con el corazón en la mano', themes: ['Tiempo', 'Sacrificio', 'Padres e hijos'], sim: [['Arrival', '2016'], ['Gravity', '2013'], ['Contact', '1997']] },
+    { phrase: 'Un musical que sabe a despedida', themes: ['Sueños', 'Amor a destiempo', 'Ciudad'], sim: [['Whiplash', '2014'], ['Begin Again', '2013'], ['Cantando bajo la lluvia', '1952']] },
+    { phrase: 'El musical de quien teme no llegar a tiempo', themes: ['Ambición', 'Tiempo', 'Amistad'], sim: [['Rent', '2005'], ['Birdman', '2014'], ['Inside Llewyn Davis', '2013']] },
+    { phrase: 'Un thriller histórico sobre el peso de crear', themes: ['Culpa', 'Poder', 'Ciencia'], sim: [['The Imitation Game', '2014'], ['Dunkerque', '2017'], ['JFK', '1991']] },
+    { phrase: 'Una amistad improbable a años luz', themes: ['Amistad', 'Ciencia', 'Soledad'], sim: [['Marte (The Martian)', '2015'], ['Arrival', '2016'], ['WALL·E', '2008']] },
+    { phrase: 'Un héroe frente al caos', themes: ['Caos', 'Moral', 'Ciudad'], sim: [['Heat', '1995'], ['Se7en', '1995'], ['Joker', '2019']] },
+    { phrase: 'El cierre de una era', themes: ['Pérdida', 'Sacrificio', 'Equipo'], sim: [['Infinity War', '2018'], ['El retorno del rey', '2003'], ['Rogue One', '2016']] },
+    { phrase: 'Amor en tiempos de voz', themes: ['Soledad', 'Conexión', 'Tecnología'], sim: [['Ex Machina', '2014'], ['Eternal Sunshine', '2004'], ['Lost in Translation', '2003']] },
+    { phrase: 'Dos desconocidos, una noche larga', themes: ['Insomnio', 'Conexión', 'Distancia'], sim: [['Her', '2013'], ['Before Sunrise', '1995'], ['Eternal Sunshine', '2004']] },
+    { phrase: 'Olvidar para volver a elegirse', themes: ['Memoria', 'Amor', 'Pérdida'], sim: [['Her', '2013'], ['Anomalisa', '2015'], ['Synecdoche, New York', '2008']] }
+  ];
+  const A = ADN[Math.min(idx, TOTAL - 1)];
+  const adnD = {
+    phrase: A.phrase,
+    themes: A.themes.map((t) => ({ label: t })),
+    similar: A.sim.map((m, i) => ({ title: m[0], year: m[1], bg: PH[i % 3] })),
+    feel: raw.rows.map((r) => Object.assign({ label: LBL[r[0]], value: r[1], bg: BG[r[0]] }, kinds(r[0], r[1])))
+  };
+
+  const segs = [];
+  for (let i = 0; i < TOTAL; i++) segs.push({ bg: i <= Math.min(idx, TOTAL - 1) && (i < idx || !isDone || true) && i <= idx ? '#5e0c10' : '#3a2c22' });
+
+  let tx = dx, ty = dy, rot = dx * 0.05;
+  if (exit === 'want') { tx = 560; ty = 30; rot = 18; }
+  if (exit === 'pass') { tx = -560; ty = 30; rot = -18; }
+  if (exit === 'seen') { tx = 0; ty = -760; rot = 0; }
+  // En reposo no hay transformaciones 3D ni capas compuestas: el texto se re-rasteriza nítido a cualquier zoom.
+  const flipping = !!S.flipping;
+  const atRest = !drag && !exit && dx === 0 && dy === 0;
+  const dragT = atRest ? 'none' : 'translate(' + tx + 'px,' + ty + 'px) rotate(' + rot + 'deg)';
+  const dragTr = exit ? 'transform .3s ease-in' : (drag || !anim ? 'none' : 'transform .25s ease');
+  const flipT = flipping ? 'rotateY(' + (flipped ? 180 : 0) + 'deg)' : 'none';
+  const flipTr = (flipping && S.fready) ? 'transform .55s cubic-bezier(.4,.2,.2,1)' : 'none';
+
+  const commit = (kind) => {
+    const s = st();
+    if (s.exit || (s.idx || 0) >= TOTAL) return;
+    if (kind === 'seen' && !s.flipped) return;
+    this.setState({ exit: kind, drag: false });
+    clearTimeout(this._t);
+    this._t = setTimeout(() => {
+      const c = st();
+      this.setState({ results: (c.results || []).concat([kind]), idx: (c.idx || 0) + 1, flipped: false, flipping: false, fready: false, exit: null, dx: 0, dy: 0, anim: false });
+      clearTimeout(this._t2);
+      this._t2 = setTimeout(() => this.setState({ anim: true }), 80);
+    }, 300);
+  };
+
+  const onDown = (e) => {
+    const s = st();
+    if (s.exit) return;
+    const el = e.currentTarget;
+    const r = el.getBoundingClientRect();
+    this._k = (r.width / 350) || 1;
+    this._sx = e.clientX; this._sy = e.clientY;
+    try { el.setPointerCapture(e.pointerId); } catch (_) {}
+    this.setState({ drag: true, dx: 0, dy: 0 });
+  };
+  const onMove = (e) => {
+    const s = st();
+    if (!s.drag) return;
+    let mx = (e.clientX - this._sx) / this._k;
+    let my = (e.clientY - this._sy) / this._k;
+    if (my > 0) my = my * 0.2;
+    if (my < 0 && !s.flipped) my = my * 0.15;
+    this.setState({ dx: mx, dy: my });
+  };
+  const onUp = (e) => {
+    const s = st();
+    if (!s.drag) return;
+    const mx = s.dx || 0, my = s.dy || 0;
+    if (Math.abs(mx) < 6 && Math.abs(my) < 6) {
+      this.setState({ drag: false, dx: 0, dy: 0 });
+      if (!s.flipping) {
+        // 1) entra en modo 3D sin transición (misma imagen)  2) gira una sola vez  3) vuelve a reposo sin transición
+        this.setState({ flipping: true, fready: false });
+        clearTimeout(this._t5); clearTimeout(this._t6);
+        this._t5 = setTimeout(() => {
+          this.setState({ fready: true, flipped: !st().flipped });
+          this._t6 = setTimeout(() => this.setState({ flipping: false, fready: false }), 620);
+        }, 50);
+      }
+    } else if (mx > 90) { commit('want'); }
+    else if (mx < -90) { commit('pass'); }
+    else if (my < -90 && s.flipped) { commit('seen'); }
+    else { this.setState({ drag: false, dx: 0, dy: 0 }); }
+  };
+  const onCancel = () => { this.setState({ drag: false, dx: 0, dy: 0 }); };
+
+  const nWant = results.filter((r) => r === 'want').length;
+  const nSeen = results.filter((r) => r === 'seen').length;
+  const nPass = results.filter((r) => r === 'pass').length;
+  const ROT = [-7, 4, -3, 6, -5];
+  const wantedAll = [];
+  results.forEach((r, i) => { if (r === 'want' && CARDS[i]) wantedAll.push(CARDS[i]); });
+  const wantedShown = wantedAll.slice(0, 5);
+  const wants = wantedShown.map((c, i) => ({
+    img: c.img, pos: c.pos || '50% 50%', title: c.title, hasImg: !!c.img, noImg: !c.img,
+    bg: PH[i % 3], ml: i === 0 ? 0 : -28, rot: ROT[i], z: i + 1
+  }));
+
+  const openSheet = (k) => {
+    clearTimeout(this._t3); clearTimeout(this._t4);
+    this.setState({ sheet: k, sheetShow: false });
+    this._t4 = setTimeout(() => this.setState({ sheetShow: true }), 30);
+  };
+  const closeSheet = () => {
+    clearTimeout(this._t4); clearTimeout(this._t3);
+    this.setState({ sheetShow: false });
+    this._t3 = setTimeout(() => this.setState({ sheet: null }), 340);
+  };
+
+  return {
+    chip: isDone ? 'Fin del mazo' : 'Premisa',
+    counter: Math.min(idx + 1, TOTAL) + ' de ' + TOTAL,
+    segs, card, sheetD, adnD,
+    inDeck, isDone,
+    showNext: idx < TOTAL - 1 || (idx === TOTAL - 1 && !!exit === false && false),
+    dragT, dragTr, flipT, flipTr,
+    persp: flipping ? '1400px' : 'none', ts: flipping ? 'preserve-3d' : 'flat', bfv: flipping ? 'hidden' : 'visible',
+    backT: flipping ? 'rotateY(180deg)' : 'none',
+    frontVis: (flipping || !flipped) ? 'visible' : 'hidden', backVis: (flipping || flipped) ? 'visible' : 'hidden',
+    opWant: drag || exit === 'want' ? clamp(dx / 90) + (exit === 'want' ? 1 : 0) : 0,
+    opPass: drag || exit === 'pass' ? clamp(-dx / 90) + (exit === 'pass' ? 1 : 0) : 0,
+    opSeen: (drag && flipped && Math.abs(dy) > Math.abs(dx)) || exit === 'seen' ? clamp(-dy / 90) + (exit === 'seen' ? 1 : 0) : 0,
+    onDown, onMove, onUp, onCancel,
+    stop: (e) => { e.stopPropagation(); },
+    closeSheet,
+    sheetMounted: !!sk, aspectPanel: !!sk && sk !== 'adn', adnPanel: sk === 'adn',
+    openAdn: (e) => { e.stopPropagation(); openSheet('adn'); }, sheetBackOp: sheetShow ? 1 : 0, sheetY: sheetShow ? '0px' : '500px',
+    doPass: () => commit('pass'),
+    doWant: () => commit('want'),
+    doSeen: () => commit('seen'),
+    seenOff: !flipped,
+    seenOp: flipped ? 1 : 0.45,
+    seenCursor: flipped ? 'pointer' : 'default',
+    seenLabel: flipped ? 'Ya la vi' : 'Revela primero',
+    nWant, nSeen, nPass, wants, hasWants: wants.length > 0, noWants: wants.length === 0,
+    // Al salir hacia el Resumen, el mazo se reinicia: al volver a Descubrir arranca un mazo nuevo.
+    newDeckOnLeave: () => {
+      clearTimeout(this._t7);
+      this._t7 = setTimeout(() => { try { this.setState({ idx: 0, results: [], flipped: false, flipping: false, fready: false, exit: null, dx: 0, dy: 0, anim: false, sheet: null, sheetShow: false }); setTimeout(() => { try { this.setState({ anim: true }); } catch (_) {} }, 80); } catch (_) {} }, 400);
+    },
+    restart: () => this.setState({ idx: 0, results: [], flipped: false, flipping: false, fready: false, exit: null, dx: 0, dy: 0, anim: false, sheet: null, sheetShow: false })
+  };
+}
+componentWillUnmount() { clearTimeout(this._t); clearTimeout(this._t2); clearTimeout(this._t3); clearTimeout(this._t4); clearTimeout(this._t5); clearTimeout(this._t6); }
+}
+</script>
+<script src="../_prototipos/embed.js"></script>
+</body>
+</html>

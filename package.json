@@ -14,13 +14,15 @@
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "test": "vitest run",
     "e2e": "playwright test",
-    "contrast": "node scripts/contrast.mjs",
     "mock": "node e2e/mock-backend.mjs",
-    "seed-config": "node scripts/seed-config.mjs",
     "export-data": "node scripts/export-sheet.mjs",
-    "build-backend": "node scripts/build-backend.mjs"
+    "hojas-sql": "node scripts/hojas-sql.mjs",
+    "carga": "node scripts/carga.mjs",
+    "importar-prototipo": "node scripts/importar-prototipo.mjs",
+    "protocolo-texto": "node scripts/protocolo-texto.mjs"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "^0.3.7",
     "@playwright/test": "^1.48.0",
     "@testing-library/react": "^16.3.3",
     "@types/node": "^22.7.0",

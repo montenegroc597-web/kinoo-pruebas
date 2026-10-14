@@ -5,5 +5,5 @@ export default defineConfig({
     '@kinoo/ui': path.resolve(__dirname, 'packages/kinoo-ui/src/index.ts'),
     '@kinoo/tracking': path.resolve(__dirname, 'packages/tracking/src/index.ts'),
   } },
-  test: { include: ['packages/**/*.test.ts', 'packages/**/*.test.tsx', 'apps/**/*.test.ts', 'apps/**/*.test.tsx', 'backend/**/*.test.ts'], environment: 'jsdom', globals: false },
+  test: { include: ['packages/**/*.test.ts', 'packages/**/*.test.tsx', 'apps/**/*.test.ts', 'apps/**/*.test.tsx', 'scripts/**/*.test.ts', 'supabase/**/*.test.ts'], testTimeout: 30_000, environment: 'jsdom', globals: false },
 });
