@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#17120f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Kinoo">
+<title>Kinoo</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icono.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icono-180.png">
+<!--
+  Kinoo como app web: el prototipo «Prueba Maze · Flujo» (diseñado a 402 × 844) escalado a la pantalla.
+  - Siempre se ve la pantalla COMPLETA (nada se corta): se escala para caber en el ancho y en el alto disponibles.
+  - Celular: sin marco, del tamaño de la pantalla. PC o pantalla ancha: un celular vertical centrado, del alto de la ventana.
+  - El alto de cada página se mide al cargarla (algunas miden más de 844, p. ej. 874 con la barra inferior).
+  Usa las páginas ya publicadas en ../prueba/kinoo-flujo/ (no las duplica). No registra nada: es solo para mirar la app.
+-->
+<style>
+  :root { --fondo: #17120f; --borde: #2c221c; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: var(--fondo); overflow: hidden; overscroll-behavior: none; }
+  body { display: flex; align-items: center; justify-content: center; height: 100dvh; }
+  #pantalla { position: relative; overflow: hidden; background: var(--fondo); }
+  #pantalla iframe { position: absolute; left: 0; top: 0; border: 0; display: block; transform-origin: 0 0; background: var(--fondo); }
+  /* PC: marco de celular */
+  body.marco #pantalla { border-radius: 44px; box-shadow: 0 0 0 10px var(--borde), 0 0 0 12px #3a2d24, 0 30px 80px rgba(0,0,0,.6); }
+  #cargando { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #bfa98a; font: 600 15px/1 system-ui, sans-serif; background: var(--fondo); transition: opacity .3s; }
+  #cargando.listo { opacity: 0; pointer-events: none; }
+</style>
+</head>
+<body>
+<div id="pantalla">
+  <iframe id="app" title="Kinoo" src="../prueba/kinoo-flujo/Flujo1_Descubrir.dc.html" allow="autoplay"></iframe>
+  <div id="cargando">Cargando Kinoo…</div>
+</div>
+<script>
+(function () {
+  var W = 402, H = 844;           // tamaño del diseño (prototipo.json); H se corrige con el alto real de cada página
+  var H_MAX = 920;                // páginas más largas que esto se desplazan dentro del celular en vez de encogerse
+  var caja = document.getElementById('pantalla');
+  var app = document.getElementById('app');
+  var cargando = document.getElementById('cargando');
+
+  function ajustar() {
+    var vw = window.innerWidth, vh = window.innerHeight;
+    var celular = window.matchMedia('(pointer: coarse)').matches && vw <= 600;
+    var margen = celular || vw < 500 ? 0 : 28;
+    var s = Math.min((vw - margen * 2) / W, (vh - margen * 2) / H);
+    document.body.classList.toggle('marco', margen > 0);
+    app.style.width = W + 'px'; app.style.height = H + 'px';
+    caja.style.width = Math.round(W * s) + 'px'; caja.style.height = Math.round(H * s) + 'px';
+    app.style.transform = 'scale(' + s + ')';
+  }
+
+  // cada página del prototipo (también las que se abren navegando) sin márgenes ni barras de desplazamiento horizontales
+  app.addEventListener('load', function () {
+    try {
+      var d = app.contentDocument;
+      var st = d.createElement('style');
+      st.textContent = 'html,body{margin:0!important;background:#17120f!important;overflow-x:hidden!important}::-webkit-scrollbar{display:none}';
+      d.head.appendChild(st);
+      // el prototipo se pinta después de «load»: se sigue su alto mientras cambie
+      var medir = function () {
+        var alto = Math.min(Math.max(844, d.documentElement.scrollHeight), H_MAX);
+        if (alto !== H) { H = alto; ajustar(); }
+      };
+      medir();
+      if (window.ResizeObserver) new app.contentWindow.ResizeObserver(medir).observe(d.body);
+      setTimeout(medir, 600);
+    } catch (e) { /* otra procedencia: se deja como está */ }
+    cargando.classList.add('listo');
+  });
+
+  window.addEventListener('resize', ajustar);
+  window.addEventListener('orientationchange', function () { setTimeout(ajustar, 200); });
+  ajustar();
+})();
+</script>
+</body>
+</html>

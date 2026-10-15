@@ -5,6 +5,16 @@ Historial anterior: `AVANCES-Y-CAMBIOS.md` (construcción, rondas 1–4).
 
 ---
 
+## v3.4 · Kinoo como app web (2026-10-14)
+
+- Link nuevo `/app/` con el prototipo navegable, aparte de la prueba (no registra nada y no cambia la prueba ni el Panel).
+- Siempre se ve la pantalla completa: se escala para caber en el ancho y el alto disponibles, con el alto real de cada página (874 px en Descubrir, no 844) medido mientras se pinta.
+- En el celular, sin marco y del tamaño de la pantalla; se puede «Agregar a la pantalla de inicio» (manifest, ícono y modo pantalla completa). En el PC, un celular vertical centrado del alto de la ventana.
+- Archivos en `web-app/`; el deploy los copia a `site/app`. Usa las páginas ya publicadas en `prueba/kinoo-flujo/`.
+- Verificado con capturas en iPhone 13, Android de 360 px, celular a pantalla completa, PC 1440 × 860 y ventana angosta, y navegando dentro del prototipo.
+
+---
+
 ## v3.3 · Nombre al empezar, pósters de películas y un Panel más fácil de leer (2026-10-14)
 
 - **Nombre:** la bienvenida pide «¿Cómo te llamas?» (obligatorio, 2 letras o más) y se guarda en «Nombre ingresado» de Participantes, junto al código P01, P02… que sigue igual. Las personas ya registradas quedan como estaban. El texto de bienvenida ya no dice «anónimas»: dice que el nombre no se publica.

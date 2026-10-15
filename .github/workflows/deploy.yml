@@ -28,6 +28,8 @@ jobs:
           mkdir -p site
           cp -r apps/prueba/dist site/prueba
           cp -r apps/panel/dist site/panel
+          # Kinoo como app web (solo para ver la app): usa las páginas del prototipo publicadas en prueba/
+          cp -r web-app site/app
           printf '<!doctype html><meta charset="utf-8"><meta name="robots" content="noindex"><title>Kinoo</title><p>Kinoo · pruebas de usabilidad.</p>' > site/index.html
         env:
           VITE_APPS_SCRIPT_URL: ${{ secrets.APPS_SCRIPT_URL }}
