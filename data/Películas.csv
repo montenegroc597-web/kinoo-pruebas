@@ -1,0 +1,55 @@
+Participante,Variante (auto),Válido (auto),Película,M3d · Mood con el que la asocia,¿Coincide con el previsto? (auto),M3e · Nombre que le pondría,El nombre equivale a… (lo codifica el equipo),Notas y citas,Mood previsto,Sesión ID,Row ID
+P06,B,,El origen,Cine del bueno,0,hombre pretencioso,,,Salir pensando,2b2decf7-074c-4f85-976d-7ba89be97ad4,2b2decf7-074c-4f85-976d-7ba89be97ad4|Películas|El origen
+P06,B,,Rápidos y furiosos,Apagar el cerebro,1,gusto de papá,,,Apagar el cerebro,2b2decf7-074c-4f85-976d-7ba89be97ad4,2b2decf7-074c-4f85-976d-7ba89be97ad4|Películas|Rápidos y furiosos
+P06,B,,Supercool,Solo reírme,1,raunchy,,,Solo reírme,2b2decf7-074c-4f85-976d-7ba89be97ad4,2b2decf7-074c-4f85-976d-7ba89be97ad4|Películas|Supercool
+P06,B,,Titanic,Sufrir bonito,1,clásicos tristes,,,Sufrir bonito,2b2decf7-074c-4f85-976d-7ba89be97ad4,2b2decf7-074c-4f85-976d-7ba89be97ad4|Películas|Titanic
+P06,B,,Her,Cine del bueno,0,foreshadowing,,,Algo raro,2b2decf7-074c-4f85-976d-7ba89be97ad4,2b2decf7-074c-4f85-976d-7ba89be97ad4|Películas|Her
+P05,A,,Her,Cine del bueno,0,Una pelicula que te deja pensando pero a la vez muestra una reflexion de lo que piede llegar a ser la tecnologia y como la soledad te puede llevar a esos puntos,,,Algo raro,f19b18d7-8c8d-4241-a826-eeda720b3191,f19b18d7-8c8d-4241-a826-eeda720b3191|Películas|Her
+P05,A,,Supercool,Solo reírme,1,Una pelicula para reir de estupideces,,,Solo reírme,f19b18d7-8c8d-4241-a826-eeda720b3191,f19b18d7-8c8d-4241-a826-eeda720b3191|Películas|Supercool
+P05,A,,Titanic,Sufrir bonito,1,Una pelicula clasica super bien hecha,,,Sufrir bonito,f19b18d7-8c8d-4241-a826-eeda720b3191,f19b18d7-8c8d-4241-a826-eeda720b3191|Películas|Titanic
+P05,A,,Rápidos y furiosos,Apagar el cerebro,1,Una pelicula que deja a un lado lo normal para mostrar diferentes cosas cada vez mas absurdas,,,Apagar el cerebro,f19b18d7-8c8d-4241-a826-eeda720b3191,f19b18d7-8c8d-4241-a826-eeda720b3191|Películas|Rápidos y furiosos
+P05,A,,El origen,Salir pensando,1,Pelicula de intriga que ai no pones atencion te pierdes,,,Salir pensando,f19b18d7-8c8d-4241-a826-eeda720b3191,f19b18d7-8c8d-4241-a826-eeda720b3191|Películas|El origen
+P07,A,,Supercool,Solo reírme,1,Cabronas,,,Solo reírme,0fde402d-a751-4e15-ae1b-c2d1bfbbb023,0fde402d-a751-4e15-ae1b-c2d1bfbbb023|Películas|Supercool
+P07,A,,El origen,Salir pensando,1,Mindfuck,,,Salir pensando,0fde402d-a751-4e15-ae1b-c2d1bfbbb023,0fde402d-a751-4e15-ae1b-c2d1bfbbb023|Películas|El origen
+P07,A,,Rápidos y furiosos,Apagar el cerebro,1,ACPM,,,Apagar el cerebro,0fde402d-a751-4e15-ae1b-c2d1bfbbb023,0fde402d-a751-4e15-ae1b-c2d1bfbbb023|Películas|Rápidos y furiosos
+P07,A,,Her,Algo raro,1,Romance?,,,Algo raro,0fde402d-a751-4e15-ae1b-c2d1bfbbb023,0fde402d-a751-4e15-ae1b-c2d1bfbbb023|Películas|Her
+P07,A,,Titanic,Sufrir bonito,1,El mismo nombre que le ponían al segmento en caracol,,,Sufrir bonito,0fde402d-a751-4e15-ae1b-c2d1bfbbb023,0fde402d-a751-4e15-ae1b-c2d1bfbbb023|Películas|Titanic
+P08,B,,Supercool,Apagar el cerebro,0,Nada le gana al nombre que ya tiene,,,Solo reírme,2023aca4-4358-45af-a0b4-0df5667a6502,2023aca4-4358-45af-a0b4-0df5667a6502|Películas|Supercool
+P08,B,,Rápidos y furiosos,Ninguna,0,Con tal que no se como en españa,,,Apagar el cerebro,2023aca4-4358-45af-a0b4-0df5667a6502,2023aca4-4358-45af-a0b4-0df5667a6502|Películas|Rápidos y furiosos
+P08,B,,El origen,Salir pensando,1,N/D,,,Salir pensando,2023aca4-4358-45af-a0b4-0df5667a6502,2023aca4-4358-45af-a0b4-0df5667a6502|Películas|El origen
+P08,B,,Titanic,Sentir algo,0,N/D,,,Sufrir bonito,2023aca4-4358-45af-a0b4-0df5667a6502,2023aca4-4358-45af-a0b4-0df5667a6502|Películas|Titanic
+P08,B,,Her,Algo raro,1,IA,,,Algo raro,2023aca4-4358-45af-a0b4-0df5667a6502,2023aca4-4358-45af-a0b4-0df5667a6502|Películas|Her
+P10,B,,El origen,Cine del bueno,0,Para pensar,,,Salir pensando,97aeed85-8e43-42fd-9b56-2caf202c3ed0,97aeed85-8e43-42fd-9b56-2caf202c3ed0|Películas|El origen
+P10,B,,Rápidos y furiosos,Apagar el cerebro,1,100% Acción,,,Apagar el cerebro,97aeed85-8e43-42fd-9b56-2caf202c3ed0,97aeed85-8e43-42fd-9b56-2caf202c3ed0|Películas|Rápidos y furiosos
+P10,B,,Supercool,Solo reírme,1,Comedia juvenil,,,Solo reírme,97aeed85-8e43-42fd-9b56-2caf202c3ed0,97aeed85-8e43-42fd-9b56-2caf202c3ed0|Películas|Supercool
+P10,B,,Her,Salir pensando,0,Drama-Romance,,,Algo raro,97aeed85-8e43-42fd-9b56-2caf202c3ed0,97aeed85-8e43-42fd-9b56-2caf202c3ed0|Películas|Her
+P10,B,,Titanic,Cine del bueno,0,Cine universal,,,Sufrir bonito,97aeed85-8e43-42fd-9b56-2caf202c3ed0,97aeed85-8e43-42fd-9b56-2caf202c3ed0|Películas|Titanic
+P11,A,,El origen,Ninguna,0,De aventura,,,Salir pensando,84d2d3dc-26ab-4093-9769-f3555db52e88,84d2d3dc-26ab-4093-9769-f3555db52e88|Películas|El origen
+P11,A,,Supercool,Solo reírme,1,Adolescencia,,,Solo reírme,84d2d3dc-26ab-4093-9769-f3555db52e88,84d2d3dc-26ab-4093-9769-f3555db52e88|Películas|Supercool
+P11,A,,Rápidos y furiosos,Cine del bueno,0,De aventura,,,Apagar el cerebro,84d2d3dc-26ab-4093-9769-f3555db52e88,84d2d3dc-26ab-4093-9769-f3555db52e88|Películas|Rápidos y furiosos
+P11,A,,Her,Salir pensando,0,Raro,,,Algo raro,84d2d3dc-26ab-4093-9769-f3555db52e88,84d2d3dc-26ab-4093-9769-f3555db52e88|Películas|Her
+P11,A,,Titanic,Sentir algo,0,Romántico y de aventura,,,Sufrir bonito,84d2d3dc-26ab-4093-9769-f3555db52e88,84d2d3dc-26ab-4093-9769-f3555db52e88|Películas|Titanic
+P13,A,,Matrix,Escapar un rato,0,distopía,,,Salir pensando,0ada812c-1832-455d-97a5-ae1ece80eab9,0ada812c-1832-455d-97a5-ae1ece80eab9|Películas|Matrix
+P13,A,,Her,Algo raro,1,Algo raro está bien,,,Algo raro,0ada812c-1832-455d-97a5-ae1ece80eab9,0ada812c-1832-455d-97a5-ae1ece80eab9|Películas|Her
+P13,A,,Titanic,Sentir algo,0,.,,,Sufrir bonito,0ada812c-1832-455d-97a5-ae1ece80eab9,0ada812c-1832-455d-97a5-ae1ece80eab9|Películas|Titanic
+P13,A,,¿Qué pasó ayer?,Solo reírme,1,solo reírme o cine del bueno,,,Solo reírme,0ada812c-1832-455d-97a5-ae1ece80eab9,0ada812c-1832-455d-97a5-ae1ece80eab9|Películas|¿Qué pasó ayer?
+P13,A,,Terminator,Cine del bueno,0,también distopía,,,Apagar el cerebro,0ada812c-1832-455d-97a5-ae1ece80eab9,0ada812c-1832-455d-97a5-ae1ece80eab9|Películas|Terminator
+P13,A,,Rocky,Sufrir bonito,0,biografías,,,Sentir algo,0ada812c-1832-455d-97a5-ae1ece80eab9,0ada812c-1832-455d-97a5-ae1ece80eab9|Películas|Rocky
+P12,B,,Terminator,Escapar un rato,0,Futurista,,,Apagar el cerebro,ee1609c9-ea4f-4f08-8289-e853614b5d67,ee1609c9-ea4f-4f08-8289-e853614b5d67|Películas|Terminator
+P12,B,,¿Qué pasó ayer?,Solo reírme,1,Diversión sin parar,,,Solo reírme,ee1609c9-ea4f-4f08-8289-e853614b5d67,ee1609c9-ea4f-4f08-8289-e853614b5d67|Películas|¿Qué pasó ayer?
+P12,B,,Matrix,Salir pensando,1,Interacción irreal,,,Salir pensando,ee1609c9-ea4f-4f08-8289-e853614b5d67,ee1609c9-ea4f-4f08-8289-e853614b5d67|Películas|Matrix
+P12,B,,Titanic,Sufrir bonito,1,Amor en acción,,,Sufrir bonito,ee1609c9-ea4f-4f08-8289-e853614b5d67,ee1609c9-ea4f-4f08-8289-e853614b5d67|Películas|Titanic
+P12,B,,Rocky,Ninguna,0,Superación,,,Sentir algo,ee1609c9-ea4f-4f08-8289-e853614b5d67,ee1609c9-ea4f-4f08-8289-e853614b5d67|Películas|Rocky
+P12,B,,Her,Algo raro,1,Irreales,,,Algo raro,ee1609c9-ea4f-4f08-8289-e853614b5d67,ee1609c9-ea4f-4f08-8289-e853614b5d67|Películas|Her
+P14,B,,¿Qué pasó ayer?,Apagar el cerebro,0,Comedia,,,Solo reírme,352f9760-f5c3-48f7-8500-97655843baba,352f9760-f5c3-48f7-8500-97655843baba|Películas|¿Qué pasó ayer?
+P14,B,,Titanic,Sentir algo,0,Romamtico,,,Sufrir bonito,352f9760-f5c3-48f7-8500-97655843baba,352f9760-f5c3-48f7-8500-97655843baba|Películas|Titanic
+P14,B,,Terminator,Escapar un rato,0,Accion,,,Apagar el cerebro,352f9760-f5c3-48f7-8500-97655843baba,352f9760-f5c3-48f7-8500-97655843baba|Películas|Terminator
+P14,B,,Matrix,Escapar un rato,0,Accion,,,Salir pensando,352f9760-f5c3-48f7-8500-97655843baba,352f9760-f5c3-48f7-8500-97655843baba|Películas|Matrix
+P14,B,,Rocky,Cine del bueno,0,Drama,,,Sentir algo,352f9760-f5c3-48f7-8500-97655843baba,352f9760-f5c3-48f7-8500-97655843baba|Películas|Rocky
+P14,B,,Her,Sentir algo,0,Drama,,,Algo raro,352f9760-f5c3-48f7-8500-97655843baba,352f9760-f5c3-48f7-8500-97655843baba|Películas|Her
+P15,A,,Terminator,Cine del bueno,0,Máquinas,,,Apagar el cerebro,ac93898d-83bd-49ad-a1e7-b020c66f9982,ac93898d-83bd-49ad-a1e7-b020c66f9982|Películas|Terminator
+P15,A,,Matrix,Cine del bueno,0,Máquinas,,,Salir pensando,ac93898d-83bd-49ad-a1e7-b020c66f9982,ac93898d-83bd-49ad-a1e7-b020c66f9982|Películas|Matrix
+P15,A,,Rocky,Cine del bueno,0,Futuro,,,Sentir algo,ac93898d-83bd-49ad-a1e7-b020c66f9982,ac93898d-83bd-49ad-a1e7-b020c66f9982|Películas|Rocky
+P15,A,,¿Qué pasó ayer?,Escapar un rato,0,Misterio,,,Solo reírme,ac93898d-83bd-49ad-a1e7-b020c66f9982,ac93898d-83bd-49ad-a1e7-b020c66f9982|Películas|¿Qué pasó ayer?
+P15,A,,Titanic,Sufrir bonito,1,Romance trágico,,,Sufrir bonito,ac93898d-83bd-49ad-a1e7-b020c66f9982,ac93898d-83bd-49ad-a1e7-b020c66f9982|Películas|Titanic
+P15,A,,Her,Algo raro,1,Raro,,,Algo raro,ac93898d-83bd-49ad-a1e7-b020c66f9982,ac93898d-83bd-49ad-a1e7-b020c66f9982|Películas|Her

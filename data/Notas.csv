@@ -1,2 +1,21 @@
-Participante,Prueba,Pantalla / Tarea / Card,Texto,Tipo,Gravedad,Tema,Sesión ID,Row ID
-P01,,,hola2,,,,,n1
+Participante,Variante,Módulo,Pregunta,Texto,Tipo,Gravedad,Tema,Sesión ID,Row ID
+P06,B,Ver,V3d,nada,,,,2b2decf7-074c-4f85-976d-7ba89be97ad4,2b2decf7-074c-4f85-976d-7ba89be97ad4|Notas|V3d
+P05,A,Ver,V3d,Opciones mas generales y dentro de esas mas especificas como las que estan,,,,f19b18d7-8c8d-4241-a826-eeda720b3191,f19b18d7-8c8d-4241-a826-eeda720b3191|Notas|V3d
+P07,A,Ver,V3d,Nada,,,,0fde402d-a751-4e15-ae1b-c2d1bfbbb023,0fde402d-a751-4e15-ae1b-c2d1bfbbb023|Notas|V3d
+P06,B,Percepción,F4,no se,,,,2b2decf7-074c-4f85-976d-7ba89be97ad4,2b2decf7-074c-4f85-976d-7ba89be97ad4|Notas|F4
+P05,A,Percepción,F4,Las categorias,,,,f19b18d7-8c8d-4241-a826-eeda720b3191,f19b18d7-8c8d-4241-a826-eeda720b3191|Notas|F4
+P08,B,Ver,V3d,Nada,,,,2023aca4-4358-45af-a0b4-0df5667a6502,2023aca4-4358-45af-a0b4-0df5667a6502|Notas|V3d
+P07,A,Percepción,F4,Poner el póster de la película como la cara predeterminada,,,,0fde402d-a751-4e15-ae1b-c2d1bfbbb023,0fde402d-a751-4e15-ae1b-c2d1bfbbb023|Notas|F4
+P08,B,Percepción,F4,"Me gusto mucho solo que a veces se me dificulta a donde ver, aunque me llama la atención algo de incio ya lo demas empieza a intervenir en esa misma interacción",,,,2023aca4-4358-45af-a0b4-0df5667a6502,2023aca4-4358-45af-a0b4-0df5667a6502|Notas|F4
+P10,B,Ver,V3d,Nada,,,,97aeed85-8e43-42fd-9b56-2caf202c3ed0,97aeed85-8e43-42fd-9b56-2caf202c3ed0|Notas|V3d
+P10,B,Percepción,F4,Quizás algunos de los símbolos. Que la página esté menos cargada de información visual,,,,97aeed85-8e43-42fd-9b56-2caf202c3ed0,97aeed85-8e43-42fd-9b56-2caf202c3ed0|Notas|F4
+P11,A,Ver,V3d,La opción de “todas” no se entiende muy bien porque el mood es algo específico para mi,,,,84d2d3dc-26ab-4093-9769-f3555db52e88,84d2d3dc-26ab-4093-9769-f3555db52e88|Notas|V3d
+P11,A,Percepción,F4,Nada,,,,84d2d3dc-26ab-4093-9769-f3555db52e88,84d2d3dc-26ab-4093-9769-f3555db52e88|Notas|F4
+P13,A,Ver,V3d,nada,,,,0ada812c-1832-455d-97a5-ae1ece80eab9,0ada812c-1832-455d-97a5-ae1ece80eab9|Notas|V3d
+P12,B,Ver,V3d,"Me gusta mucho, las imágenes que acompañan cada frase",,,,ee1609c9-ea4f-4f08-8289-e853614b5d67,ee1609c9-ea4f-4f08-8289-e853614b5d67|Notas|V3d
+P13,A,Percepción,F4,nada,,,,0ada812c-1832-455d-97a5-ae1ece80eab9,0ada812c-1832-455d-97a5-ae1ece80eab9|Notas|F4
+P14,B,Ver,V3d,No se,,,,352f9760-f5c3-48f7-8500-97655843baba,352f9760-f5c3-48f7-8500-97655843baba|Notas|V3d
+P12,B,Percepción,F4,Acompañar de mas imágenes reales de la películas y una sección donde se lean opiniones,,,,ee1609c9-ea4f-4f08-8289-e853614b5d67,ee1609c9-ea4f-4f08-8289-e853614b5d67|Notas|F4
+P14,B,Percepción,F4,Mas imagenes,,,,352f9760-f5c3-48f7-8500-97655843baba,352f9760-f5c3-48f7-8500-97655843baba|Notas|F4
+P15,A,Ver,V3d,Nada,,,,ac93898d-83bd-49ad-a1e7-b020c66f9982,ac93898d-83bd-49ad-a1e7-b020c66f9982|Notas|V3d
+P15,A,Percepción,F4,Nada,,,,ac93898d-83bd-49ad-a1e7-b020c66f9982,ac93898d-83bd-49ad-a1e7-b020c66f9982|Notas|F4
