@@ -23,13 +23,13 @@ test('Panel v2.0: validez, módulos, card A vs B, moods, codificación a ciegas,
 
   // Resumen: 10 válidas (5 y 5), dos descartadas y la lectura A vs B
   await expect(page.getByRole('heading', { name: 'Resumen' })).toBeVisible();
-  await expect(page.locator('.pn-big').first()).toHaveText('10');
-  await expect(page.getByText('5 / 5').first()).toBeVisible();
+  await expect(page.locator('.pn-big').first()).toContainText('10 de');
+  await expect(page.getByText('5 / 15')).toHaveCount(2);  // 5 válidas por card, meta 15
   await expect(page.getByText(/falló el control de atención/).first()).toBeVisible();
   await expect(page.getByText(/Gana la card A/).first()).toBeVisible();
 
   await page.getByRole('button', { name: 'M1 · Descubrir' }).click();
-  await expect(page.locator('tr', { hasText: 'Gesto correcto «me interesa»' })).toContainText('70');
+  await expect(page.locator('.pn-ind', { hasText: 'Gesto correcto «me interesa»' }).first()).toContainText('70');
   await expect(page.locator('[data-heat="D2-A"] iframe')).toBeVisible();      // mapa sobre el prototipo real
 
   await page.getByRole('button', { name: 'M2 · Ver' }).click();
@@ -51,7 +51,7 @@ test('Panel v2.0: validez, módulos, card A vs B, moods, codificación a ciegas,
   await page.getByRole('button', { name: 'Participantes' }).click();
   await page.locator('tr', { hasText: 'P01' }).getByRole('checkbox').click(); // se marca cuando el servidor confirma
   await page.getByRole('button', { name: 'Resumen' }).click();
-  await expect(page.locator('.pn-big').first()).toHaveText('9');
+  await expect(page.locator('.pn-big').first()).toContainText('9 de');
 
   await page.getByRole('button', { name: 'Salud' }).click();
   await expect(page.locator('.pn-card', { hasText: 'Errores de la app' }).locator('.pn-big')).toHaveText('1');

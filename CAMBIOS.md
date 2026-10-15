@@ -5,6 +5,46 @@ Historial anterior: `AVANCES-Y-CAMBIOS.md` (construcción, rondas 1–4).
 
 ---
 
+## v3.3 · Nombre al empezar, pósters de películas y un Panel más fácil de leer (2026-10-14)
+
+- **Nombre:** la bienvenida pide «¿Cómo te llamas?» (obligatorio, 2 letras o más) y se guarda en «Nombre ingresado» de Participantes, junto al código P01, P02… que sigue igual. Las personas ya registradas quedan como estaban. El texto de bienvenida ya no dice «anónimas»: dice que el nombre no se publica.
+  - Migración `004_nombre_participante.sql` (register guarda `perfil.nombre`; profile acepta «Nombre ingresado»). Si la persona empieza sin red, el nombre se reenvía con el registro definitivo.
+  - El export público a `data/` ya quitaba «Nombre ingresado» y tachaba el nombre dentro de las respuestas (`scripts/anonimizar.mjs`).
+- **Pósters:** las 10 imágenes de `Recursos/Peliculas` se reducen a 360 px (≈ 20–80 KB) en `_blob/poster-*.jpg`. Coco, Titanic y Her ganan póster; entran 7 películas al catálogo (¿Qué pasó ayer?, Matrix, Terminator, Rocky, Smile, Superman, Proyecto Hail Mary).
+  - M3d (propuesta, pendiente de confirmar en Panel → Estudio): Titanic → Sufrir bonito, ¿Qué pasó ayer? → Solo reírme, Matrix → Salir pensando, Terminator → Apagar el cerebro, Rocky → Sentir algo, Her → Algo raro.
+  - M3c: Smile reemplaza a Hereditary como película neutra de «Escapar un rato». Superman y Proyecto Hail Mary quedan en el catálogo para usarlas desde Estudio.
+  - `Recursos/` (originales, 14 MB) queda fuera del repositorio.
+- **Panel:**
+  - cada indicador es una tarjeta: la pregunta, el resultado grande, una barra con la meta marcada y el estado en palabras con ícono (✓ Cumple la meta / ! Cerca: revisar / ✕ Lejos: rediseñar); en Descubrir, Card A y Card B debajo;
+  - Resumen: personas válidas contra la meta, personas por card, «¿Cómo vamos?» (cuántos cumplen, están cerca o hay que rediseñar) y la lista de lo que hay que mirar primero con «Ver detalle →»; los indicadores agrupados por módulo;
+  - los conteos (gestos, primer elemento, sorpresa…) se ven como barras con %; los gestos en palabras («Deslizó a la derecha →»);
+  - tiempos, toques y % que saltó cada tarea en mosaicos con su explicación;
+  - el menú agrupado: Resultados · Personas y respuestas · Preparar la prueba · Sistema;
+  - Participantes muestra el nombre.
+- **Verificado:** typecheck, 67 pruebas unitarias (incluye el nombre en kinoo_api) y 8 de punta a punta; capturas del Panel revisadas.
+
+---
+
+## v3.2 · Las tareas terminan cuando la persona lo decide (2026-10-14)
+
+- **Problema:** en D2 y D3 el primer gesto (deslizar o tocar un botón de decisión) cortaba la tarea y pasaba a las preguntas, aunque el gesto fuera el equivocado. La persona no podía corregir ni sabía que la tarea había terminado.
+- **Ahora, en todas las tareas sobre el prototipo (D2, D3, D4 y V2):**
+  - ningún toque termina la tarea; la persona puede equivocarse, corregir y seguir;
+  - termina cuando toca **«Terminé»**, o la **salta** con «Es muy difícil, saltar» (pide confirmación: «Seguir intentando» / «Sí, saltar»);
+  - al terminar ve un aviso claro (**«Tarea terminada»** o **«Tarea saltada»**) y luego «Continuar» a las preguntas;
+  - desaparecen los temporizadores de «No sé qué hacer» y «No logro llegar», y en D4 «Terminé» ya no espera a llegar al resumen.
+- **Flujo ideal (qué cuenta como acierto):**
+  - D2: el **primer** gesto decisivo es deslizar a la derecha (1) o tocar «Quiero verla» (0,5); D3 igual con izquierda / «No me interesa». Corregir después no cambia el puntaje (es primer clic, §1), pero queda en «Gestos que hizo (en orden)».
+  - D4: llegar al resumen del mazo («Ver cómo te fue») antes de tocar «Terminé».
+  - V2: la barra queda en el mood objetivo (1) o el cercano (0,5) al tocar «Terminé».
+  - Saltar la tarea cuenta como 0.
+- **Registro:** columnas nuevas al final de la hoja: «D2/D3/D4 · Resultado de la tarea» y «V2 · Resultado de la tarea» (Terminó / La saltó), «D2/D3 · Gestos que hizo (en orden)». En «Puntos», los gestos posteriores al primero salen como «decisivo (otro intento)».
+- **Panel:** % que saltó cada tarea (Descubrir → Vacilación; Ver → Tarea V2).
+- **Textos editables:** grupo nuevo «Tareas en el prototipo» (Terminé, saltar, confirmación y avisos); D4nota y V2listo dicen «Terminé».
+- **Verificado:** typecheck, 67 pruebas unitarias y 8 de punta a punta, incluida una nueva: un gesto equivocado ya no avanza, se corrige, «Terminé» muestra el aviso y saltar pide confirmación.
+
+---
+
 ## v3.1 · D4 en Descubrir: completar el mazo y ver qué dice de ti (2026-10-14)
 
 - **Problema:** D4 mostraba «Tu match del mazo», que es del final del mazo de **Ver**, no de Descubrir.

@@ -9,6 +9,8 @@ export interface Session {
   variante: Variante;
   flujo: Flujo;
   provisional: boolean;
+  /** nombre que escribió al empezar (se reenvía si se registró sin red) */
+  nombre?: string;
   /** partes terminadas (de las del flujo). Al reabrir se retoma al principio de la parte siguiente. */
   partes: number;
   /** última cantidad de partes que el servidor ya confirmó (se reintenta sin red) */

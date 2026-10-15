@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { caer, click, descubrir, empezar, esperarFilas, filas, intro, mazos, moods, percepcion, reset, tr, ver } from './helpers';
+import { abierta, caer, click, descubrir, deslizar, empezar, escala, esperarFilas, filas, intro, mazos, moods, percepcion, reset, terminarTarea, tr, ver } from './helpers';
 
 // Una persona hace el link completo en un celular virtual, con el prototipo REAL (iframe) y el backend con las migraciones de
 // Supabase. Se verifica cada hoja del Excel v2.0: gestos medidos, mood alcanzado, primer clic, aciertos automáticos, validez.
@@ -20,6 +20,7 @@ test('link completo: las 6 partes y cada hoja del registro', async ({ page }) =>
   const [p] = await filas('Participantes');
   expect(p).toMatchObject({ 'Código': 'P01', 'Variante de card (A/B)': 'A', 'Flujo (Completo / Link 1 / Link 2)': 'Completo', 'Completó (Sí/No)': 'Sí', 'Control de atención': 5, 'Partes completadas': 6 });
   expect(p['Edad']).toBe('25–31');
+  expect(p['Nombre ingresado']).toBe('Ana Prueba');
 
   const [d] = await filas('Descubrir');
   expect(d['D2 · Gesto hecho']).toBe('drag:derecha');
@@ -30,6 +31,7 @@ test('link completo: las 6 partes y cada hoja del registro', async ({ page }) =>
   expect(d['D1b · Respuesta']).toBe('respuesta D1b');
   expect(d['D4c · Tipo de sorpresa']).toBe('Agradable');
   expect(d['D4 · Llegó al resumen (1/0)']).toBe(1);
+  expect(d).toMatchObject({ 'D2 · Resultado de la tarea': 'Terminó', 'D2 · Gestos que hizo (en orden)': 'drag:derecha', 'D4 · Resultado de la tarea': 'Terminó' });
   expect(d['D4a · Respuesta']).toBe('que me gustan los amores melancólicos');
 
   const [v] = await filas('Ver');
@@ -41,7 +43,7 @@ test('link completo: las 6 partes y cada hoja del registro', async ({ page }) =>
   const ms = await filas('Moods');
   expect(ms.filter((m) => m['M3a · Respuesta'] !== '').length).toBe(3);     // M3a solo para 3 moods al azar
   expect(ms.every((m) => m['¿Acierta? (auto)'] === 0 || m['¿Acierta? (auto)'] === 1)).toBe(true);
-  await esperarFilas('Películas', 5);
+  await esperarFilas('Películas', 6);
 
   const [z] = await filas('Mazos');
   expect(z['Frases acertadas (auto, 0–4)']).toBe(2);                          // marcó «Verdadero» en las 4: acierta S1 y S2
@@ -88,4 +90,30 @@ test('modo equipo: recorre una parte y no guarda nada', async ({ page }) => {
   await page.waitForTimeout(4000);
   expect(await filas('Participantes')).toEqual([]);
   expect(await filas('Eventos')).toEqual([]);
+});
+
+test('una tarea no se corta con un gesto equivocado: la persona toca «Terminé» o la salta', async ({ page }) => {
+  await reset();
+  await empezar(page, '&link=1');
+  await intro(page);
+  await click(page, 'd1.listo');
+  await tr(page, 'q.D1a').waitFor({ timeout: 20_000 });
+  for (const id of ['D1a', 'D1b', 'D1c']) await abierta(page, id);
+  await escala(page, 'D1d');
+  // D2 «me interesa»: primero desliza al lado equivocado y luego corrige; la tarea sigue abierta hasta «Terminé»
+  await deslizar(page, 'izquierda');
+  await page.waitForTimeout(800);
+  await expect(tr(page, 'D2.termine')).toBeVisible();
+  await expect(tr(page, 'q.D2a')).toHaveCount(0);
+  await deslizar(page, 'derecha');
+  await click(page, 'D2.termine');
+  await expect(page.getByText('Tarea terminada')).toBeVisible();
+  await click(page, 'D2.continuar');
+  await escala(page, 'D2a'); await abierta(page, 'D2b');
+  // D3: la salta (con confirmación) y ve el aviso
+  await click(page, 'D3.saltar');
+  await click(page, 'D3.seguir');
+  await expect(tr(page, 'D3.termine')).toBeVisible();
+  await terminarTarea(page, 'D3', true);
+  await expect(tr(page, 'q.D3a-1')).toBeVisible();
 });

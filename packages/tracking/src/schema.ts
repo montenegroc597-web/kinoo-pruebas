@@ -71,6 +71,8 @@ export const COLUMNAS: Record<string, string[]> = {
     'Código', 'Variante de card (A/B)', 'Fecha', 'Dispositivo', 'Edad', 'Género', 'Frecuencia de consumo', 'Descubre en redes (Sí/No)', 'Nivel tecnológico',
     'Flujo (Completo / Link 1 / Link 2)', 'Duración (min)', 'Completó (Sí/No)', 'Control de atención', 'Excluir a mano (Sí)', 'Motivo de exclusión', 'Válido (auto)', 'Notas',
     'Sesión ID', 'Ronda', 'Inicio', 'Fin', 'Partes completadas', 'Versión de textos', 'Versión del estudio', 'Agente de usuario',
+    // nombre que escribe al empezar (solo lo ve el equipo: el export público a data/ lo quita)
+    'Nombre ingresado',
   ],
   [HOJAS.descubrir]: [
     ...BASE, 'D1a · Primer elemento que llamó la atención', '¿Prioritario? (auto)', 'D1b · Propósito de la pantalla (1/0,5/0)', 'D1c · Qué haría con la card (1/0,5/0)', 'D1d · Interés en la película 1–7',
@@ -80,7 +82,9 @@ export const COLUMNAS: Record<string, string[]> = {
     'Motivo si falló el gesto (código)', 'Motivo si no entendió la pantalla o el match (código)', 'Notas y citas textuales',
     'D1a · Respuesta', 'D1b · Respuesta', 'D1c · Respuesta', 'D2 · Gesto hecho', 'D2b · Respuesta', 'D3 · Gesto hecho', 'D3b · Respuesta', 'D4a · Respuesta',
     // D4 explorando el mazo hasta su resumen (columnas que el Excel v2.0 no trae)
-    'D4 · Llegó al resumen (1/0)', 'D4 · Tiempo hasta el resumen (s)', 'D4 · Toques (n)', 'D4e · SEQ 1–7', 'D4f · Qué le confundió', ...ENLACE,
+    'D4 · Llegó al resumen (1/0)', 'D4 · Tiempo hasta el resumen (s)', 'D4 · Toques (n)', 'D4e · SEQ 1–7', 'D4f · Qué le confundió',
+    // cómo terminó cada tarea: la persona toca «Terminé» o la salta; en D2/D3 cuenta el primer gesto, aquí van todos
+    'D2 · Resultado de la tarea', 'D2 · Gestos que hizo (en orden)', 'D3 · Resultado de la tarea', 'D3 · Gestos que hizo (en orden)', 'D4 · Resultado de la tarea', ...ENLACE,
   ],
   [HOJAS.ver]: [
     ...BASE, 'V1a · Propósito de la pantalla (1/0,5/0)', 'V1b · Claridad 1–7', 'V1c · Entiende para qué sirve el filtro (1/0,5/0)', 'V1d · Qué espera al moverlo (1/0,5/0)',
@@ -88,7 +92,7 @@ export const COLUMNAS: Record<string, string[]> = {
     'V3a · ¿Era lo que esperabas?', 'V3b · Utilidad del filtro 1–7', 'V3c · Preferencia', 'V3d · Qué cambiaría del filtro',
     'V4a · Confío en la recomendación 1–7', 'V4b · Entiendo por qué me la propone 1–7', 'V4c · Parece conocer mis gustos 1–7', 'Índice de confianza (auto, 1–7)', 'V4d · Ganas de ver la película 1–7',
     'Motivo si no entendió el filtro o falló la tarea (código)', 'Notas y citas textuales',
-    'V1a · Respuesta', 'V1c · Respuesta', 'V1d · Respuesta', 'V2 · Mood objetivo', ...ENLACE,
+    'V1a · Respuesta', 'V1c · Respuesta', 'V1d · Respuesta', 'V2 · Mood objetivo', 'V2 · Resultado de la tarea', ...ENLACE,
   ],
   [HOJAS.moods]: [
     ...BASE, 'Mood', 'M3c · Película elegida', '¿Acierta? (auto)', 'Mood con el que lo confundió (auto)', 'M3c · Tiempo (s)',
@@ -143,4 +147,6 @@ export interface PerfilRegistro {
   agente?: string;
   versionTextos?: string;
   versionEstudio?: string;
+  /** nombre que escribe la persona al empezar (además del código P01…) */
+  nombre?: string;
 }

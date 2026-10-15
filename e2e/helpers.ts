@@ -31,9 +31,16 @@ export async function deslizar(page: Page, dir: 'derecha' | 'izquierda') {
   await page.mouse.up();
 }
 
+/** Cierra una tarea del prototipo: «Terminé» (o saltarla, con su confirmación) y el aviso de tarea terminada. */
+export async function terminarTarea(page: Page, tarea: string, saltar = false) {
+  if (saltar) { await click(page, `${tarea}.saltar`); await click(page, `${tarea}.saltar-si`); } else await click(page, `${tarea}.termine`);
+  await click(page, `${tarea}.continuar`);
+}
+
 /** Bienvenida → empezar (registra a la persona). */
 export async function empezar(page: Page, query = '') {
   await page.goto('/?forzar=1' + query);
+  await tr(page, 'bienvenida.nombre').fill('Ana Prueba');
   await click(page, 'bienvenida.empezar');
 }
 export async function intro(page: Page) { for (const id of ['I1', 'I2', 'I3', 'I4']) await opcion(page, id, 1); }
@@ -44,26 +51,28 @@ export async function descubrir(page: Page) {
   for (const id of ['D1a', 'D1b', 'D1c']) await abierta(page, id);
   await escala(page, 'D1d', 6);
   await deslizar(page, 'derecha');
+  await terminarTarea(page, 'D2');
   await escala(page, 'D2a', 6); await abierta(page, 'D2b', 'se fue a mi lista');
   await deslizar(page, 'izquierda');
+  await terminarTarea(page, 'D3');
   await escala(page, 'D3a', 6); await abierta(page, 'D3b', 'se descartó');
   await completarMazo(page);
   await escala(page, 'D4e', 6); await abierta(page, 'D4a', 'que me gustan los amores melancólicos'); await escala(page, 'D4b'); await opcion(page, 'D4c', 0); await escala(page, 'D4d');
   await click(page, 'q.D4f-siguiente');  // D4f es opcional: se deja en blanco
 }
 
-/** D4: revela y elige las 10 cartas del mazo dentro del prototipo, abre «Ver cómo te fue» y toca «Listo». */
+/** D4: revela y elige las 10 cartas del mazo dentro del prototipo, abre «Ver cómo te fue» y toca «Terminé». */
 async function completarMazo(page: Page) {
   const f = page.frameLocator('iframe').first();
-  await expect(tr(page, 'D4.listo')).toBeDisabled({ timeout: 20_000 });
+  await expect(tr(page, 'D4.termine')).toBeEnabled({ timeout: 20_000 });
   for (let i = 0; i < 10; i++) {
     await f.getByText(/toca para revelar/i).first().click();
     await f.getByText(/^quiero verla$/i).last().click();
     await page.waitForTimeout(400);
   }
   await f.getByText(/ver cómo te fue/i).first().click();
-  await expect(tr(page, 'D4.listo')).toBeEnabled({ timeout: 20_000 });
-  await click(page, 'D4.listo');
+  await expect.poll(() => page.locator('iframe').first().evaluate((el: HTMLIFrameElement) => el.contentWindow?.location.pathname ?? ''), { timeout: 20_000 }).toMatch(/Flujo2_Resumen/);
+  await terminarTarea(page, 'D4');
 }
 
 export async function ver(page: Page, mood = 'Solo reírme') {
@@ -74,7 +83,7 @@ export async function ver(page: Page, mood = 'Solo reírme') {
   const fr = page.frameLocator('iframe').first();
   await fr.getByText(mood, { exact: false }).first().click();
   await page.waitForTimeout(400);
-  await click(page, 'V2.listo');
+  await terminarTarea(page, 'V2');
   await escala(page, 'V2a'); await opcion(page, 'V3a'); await escala(page, 'V3b'); await opcion(page, 'V3c'); await abierta(page, 'V3d', 'que se note que se mueve');
   await expect(tr(page, 'v4.continuar')).toBeVisible(); await click(page, 'v4.continuar');
   await escala(page, 'V4a', 6); await escala(page, 'V4b', 6); await escala(page, 'V4c', 6); await escala(page, 'V4d');
@@ -84,7 +93,8 @@ export async function moods(page: Page) {
   await click(page, 'm3.listo');
   for (let i = 0; i < 3; i++) { await abierta(page, 'M3a'); await escala(page, 'M3b'); }
   for (let i = 0; i < 8; i++) { await click(page, 'm3c.op-0'); await click(page, 'm3c.siguiente'); }
-  for (let i = 0; i < 5; i++) { await click(page, 'm3d-0'); await click(page, 'm3d.siguiente'); await tr(page, 'm3e').fill('nombre propio'); await click(page, 'm3e.siguiente'); }
+  // 6 películas en M3d (estudio.ts)
+  for (let i = 0; i < 6; i++) { await click(page, 'm3d-0'); await click(page, 'm3d.siguiente'); await tr(page, 'm3e').fill('nombre propio'); await click(page, 'm3e.siguiente'); }
 }
 
 export async function mazos(page: Page, control?: number) {

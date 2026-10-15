@@ -4,7 +4,7 @@ import { Kicker, Next, P, Page, Preguntas, Title, useEscala, type Pregunta, type
 import { CincoSegundos, META, VistaProto } from '../ui/Proto';
 import { moodElegido, type Toque } from '../captura';
 import { emit, fila, setCtx } from '../track';
-import { TareaProto, guardarPunto } from './tarea';
+import { TareaProto, guardarPunto, resultadoTarea, type FinTarea } from './tarea';
 import { extremosDe, type Parte } from './parte';
 
 type Etapa = 'inicio' | 'ver5' | 'v1' | 'v1c' | 'v2' | 'v2a' | 'v3' | 'v4' | 'v4p';
@@ -20,18 +20,19 @@ const abierta = (id: string, t: string): Pregunta => ({ id, prompt: t, tipo: 'te
 export function Ver({ parte, onListo }: { parte: Parte; onListo: () => void }) {
   const cfg = estudio();
   const [etapa, setEtapa] = useState<Etapa>('inicio');
-  const r = useRef<Resp & { v2?: { mood: string; puntaje: number; segundos: number; movimientos: number; fuera: number } }>({});
+  const r = useRef<Resp & { v2?: { mood: string; puntaje: number; segundos: number; movimientos: number; fuera: number; resultado: string } }>({});
   const frame = useRef<HTMLIFrameElement | null>(null);
   const sig = () => setEtapa(ORDEN[ORDEN.indexOf(etapa) + 1]);
   useEffect(() => { setCtx({ bloque: 'ver', estimulo: etapa.toUpperCase(), pantalla: cfg.pantallas.ver.pagina }); }, [etapa, cfg.pantallas.ver.pagina]);
 
   const nombresMood = cfg.moods.map((m) => norm(m.nombre));
-  const finV2 = (fin: { toques: Toque[]; segundos: number }) => {
+  const finV2 = (fin: FinTarea) => {
     const mood = moodElegido(frame.current);
-    const puntaje = norm(mood) === norm(cfg.claves.V2objetivo) ? 1 : norm(mood) === norm(cfg.claves.V2cercano) ? 0.5 : 0;
+    // si la saltó, no la logró aunque la barra haya quedado en el mood objetivo
+    const puntaje = fin.salto ? 0 : norm(mood) === norm(cfg.claves.V2objetivo) ? 1 : norm(mood) === norm(cfg.claves.V2cercano) ? 0.5 : 0;
     const enBarra = (t: Toque) => t.tipo === 'gesto' || nombresMood.includes(norm(t.control));
     fin.toques.forEach((t) => guardarPunto('Ver', 'V2', cfg.pantallas.ver.pagina, t, enBarra(t) ? 'barra de mood' : 'fuera de lugar'));
-    r.current.v2 = { mood, puntaje, segundos: fin.segundos, movimientos: fin.toques.filter(enBarra).length, fuera: fin.toques.filter((t) => !enBarra(t)).length };
+    r.current.v2 = { mood, puntaje, segundos: fin.segundos, movimientos: fin.toques.filter(enBarra).length, fuera: fin.toques.filter((t) => !enBarra(t)).length, resultado: resultadoTarea(fin) };
     sig();
   };
 
@@ -46,7 +47,7 @@ export function Ver({ parte, onListo }: { parte: Parte; onListo: () => void }) {
       'V4a · Confío en la recomendación 1–7': x.V4a ?? '', 'V4b · Entiendo por qué me la propone 1–7': x.V4b ?? '', 'V4c · Parece conocer mis gustos 1–7': x.V4c ?? '',
       'Índice de confianza (auto, 1–7)': conf.length === 3 ? Math.round((conf.reduce((a, b) => a + b, 0) / 3) * 100) / 100 : '',
       'V4d · Ganas de ver la película 1–7': x.V4d ?? '',
-      'V1a · Respuesta': x.V1a ?? '', 'V1c · Respuesta': x.V1c ?? '', 'V1d · Respuesta': x.V1d ?? '', 'V2 · Mood objetivo': cfg.claves.V2objetivo,
+      'V1a · Respuesta': x.V1a ?? '', 'V1c · Respuesta': x.V1c ?? '', 'V1d · Respuesta': x.V1d ?? '', 'V2 · Mood objetivo': cfg.claves.V2objetivo, 'V2 · Resultado de la tarea': v2.resultado,
     });
     if (String(x.V3d ?? '').trim()) fila('Notas', 'V3d', { 'Módulo': 'Ver', Pregunta: 'V3d', Texto: String(x.V3d).trim() });
     onListo();
@@ -70,7 +71,7 @@ export function Ver({ parte, onListo }: { parte: Parte; onListo: () => void }) {
       {etapa === 'v1' && responder([abierta('V1a', T.V1a), escala('V1b', T.V1b)], sig)}
       {etapa === 'v1c' && responder([abierta('V1c', T.V1c), abierta('V1d', T.V1d)], sig, 'Continuar', <Captura pantalla="filtro" resaltar />)}
       {etapa === 'v2' && (
-        <TareaProto modulo="Ver" tarea="V2" pantalla={cfg.pantallas.ver} consigna={rellenar(T.V2, { mood: `«${cfg.claves.V2objetivo}»` })} nota={T.V2listo} conListo
+        <TareaProto modulo="Ver" tarea="V2" pantalla={cfg.pantallas.ver} consigna={rellenar(T.V2, { mood: `«${cfg.claves.V2objetivo}»` })} nota={T.V2listo}
           onFrame={(f) => { frame.current = f; }} onFin={finV2} />
       )}
       {etapa === 'v2a' && responder([escala('V2a', T.V2a)], sig)}

@@ -55,12 +55,15 @@ export function deValidos(d: Datos, hoja: string, piloto = false, variante?: Var
 }
 
 // ------------------------------------------------------------------ indicadores
-export interface Indicador { id: string; nombre: string; meta: string; valor: number | null; formato: 'pct' | 'num' | 'ueq'; estado: Semaforo; n: number }
+/** `verde` = la meta (para dibujarla en la barra); `signo` = si se cumple por encima (≥) o por debajo (≤). */
+export interface Indicador { id: string; nombre: string; meta: string; valor: number | null; formato: 'pct' | 'num' | 'ueq'; estado: Semaforo; n: number; verde: number; signo: string }
 const ind = (id: string, nombre: string, valor: number | null, formato: Indicador['formato'], verde: number, amarillo: number, n: number, signo = '≥'): Indicador => ({
-  id, nombre, valor, formato, n, meta: `${signo} ${String(verde).replace('.', ',')}${formato === 'pct' ? ' %' : ''}`, estado: formato === 'ueq' ? semaforoUEQ(valor) : semaforo(valor, verde, amarillo),
+  id, nombre, valor, formato, n, verde, signo, meta: `${signo} ${String(verde).replace('.', ',')}${formato === 'pct' ? ' %' : ''}`, estado: formato === 'ueq' ? semaforoUEQ(valor) : semaforo(valor, verde, amarillo),
 });
 /** % de filas con código 1 (respuestas codificadas 1 / 0,5 / 0); solo cuenta las ya codificadas. */
 const pctUno = (rs: Fila[], col: string) => { const v = nums(rs, col); return { valor: pct(v.filter((x) => x === 1).length, v.length), n: v.length }; };
+/** % de personas que saltó la tarea (entre las que la registraron). */
+const pctSalto = (rs: Fila[], col: string) => { const v = rs.map((r) => String(r[col] ?? '')).filter(Boolean); return pct(v.filter((x) => x === 'La saltó').length, v.length); };
 const prom = (rs: Fila[], col: string) => { const v = nums(rs, col); return { valor: promedio(v), n: v.length }; };
 
 // ------------------------------------------------------------------ M1 · Descubrir
@@ -92,6 +95,7 @@ export function descubrir(d: Datos, piloto = false, variante?: Variante) {
   return {
     n: rs.length, indicadores,
     tiempos: { d2: mediana(nums(rs, 'D2 · Tiempo hasta el gesto (s)')), d3: mediana(nums(rs, 'D3 · Tiempo hasta el gesto (s)')), fueraD2: promedio(nums(rs, 'D2 · Toques fuera de lugar (n)')), fueraD3: promedio(nums(rs, 'D3 · Toques fuera de lugar (n)')), d4: mediana(nums(rs, 'D4 · Tiempo hasta el resumen (s)')) },
+    saltos: { d2: pctSalto(rs, 'D2 · Resultado de la tarea'), d3: pctSalto(rs, 'D3 · Resultado de la tarea'), d4: pctSalto(rs, 'D4 · Resultado de la tarea') },
     confusiones: contar(rs.map((r) => String(r['D4f · Qué le confundió'] ?? '').trim())),
     gestos: { d2: contar(rs.map((r) => String(r['D2 · Gesto hecho'] ?? ''))), d3: contar(rs.map((r) => String(r['D3 · Gesto hecho'] ?? ''))) },
     sorpresa: promedio(nums(rs, 'D4b · Sorpresa 1–7')), tipoSorpresa: contar(tipo),
@@ -124,7 +128,7 @@ export function ver(d: Datos, piloto = false, variante?: Variante) {
   return {
     n: rs.length, indicadores, lectura, confianzaBaja: conf.valor != null && conf.valor < 4.5,
     moodFinal: contar(rs.map((r) => String(r['V2 · Mood en el que terminó'] ?? ''))),
-    v2: { tiempo: mediana(nums(rs, 'V2 · Tiempo hasta terminar (s)')), movimientos: promedio(nums(rs, 'V2 · Movimientos de la barra (n)')), fuera: promedio(nums(rs, 'V2 · Toques fuera de lugar (n)')) },
+    v2: { tiempo: mediana(nums(rs, 'V2 · Tiempo hasta terminar (s)')), movimientos: promedio(nums(rs, 'V2 · Movimientos de la barra (n)')), fuera: promedio(nums(rs, 'V2 · Toques fuera de lugar (n)')), salto: pctSalto(rs, 'V2 · Resultado de la tarea') },
     expectativa: contar(rs.map((r) => String(r['V3a · ¿Era lo que esperabas?'] ?? ''))), preferencia: contar(rs.map((r) => String(r['V3c · Preferencia'] ?? ''))),
     cambios: rs.map((r) => String(r['V3d · Qué cambiaría del filtro'] ?? '')).filter(Boolean),
   };

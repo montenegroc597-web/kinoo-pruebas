@@ -48,6 +48,7 @@ describe('analítica del Panel v2.0 (contra el backend real)', () => {
     expect(ind(t.indicadores, 'D4c').valor).toBeCloseTo(50);
     expect(ind(t.indicadores, 'D4').valor).toBeCloseTo(90);
     expect(ind(t.indicadores, 'D4e').valor).toBeCloseTo(6);
+    expect(t.saltos.d4).toBeCloseTo(10);  // P10 la saltó
     expect(ind(descubrir(datos, false, 'A').indicadores, 'D2').valor).toBeCloseTo(100);
     expect(ind(descubrir(datos, false, 'B').indicadores, 'D2').valor).toBeCloseTo(40);
     expect(t.gestos.d2[0]).toEqual(['drag:derecha', 7]);

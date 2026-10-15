@@ -28,9 +28,10 @@ export const MODULO_CONTROL: Record<Flujo, Modulo> = { Completo: 'percepcion', '
 
 // ---------------------------------------------------------------- textos (Anexo A)
 export const LINK_TEXTOS = editable('link', { fase: 0, prueba: 'Bienvenida y cierre (Anexo A)' }, {
-  bienvenida: 'Hola, gracias por ayudarnos. Vamos a mostrarte unas pantallas de una app que estamos diseñando. No te estamos evaluando a ti: si algo no se entiende, es culpa del diseño, no tuya. Dura unos 20 minutos (15 si es el Link 1; 8 si es el Link 2). Hazlo desde tu celular, en un lugar tranquilo, sin buscar ayuda ni respuestas, y responde con lo primero que pienses. Tus respuestas son anónimas y se usan solo para mejorar el diseño de la app. Al continuar aceptas participar.',
+  bienvenida: 'Hola, gracias por ayudarnos. Vamos a mostrarte unas pantallas de una app que estamos diseñando. No te estamos evaluando a ti: si algo no se entiende, es culpa del diseño, no tuya. Dura unos 20 minutos (15 si es el Link 1; 8 si es el Link 2). Hazlo desde tu celular, en un lugar tranquilo, sin buscar ayuda ni respuestas, y responde con lo primero que pienses. Te pedimos tu nombre solo para saber quién participó: no se publica y tus respuestas se usan solo para mejorar el diseño de la app. Al continuar aceptas participar.',
   final: 'Listo, terminaste. Gracias por tu tiempo. Tus respuestas nos ayudan a mejorar la app. Ya puedes cerrar esta ventana.',
   cincoSegundos: 'La pantalla se oculta sola en 5 segundos.',
+  nombre: '¿Cómo te llamas?',
 });
 
 // ---------------------------------------------------------------- introducción y perfil (Anexo B)
@@ -48,6 +49,20 @@ export const INTRO_OPCIONES = {
 };
 export const NIVEL_TEC: Record<string, 'Básico' | 'Medio' | 'Alto'> = { Poco: 'Básico', Medianamente: 'Medio', 'Muy cómodo': 'Alto' };
 
+// ---------------------------------------------------------------- tareas sobre el prototipo (D2, D3, D4, V2)
+/** Botones y avisos comunes de toda tarea: la persona decide cuándo terminó, o la salta si se le hace muy difícil. */
+export const TAREA_TEXTOS = editable('tarea', { fase: 1, prueba: 'Tareas en el prototipo (común a D2, D3, D4 y V2)' }, {
+  nota: 'Cuando creas que terminaste, toca «Terminé».',
+  terminar: 'Terminé',
+  saltar: 'Es muy difícil, saltar',
+  confirmarSaltar: '¿Saltar esta tarea? No pasa nada: que algo sea difícil también nos ayuda a mejorar la app.',
+  siSaltar: 'Sí, saltar',
+  seguir: 'Seguir intentando',
+  hecha: 'Tarea terminada',
+  saltada: 'Tarea saltada',
+  despues: 'Ahora unas preguntas cortas sobre lo que acabas de hacer.',
+});
+
 // ---------------------------------------------------------------- M1 · Descubrir
 const M1 = { fase: 1, prueba: 'M1 · Descubrir' };
 export const DESCUBRIR_TEXTOS = editable('descubrir', M1, {
@@ -63,7 +78,7 @@ export const DESCUBRIR_TEXTOS = editable('descubrir', M1, {
   D3a: 'Del 1 al 7, ¿qué tan difícil o fácil fue saber qué hacer? 1 = muy difícil, 7 = muy fácil.',
   D3b: '¿Qué crees que pasó con esa película cuando lo hiciste?',
   D4: 'Ahora explora la app con libertad: completa tu mazo de 10 cartas y mira qué dice este mazo de ti.',
-  D4nota: 'Tómate el tiempo que quieras. Cuando hayas visto lo que dice tu mazo, toca «Listo».',
+  D4nota: 'Tómate el tiempo que quieras. Cuando hayas visto lo que dice tu mazo, toca «Terminé».',
   D4a: 'En tus palabras, ¿qué te dijo el mazo sobre ti?',
   D4b: 'Del 1 al 7, ¿qué tan sorprendente te pareció lo que dice el mazo? 1 = nada sorprendente, 7 = muy sorprendente.',
   D4c: 'Esa sorpresa te resulta…',
@@ -82,7 +97,7 @@ export const VER_TEXTOS = editable('ver', M2, {
   V1c: '¿Para qué crees que sirve el elemento marcado con el círculo rojo?',
   V1d: '¿Qué crees que pasa si lo mueves?',
   V2: 'Hoy tienes ganas de ver algo que te haga sentir {mood}. Haz lo que harías en esta pantalla para encontrarlo.',
-  V2listo: 'Cuando lo hayas encontrado, toca «Listo».',
+  V2listo: 'Cuando lo hayas encontrado, toca «Terminé».',
   V2a: 'Del 1 al 7, ¿qué tan difícil o fácil fue saber qué hacer? 1 = muy difícil, 7 = muy fácil.',
   V3: 'Este es tu filtro de mood: al moverlo, Kinoo te propone películas según cómo te sientes en ese momento.',
   V3a: '¿Era lo que esperabas?',

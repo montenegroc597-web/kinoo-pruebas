@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import type { PantallaProto } from '@kinoo/tracking';
+import { TAREA_TEXTOS as TT, type PantallaProto } from '@kinoo/tracking';
 import { META, VistaProto } from '../ui/Proto';
-import { Next, useEscala } from '../ui/kit';
+import { Next, P, Title, useEscala } from '../ui/kit';
 import { useCapturaProto, type Toque } from '../captura';
 import { emit, fila, setCtx } from '../track';
 
@@ -13,43 +13,40 @@ export function guardarPunto(modulo: string, tarea: string, pagina: string, t: T
   });
 }
 
-/** Tras cuántos segundos sin respuesta aparece «No sé qué hacer» (sin moderador, nadie debe quedarse atascado). */
-const AYUDA_S = 30;
-/** En una tarea de explorar (completar el mazo) se espera más antes de ofrecer «No logro llegar». */
-const AYUDA_EXPLORAR_S = 120;
+export type FinTarea = { toques: Toque[]; segundos: number; salto: boolean; llegada: number | null };
+/** Cómo terminó la tarea, tal cual se guarda en la columna «Resultado de la tarea». */
+export const resultadoTarea = (f: { salto: boolean }) => (f.salto ? 'La saltó' : 'Terminó');
 
 /**
- * Tarea sobre el prototipo vivo (D2, D3, V2): la consigna arriba, el prototipo debajo. Registra cada toque y gesto.
- * `esFin(toque)` decide si ese toque termina la tarea (p. ej. el primer gesto de deslizar); `conListo` muestra un botón «Listo»
- * en vez de terminar sola (V2). `oculta` mantiene el iframe montado pero invisible (entre D2 y D3 la carta sigue donde quedó).
- * `meta` = página del prototipo a la que hay que llegar navegando (D4): «Listo» se habilita al llegar y `llegada` guarda cuándo.
+ * Tarea sobre el prototipo vivo (D2, D3, D4, V2): la consigna arriba, el prototipo debajo. Registra cada toque y gesto.
+ * Ningún toque termina la tarea: la persona puede equivocarse, corregir y seguir explorando, y termina cuando ELLA cree que acabó
+ * («Terminé») o la salta si se le hace muy difícil (con confirmación). Al terminar ve un aviso claro antes de las preguntas.
+ * Qué cuenta como acierto lo decide cada módulo con los toques (p. ej. el PRIMER gesto decisivo en D2/D3, como pide el protocolo).
+ * `oculta` mantiene el iframe montado pero invisible (entre D2 y D3 la carta sigue donde quedó).
+ * `meta` = página del prototipo a la que hay que llegar navegando (D4): `llegada` guarda cuándo llegó (null si nunca).
  */
-export function TareaProto({ modulo, tarea, pantalla, consigna, nota, oculta, esFin, conListo, meta, onFin, onFrame }: {
-  modulo: string; tarea: string; pantalla: PantallaProto; consigna: string; nota?: string; oculta?: boolean;
-  esFin?: (t: Toque) => boolean; conListo?: boolean; meta?: string;
-  onFin: (r: { toques: Toque[]; final: Toque | null; segundos: number; rindio: boolean; llegada: number | null }) => void; onFrame?: (f: HTMLIFrameElement | null) => void;
+export function TareaProto({ modulo, tarea, pantalla, consigna, nota = TT.nota, oculta, meta, onFin, onFrame }: {
+  modulo: string; tarea: string; pantalla: PantallaProto; consigna: string; nota?: string; oculta?: boolean; meta?: string;
+  onFin: (r: FinTarea) => void; onFrame?: (f: HTMLIFrameElement | null) => void;
 }) {
-  const escala = useEscala(META.ancho, META.alto, conListo ? 310 : 220);
+  const escala = useEscala(META.ancho, META.alto, 310);
   const [frame, setFrame] = useState<HTMLIFrameElement | null>(null);
   const [listo, setListo] = useState(false);
-  const [ayuda, setAyuda] = useState(false);
+  const [confirmar, setConfirmar] = useState(false);
+  const [fin, setFin] = useState<FinTarea | null>(null);
   const t0 = useRef(0);
   const toques = useRef<Toque[]>([]);
-  const terminado = useRef(false);
   const llegada = useRef<number | null>(null);
-  const [llego, setLlego] = useState(false);
-  const activo = listo && !oculta;
+  const activo = listo && !oculta && !fin;
   const segundos = () => Math.round((performance.now() - t0.current) / 100) / 10;
 
-  // cada vez que la tarea se activa, empieza su reloj y su lista de toques
+  // cada vez que la tarea empieza (D2 y luego D3 en el mismo prototipo), arranca su reloj y su lista de toques
   useEffect(() => {
-    if (!activo) return;
-    t0.current = performance.now(); toques.current = []; terminado.current = false; llegada.current = null; setAyuda(false); setLlego(false);
+    if (!listo || oculta) return;
+    t0.current = performance.now(); toques.current = []; llegada.current = null; setConfirmar(false); setFin(null);
     setCtx({ estimulo: tarea, pantalla: pantalla.pagina });
     emit('task.start', { estimulo: tarea });
-    const id = setTimeout(() => setAyuda(true), (meta ? AYUDA_EXPLORAR_S : AYUDA_S) * 1000);
-    return () => clearTimeout(id);
-  }, [activo, tarea, pantalla.pagina, meta]);
+  }, [listo, oculta, tarea, pantalla.pagina]);
 
   // llegar a la página meta: los enlaces del prototipo cargan otro documento dentro del mismo iframe
   useEffect(() => {
@@ -59,38 +56,57 @@ export function TareaProto({ modulo, tarea, pantalla, consigna, nota, oculta, es
       try { ruta = frame.contentWindow?.location.pathname ?? ''; } catch { return; }
       if (!activo || llegada.current != null || !ruta.endsWith(meta)) return;
       llegada.current = segundos();
-      setLlego(true);
       emit('screen.view', { estimulo: tarea, valor: meta, tTarea: llegada.current });
     };
     frame.addEventListener('load', revisar);
     return () => frame.removeEventListener('load', revisar);
   }, [frame, meta, activo, tarea]);
 
-  const terminar = (final: Toque | null, rindio = false) => {
-    if (terminado.current) return;
-    terminado.current = true;
-    const s = segundos();
-    emit('task.end', { estimulo: tarea, valor: rindio ? 'no sabe' : final ? `${final.tipo}:${final.dir ?? final.control}` : 'listo', tTarea: s });
-    // un instante para que se vea la respuesta del prototipo (la carta sale volando) antes de pasar a las preguntas
-    setTimeout(() => onFin({ toques: toques.current, final, segundos: s, rindio, llegada: llegada.current }), final ? 700 : 0);
+  const terminar = (salto: boolean) => {
+    if (fin) return;
+    const r = { toques: toques.current, segundos: segundos(), salto, llegada: llegada.current };
+    emit('task.end', { estimulo: tarea, valor: salto ? 'saltó' : 'terminó', tTarea: r.segundos });
+    setFin(r);
   };
 
   useCapturaProto(frame, {
     activo, inicio: t0, ancho: META.ancho, alto: META.alto,
     onToque: (t) => {
-      if (terminado.current) return;
       toques.current.push(t);
       emit(t.tipo === 'gesto' ? 'drag' : 'tap', { estimulo: tarea, x: t.x, y: t.y, nToque: t.n, tTarea: t.t, valor: t.dir ?? '', target: t.control });
-      if (esFin?.(t)) terminar(t);
     },
   });
 
   return (
     <div className="sh-stage" style={{ display: oculta ? 'none' : undefined }}>
-      <div className="sh-banner" role="status">{consigna}{nota ? <span style={{ display: 'block', fontWeight: 400, marginTop: 4 }}>{nota}</span> : null}</div>
-      <VistaProto pantalla={pantalla} escala={escala} interactiva onListo={() => setListo(true)} onFrame={(f) => { setFrame(f); onFrame?.(f); }} />
-      {conListo && <Next disabled={!listo || (!!meta && !llego)} onClick={() => terminar(null)} track={`${tarea}.listo`}>Listo</Next>}
-      {ayuda && (!conListo || (meta && !llego)) && <Next variant="ghost" onClick={() => terminar(null, true)} track={`${tarea}.no-se`}>{meta ? 'No logro llegar' : 'No sé qué hacer'}</Next>}
+      {fin ? (
+        <div className="sh-tarea-fin" role="status">
+          <span className="sh-tarea-icono" aria-hidden="true">{fin.salto ? '→' : '✓'}</span>
+          <Title>{fin.salto ? TT.saltada : TT.hecha}</Title>
+          <P>{TT.despues}</P>
+        </div>
+      ) : (
+        <div className="sh-banner" role="status">{consigna}{nota ? <span style={{ display: 'block', fontWeight: 400, marginTop: 4 }}>{nota}</span> : null}</div>
+      )}
+      {/* el prototipo sigue montado tras terminar (D3 continúa donde quedó D2), pero ya no se ve */}
+      <div style={{ display: fin ? 'none' : undefined }}>
+        <VistaProto pantalla={pantalla} escala={escala} interactiva onListo={() => setListo(true)} onFrame={(f) => { setFrame(f); onFrame?.(f); }} />
+      </div>
+      {fin ? <Next onClick={() => onFin(fin)} track={`${tarea}.continuar`}>Continuar</Next>
+        : confirmar ? (
+          <>
+            <p className="sh-q" style={{ fontSize: 16 }}>{TT.confirmarSaltar}</p>
+            <div className="sh-row" style={{ width: '100%' }}>
+              <div style={{ flex: 1 }}><Next variant="secondary" onClick={() => setConfirmar(false)} track={`${tarea}.seguir`}>{TT.seguir}</Next></div>
+              <div style={{ flex: 1 }}><Next onClick={() => terminar(true)} track={`${tarea}.saltar-si`}>{TT.siSaltar}</Next></div>
+            </div>
+          </>
+        ) : (
+          <>
+            <Next disabled={!listo} onClick={() => terminar(false)} track={`${tarea}.termine`}>{TT.terminar}</Next>
+            <Next variant="ghost" disabled={!listo} onClick={() => setConfirmar(true)} track={`${tarea}.saltar`}>{TT.saltar}</Next>
+          </>
+        )}
     </div>
   );
 }

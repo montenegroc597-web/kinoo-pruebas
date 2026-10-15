@@ -9,6 +9,13 @@ import { Estudio } from './Estudio';
 
 const VISTAS = ['Resumen', 'Participantes', 'M1 · Descubrir', 'M2 · Ver', 'M3 · Moods', 'M4 · Mazos', 'M5 · Percepción', 'Card A vs B', 'Codificación', 'Estudio', 'Textos', 'Salud', 'Exportar'] as const;
 type Vista = (typeof VISTAS)[number];
+/** El menú agrupado por para qué sirve cada vista. */
+const GRUPOS: { titulo: string; vistas: Vista[] }[] = [
+  { titulo: 'Resultados', vistas: ['Resumen', 'M1 · Descubrir', 'M2 · Ver', 'M3 · Moods', 'M4 · Mazos', 'M5 · Percepción', 'Card A vs B'] },
+  { titulo: 'Personas y respuestas', vistas: ['Participantes', 'Codificación'] },
+  { titulo: 'Preparar la prueba', vistas: ['Estudio', 'Textos'] },
+  { titulo: 'Sistema', vistas: ['Salud', 'Exportar'] },
+];
 const REFRESCO_MS = 15_000;
 
 export function App() {
@@ -60,7 +67,12 @@ export function App() {
     <div className="pn">
       <nav className="pn-nav" aria-label="Vistas">
         <h1>Kinoo · Panel</h1>
-        {VISTAS.map((v) => <button key={v} aria-current={vista === v ? 'page' : undefined} onClick={() => setVista(v)}>{v}</button>)}
+        {GRUPOS.map((g) => (
+          <React.Fragment key={g.titulo}>
+            <div className="pn-nav-grupo">{g.titulo}</div>
+            {g.vistas.map((v) => <button key={v} aria-current={vista === v ? 'page' : undefined} onClick={() => setVista(v)}>{v}</button>)}
+          </React.Fragment>
+        ))}
         <div style={{ flex: 1 }} />
         <button onClick={() => { guardarConexion(null); setCon(null); setD(null); }}>Salir</button>
       </nav>
@@ -74,7 +86,7 @@ export function App() {
         {vista === 'Textos' ? <Textos conexion={con} participantes={nPersonas} />
           : vista === 'Estudio' ? <Estudio conexion={con} participantes={nPersonas} onPublicado={() => setVersionEstudio((n) => n + 1)} />
           : !d ? <div className="pn-card">Cargando datos…</div>
-          : vista === 'Resumen' ? <Resumen d={d} piloto={piloto} />
+          : vista === 'Resumen' ? <Resumen d={d} piloto={piloto} onIr={(v) => { if ((VISTAS as readonly string[]).includes(v)) setVista(v as Vista); }} />
           : vista === 'Participantes' ? <Participantes d={d} piloto={piloto} conexion={con} onCambio={() => void cargar()} />
           : vista === 'M1 · Descubrir' ? <Descubrir d={d} piloto={piloto} />
           : vista === 'M2 · Ver' ? <Ver d={d} piloto={piloto} />

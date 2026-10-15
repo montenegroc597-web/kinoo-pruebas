@@ -7,3 +7,6 @@ dist
 test-results
 playwright-report
 .clasp.json
+
+# originales pesados del equipo (la app usa copias reducidas en packages/kinoo-ui/public/kinoo-flujo/_blob/)
+Recursos/

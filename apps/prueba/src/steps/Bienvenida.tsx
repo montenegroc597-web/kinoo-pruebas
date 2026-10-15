@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { LINK_TEXTOS } from '@kinoo/tracking';
-import { Kicker, Next, P, Page, Title } from '../ui/kit';
+import { Kicker, Next, P, Page, Texto, Title } from '../ui/kit';
 import { client, emit, nuevoId, resetReloj, setCtx } from '../track';
 import { linkDeUrl, nuevaSesion, useSession } from '../session';
 import { configActual } from '../config';
@@ -14,9 +14,11 @@ const RONDA = (() => {
 /** iOS / Android / Otro (el protocolo pide repartir entre los dos sistemas). */
 export const sistema = (): string => (/iphone|ipad|ipod/i.test(navigator.userAgent) ? 'iOS' : /android/i.test(navigator.userAgent) ? 'Android' : 'Otro');
 
-/** Bienvenida y consentimiento (Anexo A). Al continuar se registra a la persona: código P01, P02… y card A o B. Anónimo. */
+/** Bienvenida y consentimiento (Anexo A). La persona escribe su nombre y al continuar se registra: código P01, P02… y card A o B. */
 export function Bienvenida({ onListo }: { onListo: () => void }) {
   const [enviando, setEnviando] = useState(false);
+  const [nombre, setNombre] = useState('');
+  const valido = nombre.trim().length >= 2;
   const set = useSession((x) => x.set);
   const empezar = async () => {
     setEnviando(true);
@@ -26,9 +28,9 @@ export function Bienvenida({ onListo }: { onListo: () => void }) {
     const link = linkDeUrl();
     const a = await client.registrar({
       ronda: RONDA, flujo: link.flujo, variante: link.variante, dispositivo: sistema(), agente: navigator.userAgent.slice(0, 300),
-      versionTextos: textos.version, versionEstudio: estudio.version,
+      versionTextos: textos.version, versionEstudio: estudio.version, nombre: nombre.trim().slice(0, 80),
     }, nuevoId());
-    set(nuevaSesion(a, RONDA, textos, estudio));
+    set({ ...nuevaSesion(a, RONDA, textos, estudio), nombre: nombre.trim().slice(0, 80) });
     emit('session.start', { extra: { provisional: !!a.provisional, ronda: RONDA, flujo: a.flujo } });
     emit('consent', { valor: 'acepta' });
     onListo();
@@ -38,8 +40,10 @@ export function Bienvenida({ onListo }: { onListo: () => void }) {
       <Kicker>hola</Kicker>
       <Title>Antes de empezar</Title>
       <P>{LINK_TEXTOS.bienvenida}</P>
+      <p className="sh-q" style={{ fontSize: 17 }}>{LINK_TEXTOS.nombre}</p>
+      <Texto value={nombre} onChange={setNombre} placeholder="Tu nombre" track="bienvenida.nombre" />
       <div className="sh-grow" />
-      <Next disabled={enviando} onClick={empezar} track="bienvenida.empezar">{enviando ? 'Un momento…' : 'Empezar'}</Next>
+      <Next disabled={enviando || !valido} onClick={empezar} track="bienvenida.empezar">{enviando ? 'Un momento…' : 'Empezar'}</Next>
     </Page>
   );
 }

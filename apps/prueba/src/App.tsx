@@ -49,7 +49,7 @@ export function App() {
     const id = setInterval(async () => {
       const cur = useSession.getState().s;
       if (!cur?.provisional) return;
-      const a = await client.registrar({ ronda: cur.ronda, flujo: cur.flujo, variante: cur.variante, versionTextos: cur.textos?.version, versionEstudio: cur.estudio?.version }, cur.sesionId);
+      const a = await client.registrar({ ronda: cur.ronda, flujo: cur.flujo, variante: cur.variante, versionTextos: cur.textos?.version, versionEstudio: cur.estudio?.version, nombre: cur.nombre }, cur.sesionId);
       if (!(a as { provisional?: boolean }).provisional) {
         client.reetiquetarCola(cur.codigo, a);
         await client.reasignar(cur.codigo, a);

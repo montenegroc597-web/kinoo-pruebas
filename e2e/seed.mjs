@@ -30,7 +30,7 @@ export async function sembrar(post) {
     'D3 · Gesto «no me interesa» (1 · 0,5 · 0)': 1, 'D3 · Tiempo hasta el gesto (s)': 3, 'D3 · Toques fuera de lugar (n)': 0, 'D3a · SEQ 1–7': 6,
     'D2b · Consecuencia esperada (1/0,5/0)': 1, 'D3b · Consecuencia esperada (1/0,5/0)': 1, 'D4a · Interpretación del match (1/0,5/0)': i <= 7 ? 1 : 0,
     'D4b · Sorpresa 1–7': 5, 'D4c · Tipo de sorpresa': A(i) ? 'Agradable' : 'Indiferente', 'D4d · Ganas de ver lo sugerido 1–7': 5,
-    'D4 · Llegó al resumen (1/0)': i === 10 ? 0 : 1, 'D4 · Tiempo hasta el resumen (s)': i === 10 ? '' : 60 + i, 'D4e · SEQ 1–7': 6,
+    'D4 · Llegó al resumen (1/0)': i === 10 ? 0 : 1, 'D4 · Tiempo hasta el resumen (s)': i === 10 ? '' : 60 + i, 'D4e · SEQ 1–7': 6, 'D4 · Resultado de la tarea': i === 10 ? 'La saltó' : 'Terminó',
     'D2 · Gesto hecho': A(i) || i <= 4 ? 'drag:derecha' : 'drag:izquierda', 'D3 · Gesto hecho': 'drag:izquierda', 'D1b · Respuesta': 'para descubrir películas',
   })));
   // M2 · Ver: entiende el filtro sin explicación 2/10 (V1c) pero utilidad 5 → «el concepto sirve» · V2 correcto 8/10 · confianza 6

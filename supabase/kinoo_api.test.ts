@@ -49,13 +49,13 @@ describe('registro anónimo y card A/B (§0.2)', () => {
     expect(new Set(r.map((x) => x.data.codigo)).size).toBe(20);
     expect(r.filter((x) => x.data.variante === 'A').length).toBe(10);
   });
-  it('es idempotente por sesión, guarda versión de textos y de estudio, y no pide nombre', async () => {
-    const a = (await reg('s1', { versionTextos: 'r1', versionEstudio: 'e1', dispositivo: 'iOS' })).data;
+  it('es idempotente por sesión, guarda versión de textos y de estudio, y el nombre que escribió', async () => {
+    const a = (await reg('s1', { versionTextos: 'r1', versionEstudio: 'e1', dispositivo: 'iOS', nombre: '  Ana Prueba ' })).data;
     expect((await reg('s1')).data.codigo).toBe(a.codigo);
     expect(await n('Participantes')).toBe(1);
     const [p] = await b.filas('Participantes');
     expect(p).toMatchObject({ 'Versión de textos': 'r1', 'Versión del estudio': 'e1', Dispositivo: 'iOS', 'Completó (Sí/No)': 'No' });
-    expect(Object.keys(p).some((k) => /nombre/i.test(k))).toBe(false);
+    expect(p['Nombre ingresado']).toBe('Ana Prueba');
   });
   it('perfil (I1–I4) y control de atención; no deja tocar columnas ajenas', async () => {
     await reg('s1');
