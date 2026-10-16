@@ -177,3 +177,14 @@ P15,A,Descubrir,D3,Flujo1_Descubrir.dc.html,1,gesto,arriba,12.9,34.5,177.3,decis
 P15,A,Mazos,Z3,Flujo4_Eleccion.dc.html,1,toque,,12.5,56.1,1.4,Fuera de la zona,ac93898d-83bd-49ad-a1e7-b020c66f9982,ac93898d-83bd-49ad-a1e7-b020c66f9982|Puntos|Z3-1
 P16,B,Descubrir,D3,Flujo1_Descubrir.dc.html,1,toque,,79.3,63.2,3.9,fuera de lugar,1700e400-e759-42a7-9556-25b97a1b0f8a,1700e400-e759-42a7-9556-25b97a1b0f8a|Puntos|D3-1
 P16,B,Descubrir,D3,Flujo1_Descubrir.dc.html,2,toque,,78,63.7,4.1,fuera de lugar,1700e400-e759-42a7-9556-25b97a1b0f8a,1700e400-e759-42a7-9556-25b97a1b0f8a|Puntos|D3-2
+P17,A,Descubrir,D2,Flujo1_Descubrir.dc.html,1,gesto,abajo,68.9,60.4,9.6,decisivo,579d4ced-7d15-4bf4-b543-c27fd8f5fd93,579d4ced-7d15-4bf4-b543-c27fd8f5fd93|Puntos|D2-1
+P17,A,Descubrir,D2,Flujo1_Descubrir.dc.html,2,gesto,derecha,42.7,62.7,20,decisivo (otro intento),579d4ced-7d15-4bf4-b543-c27fd8f5fd93,579d4ced-7d15-4bf4-b543-c27fd8f5fd93|Puntos|D2-2
+P17,A,Descubrir,D2,Flujo1_Descubrir.dc.html,3,gesto,derecha,43.9,63.2,22.7,decisivo (otro intento),579d4ced-7d15-4bf4-b543-c27fd8f5fd93,579d4ced-7d15-4bf4-b543-c27fd8f5fd93|Puntos|D2-3
+P17,A,Descubrir,D2,Flujo1_Descubrir.dc.html,4,gesto,izquierda,75.4,66,25,decisivo (otro intento),579d4ced-7d15-4bf4-b543-c27fd8f5fd93,579d4ced-7d15-4bf4-b543-c27fd8f5fd93|Puntos|D2-4
+P17,A,Descubrir,D2,Flujo1_Descubrir.dc.html,5,gesto,derecha,45,64.9,26.7,decisivo (otro intento),579d4ced-7d15-4bf4-b543-c27fd8f5fd93,579d4ced-7d15-4bf4-b543-c27fd8f5fd93|Puntos|D2-5
+P17,A,Descubrir,D3,Flujo1_Descubrir.dc.html,1,gesto,izquierda,76.6,68.5,4.9,decisivo,579d4ced-7d15-4bf4-b543-c27fd8f5fd93,579d4ced-7d15-4bf4-b543-c27fd8f5fd93|Puntos|D3-1
+P17,A,Ver,V2,FlujoV1_Feed.dc.html,1,gesto,arriba,41.4,20.8,9.5,barra de mood,579d4ced-7d15-4bf4-b543-c27fd8f5fd93,579d4ced-7d15-4bf4-b543-c27fd8f5fd93|Puntos|V2-1
+P17,A,Ver,V2,FlujoV1_Feed.dc.html,2,gesto,arriba,17.9,20.4,11.2,barra de mood,579d4ced-7d15-4bf4-b543-c27fd8f5fd93,579d4ced-7d15-4bf4-b543-c27fd8f5fd93|Puntos|V2-2
+P17,A,Ver,V2,FlujoV1_Feed.dc.html,3,toque,,32.3,18.6,12.8,barra de mood,579d4ced-7d15-4bf4-b543-c27fd8f5fd93,579d4ced-7d15-4bf4-b543-c27fd8f5fd93|Puntos|V2-3
+P17,A,Ver,V2,FlujoV1_Feed.dc.html,4,toque,,30.9,20.8,13.4,barra de mood,579d4ced-7d15-4bf4-b543-c27fd8f5fd93,579d4ced-7d15-4bf4-b543-c27fd8f5fd93|Puntos|V2-4
+P17,A,Mazos,Z3,Flujo4_Eleccion.dc.html,1,toque,,81.8,29.4,3.2,Fuera de la zona,579d4ced-7d15-4bf4-b543-c27fd8f5fd93,579d4ced-7d15-4bf4-b543-c27fd8f5fd93|Puntos|Z3-1
