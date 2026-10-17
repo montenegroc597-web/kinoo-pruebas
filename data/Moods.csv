@@ -89,3 +89,35 @@ P17,A,,Apagar el cerebro,Aftersun,0,Sentir algo,6.1,,,,,,5,579d4ced-7d15-4bf4-b5
 P17,A,,Sentir algo,Mad Max: Furia,0,Apagar el cerebro,2.9,,,,,,6,579d4ced-7d15-4bf4-b543-c27fd8f5fd93,579d4ced-7d15-4bf4-b543-c27fd8f5fd93|Moods|Sentir algo
 P17,A,,Sufrir bonito,Vidas pasadas,1,,3.3,,,,,,7,579d4ced-7d15-4bf4-b543-c27fd8f5fd93,579d4ced-7d15-4bf4-b543-c27fd8f5fd93|Moods|Sufrir bonito
 P17,A,,Solo reírme,Todo en todas partes,0,Algo raro,3.7,,7,,,comedia,8,579d4ced-7d15-4bf4-b543-c27fd8f5fd93,579d4ced-7d15-4bf4-b543-c27fd8f5fd93|Moods|Solo reírme
+P18,B,,Sentir algo,Ninguna / no sé,0,Ninguna / no sé,13,,,,,,1,c98c787f-355c-4458-b4c9-213776c62fdf,c98c787f-355c-4458-b4c9-213776c62fdf|Moods|Sentir algo
+P18,B,,Escapar un rato,Coco,1,,9.1,,,,,,2,c98c787f-355c-4458-b4c9-213776c62fdf,c98c787f-355c-4458-b4c9-213776c62fdf|Moods|Escapar un rato
+P18,B,,Cine del bueno,Oppenheimer,0,Otra película,16.4,,,,,,3,c98c787f-355c-4458-b4c9-213776c62fdf,c98c787f-355c-4458-b4c9-213776c62fdf|Moods|Cine del bueno
+P18,B,,Apagar el cerebro,Mad Max: Furia,1,,7.7,,2,,,"Que no tengo que pensar, básicas… entretenidas pero sin consistencia. ",4,c98c787f-355c-4458-b4c9-213776c62fdf,c98c787f-355c-4458-b4c9-213776c62fdf|Moods|Apagar el cerebro
+P18,B,,Algo raro,Eterno resplandor,0,Otra película,11.3,,3,,,Fuera de lo común ,5,c98c787f-355c-4458-b4c9-213776c62fdf,c98c787f-355c-4458-b4c9-213776c62fdf|Moods|Algo raro
+P18,B,,Salir pensando,La llegada,1,,6.6,,,,,,6,c98c787f-355c-4458-b4c9-213776c62fdf,c98c787f-355c-4458-b4c9-213776c62fdf|Moods|Salir pensando
+P18,B,,Sufrir bonito,Ninguna / no sé,0,Ninguna / no sé,8.5,,4,,,Románticas con drama. Como esas que tienen historia triste pero terminan bien. ,7,c98c787f-355c-4458-b4c9-213776c62fdf,c98c787f-355c-4458-b4c9-213776c62fdf|Moods|Sufrir bonito
+P18,B,,Solo reírme,Ninguna / no sé,0,Ninguna / no sé,16.3,,,,,,8,c98c787f-355c-4458-b4c9-213776c62fdf,c98c787f-355c-4458-b4c9-213776c62fdf|Moods|Solo reírme
+P20,B,,Solo reírme,Ninguna / no sé,0,Ninguna / no sé,10.1,,5,,,Películas de comedia ,1,36ad53ba-d773-4ba4-bad1-d9a4128aeb79,36ad53ba-d773-4ba4-bad1-d9a4128aeb79|Moods|Solo reírme
+P20,B,,Salir pensando,Ninguna / no sé,0,Ninguna / no sé,17.1,,,,,,2,36ad53ba-d773-4ba4-bad1-d9a4128aeb79,36ad53ba-d773-4ba4-bad1-d9a4128aeb79|Moods|Salir pensando
+P20,B,,Apagar el cerebro,Ninguna / no sé,0,Ninguna / no sé,8.8,,,,,,3,36ad53ba-d773-4ba4-bad1-d9a4128aeb79,36ad53ba-d773-4ba4-bad1-d9a4128aeb79|Moods|Apagar el cerebro
+P20,B,,Escapar un rato,La La Land,0,Otra película,4.4,,6,,,Algo que me tenga viendo fijo la pantalla ,4,36ad53ba-d773-4ba4-bad1-d9a4128aeb79,36ad53ba-d773-4ba4-bad1-d9a4128aeb79|Moods|Escapar un rato
+P20,B,,Sentir algo,Ninguna / no sé,0,Ninguna / no sé,5.6,,5,,,Alguna emoción así sea terror o romance ,5,36ad53ba-d773-4ba4-bad1-d9a4128aeb79,36ad53ba-d773-4ba4-bad1-d9a4128aeb79|Moods|Sentir algo
+P19,A,,Salir pensando,Entre navajas,0,Solo reírme,7.7,,,,,,1,f97c6dd6-cbe2-40fa-9dc0-7d1bce47cc34,f97c6dd6-cbe2-40fa-9dc0-7d1bce47cc34|Moods|Salir pensando
+P20,B,,Algo raro,Eterno resplandor,0,Otra película,9.8,,,,,,6,36ad53ba-d773-4ba4-bad1-d9a4128aeb79,36ad53ba-d773-4ba4-bad1-d9a4128aeb79|Moods|Algo raro
+P20,B,,Sufrir bonito,Vidas pasadas,1,,4.5,,,,,,7,36ad53ba-d773-4ba4-bad1-d9a4128aeb79,36ad53ba-d773-4ba4-bad1-d9a4128aeb79|Moods|Sufrir bonito
+P20,B,,Cine del bueno,Parásitos,1,,5.8,,,,,,8,36ad53ba-d773-4ba4-bad1-d9a4128aeb79,36ad53ba-d773-4ba4-bad1-d9a4128aeb79|Moods|Cine del bueno
+P19,A,,Cine del bueno,La La Land,0,Otra película,16.9,,7,,,"Cine clásico, con todos elementos que me puedan gustar",2,f97c6dd6-cbe2-40fa-9dc0-7d1bce47cc34,f97c6dd6-cbe2-40fa-9dc0-7d1bce47cc34|Moods|Cine del bueno
+P19,A,,Escapar un rato,Oppenheimer,0,Otra película,6.1,,,,,,3,f97c6dd6-cbe2-40fa-9dc0-7d1bce47cc34,f97c6dd6-cbe2-40fa-9dc0-7d1bce47cc34|Moods|Escapar un rato
+P19,A,,Apagar el cerebro,Aftersun,0,Sentir algo,9,,,,,,4,f97c6dd6-cbe2-40fa-9dc0-7d1bce47cc34,f97c6dd6-cbe2-40fa-9dc0-7d1bce47cc34|Moods|Apagar el cerebro
+P19,A,,Solo reírme,Entre navajas,1,,15.8,,,,,,5,f97c6dd6-cbe2-40fa-9dc0-7d1bce47cc34,f97c6dd6-cbe2-40fa-9dc0-7d1bce47cc34|Moods|Solo reírme
+P19,A,,Sentir algo,Aftersun,1,,6,,,,,,6,f97c6dd6-cbe2-40fa-9dc0-7d1bce47cc34,f97c6dd6-cbe2-40fa-9dc0-7d1bce47cc34|Moods|Sentir algo
+P19,A,,Sufrir bonito,Eterno resplandor,0,Otra película,6.3,,7,,,Una película atrapante pero que me genere melancolía ,7,f97c6dd6-cbe2-40fa-9dc0-7d1bce47cc34,f97c6dd6-cbe2-40fa-9dc0-7d1bce47cc34|Moods|Sufrir bonito
+P19,A,,Algo raro,Todo en todas partes,1,,10.4,,7,,,Algo fuera de lo común o que corresponde a algo fuera de los estereotipos ,8,f97c6dd6-cbe2-40fa-9dc0-7d1bce47cc34,f97c6dd6-cbe2-40fa-9dc0-7d1bce47cc34|Moods|Algo raro
+P21,A,,Salir pensando,La llegada,1,,59.2,,7,,,Encontrar películas que me hagan reflexionar o cuestionar cosas de la vida,1,4d5cc070-b277-46e9-a96f-847b2e287b93,4d5cc070-b277-46e9-a96f-847b2e287b93|Moods|Salir pensando
+P21,A,,Escapar un rato,Coco,1,,66.6,,7,,,"Poder ver películas, entretenidas que permitan olvidar mi rutina diaria",2,4d5cc070-b277-46e9-a96f-847b2e287b93,4d5cc070-b277-46e9-a96f-847b2e287b93|Moods|Escapar un rato
+P21,A,,Apagar el cerebro,Mad Max: Furia,1,,33.4,,,,,,3,4d5cc070-b277-46e9-a96f-847b2e287b93,4d5cc070-b277-46e9-a96f-847b2e287b93|Moods|Apagar el cerebro
+P21,A,,Sufrir bonito,Eterno resplandor,0,Otra película,33,,,,,,4,4d5cc070-b277-46e9-a96f-847b2e287b93,4d5cc070-b277-46e9-a96f-847b2e287b93|Moods|Sufrir bonito
+P21,A,,Sentir algo,Aftersun,1,,20.2,,,,,,5,4d5cc070-b277-46e9-a96f-847b2e287b93,4d5cc070-b277-46e9-a96f-847b2e287b93|Moods|Sentir algo
+P21,A,,Cine del bueno,Oppenheimer,0,Otra película,15.2,,7,,,"Poder ver películas de gran calidad, y actuaciones buenas",6,4d5cc070-b277-46e9-a96f-847b2e287b93,4d5cc070-b277-46e9-a96f-847b2e287b93|Moods|Cine del bueno
+P21,A,,Solo reírme,Todo en todas partes,0,Algo raro,57,,,,,,7,4d5cc070-b277-46e9-a96f-847b2e287b93,4d5cc070-b277-46e9-a96f-847b2e287b93|Moods|Solo reírme
+P21,A,,Algo raro,Ninguna / no sé,0,Ninguna / no sé,33.1,,,,,,8,4d5cc070-b277-46e9-a96f-847b2e287b93,4d5cc070-b277-46e9-a96f-847b2e287b93|Moods|Algo raro

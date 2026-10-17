@@ -59,3 +59,27 @@ P17,A,,Her,Ninguna,0,no la he visto,,,Algo raro,579d4ced-7d15-4bf4-b543-c27fd8f5
 P17,A,,¿Qué pasó ayer?,Apagar el cerebro,0,Diversion,,,Solo reírme,579d4ced-7d15-4bf4-b543-c27fd8f5fd93,579d4ced-7d15-4bf4-b543-c27fd8f5fd93|Películas|¿Qué pasó ayer?
 P17,A,,Matrix,Cine del bueno,0,Algo raro,,,Salir pensando,579d4ced-7d15-4bf4-b543-c27fd8f5fd93,579d4ced-7d15-4bf4-b543-c27fd8f5fd93|Películas|Matrix
 P17,A,,Titanic,Sentir algo,0,Sentir algo,,,Sufrir bonito,579d4ced-7d15-4bf4-b543-c27fd8f5fd93,579d4ced-7d15-4bf4-b543-c27fd8f5fd93|Películas|Titanic
+P18,B,,Rocky,Ninguna,0,Inspírate para hacerlo,,,Sentir algo,c98c787f-355c-4458-b4c9-213776c62fdf,c98c787f-355c-4458-b4c9-213776c62fdf|Películas|Rocky
+P18,B,,Her,Algo raro,1,No me la he visto,,,Algo raro,c98c787f-355c-4458-b4c9-213776c62fdf,c98c787f-355c-4458-b4c9-213776c62fdf|Películas|Her
+P18,B,,Terminator,Ninguna,0,Bala y muerte,,,Apagar el cerebro,c98c787f-355c-4458-b4c9-213776c62fdf,c98c787f-355c-4458-b4c9-213776c62fdf|Películas|Terminator
+P18,B,,Matrix,Cine del bueno,0,Vieja pero necesaria,,,Salir pensando,c98c787f-355c-4458-b4c9-213776c62fdf,c98c787f-355c-4458-b4c9-213776c62fdf|Películas|Matrix
+P18,B,,¿Qué pasó ayer?,Apagar el cerebro,0,Desparche,,,Solo reírme,c98c787f-355c-4458-b4c9-213776c62fdf,c98c787f-355c-4458-b4c9-213776c62fdf|Películas|¿Qué pasó ayer?
+P18,B,,Titanic,Apagar el cerebro,0,Desparche,,,Sufrir bonito,c98c787f-355c-4458-b4c9-213776c62fdf,c98c787f-355c-4458-b4c9-213776c62fdf|Películas|Titanic
+P20,B,,Terminator,Algo raro,0,Acción pura,,,Apagar el cerebro,36ad53ba-d773-4ba4-bad1-d9a4128aeb79,36ad53ba-d773-4ba4-bad1-d9a4128aeb79|Películas|Terminator
+P19,A,,Matrix,Solo reírme,0,Fuera del sistema,,,Salir pensando,f97c6dd6-cbe2-40fa-9dc0-7d1bce47cc34,f97c6dd6-cbe2-40fa-9dc0-7d1bce47cc34|Películas|Matrix
+P20,B,,Matrix,Algo raro,0,Irreal,,,Salir pensando,36ad53ba-d773-4ba4-bad1-d9a4128aeb79,36ad53ba-d773-4ba4-bad1-d9a4128aeb79|Películas|Matrix
+P20,B,,Rocky,Cine del bueno,0,Motivación,,,Sentir algo,36ad53ba-d773-4ba4-bad1-d9a4128aeb79,36ad53ba-d773-4ba4-bad1-d9a4128aeb79|Películas|Rocky
+P20,B,,Titanic,Sufrir bonito,1,Romance,,,Sufrir bonito,36ad53ba-d773-4ba4-bad1-d9a4128aeb79,36ad53ba-d773-4ba4-bad1-d9a4128aeb79|Películas|Titanic
+P19,A,,¿Qué pasó ayer?,Escapar un rato,0,Comedía clásica,,,Solo reírme,f97c6dd6-cbe2-40fa-9dc0-7d1bce47cc34,f97c6dd6-cbe2-40fa-9dc0-7d1bce47cc34|Películas|¿Qué pasó ayer?
+P20,B,,Her,Algo raro,1,Ficción,,,Algo raro,36ad53ba-d773-4ba4-bad1-d9a4128aeb79,36ad53ba-d773-4ba4-bad1-d9a4128aeb79|Películas|Her
+P19,A,,Her,Algo raro,1,Distopia,,,Algo raro,f97c6dd6-cbe2-40fa-9dc0-7d1bce47cc34,f97c6dd6-cbe2-40fa-9dc0-7d1bce47cc34|Películas|Her
+P20,B,,¿Qué pasó ayer?,Solo reírme,1,Para reír,,,Solo reírme,36ad53ba-d773-4ba4-bad1-d9a4128aeb79,36ad53ba-d773-4ba4-bad1-d9a4128aeb79|Películas|¿Qué pasó ayer?
+P19,A,,Terminator,Apagar el cerebro,1,Cine del Bueno,,,Apagar el cerebro,f97c6dd6-cbe2-40fa-9dc0-7d1bce47cc34,f97c6dd6-cbe2-40fa-9dc0-7d1bce47cc34|Películas|Terminator
+P19,A,,Rocky,Cine del bueno,0,Clásicos,,,Sentir algo,f97c6dd6-cbe2-40fa-9dc0-7d1bce47cc34,f97c6dd6-cbe2-40fa-9dc0-7d1bce47cc34|Películas|Rocky
+P19,A,,Titanic,Sentir algo,0,Clásicos,,,Sufrir bonito,f97c6dd6-cbe2-40fa-9dc0-7d1bce47cc34,f97c6dd6-cbe2-40fa-9dc0-7d1bce47cc34|Películas|Titanic
+P21,A,,Matrix,Salir pensando,1,Realidad oculta,,,Salir pensando,4d5cc070-b277-46e9-a96f-847b2e287b93,4d5cc070-b277-46e9-a96f-847b2e287b93|Películas|Matrix
+P21,A,,Her,Sufrir bonito,0,Amor artificial,,,Algo raro,4d5cc070-b277-46e9-a96f-847b2e287b93,4d5cc070-b277-46e9-a96f-847b2e287b93|Películas|Her
+P21,A,,Rocky,Sentir algo,1,Fuerza interior,,,Sentir algo,4d5cc070-b277-46e9-a96f-847b2e287b93,4d5cc070-b277-46e9-a96f-847b2e287b93|Películas|Rocky
+P21,A,,Terminator,Apagar el cerebro,1,Futuro letal,,,Apagar el cerebro,4d5cc070-b277-46e9-a96f-847b2e287b93,4d5cc070-b277-46e9-a96f-847b2e287b93|Películas|Terminator
+P21,A,,Titanic,Cine del bueno,0,Amor eterno,,,Sufrir bonito,4d5cc070-b277-46e9-a96f-847b2e287b93,4d5cc070-b277-46e9-a96f-847b2e287b93|Películas|Titanic
+P21,A,,¿Qué pasó ayer?,Solo reírme,1,Noche loca,,,Solo reírme,4d5cc070-b277-46e9-a96f-847b2e287b93,4d5cc070-b277-46e9-a96f-847b2e287b93|Películas|¿Qué pasó ayer?
