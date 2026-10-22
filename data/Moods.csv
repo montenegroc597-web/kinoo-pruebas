@@ -121,3 +121,11 @@ P21,A,,Sentir algo,Aftersun,1,,20.2,,,,,,5,4d5cc070-b277-46e9-a96f-847b2e287b93,
 P21,A,,Cine del bueno,Oppenheimer,0,Otra película,15.2,,7,,,"Poder ver películas de gran calidad, y actuaciones buenas",6,4d5cc070-b277-46e9-a96f-847b2e287b93,4d5cc070-b277-46e9-a96f-847b2e287b93|Moods|Cine del bueno
 P21,A,,Solo reírme,Todo en todas partes,0,Algo raro,57,,,,,,7,4d5cc070-b277-46e9-a96f-847b2e287b93,4d5cc070-b277-46e9-a96f-847b2e287b93|Moods|Solo reírme
 P21,A,,Algo raro,Ninguna / no sé,0,Ninguna / no sé,33.1,,,,,,8,4d5cc070-b277-46e9-a96f-847b2e287b93,4d5cc070-b277-46e9-a96f-847b2e287b93|Moods|Algo raro
+P24,B,,Sufrir bonito,Ninguna / no sé,0,Ninguna / no sé,10.7,,7,,,Una película en la que lloras pero por nostalgia o cosas como lindas que el personaje ya no puede vivir algo como las películas de ,1,237c4a46-0a88-4924-bb65-ba27dbd7ac9f,237c4a46-0a88-4924-bb65-ba27dbd7ac9f|Moods|Sufrir bonito
+P24,B,,Sentir algo,Ninguna / no sé,0,Ninguna / no sé,6.8,,,,,,2,237c4a46-0a88-4924-bb65-ba27dbd7ac9f,237c4a46-0a88-4924-bb65-ba27dbd7ac9f|Moods|Sentir algo
+P24,B,,Solo reírme,Ninguna / no sé,0,Ninguna / no sé,10.2,,,,,,3,237c4a46-0a88-4924-bb65-ba27dbd7ac9f,237c4a46-0a88-4924-bb65-ba27dbd7ac9f|Moods|Solo reírme
+P24,B,,Algo raro,Todo en todas partes,1,,5.9,,5,,,Algo de monstruos o cosas inesperadas del más allá ,4,237c4a46-0a88-4924-bb65-ba27dbd7ac9f,237c4a46-0a88-4924-bb65-ba27dbd7ac9f|Moods|Algo raro
+P24,B,,Cine del bueno,Oppenheimer,0,Otra película,8.7,,,,,,5,237c4a46-0a88-4924-bb65-ba27dbd7ac9f,237c4a46-0a88-4924-bb65-ba27dbd7ac9f|Moods|Cine del bueno
+P24,B,,Apagar el cerebro,Mad Max: Furia,1,,4.2,,,,,,6,237c4a46-0a88-4924-bb65-ba27dbd7ac9f,237c4a46-0a88-4924-bb65-ba27dbd7ac9f|Moods|Apagar el cerebro
+P24,B,,Salir pensando,Oppenheimer,0,Otra película,3.9,,7,,,Una película que te deja reflexionando del cómo vives tu vida ,7,237c4a46-0a88-4924-bb65-ba27dbd7ac9f,237c4a46-0a88-4924-bb65-ba27dbd7ac9f|Moods|Salir pensando
+P24,B,,Escapar un rato,Coco,1,,9,,,,,,8,237c4a46-0a88-4924-bb65-ba27dbd7ac9f,237c4a46-0a88-4924-bb65-ba27dbd7ac9f|Moods|Escapar un rato
