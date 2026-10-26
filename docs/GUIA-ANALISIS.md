@@ -20,7 +20,7 @@ Cómo pasar de los datos al informe, siguiendo el **Protocolo de pruebas no mode
 
 **M2 · Ver.** Lectura combinada de V1c y V3b (§2): ≥ 50 % entiende el filtro sin explicación → la interfaz se explica sola; < 30 % pero utilidad ≥ 5 → el concepto sirve y falta una pista visual; < 30 % y utilidad < 4 → replantear el filtro. Confianza < 4,5 → mostrar mejor el «por qué te la propone».
 
-**M3 · Moods.** El azar en M3c es 25 %. Por mood (§3): acierto ≥ 70 % y película → mood ≥ 60 % → mantener; acierto < 70 % con una confusión dominante → diferenciar o fusionar; < 50 % sin confusión dominante → renombrar (mira los nombres propios ★); acierto alto pero película → mood bajo → cambiar la película o la definición. Un mood en rojo no invalida el módulo: se rediseña y se vuelve a probar solo ese mood.
+**Cuestionario de moods (M3, link aparte).** No entra en el Resumen ni en Card A vs B: se lee en su propia vista. El azar en M3c es 25 %. Por mood (§3): acierto ≥ 70 % y película → mood ≥ 60 % → mantener; acierto < 70 % con una confusión dominante → diferenciar o fusionar; < 50 % sin confusión dominante → renombrar (mira los nombres propios ★); acierto alto pero película → mood bajo → cambiar la película o la definición. Un mood en rojo no invalida el módulo: se rediseña y se vuelve a probar solo ese mood.
 
 **M4 · Mazos.** Ideas clave ≥ 60 % y frases ≥ 75 %. Una frase con muchos errores señala un malentendido concreto (p. ej. confundir mazo con lista guardada). Z1 bajo con Z2 alto = entienden cuando se les da la opción pero no lo deducen solos: falta una pista o un nombre más claro.
 

@@ -35,7 +35,7 @@ test('Panel v2.0: validez, módulos, card A vs B, moods, codificación a ciegas,
   await page.getByRole('button', { name: 'M2 · Ver' }).click();
   await expect(page.getByText(/El concepto sirve/)).toBeVisible();
 
-  await page.getByRole('button', { name: 'M3 · Moods' }).click();
+  await page.getByRole('button', { name: 'Cuestionario de moods' }).click();
   await expect(page.locator('tr', { hasText: 'Algo raro' }).first()).toContainText('Renombrar');
   await expect(page.getByText(/«drama de amor» ×4 ★/)).toBeVisible();
 

@@ -11,24 +11,29 @@ export const MODULOS: ModuloCat[] = [
   { id: 'intro', codigo: 'I', nombre: 'Unas preguntas sobre ti', aprox: '1 min' },
   { id: 'descubrir', codigo: 'M1', nombre: 'Descubrir', aprox: '5–7 min' },
   { id: 'ver', codigo: 'M2', nombre: 'Ver', aprox: '4–6 min' },
-  { id: 'moods', codigo: 'M3', nombre: 'Categorías', aprox: '3–4 min' },
+  { id: 'moods', codigo: 'M3', nombre: 'Cuestionario de categorías', aprox: '5–6 min' },
   { id: 'mazos', codigo: 'M4', nombre: 'Mazos', aprox: '2–3 min' },
   { id: 'percepcion', codigo: 'M5', nombre: 'Tu opinión', aprox: '2–3 min' },
 ];
 export const moduloCat = (id: Modulo): ModuloCat => MODULOS.find((m) => m.id === id)!;
 
-/** Orden fijo de cada link (§0): lo que no puede contaminarse va primero. */
+/**
+ * Orden fijo de cada link (§0). v3.0: la prueba de flujos y conceptos (Completo, Link 1) ya NO incluye los moods;
+ * esos van en el cuestionario de categorías (Link 2), que se envía aparte y tiene su propio análisis.
+ */
 export const FLUJOS: Record<Flujo, Modulo[]> = {
-  Completo: ['intro', 'descubrir', 'ver', 'moods', 'mazos', 'percepcion'],
+  Completo: ['intro', 'descubrir', 'ver', 'mazos', 'percepcion'],
   'Link 1': ['intro', 'descubrir', 'ver', 'percepcion'],
-  'Link 2': ['intro', 'moods', 'mazos'],
+  'Link 2': ['intro', 'moods'],
 };
-/** Dónde va la pregunta de control de atención: en la escala de F2; en el Link 2, al final de M4 (§0.3). */
-export const MODULO_CONTROL: Record<Flujo, Modulo> = { Completo: 'percepcion', 'Link 1': 'percepcion', 'Link 2': 'mazos' };
+/** Dónde va la pregunta de control de atención: en la escala de F2; en el cuestionario de moods (Link 2), al final de M3 (§0.3). */
+export const MODULO_CONTROL: Record<Flujo, Modulo> = { Completo: 'percepcion', 'Link 1': 'percepcion', 'Link 2': 'moods' };
+/** El Link 2 es el cuestionario de categorías (moods): se analiza aparte de la prueba de flujos. */
+export const esCuestionarioMoods = (f: string | undefined): boolean => f === 'Link 2';
 
 // ---------------------------------------------------------------- textos (Anexo A)
 export const LINK_TEXTOS = editable('link', { fase: 0, prueba: 'Bienvenida y cierre (Anexo A)' }, {
-  bienvenida: 'Hola, gracias por ayudarnos. Vamos a mostrarte unas pantallas de una app que estamos diseñando. No te estamos evaluando a ti: si algo no se entiende, es culpa del diseño, no tuya. Dura unos 20 minutos (15 si es el Link 1; 8 si es el Link 2). Hazlo desde tu celular, en un lugar tranquilo, sin buscar ayuda ni respuestas, y responde con lo primero que pienses. Te pedimos tu nombre solo para saber quién participó: no se publica y tus respuestas se usan solo para mejorar el diseño de la app. Al continuar aceptas participar.',
+  bienvenida: 'Hola, gracias por ayudarnos. Vamos a mostrarte unas pantallas de una app que estamos diseñando. No te estamos evaluando a ti: si algo no se entiende, es culpa del diseño, no tuya. Dura entre 15 y 20 minutos (unos 12 si es el Link 1; unos 8 si es el cuestionario de categorías). Hazlo desde tu celular, en vertical y en un lugar tranquilo, sin buscar ayuda ni respuestas, y responde con lo primero que pienses. Arriba verás cuánto llevas y, si una tarea se te hace muy difícil, siempre puedes saltarla. Te pedimos tu nombre solo para saber quién participó: no se publica y tus respuestas se usan solo para mejorar el diseño de la app. Al continuar aceptas participar.',
   final: 'Listo, terminaste. Gracias por tu tiempo. Tus respuestas nos ayudan a mejorar la app. Ya puedes cerrar esta ventana.',
   cincoSegundos: 'La pantalla se oculta sola en 5 segundos.',
   nombre: '¿Cómo te llamas?',
@@ -61,6 +66,9 @@ export const TAREA_TEXTOS = editable('tarea', { fase: 1, prueba: 'Tareas en el p
   hecha: 'Tarea terminada',
   saltada: 'Tarea saltada',
   despues: 'Ahora unas preguntas cortas sobre lo que acabas de hacer.',
+  pista: 'Prueba la pantalla de arriba con el dedo. Si ya terminaste, toca «Terminé».',
+  sinProbar: 'Todavía no has tocado la pantalla. Pruébala y luego toca «Terminé». Si de verdad no harías nada, toca de nuevo.',
+  terminarAsi: 'Terminé sin tocar nada',
 });
 
 // ---------------------------------------------------------------- M1 · Descubrir
@@ -81,7 +89,7 @@ export const DESCUBRIR_TEXTOS = editable('descubrir', M1, {
   D4nota: 'Tómate el tiempo que quieras. Cuando hayas visto lo que dice tu mazo, toca «Terminé».',
   D4a: 'En tus palabras, ¿qué te dijo el mazo sobre ti?',
   D4b: 'Del 1 al 7, ¿qué tan sorprendente te pareció lo que dice el mazo? 1 = nada sorprendente, 7 = muy sorprendente.',
-  D4c: 'Esa sorpresa te resulta…',
+  D4c: 'Lo que dice el mazo sobre ti te resulta…',
   D4d: 'Del 1 al 7, ¿qué tantas ganas te dan de ver las películas que elegiste en el mazo? 1 = ninguna, 7 = muchas.',
   D4e: 'Del 1 al 7, ¿qué tan difícil o fácil fue completar el mazo y llegar a lo que dice de ti? 1 = muy difícil, 7 = muy fácil.',
   D4f: '¿Hubo algo que te confundiera mientras completabas el mazo? Si no, déjalo en blanco.',
@@ -100,7 +108,7 @@ export const VER_TEXTOS = editable('ver', M2, {
   V2listo: 'Cuando lo hayas encontrado, toca «Terminé».',
   V2a: 'Del 1 al 7, ¿qué tan difícil o fácil fue saber qué hacer? 1 = muy difícil, 7 = muy fácil.',
   V3: 'Este es tu filtro de mood: al moverlo, Kinoo te propone películas según cómo te sientes en ese momento.',
-  V3a: '¿Era lo que esperabas?',
+  V3a: '¿El filtro hace lo que esperabas que hiciera?',
   V3b: 'Del 1 al 7, ¿qué tan útil te parece este filtro para decidir qué ver? 1 = nada útil, 7 = muy útil.',
   V3c: '¿Qué preferirías?',
   V3d: '¿Qué cambiarías de este filtro?',
@@ -148,7 +156,7 @@ const M5 = { fase: 5, prueba: 'M5 · Percepción final' };
 export const PERCEPCION_TEXTOS = editable('percepcion', M5, {
   F1: 'Del 1 al 7, ¿qué tan chévere te parece esta forma de descubrir y elegir qué ver? 1 = nada chévere, 7 = muy chévere.',
   F2: 'Del 1 al 7, ¿qué tan probable es que uses una app así? 1 = nada probable, 7 = muy probable.',
-  control: 'Para comprobar que estás leyendo, marca la opción 5.',
+  control: 'Para comprobar que estás leyendo, marca la opción 5 de esta escala.',
   F3: 'En cada fila hay dos palabras opuestas y siete círculos entre ellas. Marca el círculo que mejor describa tu impresión de la app. Responde rápido, con tu primera impresión.',
   F4: 'Si pudieras cambiar una sola cosa de lo que viste, ¿qué cambiarías?',
 });

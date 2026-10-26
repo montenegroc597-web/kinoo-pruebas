@@ -1,24 +1,23 @@
 import { test, expect } from '@playwright/test';
-import { abierta, caer, click, descubrir, deslizar, empezar, escala, esperarFilas, filas, intro, mazos, moods, percepcion, reset, terminarTarea, tr, ver } from './helpers';
+import { abierta, caer, click, controlMoods, descubrir, deslizar, empezar, escala, esperarFilas, filas, intro, mazos, moods, percepcion, reset, seguir, terminarTarea, tr, ver } from './helpers';
 
 // Una persona hace el link completo en un celular virtual, con el prototipo REAL (iframe) y el backend con las migraciones de
 // Supabase. Se verifica cada hoja del Excel v2.0: gestos medidos, mood alcanzado, primer clic, aciertos automáticos, validez.
 test.setTimeout(240_000);
 
-test('link completo: las 6 partes y cada hoja del registro', async ({ page }) => {
+test('link completo: las 5 partes (sin moods) y cada hoja del registro', async ({ page }) => {
   await reset();
   await empezar(page);
   await intro(page);
   await descubrir(page);
   await ver(page, 'Solo reírme');
-  await moods(page);
   await mazos(page);
   await percepcion(page, 5);
   await expect(page.getByText('Listo, terminaste')).toBeVisible();
 
   await esperarFilas('Percepción', 1);
   const [p] = await filas('Participantes');
-  expect(p).toMatchObject({ 'Código': 'P01', 'Variante de card (A/B)': 'A', 'Flujo (Completo / Link 1 / Link 2)': 'Completo', 'Completó (Sí/No)': 'Sí', 'Control de atención': 5, 'Partes completadas': 6 });
+  expect(p).toMatchObject({ 'Código': 'P01', 'Variante de card (A/B)': 'A', 'Flujo (Completo / Link 1 / Link 2)': 'Completo', 'Completó (Sí/No)': 'Sí', 'Control de atención': 5, 'Partes completadas': 5 });
   expect(p['Edad']).toBe('25–31');
   expect(p['Nombre ingresado']).toBe('Ana Prueba');
 
@@ -39,11 +38,9 @@ test('link completo: las 6 partes y cada hoja del registro', async ({ page }) =>
   expect(v['V2 · Mood alcanzado (1 correcto · 0,5 cercano · 0 otro)']).toBe(1);
   expect(v['Índice de confianza (auto, 1–7)']).toBe(6);
 
-  await esperarFilas('Moods', 8);
-  const ms = await filas('Moods');
-  expect(ms.filter((m) => m['M3a · Respuesta'] !== '').length).toBe(3);     // M3a solo para 3 moods al azar
-  expect(ms.every((m) => m['¿Acierta? (auto)'] === 0 || m['¿Acierta? (auto)'] === 1)).toBe(true);
-  await esperarFilas('Películas', 6);
+  // los moods ya no forman parte de la prueba de flujos: no se registra nada en Moods ni en Películas
+  expect(await filas('Moods')).toEqual([]);
+  expect(await filas('Películas')).toEqual([]);
 
   const [z] = await filas('Mazos');
   expect(z['Frases acertadas (auto, 0–4)']).toBe(2);                          // marcó «Verdadero» en las 4: acierta S1 y S2
@@ -57,16 +54,21 @@ test('link completo: las 6 partes y cada hoja del registro', async ({ page }) =>
   expect(await filas('Errores')).toEqual([]);
 });
 
-test('Link 2 con la card fijada: introducción, moods y mazos, con el control de atención al final de M4', async ({ page }) => {
+test('Link 2 (cuestionario de moods) con la card fijada: introducción y moods, con el control de atención al final', async ({ page }) => {
   await reset();
   await empezar(page, '&link=2&card=B');
   await intro(page);
   await moods(page);
-  await mazos(page, 3); // falla el control: la persona queda «no válida» en el Panel
+  await controlMoods(page, 3); // falla el control: la persona queda «no válida» en el Panel
+  await esperarFilas('Moods', 8);
+  const ms = await filas('Moods');
+  expect(ms.filter((m) => m['M3a · Respuesta'] !== '').length).toBe(3);     // M3a solo para 3 moods al azar
+  expect(ms.every((m) => m['¿Acierta? (auto)'] === 0 || m['¿Acierta? (auto)'] === 1)).toBe(true);
+  await esperarFilas('Películas', 6);
   await expect(page.getByText('Listo, terminaste')).toBeVisible();
   await expect.poll(async () => (await filas('Participantes'))[0]?.['Completó (Sí/No)'], { timeout: 20_000 }).toBe('Sí');
   const [p] = await filas('Participantes');
-  expect(p).toMatchObject({ 'Variante de card (A/B)': 'B', 'Flujo (Completo / Link 1 / Link 2)': 'Link 2', 'Control de atención': 3, 'Partes completadas': 3 });
+  expect(p).toMatchObject({ 'Variante de card (A/B)': 'B', 'Flujo (Completo / Link 1 / Link 2)': 'Link 2', 'Control de atención': 3, 'Partes completadas': 2 });
 });
 
 test('sin red al empezar: sigue con un código provisional y lo corrige al volver la red', async ({ page }) => {
@@ -116,4 +118,30 @@ test('una tarea no se corta con un gesto equivocado: la persona toca «Terminé�
   await expect(tr(page, 'D3.termine')).toBeVisible();
   await terminarTarea(page, 'D3', true);
   await expect(tr(page, 'q.D3a-1')).toBeVisible();
+});
+
+test('ayudas: «Terminé» sin haber tocado avisa, se puede volver a la pregunta anterior y cada parte termina con su aviso', async ({ page }) => {
+  await reset();
+  await empezar(page, '&link=1');
+  for (const id of ['I1', 'I2']) { await click(page, `q.${id}-0`); await click(page, `q.${id}-siguiente`); }
+  // volver a la anterior conserva la respuesta
+  await click(page, 'q.I3-atras');
+  await expect(page.getByText('Pregunta 2 de 4')).toBeVisible();
+  await expect(tr(page, 'q.I2-0')).toHaveAttribute('aria-checked', 'true'); // la respuesta ya dada se conserva
+  await click(page, 'q.I2-siguiente');
+  for (const id of ['I3', 'I4']) { await click(page, `q.${id}-0`); await click(page, `q.${id}-siguiente`); }
+  await expect(page.getByText('Parte 1 lista')).toBeVisible();
+  await seguir(page);
+  await click(page, 'd1.listo');
+  await tr(page, 'q.D1a').waitFor({ timeout: 20_000 });
+  for (const id of ['D1a', 'D1b', 'D1c']) await abierta(page, id);
+  await escala(page, 'D1d');
+  await expect(tr(page, 'D2.termine')).toBeEnabled({ timeout: 20_000 });
+  await click(page, 'D2.termine');
+  await expect(page.getByText(/Todavía no has tocado la pantalla/)).toBeVisible();
+  await expect(page.getByText('Tarea terminada')).toHaveCount(0);
+  await deslizar(page, 'derecha');
+  await expect(page.getByText(/Todavía no has tocado la pantalla/)).toHaveCount(0);
+  await click(page, 'D2.termine');
+  await expect(page.getByText('Tarea terminada')).toBeVisible();
 });

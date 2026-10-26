@@ -33,6 +33,8 @@ export function TareaProto({ modulo, tarea, pantalla, consigna, nota = TT.nota, 
   const [frame, setFrame] = useState<HTMLIFrameElement | null>(null);
   const [listo, setListo] = useState(false);
   const [confirmar, setConfirmar] = useState(false);
+  const [sinProbar, setSinProbar] = useState(false);
+  const [tocos, setTocos] = useState(0);
   const [fin, setFin] = useState<FinTarea | null>(null);
   const t0 = useRef(0);
   const toques = useRef<Toque[]>([]);
@@ -43,7 +45,7 @@ export function TareaProto({ modulo, tarea, pantalla, consigna, nota = TT.nota, 
   // cada vez que la tarea empieza (D2 y luego D3 en el mismo prototipo), arranca su reloj y su lista de toques
   useEffect(() => {
     if (!listo || oculta) return;
-    t0.current = performance.now(); toques.current = []; llegada.current = null; setConfirmar(false); setFin(null);
+    t0.current = performance.now(); toques.current = []; llegada.current = null; setConfirmar(false); setSinProbar(false); setTocos(0); setFin(null);
     setCtx({ estimulo: tarea, pantalla: pantalla.pagina });
     emit('task.start', { estimulo: tarea });
   }, [listo, oculta, tarea, pantalla.pagina]);
@@ -72,7 +74,7 @@ export function TareaProto({ modulo, tarea, pantalla, consigna, nota = TT.nota, 
   useCapturaProto(frame, {
     activo, inicio: t0, ancho: META.ancho, alto: META.alto,
     onToque: (t) => {
-      toques.current.push(t);
+      toques.current.push(t); setTocos(toques.current.length); setSinProbar(false);
       emit(t.tipo === 'gesto' ? 'drag' : 'tap', { estimulo: tarea, x: t.x, y: t.y, nToque: t.n, tTarea: t.t, valor: t.dir ?? '', target: t.control });
     },
   });
@@ -103,7 +105,9 @@ export function TareaProto({ modulo, tarea, pantalla, consigna, nota = TT.nota, 
           </>
         ) : (
           <>
-            <Next disabled={!listo} onClick={() => terminar(false)} track={`${tarea}.termine`}>{TT.terminar}</Next>
+            {sinProbar && <p className="sh-aviso" role="alert">{TT.sinProbar}</p>}
+            {!sinProbar && listo && tocos === 0 && <span className="sh-hint">{TT.pista}</span>}
+            <Next disabled={!listo} onClick={() => (tocos === 0 && !sinProbar ? setSinProbar(true) : terminar(false))} track={`${tarea}.termine`}>{sinProbar ? TT.terminarAsi : TT.terminar}</Next>
             <Next variant="ghost" disabled={!listo} onClick={() => setConfirmar(true)} track={`${tarea}.saltar`}>{TT.saltar}</Next>
           </>
         )}

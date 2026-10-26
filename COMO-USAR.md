@@ -1,6 +1,6 @@
-# Kinoo · Cómo usar la herramienta de pruebas (protocolo v2.0, no moderado)
+# Kinoo · Cómo usar la herramienta de pruebas (protocolo v3.0, no moderado)
 
-La herramienta aplica el **Protocolo de pruebas no moderadas por link v2.0**: cada persona abre un link en su celular y responde sola, sin moderador. Los resultados llegan a Supabase en tiempo real y el Panel los muestra con las mismas fórmulas del `Registro_Pruebas_No_Moderadas_Kinoo_v2.0.xlsx`.
+La herramienta aplica el **Protocolo de pruebas no moderadas por link v3.0** (texto en `docs/protocolo/v3.0.txt`): cada persona abre un link en su celular y responde sola, sin moderador. Los resultados llegan a Supabase en tiempo real y el Panel los muestra con las mismas fórmulas del `Registro_Pruebas_No_Moderadas_Kinoo_v2.0.xlsx`.
 
 | Pieza | Quién la usa | Para qué |
 |---|---|---|
@@ -18,9 +18,9 @@ La herramienta aplica el **Protocolo de pruebas no moderadas por link v2.0**: ca
 
 | Link | Enlace | Partes |
 |---|---|---|
-| Completo | `…/prueba/` | Introducción → M1 Descubrir → M2 Ver → M3 Moods → M4 Mazos → M5 Percepción (17–24 min) |
-| Link 1 | `…/prueba/?link=1` | Introducción → M1 → M2 → M5 (12–17 min) |
-| Link 2 | `…/prueba/?link=2` | Introducción → M3 → M4 (6–8 min); se envía a **otras** personas, para que los nombres de los moods del filtro no ayuden en M3 |
+| Completo | `…/prueba/` | Introducción → M1 Descubrir → M2 Ver → M4 Mazos → M5 Percepción (15–20 min). **Sin moods** |
+| Link 1 | `…/prueba/?link=1` | Introducción → M1 → M2 → M5 (≈12 min) |
+| Link 2 · cuestionario de moods | `…/prueba/?link=2` | Introducción → M3 Moods → control de atención (≈8 min). Se envía a **otras** personas que no hicieron la prueba de flujos, para que los nombres de los moods del filtro no ayuden. No tiene card A/B |
 
 - **Card A / B:** sin parámetro, el servidor la asigna alternando (A, B, A, B…) según el orden en que las personas abren el link, así los grupos quedan parejos. Para el esquema del protocolo con dos copias del link, usa `?card=A` y `?card=B` (Link 1-A / Link 1-B). Se combinan: `?link=1&card=B`.
 - El mensaje de invitación del Anexo A **no describe la app** (está en `docs/GUIA-ENVIO.md`).
@@ -30,15 +30,18 @@ La herramienta aplica el **Protocolo de pruebas no moderadas por link v2.0**: ca
 ### Modo equipo (probar sin registrar a nadie)
 `…/prueba/?equipo=1`: eliges card, link y desde qué parte empezar. **No se guarda nada**. Con `?equipo=1&textos=borrador` ves los borradores de Textos y Estudio antes de publicarlos.
 
+### Cómo ayuda la app a quien responde (v3.0)
+Cada pregunta dice qué falta para seguir y se puede volver a la anterior; las tareas sobre el prototipo se cierran con «Terminé» (o «saltar») y avisan cuando terminan; si alguien toca «Terminé» sin haber probado, la app se lo avisa; entre partes aparece «Parte n lista» con lo que lleva y lo que sigue.
+
 ## 3. Qué mide cada parte
 
 | Parte | Cómo se mide |
 |---|---|
 | M1 · Descubrir | La card A o B **5 s** (el reloj empieza cuando la pantalla ya cargó) → D1a–D1d → **D2 y D3 en el prototipo vivo**: la persona hace lo que haría y toca **«Terminé»** (o **salta** la tarea); se puntúa 1 / 0,5 / 0 el **primer** gesto decisivo (deslizar → / ←, o tocar un botón) y se guardan todos los gestos, el tiempo y los toques fuera de lugar → SEQ y consecuencia → **D4: explora con libertad, completa su mazo de 10 cartas y llega al resumen** («qué dice este mazo de ti»; se registra si llegó y cuándo) → D4e, D4a–D4d, D4f |
 | M2 · Ver | Ver 5 s → V1a–V1b → el filtro de mood **marcado con un círculo rojo** (V1c–V1d, sin explicación) → **V2 en el prototipo vivo**: elegir el mood objetivo (se leen el mood final, los movimientos de la barra y los toques) → explicación breve y V3a–V3d → la recomendación con su «por qué» y la confianza V4a–V4d |
-| M3 · Moods | M3a–M3b para 3 moods al azar → M3c: cada mood con sus 4 películas barajadas (acierto y confusión automáticos, tiempo) → M3d y M3e por película |
+| M3 · Cuestionario de moods (Link 2) | M3a–M3b para 3 moods al azar → M3c: cada mood con sus 4 películas barajadas (acierto y confusión automáticos, tiempo) → M3d y M3e por película |
 | M4 · Mazos | La pantalla de mazos sin explicación → Z1, Z2 (4 frases) → **Z3: primer toque** sobre la pantalla (puntuado con la zona medida en el prototipo) → Z3a, Z4, Z5a, Z5b |
-| M5 · Percepción | F1, F2, **control de atención** («marca la opción 5»; en el Link 2 va al final de M4), UEQ-S de 8 pares, F4 |
+| M5 · Percepción | F1, F2, **control de atención** («marca la opción 5 de esta escala»; en el cuestionario de moods va al final), UEQ-S de 8 pares, F4 |
 
 ## 4. Ver los resultados (Panel)
 
@@ -48,8 +51,8 @@ La herramienta aplica el **Protocolo de pruebas no moderadas por link v2.0**: ca
 |---|---|
 | **Resumen** | Personas válidas por card, descartes, lectura A vs B y el semáforo de todos los indicadores |
 | **Participantes** | Quién cuenta: **Válido** = completó + control de atención = 5 + duración ≥ mínimo + no excluido a mano. Casilla «excluir» para quien responde siempre lo mismo. Al tocar una fila, su recorrido |
-| **M1 … M5** | Indicadores con semáforo (y por card en M1), gestos, tiempos, mapas de gestos y toques sobre la pantalla real, motivos y citas |
-| **M3 · Moods** | Acierto por mood, **matriz de confusión**, película → mood, nombres propios (★ si ≥ 3 personas repiten uno) y la acción sugerida por mood (§3) |
+| **M1, M2, M4, M5** | Indicadores con semáforo (y por card en M1), gestos, tiempos, mapas de gestos y toques sobre la pantalla real, motivos y citas |
+| **Cuestionario de moods** | Aparte de la prueba de flujos: personas válidas propias, acierto por mood, **matriz de confusión**, película → mood, nombres propios (★ si ≥ 3 personas repiten uno) y la acción sugerida por mood (§3) |
 | **Card A vs B** | Las 22 métricas con Fisher (porcentajes) o Welch (escalas, tiempos, UEQ-S), veredicto «Diferencia clara / Tendencia / Sin diferencia» y la **regla de decisión** con las 5 primarias |
 | **Codificación** | Respuestas abiertas → 1 / 0,5 / 0 con la clave de «Config», **sin ver la card**; D1a con la lista de elementos; ideas clave del mazo; equivalencia de los nombres propios; notas del diagrama de afinidad |
 | **Estudio / Textos** | La «Config» y la redacción, versionadas (borrador → vista previa → publicar) |

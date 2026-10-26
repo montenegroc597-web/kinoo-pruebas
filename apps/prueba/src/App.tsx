@@ -18,10 +18,10 @@ const MODULOS: Record<Modulo, (p: { parte: Parte; onListo: () => void }) => Reac
   intro: Intro, descubrir: Descubrir, ver: Ver, moods: Moods, mazos: Mazos, percepcion: Percepcion,
 };
 
-type Vista = { t: 'gate' } | { t: 'equipo-menu' } | { t: 'bienvenida' } | { t: 'retoma' } | { t: 'parte'; i: number } | { t: 'final' };
+type Vista = { t: 'gate' } | { t: 'equipo-menu' } | { t: 'bienvenida' } | { t: 'retoma' } | { t: 'parte'; i: number } | { t: 'lista'; i: number } | { t: 'final' };
 
 /**
- * Prueba no moderada por link (protocolo v2.0): bienvenida → las partes del link (Completo, Link 1 o Link 2) → final.
+ * Prueba no moderada por link (protocolo v2.0): bienvenida → las partes del link (Completo, Link 1 o Link 2, el cuestionario de moods) → final.
  * Si la persona cierra y vuelve, retoma al principio de la parte que no terminó (con la misma card, textos y «Config»).
  */
 export function App() {
@@ -97,13 +97,15 @@ export function App() {
       void client.progreso(cur.sesionId, partesHechas, partesHechas >= lista.length).then((ok) => { if (ok) useSession.getState().patch({ partesEnviadas: partesHechas }); });
       void client.vaciar(3);
     }
-    if (i + 1 < lista.length) entrar(i + 1);
+    // entre una parte y la siguiente, un aviso de que la parte quedó guardada (en el modo equipo se pasa directo)
+    if (i + 1 < lista.length) { if (modoEquipo) entrar(i + 1); else setVista({ t: 'lista', i }); }
     else { emit('session.end'); setVista(modoEquipo ? { t: 'equipo-menu' } : { t: 'final' }); }
   }, [entrar]);
 
   if (vista.t === 'gate') return <Gate onEquipo={() => { window.location.search = '?equipo=1'; }} />;
   if (vista.t === 'equipo-menu') return <MenuEquipo onEmpezar={(v, f, i) => { useSession.getState().set(sesionEquipo(v, f)); resetReloj(); entrar(i); }} />;
   if (vista.t === 'bienvenida' || !s) return <Bienvenida onListo={() => entrar(0)} />;
+  if (vista.t === 'lista') return <ParteLista i={vista.i} total={partes.length} siguiente={moduloCat(partes[vista.i + 1])} onSeguir={() => entrar(vista.i + 1)} />;
   if (vista.t === 'final') return <><Final /><Pendientes /></>;
   if (vista.t === 'retoma') {
     const m = moduloCat(partes[s.partes]);
@@ -126,6 +128,23 @@ export function App() {
         <Componente parte={{ n: vista.i + 1, total: partes.length, nombre: moduloCat(modulo).nombre }} onListo={() => terminarParte(vista.i)} />
       </div>
     </>
+  );
+}
+
+/** Entre dos partes: confirma que la anterior quedó guardada, cuánto falta y qué viene. */
+function ParteLista({ i, total, siguiente, onSeguir }: { i: number; total: number; siguiente: { nombre: string; aprox: string }; onSeguir: () => void }) {
+  return (
+    <Page>
+      <div className="sh-parte-lista" role="status">
+        <span className="sh-tarea-icono" aria-hidden="true">✓</span>
+        <Title>Parte {i + 1} lista</Title>
+        <div className="sh-pasos" aria-label={`Llevas ${i + 1} de ${total} partes`}>{Array.from({ length: total }, (_, k) => <i key={k} data-hecho={k <= i} />)}</div>
+        <P>Tus respuestas quedaron guardadas. Llevas {i + 1} de {total} partes.</P>
+        <P>Sigue: <strong>{siguiente.nombre}</strong> (unos {siguiente.aprox}). Puedes hacer una pausa antes de seguir; si cierras, retomas aquí.</P>
+      </div>
+      <div className="sh-grow" />
+      <Next onClick={onSeguir} track="parte.seguir">Seguir</Next>
+    </Page>
   );
 }
 

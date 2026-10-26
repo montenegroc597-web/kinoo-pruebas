@@ -42,3 +42,11 @@ button.sh-peli[aria-checked="true"] { border-color: var(--sun-core); background:
 /* aviso al terminar o saltar una tarea del prototipo */
 .sh-tarea-fin { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 48px 8px 24px; text-align: center; }
 .sh-tarea-icono { width: 72px; height: 72px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 36px; font-weight: 900; background: var(--sun); color: var(--on-sun); }
+/* v3.0: ayudas y avisos de las preguntas y las tareas */
+.sh-ok { margin: 0; font-size: 14px; font-weight: 700; color: var(--ink); }
+.sh-aviso { margin: 0; padding: 10px 12px; border-radius: 12px; border: 2px solid var(--sun); font-size: 14px; line-height: 1.4; }
+/* pantalla «parte lista» entre una parte y la siguiente */
+.sh-parte-lista { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 40px 8px 16px; text-align: center; }
+.sh-pasos { display: flex; gap: 6px; justify-content: center; }
+.sh-pasos i { width: 28px; height: 6px; border-radius: 3px; background: var(--line-strong); }
+.sh-pasos i[data-hecho="true"] { background: var(--sun); }

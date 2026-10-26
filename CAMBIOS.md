@@ -5,6 +5,38 @@ Historial anterior: `AVANCES-Y-CAMBIOS.md` (construcción, rondas 1–4).
 
 ---
 
+## v4.0 · Protocolo v3.0: el Panel evalúa flujos y conceptos; los moods pasan a un cuestionario (2026-10-26)
+
+Texto del protocolo: `docs/protocolo/v3.0.txt` (diferencia con el v2.0: `npm run protocolo-texto -- --comparar docs/protocolo/v2.0.txt docs/protocolo/v3.0.txt`).
+
+- **Qué se prueba:** el link completo ya no incluye los moods: Introducción → M1 Descubrir → M2 Ver → M4 Mazos → M5 Percepción (15–20 min). El Link 1 sigue sin Mazos (≈12 min).
+- **Moods = cuestionario aparte:** el Link 2 (`?link=2`) ahora es Introducción → M3 Moods → control de atención (≈8 min), sin card A/B. Las hojas «Moods» y «Películas» no cambian de forma.
+- **Panel:**
+  - la validez, el Resumen, los indicadores y Card A vs B cuentan **solo** a las personas de la prueba de flujos;
+  - el cuestionario tiene su propia vista («Cuestionario de moods»), su grupo en el menú y su tarjeta en el Resumen (válidas, abrieron, terminaron);
+  - su duración mínima nunca pasa de 3 min;
+  - los datos de moods de rondas anteriores (v2.0, link completo) se siguen leyendo.
+- **Menos tedio, más feedback (sin quitar preguntas ni partes):**
+  - cada pregunta dice qué falta para seguir;
+  - botón «← Volver a la anterior» que conserva la respuesta;
+  - cada pregunta empieza arriba de la pantalla;
+  - aviso «Parte n lista» entre partes (guardado, cuánto lleva, qué sigue);
+  - «✓ Toque registrado» en Z3;
+  - en las tareas, pista mientras no se ha tocado nada y aviso si se toca «Terminé» sin haber probado (puede terminar «sin tocar nada»).
+- **Errores corregidos:**
+  - la pregunta de control de atención del Link 2 estaba en Mazos, que ya no es de ese link: ahora va al final del cuestionario;
+  - «Terminé» registraba tareas vacías sin avisar;
+  - la pantalla podía quedar desplazada hacia abajo al pasar de pregunta.
+- **Redacción** (el código y la columna del Excel no cambian):
+  - D4c: «Lo que dice el mazo sobre ti te resulta…»;
+  - V3a: «¿El filtro hace lo que esperabas que hiciera?»;
+  - el control dice «marca la opción 5 de esta escala»;
+  - la bienvenida da el rango real de tiempo y avisa que se puede saltar una tarea difícil.
+  - Si ya publicaste textos propios en Panel → Textos, esas versiones publicadas pisan estos valores por defecto: revisa Textos → publica de nuevo la redacción que quieras.
+- **Verificado:** typecheck, 67 pruebas unitarias y e2e (link completo sin moods, cuestionario de moods con el control al final, ayudas nuevas, Panel).
+
+---
+
 ## v3.4 · Kinoo como app web (2026-10-14)
 
 - Link nuevo `/app/` con el prototipo navegable, aparte de la prueba (no registra nada y no cambia la prueba ni el Panel).

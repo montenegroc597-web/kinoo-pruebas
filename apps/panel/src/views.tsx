@@ -127,7 +127,7 @@ export function Resumen({ d, piloto, onIr }: { d: Datos; piloto: boolean; onIr?:
   const ab = useMemo(() => comparacionAB(d, piloto), [d, piloto]);
   return (
     <>
-      <Titulo t="Resumen" q="¿Cuántas personas llevamos y qué partes de la app funcionan o hay que rediseñar?" />
+      <Titulo t="Resumen" q="¿Cuántas personas llevamos y qué flujos y conceptos de la app funcionan o hay que rediseñar? (los moods se leen en su cuestionario)" />
       <div className="pn-grid">
         <div className="pn-card">
           <h3>Personas válidas</h3>
@@ -145,6 +145,12 @@ export function Resumen({ d, piloto, onIr }: { d: Datos; piloto: boolean; onIr?:
             </div>
           ))}
           <div className="pn-sub">La rayita marca {UMBRALES.minimoTendencia}: desde ahí ya se puede leer una tendencia.</div>
+        </div>
+        <div className="pn-card">
+          <h3>Cuestionario de moods</h3>
+          <div className="pn-big">{r.cuestionario.validas} <span className="pn-sub" style={{ fontSize: 14 }}>personas válidas</span></div>
+          <div className="pn-sub">{r.cuestionario.abrieron} abrieron el link · {r.cuestionario.completaron} terminaron · se analiza aparte, no entra en los indicadores ni en Card A vs B</div>
+          {onIr && <button className="pn-btn" style={{ marginTop: 8, padding: '4px 10px' }} onClick={() => onIr('Cuestionario de moods')}>Ver detalle →</button>}
         </div>
         <div className="pn-card"><h3>Respondiendo ahora</h3><div className="pn-big">{s.activas.length}</div><div className="pn-sub">en los últimos 5 minutos</div></div>
       </div>
@@ -185,7 +191,7 @@ export function Participantes({ d, piloto, conexion, onCambio }: { d: Datos; pil
         <table><thead><tr><th>Código</th><th>Nombre</th><th>Card</th><th>Link</th><th>Sistema</th><th>Edad</th><th>Duración</th><th>Completó</th><th>Control</th><th>Válido</th><th>Textos</th><th></th></tr></thead><tbody>
           {ps.map((p) => (
             <tr key={p.codigo} onClick={() => setSel(p.codigo)} style={{ cursor: 'pointer', background: sel === p.codigo ? '#33261D' : undefined }}>
-              <td>{p.codigo}</td><td>{String(p.fila['Nombre ingresado'] ?? '') || <span className="pn-sub">—</span>}</td><td>{p.variante}</td><td className="pn-sub">{p.fila['Flujo (Completo / Link 1 / Link 2)']}</td><td className="pn-sub">{p.fila['Dispositivo']}</td><td>{p.fila['Edad']}</td>
+              <td>{p.codigo}</td><td>{String(p.fila['Nombre ingresado'] ?? '') || <span className="pn-sub">—</span>}</td><td>{p.variante}</td><td className="pn-sub">{p.fila['Flujo (Completo / Link 1 / Link 2)']}{p.cuestionario ? ' · moods' : ''}</td><td className="pn-sub">{p.fila['Dispositivo']}</td><td>{p.fila['Edad']}</td>
               <td>{f1(num(p.fila['Duración (min)']), ' min')}</td><td>{p.fila['Completó (Sí/No)']}</td><td>{p.fila['Control de atención']}</td>
               <td>{p.valido ? <Tag s="verde">sí</Tag> : <span title={p.motivos.join(', ')}><Tag s="rojo">no</Tag> <span className="pn-sub">{p.motivos.join(', ')}</span></span>}</td>
               <td className="pn-sub">{p.fila['Versión de textos']}</td>
@@ -270,7 +276,7 @@ export function Moods({ d, piloto }: { d: Datos; piloto: boolean }) {
   const t = useMemo(() => moods(d, piloto), [d, piloto]);
   return (
     <>
-      <Titulo t="M3 · Moods" q="¿Se entiende cada mood? ¿Con qué se confunde? ¿Cómo lo llamaría la gente? (el azar en M3c es 25 %)" />
+      <Titulo t="Cuestionario de moods" q="¿Se entiende cada mood? ¿Con qué se confunde? ¿Cómo lo llamaría la gente? (el azar en M3c es 25 %). Se responde en un link aparte (?link=2) y no mezcla con la prueba de flujos." />
       <Aviso n={t.personas} />
       <div className="pn-row"><b>Acierto total (M3c): {f1(t.total, ' %')}</b> <Tag s={t.estadoTotal} /></div>
       <div className="pn-card" style={{ overflow: 'auto' }}><h3>Por mood</h3>

@@ -7,11 +7,12 @@ import { ComparacionAB, Codificacion, Descubrir, Exportar, Mazos, Moods, Partici
 import { Textos } from './Textos';
 import { Estudio } from './Estudio';
 
-const VISTAS = ['Resumen', 'Participantes', 'M1 · Descubrir', 'M2 · Ver', 'M3 · Moods', 'M4 · Mazos', 'M5 · Percepción', 'Card A vs B', 'Codificación', 'Estudio', 'Textos', 'Salud', 'Exportar'] as const;
+const VISTAS = ['Resumen', 'Participantes', 'M1 · Descubrir', 'M2 · Ver', 'M4 · Mazos', 'M5 · Percepción', 'Card A vs B', 'Cuestionario de moods', 'Codificación', 'Estudio', 'Textos', 'Salud', 'Exportar'] as const;
 type Vista = (typeof VISTAS)[number];
 /** El menú agrupado por para qué sirve cada vista. */
 const GRUPOS: { titulo: string; vistas: Vista[] }[] = [
-  { titulo: 'Resultados', vistas: ['Resumen', 'M1 · Descubrir', 'M2 · Ver', 'M3 · Moods', 'M4 · Mazos', 'M5 · Percepción', 'Card A vs B'] },
+  { titulo: 'Prueba de flujos y conceptos', vistas: ['Resumen', 'M1 · Descubrir', 'M2 · Ver', 'M4 · Mazos', 'M5 · Percepción', 'Card A vs B'] },
+  { titulo: 'Cuestionario de moods', vistas: ['Cuestionario de moods'] },
   { titulo: 'Personas y respuestas', vistas: ['Participantes', 'Codificación'] },
   { titulo: 'Preparar la prueba', vistas: ['Estudio', 'Textos'] },
   { titulo: 'Sistema', vistas: ['Salud', 'Exportar'] },
@@ -90,7 +91,7 @@ export function App() {
           : vista === 'Participantes' ? <Participantes d={d} piloto={piloto} conexion={con} onCambio={() => void cargar()} />
           : vista === 'M1 · Descubrir' ? <Descubrir d={d} piloto={piloto} />
           : vista === 'M2 · Ver' ? <Ver d={d} piloto={piloto} />
-          : vista === 'M3 · Moods' ? <Moods d={d} piloto={piloto} />
+          : vista === 'Cuestionario de moods' ? <Moods d={d} piloto={piloto} />
           : vista === 'M4 · Mazos' ? <Mazos d={d} piloto={piloto} />
           : vista === 'M5 · Percepción' ? <Percepcion d={d} piloto={piloto} />
           : vista === 'Card A vs B' ? <ComparacionAB d={d} piloto={piloto} />

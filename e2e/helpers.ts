@@ -43,7 +43,9 @@ export async function empezar(page: Page, query = '') {
   await tr(page, 'bienvenida.nombre').fill('Ana Prueba');
   await click(page, 'bienvenida.empezar');
 }
-export async function intro(page: Page) { for (const id of ['I1', 'I2', 'I3', 'I4']) await opcion(page, id, 1); }
+/** Aviso «Parte n lista» entre una parte y la siguiente. */
+export const seguir = (page: Page) => click(page, 'parte.seguir');
+export async function intro(page: Page) { for (const id of ['I1', 'I2', 'I3', 'I4']) await opcion(page, id, 1); await seguir(page); }
 
 export async function descubrir(page: Page) {
   await click(page, 'd1.listo');
@@ -59,6 +61,7 @@ export async function descubrir(page: Page) {
   await completarMazo(page);
   await escala(page, 'D4e', 6); await abierta(page, 'D4a', 'que me gustan los amores melancólicos'); await escala(page, 'D4b'); await opcion(page, 'D4c', 0); await escala(page, 'D4d');
   await click(page, 'q.D4f-siguiente');  // D4f es opcional: se deja en blanco
+  await seguir(page);
 }
 
 /** D4: revela y elige las 10 cartas del mazo dentro del prototipo, abre «Ver cómo te fue» y toca «Terminé». */
@@ -87,6 +90,7 @@ export async function ver(page: Page, mood = 'Solo reírme') {
   await escala(page, 'V2a'); await opcion(page, 'V3a'); await escala(page, 'V3b'); await opcion(page, 'V3c'); await abierta(page, 'V3d', 'que se note que se mueve');
   await expect(tr(page, 'v4.continuar')).toBeVisible(); await click(page, 'v4.continuar');
   await escala(page, 'V4a', 6); await escala(page, 'V4b', 6); await escala(page, 'V4c', 6); await escala(page, 'V4d');
+  await seguir(page);
 }
 
 export async function moods(page: Page) {
@@ -96,6 +100,9 @@ export async function moods(page: Page) {
   // 6 películas en M3d (estudio.ts)
   for (let i = 0; i < 6; i++) { await click(page, 'm3d-0'); await click(page, 'm3d.siguiente'); await tr(page, 'm3e').fill('nombre propio'); await click(page, 'm3e.siguiente'); }
 }
+
+/** Cierre del cuestionario de moods: la pregunta de control de atención. */
+export async function controlMoods(page: Page, control = 5) { await escala(page, 'control', control); }
 
 export async function mazos(page: Page, control?: number) {
   await expect(tr(page, 'm4.continuar')).toBeVisible({ timeout: 20_000 });
@@ -108,6 +115,7 @@ export async function mazos(page: Page, control?: number) {
   await click(page, 'z3.punto-listo');
   await escala(page, 'Z3a'); await opcion(page, 'Z4', 0); await escala(page, 'Z5a'); await escala(page, 'Z5b');
   if (control != null) await escala(page, 'control', control);
+  await seguir(page);
 }
 
 export async function percepcion(page: Page, control = 5) {

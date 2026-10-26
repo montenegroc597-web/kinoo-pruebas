@@ -7,13 +7,16 @@ import { COLUMNAS, HOJAS, ORDEN_EXCEL } from './schema';
 
 afterEach(() => { aplicarEstudio(null); });
 
-describe('protocolo v2.0: estructura', () => {
+describe('protocolo v3.0: estructura', () => {
   it('links y orden fijo de las partes (§0)', () => {
-    expect(FLUJOS.Completo).toEqual(['intro', 'descubrir', 'ver', 'moods', 'mazos', 'percepcion']);
+    expect(FLUJOS.Completo).toEqual(['intro', 'descubrir', 'ver', 'mazos', 'percepcion']);
     expect(FLUJOS['Link 1']).toEqual(['intro', 'descubrir', 'ver', 'percepcion']);
-    expect(FLUJOS['Link 2']).toEqual(['intro', 'moods', 'mazos']);
-    // el control de atención va en M5, o al final de M4 en el Link 2
-    expect(MODULO_CONTROL['Link 2']).toBe('mazos');
+    expect(FLUJOS['Link 2']).toEqual(['intro', 'moods']);
+    // los moods ya no van en la prueba de flujos: solo en el cuestionario (Link 2)
+    expect(FLUJOS.Completo).not.toContain('moods');
+    expect(FLUJOS['Link 1']).not.toContain('moods');
+    // el control de atención va en M5, o al final del cuestionario de moods en el Link 2
+    expect(MODULO_CONTROL['Link 2']).toBe('moods');
     for (const f of Object.keys(FLUJOS) as (keyof typeof FLUJOS)[]) expect(FLUJOS[f]).toContain(MODULO_CONTROL[f]);
   });
   it('las hojas del Excel v2.0 existen con sus columnas exactas al principio', () => {

@@ -1,7 +1,7 @@
-// Cálculos del Panel (protocolo v2.0): todo sale de las hojas del registro con las fórmulas del Excel
+// Cálculos del Panel (protocolo v3.0: la prueba de flujos y el cuestionario de moods se analizan por separado): todo sale de las hojas del registro con las fórmulas del Excel
 // Registro_Pruebas_No_Moderadas_Kinoo_v2.0.xlsx. La hoja «Eventos» no se descarga: el servidor manda su resumen (Salud).
 import {
-  CONTROL_CORRECTO, UEQ_PARES, UEQ_S_ITEMS, UMBRALES as U, estudio, fisherExacta, mediana, promedio, semaforo, semaforoUEQ, ueqS, ueqTransformar, veredicto, welch,
+  CONTROL_CORRECTO, UEQ_PARES, esCuestionarioMoods, UEQ_S_ITEMS, UMBRALES as U, estudio, fisherExacta, mediana, promedio, semaforo, semaforoUEQ, ueqS, ueqTransformar, veredicto, welch,
   type Semaforo, type Variante, type Veredicto,
 } from '@kinoo/tracking';
 
@@ -33,24 +33,35 @@ export const contar = (claves: string[]): [string, number][] => {
 };
 
 // ------------------------------------------------------------------ participantes y validez (§0.3)
-export interface Persona { codigo: string; variante: Variante; valido: boolean; motivos: string[]; fila: Fila }
+export interface Persona { codigo: string; variante: Variante; valido: boolean; motivos: string[]; fila: Fila; cuestionario: boolean }
+/** Qué personas se cuentan: las de la prueba de flujos (Completo y Link 1), las del cuestionario de moods (Link 2) o todas. */
+export type Ambito = 'flujos' | 'moods' | 'todos';
+const FLUJO_COL = 'Flujo (Completo / Link 1 / Link 2)';
+/** El cuestionario de moods dura menos: su duración mínima nunca pasa de 3 min. */
+const duracionMinima = (cuestionario: boolean) => (cuestionario ? Math.min(U.duracionMinima, 3) : U.duracionMinima);
+/**
+ * Moods y Películas vienen del cuestionario (Link 2) y, en las rondas del v2.0, también del link completo: se leen de todas las personas
+ * válidas. El resto de hojas son de la prueba de flujos y NO cuentan al cuestionario.
+ */
+const ambitoDe = (hoja: string): Ambito => (hoja === 'Moods' || hoja === 'Películas' ? 'todos' : 'flujos');
 /**
  * «Válido (auto)» del Excel: completó, pasó el control de atención («marca la opción 5»), duró al menos la duración mínima y no
  * fue excluido a mano. El piloto (ronda 0) se excluye salvo que se pida.
  */
-export function personas(d: Datos, incluirPiloto = false): Persona[] {
-  return filas(d.hojas, 'Participantes').filter((p) => incluirPiloto || Number(p['Ronda']) !== 0).map((p) => {
+export function personas(d: Datos, incluirPiloto = false, ambito: Ambito = 'todos'): Persona[] {
+  return filas(d.hojas, 'Participantes').filter((p) => incluirPiloto || Number(p['Ronda']) !== 0).filter((p) => ambito === 'todos' || esCuestionarioMoods(String(p[FLUJO_COL] ?? '')) === (ambito === 'moods')).map((p) => {
+    const cuestionario = esCuestionarioMoods(String(p[FLUJO_COL] ?? ''));
     const motivos: string[] = [];
     if (p['Completó (Sí/No)'] !== 'Sí') motivos.push('no completó');
     if (num(p['Control de atención']) !== CONTROL_CORRECTO) motivos.push('falló el control de atención');
-    if ((num(p['Duración (min)']) ?? 0) < U.duracionMinima) motivos.push(`menos de ${U.duracionMinima} min`);
+    if ((num(p['Duración (min)']) ?? 0) < duracionMinima(cuestionario)) motivos.push(`menos de ${duracionMinima(cuestionario)} min`);
     if (String(p['Excluir a mano (Sí)']).trim().toLowerCase() === 'sí') motivos.push('excluido a mano');
-    return { codigo: String(p['Código']), variante: p['Variante de card (A/B)'] === 'B' ? 'B' : 'A', valido: motivos.length === 0, motivos, fila: p };
+    return { codigo: String(p['Código']), variante: p['Variante de card (A/B)'] === 'B' ? 'B' : 'A', valido: motivos.length === 0, motivos, fila: p, cuestionario };
   });
 }
 /** Filas de una hoja de módulo solo de personas válidas (opcionalmente de una card). */
 export function deValidos(d: Datos, hoja: string, piloto = false, variante?: Variante): Fila[] {
-  const ok = new Map(personas(d, piloto).filter((p) => p.valido && (!variante || p.variante === variante)).map((p) => [p.codigo, p.variante]));
+  const ok = new Map(personas(d, piloto, ambitoDe(hoja)).filter((p) => p.valido && (!variante || p.variante === variante)).map((p) => [p.codigo, p.variante]));
   return filas(d.hojas, hoja).filter((r) => ok.has(String(r['Participante']))).map((r) => ({ ...r, __variante: ok.get(String(r['Participante'])) }));
 }
 
@@ -248,7 +259,7 @@ export const METRICAS_AB: DefAB[] = [
 ];
 
 export function comparacionAB(d: Datos, piloto = false) {
-  const ps = personas(d, piloto).filter((p) => p.valido);
+  const ps = personas(d, piloto, 'flujos').filter((p) => p.valido);
   const nPorCard = { A: ps.filter((p) => p.variante === 'A').length, B: ps.filter((p) => p.variante === 'B').length };
   const metricas: MetricaAB[] = METRICAS_AB.map((m) => {
     const vals = (v: Variante) => deValidos(d, m.hoja, piloto, v).map((r) => (m.valor ? m.valor(r) : num(r[m.col!]))).filter((x): x is number => x != null);
@@ -278,16 +289,17 @@ export function comparacionAB(d: Datos, piloto = false) {
 
 // ------------------------------------------------------------------ resumen («Insights»)
 export function resumen(d: Datos, piloto = false) {
-  const ps = personas(d, piloto);
+  const ps = personas(d, piloto, 'flujos');
   const validas = ps.filter((p) => p.valido);
+  const qs = personas(d, piloto, 'moods');
   const indicadores = [
     ...descubrir(d, piloto).indicadores.map((i) => ({ ...i, modulo: 'M1 · Descubrir' })),
     ...ver(d, piloto).indicadores.map((i) => ({ ...i, modulo: 'M2 · Ver' })),
-    { ...ind('M3c', 'Acierta la película del mood', moods(d, piloto).total, 'pct', U.moodAcierto, U.moodAciertoAmarillo, moods(d, piloto).personas), modulo: 'M3 · Moods' },
     ...mazos(d, piloto).indicadores.map((i) => ({ ...i, modulo: 'M4 · Mazos' })),
     ...percepcion(d, piloto).indicadores.map((i) => ({ ...i, modulo: 'M5 · Percepción' })),
   ];
   return {
+    cuestionario: { abrieron: qs.length, validas: qs.filter((p) => p.valido).length, completaron: qs.filter((p) => p.fila['Completó (Sí/No)'] === 'Sí').length },
     abrieron: ps.length, validas: validas.length, completaron: ps.filter((p) => p.fila['Completó (Sí/No)'] === 'Sí').length,
     porCard: { A: validas.filter((p) => p.variante === 'A').length, B: validas.filter((p) => p.variante === 'B').length },
     porFlujo: contar(ps.map((p) => String(p.fila['Flujo (Completo / Link 1 / Link 2)'] ?? ''))),

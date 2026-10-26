@@ -71,6 +71,7 @@ export function PointPicker({ children, onPoint, etiqueta, track }: { children: 
         <div style={{ pointerEvents: 'none' }}>{children}</div>
         {p && <span className="sh-marker" style={{ left: p.x + '%', top: p.y + '%' }} />}
       </div>
+      {p ? <p className="sh-ok" role="status">✓ Toque registrado. Toca «Listo» para continuar.</p> : <span className="sh-hint">Toca en la pantalla el lugar que elegirías.</span>}
       <Next disabled={!p} onClick={() => p && onPoint(p)} track={track + '-listo'}>Listo</Next>
     </div>
   );
@@ -98,6 +99,8 @@ export function Preguntas({ qs, onDone, onAnswer, etiquetaFinal = 'Siguiente', a
   const v = r[q.id];
   const set = (x: any) => setR((o) => ({ ...o, [q.id]: x }));
   const ultimo = i >= qs.length - 1;
+  // cada pregunta nueva arranca arriba (en el celular la anterior puede haber dejado la pantalla desplazada)
+  useEffect(() => { try { window.scrollTo({ top: 0 }); } catch { /* jsdom */ } }, [i]);
   const avanzar = () => {
     onAnswer?.(q, v);
     if (ultimo) onDone(r); else setI(i + 1);
@@ -112,7 +115,9 @@ export function Preguntas({ qs, onDone, onAnswer, etiquetaFinal = 'Siguiente', a
       {q.tipo === 'texto-largo' && <Texto value={v ?? ''} onChange={set} grande track={`q.${q.id}`} autoFocus />}
       {q.tipo === 'escala' && <Escala7 value={v ?? null} onChange={set} extremos={q.extremos} track={`q.${q.id}`} />}
       {q.tipo === 'opcion' && <Opciones opciones={q.opciones ?? []} value={v ?? null} onChange={set} track={`q.${q.id}`} />}
+      {vacio(q, v) && <span className="sh-hint" role="status">{q.tipo === 'texto' || q.tipo === 'texto-largo' ? 'Escribe tu respuesta para continuar. No hay respuestas buenas ni malas.' : 'Elige una respuesta para continuar.'}</span>}
       <Next disabled={vacio(q, v)} onClick={avanzar} track={`q.${q.id}-siguiente`}>{ultimo ? etiquetaFinal : 'Siguiente'}</Next>
+      {i > 0 && <Next variant="ghost" onClick={() => setI(i - 1)} track={`q.${q.id}-atras`}>← Volver a la anterior</Next>}
     </div>
   );
 }

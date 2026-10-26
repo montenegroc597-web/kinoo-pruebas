@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { MOODS_ABIERTOS_POR_PERSONA, MOODS_TEXTOS as T, NINGUNA_M3C, NINGUNA_M3D, barajar, elegir, estudio, rellenar, type MoodCfg } from '@kinoo/tracking';
+import { MODULO_CONTROL, MOODS_ABIERTOS_POR_PERSONA, MOODS_TEXTOS as T, PERCEPCION_TEXTOS, NINGUNA_M3C, NINGUNA_M3D, barajar, elegir, estudio, rellenar, type MoodCfg } from '@kinoo/tracking';
 import { Kicker, Next, P, Page, Preguntas, Texto, Title, Opciones } from '../ui/kit';
 import { ContenidoPelicula, TarjetaPelicula } from '../ui/Proto';
 import { emit, fila, setCtx } from '../track';
 import { useSession } from '../session';
+import { enviarControl } from './Percepcion';
 import { extremosDe, type Parte } from './parte';
 
-type Etapa = 'inicio' | 'abiertas' | 'm3c' | 'm3d';
+type Etapa = 'inicio' | 'abiertas' | 'm3c' | 'm3d' | 'control';
 
 /** Acierto y confusión de M3c (las columnas «(auto)» del Excel). */
 export function evaluarM3c(m: MoodCfg, elegida: string, moods: MoodCfg[]): { acierta: 0 | 1; confusion: string } {
@@ -16,7 +17,7 @@ export function evaluarM3c(m: MoodCfg, elegida: string, moods: MoodCfg[]): { aci
 }
 
 /**
- * M3 · Moods (§3). M3a–M3b para 3 moods al azar; M3c para todos (una pantalla por mood, en orden aleatorio, 4 películas
+ * M3 · Cuestionario de moods (§3; desde el v3.0 es un link aparte, el Link 2, que cierra con el control de atención). M3a–M3b para 3 moods al azar; M3c para todos (una pantalla por mood, en orden aleatorio, 4 películas
  * barajadas + «Ninguna / no sé»); M3d y M3e para cada película de la sección D (orden aleatorio). La aleatorización es
  * determinista por persona: si retoma, ve el mismo orden.
  */
@@ -40,7 +41,8 @@ export function Moods({ parte, onListo }: { parte: Parte; onListo: () => void })
     });
   };
   const total = abiertos.length + ordenM3c.length + ordenM3d.length;
-  const hechos = etapa === 'abiertas' ? k : etapa === 'm3c' ? abiertos.length + k : etapa === 'm3d' ? abiertos.length + ordenM3c.length + k : 0;
+  const conControl = MODULO_CONTROL[s.flujo] === 'moods';
+  const hechos = etapa === 'control' ? total : etapa === 'abiertas' ? k : etapa === 'm3c' ? abiertos.length + k : etapa === 'm3d' ? abiertos.length + ordenM3c.length + k : 0;
 
   return (
     <Page parte={parte} progreso={hechos / total}>
@@ -77,8 +79,13 @@ export function Moods({ parte, onListo }: { parte: Parte; onListo: () => void })
               'Película': p.titulo, 'M3d · Mood con el que la asocia': mood, '¿Coincide con el previsto? (auto)': mood === p.moodPrevisto ? 1 : 0,
               'M3e · Nombre que le pondría': nombre, 'Mood previsto': p.moodPrevisto,
             });
-            if (k + 1 < ordenM3d.length) setK(k + 1); else onListo();
+            if (k + 1 < ordenM3d.length) setK(k + 1); else if (conControl) setEtapa('control'); else onListo();
           }} />
+      )}
+      {etapa === 'control' && (
+        <Preguntas etiquetaFinal="Terminar" qs={[{ id: 'control', prompt: PERCEPCION_TEXTOS.control, tipo: 'escala' }]}
+          onAnswer={(q, v) => emit('answer', { estimulo: q.id, valor: String(v ?? '') })}
+          onDone={(res) => { enviarControl(res.control); onListo(); }} />
       )}
     </Page>
   );

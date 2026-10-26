@@ -7,13 +7,13 @@ description: Actualizar Kinoo Pruebas (link de prueba + Panel + Supabase) cuando
 
 Repo: `kinoo-pruebas/` (GitHub `montenegroc597-web/kinoo-pruebas`, deploy a Pages al hacer push a `main`).
 Backend: Supabase, proyecto «Pruebas Kinoo» (`yafofroiagcauqocwbgq`), Edge Function `kinoo` → `public.kinoo_api`.
-Protocolo vigente: **v2.0 no moderado por link** (`docs/protocolo/v2.0.txt`), Excel `Registro_Pruebas_No_Moderadas_Kinoo_v2.0.xlsx`.
+Protocolo vigente: **v3.0 no moderado por link** (`docs/protocolo/v3.0.txt`; flujos y conceptos en la prueba, moods en el cuestionario aparte = Link 2), Excel `Registro_Pruebas_No_Moderadas_Kinoo_v2.0.xlsx`.
 Prototipo vigente: `packages/kinoo-ui/public/kinoo-flujo/` (lienzo «Kinoo Descubrir», claude.ai/artifact/Gs7VuK91c1zNqmUiK4CKCg, página «Prueba Maze · Flujo»).
 
 ## Regla de oro para ahorrar créditos
 - **No leas**: el `.docx` entero, `PLAN-MAESTRO`, `_artefacto*`, los `.dc.html`, `public/*/`, `dc-runtime.js`, `package-lock.json`, `data/`.
 - Protocolo nuevo → léelo como **diferencia**: `node scripts/protocolo-texto.mjs <nuevo.docx> docs/protocolo/vX.Y.txt` y
-  `node scripts/protocolo-texto.mjs --comparar docs/protocolo/v2.0.txt docs/protocolo/vX.Y.txt`. Si la diferencia es casi todo
+  `node scripts/protocolo-texto.mjs --comparar docs/protocolo/v3.0.txt docs/protocolo/vX.Y.txt`. Si la diferencia es casi todo
   (reescritura), lee el `.txt` nuevo completo (≈ 50 KB): sale más barato que el diff.
 - Excel nuevo → solo encabezados: `node -e "const X=require('xlsx');const wb=X.readFile('<xlsx>');for(const n of wb.SheetNames){const a=X.utils.sheet_to_json(wb.Sheets[n],{header:1,defval:''});console.log(n, a[1]?.filter(Boolean).join(' | '))}"` y la hoja «Config» completa.
 - Lienzo nuevo → `canvas.json` (páginas y tableros) y, de las páginas, solo el bloque `<script type="text/x-dc">` con `grep`/`awk`.

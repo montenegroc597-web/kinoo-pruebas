@@ -1,8 +1,8 @@
 # Kinoo · Pruebas de usabilidad no moderadas
 
-Herramienta para aplicar el **Protocolo de pruebas no moderadas por link v2.0** de Kinoo: cada persona abre un link en su celular y prueba el **prototipo real** sin moderador; los datos llegan a Supabase en tiempo real y el Panel los analiza con las fórmulas del Excel de registro v2.0.
+Herramienta para aplicar el **Protocolo de pruebas no moderadas por link v3.0** de Kinoo: cada persona abre un link en su celular y prueba el **prototipo real** sin moderador; los datos llegan a Supabase en tiempo real y el Panel los analiza con las fórmulas del Excel de registro v2.0. Desde el v3.0 el Panel analiza **solo flujos y conceptos**; los moods tienen su propia vista («Cuestionario de moods»).
 
-- **`/prueba/`** — el link: introducción y los módulos M1–M5 sobre el prototipo «Kinoo · Prueba Maze · Flujo» (gestos, toques y tiempos medidos dentro del prototipo). Variantes: `?link=1`, `?link=2`, `?card=A|B`.
+- **`/prueba/`** — el link: introducción y los módulos M1 Descubrir, M2 Ver, M4 Mazos y M5 Percepción sobre el prototipo «Kinoo · Prueba Maze · Flujo» (gestos, toques y tiempos medidos dentro del prototipo). Variantes: `?link=1` (sin Mazos), `?link=2` (**cuestionario de moods**, aparte de la prueba de flujos), `?card=A|B`.
 - **Supabase** (proyecto «Pruebas Kinoo») — hojas y columnas de `Registro_Pruebas_No_Moderadas_Kinoo_v2.0.xlsx` (ver `supabase/README.md`).
 - **`/panel/`** — validez, métricas por módulo, card A vs B (Fisher / Welch), moods, codificación a ciegas, «Config» del estudio y textos editables, exportación.
 
