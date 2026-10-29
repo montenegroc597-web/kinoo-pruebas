@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { LINK_TEXTOS, PROTOTIPO_ESTUDIO, peliculaDe, type PantallaProto } from '@kinoo/tracking';
+import { LINK_TEXTOS, PROTOTIPO_ESTUDIO, SEGUNDOS_CUENTA, SEGUNDOS_VISTA, peliculaDe, type PantallaProto } from '@kinoo/tracking';
 import { PROTOTIPOS, PrototipoVista, type RectPx } from '@kinoo/ui';
 import { emit, setCtx } from '../track';
 import { useEscala } from './kit';
@@ -13,15 +13,24 @@ export function VistaProto(p: { pantalla: PantallaProto; escala: number; interac
 }
 
 /**
- * Prueba de 5 segundos: muestra la pantalla, y el reloj empieza cuando el prototipo YA se pintó (no al montar el iframe),
- * así nadie la ve menos de 5 s por una carga lenta. Después la oculta sola (gris) y llama a `onFin`.
+ * Vista rápida (antes «5 segundos», ahora SEGUNDOS_VISTA): primero una cuenta regresiva 3‑2‑1 para que la persona se prepare
+ * (el prototipo carga debajo, tapado); el reloj empieza cuando terminó la cuenta Y el prototipo YA se pintó (no al montar
+ * el iframe), así nadie la ve menos tiempo por una carga lenta. Después la oculta sola (gris) y llama a `onFin`.
  */
-export function CincoSegundos({ pantalla, estimulo, onFin, ms = 5000 }: { pantalla: PantallaProto; estimulo: string; onFin: (realMs: number) => void; ms?: number }) {
+export function CincoSegundos({ pantalla, estimulo, onFin, ms = SEGUNDOS_VISTA * 1000 }: { pantalla: PantallaProto; estimulo: string; onFin: (realMs: number) => void; ms?: number }) {
   const escala = useEscala(META.ancho, META.alto, 90);
   const [fase, setFase] = useState<'cargando' | 'visible' | 'oculta'>('cargando');
+  const [cuenta, setCuenta] = useState(SEGUNDOS_CUENTA);
+  const [pintada, setPintada] = useState(false);
   const fin = useRef(onFin); fin.current = onFin;
   const t0 = useRef(0);
   useEffect(() => { setCtx({ estimulo, pantalla: pantalla.pagina }); }, [estimulo, pantalla.pagina]);
+  useEffect(() => {
+    if (cuenta <= 0) return;
+    const t = setTimeout(() => setCuenta((n) => n - 1), 1000);
+    return () => clearTimeout(t);
+  }, [cuenta]);
+  useEffect(() => { if (cuenta <= 0 && pintada) setFase((f) => (f === 'cargando' ? 'visible' : f)); }, [cuenta, pintada]);
   const visible = fase !== 'cargando';
   // se arma UNA vez, cuando la pantalla aparece (si dependiera de `fase`, ocultarla cancelaría el paso a las preguntas)
   useEffect(() => {
@@ -32,13 +41,21 @@ export function CincoSegundos({ pantalla, estimulo, onFin, ms = 5000 }: { pantal
     const b = setTimeout(() => fin.current(Math.round(performance.now() - t0.current)), ms + 450);
     return () => { clearTimeout(a); clearTimeout(b); };
   }, [visible, ms, pantalla.pagina]);
+  const contando = cuenta > 0;
   return (
-    <div className="sh-stage" aria-label="Pantalla durante 5 segundos">
+    <div className="sh-stage" aria-label={`Pantalla durante ${SEGUNDOS_VISTA} segundos`}>
       <div style={{ width: META.ancho * escala, height: META.alto * escala, position: 'relative', borderRadius: 14, overflow: 'hidden', background: fase === 'oculta' ? '#3a3a3a' : undefined }}>
-        {fase !== 'oculta' && <VistaProto pantalla={pantalla} escala={escala} onListo={() => setFase('visible')} />}
-        {fase === 'cargando' && <div className="sh-cargando" aria-live="polite">Cargando…</div>}
+        {fase !== 'oculta' && <VistaProto pantalla={pantalla} escala={escala} onListo={() => setPintada(true)} />}
+        {contando && (
+          <div className="sh-cargando sh-cuenta" role="timer" aria-live="assertive">
+            <span>{LINK_TEXTOS.cuenta}</span>
+            <strong className="sh-cuenta-n" data-track="cuenta">{cuenta}</strong>
+            <span>{LINK_TEXTOS.cuentaAviso}</span>
+          </div>
+        )}
+        {!contando && fase === 'cargando' && <div className="sh-cargando" aria-live="polite">Cargando…</div>}
       </div>
-      <span className="sh-hint">{LINK_TEXTOS.cincoSegundos}</span>
+      <span className="sh-hint">{contando ? LINK_TEXTOS.cuentaAviso : LINK_TEXTOS.cincoSegundos}</span>
     </div>
   );
 }

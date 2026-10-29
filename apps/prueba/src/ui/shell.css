@@ -50,3 +50,6 @@ button.sh-peli[aria-checked="true"] { border-color: var(--sun-core); background:
 .sh-pasos { display: flex; gap: 6px; justify-content: center; }
 .sh-pasos i { width: 28px; height: 6px; border-radius: 3px; background: var(--line-strong); }
 .sh-pasos i[data-hecho="true"] { background: var(--sun); }
+
+.sh-cuenta { flex-direction: column; gap: 14px; padding: 24px; text-align: center; font-size: 16px; color: var(--ink); }
+.sh-cuenta-n { font-family: var(--font-display); font-size: 96px; line-height: 1; font-weight: 900; color: var(--sun-core); }

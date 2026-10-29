@@ -5,6 +5,12 @@ Historial anterior: `AVANCES-Y-CAMBIOS.md` (construcción, rondas 1–4).
 
 ---
 
+## v4.1 · Más tiempo para ver las pantallas y cuenta regresiva (2026-10-29)
+
+- **Por qué:** varias personas dijeron que no alcanzaban a ver nada en las pruebas de 5 segundos (Descubrir D1 y Ver V1).
+- **Qué:** la pantalla se ve ahora `SEGUNDOS_VISTA = 8` s (`packages/tracking/src/catalog.ts`), y antes hay una cuenta regresiva 3‑2‑1 («Prepárate: la pantalla aparece en…», `SEGUNDOS_CUENTA`) mientras el prototipo carga tapado. El reloj empieza al terminar la cuenta y cuando la pantalla ya pintó. Los textos de bienvenida de las partes y el aviso bajo la pantalla usan la constante. Los eventos siguen llamándose `estimulo.5s` (`realMs` guarda la duración real) para no romper datos anteriores.
+- **Ojo:** los datos de rondas previas se vieron 5 s; no se comparan directamente. Los textos ya publicados en Panel → Textos pisan los nuevos por defecto.
+
 ## v4.0 · Protocolo v3.0: el Panel evalúa flujos y conceptos; los moods pasan a un cuestionario (2026-10-26)
 
 Texto del protocolo: `docs/protocolo/v3.0.txt` (diferencia con el v2.0: `npm run protocolo-texto -- --comparar docs/protocolo/v2.0.txt docs/protocolo/v3.0.txt`).

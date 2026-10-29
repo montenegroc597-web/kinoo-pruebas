@@ -31,11 +31,18 @@ export const MODULO_CONTROL: Record<Flujo, Modulo> = { Completo: 'percepcion', '
 /** El Link 2 es el cuestionario de categorías (moods): se analiza aparte de la prueba de flujos. */
 export const esCuestionarioMoods = (f: string | undefined): boolean => f === 'Link 2';
 
+/** Segundos que se ve la pantalla en las pruebas de «vista rápida» (antes 5; muchas personas no alcanzaban a verla). */
+export const SEGUNDOS_VISTA = 8;
+/** Cuenta regresiva (segundos) antes de mostrar la pantalla, para que la persona se prepare. */
+export const SEGUNDOS_CUENTA = 3;
+
 // ---------------------------------------------------------------- textos (Anexo A)
 export const LINK_TEXTOS = editable('link', { fase: 0, prueba: 'Bienvenida y cierre (Anexo A)' }, {
   bienvenida: 'Hola, gracias por ayudarnos. Vamos a mostrarte unas pantallas de una app que estamos diseñando. No te estamos evaluando a ti: si algo no se entiende, es culpa del diseño, no tuya. Dura entre 15 y 20 minutos (unos 12 si es el Link 1; unos 8 si es el cuestionario de categorías). Hazlo desde tu celular, en vertical y en un lugar tranquilo, sin buscar ayuda ni respuestas, y responde con lo primero que pienses. Arriba verás cuánto llevas y, si una tarea se te hace muy difícil, siempre puedes saltarla. Te pedimos tu nombre solo para saber quién participó: no se publica y tus respuestas se usan solo para mejorar el diseño de la app. Al continuar aceptas participar.',
   final: 'Listo, terminaste. Gracias por tu tiempo. Tus respuestas nos ayudan a mejorar la app. Ya puedes cerrar esta ventana.',
-  cincoSegundos: 'La pantalla se oculta sola en 5 segundos.',
+  cincoSegundos: `La pantalla se oculta sola en ${SEGUNDOS_VISTA} segundos.`,
+  cuenta: 'Prepárate: la pantalla aparece en…',
+  cuentaAviso: `Se verá solo ${SEGUNDOS_VISTA} segundos y luego te haremos unas preguntas.`,
   nombre: '¿Cómo te llamas?',
 });
 
@@ -74,7 +81,7 @@ export const TAREA_TEXTOS = editable('tarea', { fase: 1, prueba: 'Tareas en el p
 // ---------------------------------------------------------------- M1 · Descubrir
 const M1 = { fase: 1, prueba: 'M1 · Descubrir' };
 export const DESCUBRIR_TEXTOS = editable('descubrir', M1, {
-  inicio: 'Imagina que abres una app para encontrar qué ver. Te vamos a mostrar una pantalla durante 5 segundos. Mírala con normalidad.',
+  inicio: `Imagina que abres una app para encontrar qué ver. Te vamos a mostrar una pantalla durante ${SEGUNDOS_VISTA} segundos, con una cuenta regresiva antes para que te prepares. Mírala con normalidad.`,
   D1a: '¿Qué fue lo primero que te llamó la atención?',
   D1b: '¿Para qué crees que sirve esta pantalla?',
   D1c: '¿Qué crees que podrías hacer con esta tarjeta?',
@@ -99,7 +106,7 @@ export const OPCIONES_D4C = ['Agradable', 'Indiferente', 'Desagradable'];
 // ---------------------------------------------------------------- M2 · Ver
 const M2 = { fase: 2, prueba: 'M2 · Ver' };
 export const VER_TEXTOS = editable('ver', M2, {
-  inicio: 'Ahora vamos a otra parte de la app. Verás una pantalla durante 5 segundos.',
+  inicio: `Ahora vamos a otra parte de la app. Verás una pantalla durante ${SEGUNDOS_VISTA} segundos, con una cuenta regresiva antes.`,
   V1a: '¿Para qué crees que sirve esta pantalla?',
   V1b: 'Del 1 al 7, ¿qué tan clara te quedó? 1 = nada clara, 7 = totalmente clara.',
   V1c: '¿Para qué crees que sirve el elemento marcado con el círculo rojo?',

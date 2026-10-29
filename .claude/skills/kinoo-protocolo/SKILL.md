@@ -31,7 +31,7 @@ Prototipo vigente: `packages/kinoo-ui/public/kinoo-flujo/` (lienzo «Kinoo Descu
 - `packages/tracking/src/estudio.ts` — la «Config» (secciones A–G del Excel): tipo `Estudio`, `ESTUDIO_DEFECTO`, `validarEstudio`, `aplicarEstudio`. Las pantallas del prototipo se definen como `{ pagina, acciones?, marca? }`.
 - `packages/tracking/src/schema.ts` — hojas y **columnas exactas del Excel** + columnas de enlace al final. Si cambian: `npm run hojas-sql`.
 - `packages/tracking/src/metrics.ts` — Fisher, Welch, veredicto A/B, UEQ-S, puntaje de gesto y de primer clic.
-- `apps/prueba/src/App.tsx` — recorre `FLUJOS[link]`; `steps/<Módulo>.tsx` = un módulo (Intro, Descubrir, Ver, Moods, Mazos, Percepcion); `steps/tarea.tsx` = tarea sobre el prototipo vivo; `captura.ts` = gestos y toques dentro del iframe; `ui/Proto.tsx` = 5 segundos (cuenta desde que la pantalla cargó).
+- `apps/prueba/src/App.tsx` — recorre `FLUJOS[link]`; `steps/<Módulo>.tsx` = un módulo (Intro, Descubrir, Ver, Moods, Mazos, Percepcion); `steps/tarea.tsx` = tarea sobre el prototipo vivo; `captura.ts` = gestos y toques dentro del iframe; `ui/Proto.tsx` = vista rápida de SEGUNDOS_VISTA (8 s) con cuenta regresiva 3‑2‑1.
 - `apps/panel/src/analytics.ts` — validez de personas y métricas por módulo, `METRICAS_AB` (las 22 del Excel; `primaria: true` las 5 que deciden). `views.tsx` = vistas; `Estudio.tsx` y `Textos.tsx` = editores.
 - `packages/kinoo-ui/src/Prototipo.tsx` — `PROTOTIPOS` y `PrototipoVista`; `public/_prototipos/embed.js` ejecuta `acciones` y mide `marca` dentro del prototipo.
 - `supabase/migrations/NNN_*.sql` — `kinoo_api` (cada cambio = migración nueva que la reescribe entera). `supabase/hojas.sql` = generado.
@@ -72,6 +72,6 @@ npm run carga -- 20                    # si se tocó el backend o el Panel
 ## Cosas que no se deben romper
 - Los nombres de hoja y columna son los del Excel: renombrar = migrar datos.
 - Texto y «Config» no cambian dentro de una sesión (se fijan al empezar); el Panel avisa si una ronda mezcla versiones.
-- El reloj de los 5 segundos empieza cuando el prototipo avisa que está listo (`prototipo-listo`), no al montar el iframe.
+- El reloj de la vista rápida (SEGUNDOS_VISTA) empieza al terminar la cuenta regresiva y cuando el prototipo avisa que está listo (`prototipo-listo`), no al montar el iframe.
 - El Panel nunca descarga «Eventos» entero (se pagina); la codificación no muestra la card.
 - Modo equipo (`?equipo=1`) no escribe nada; `?equipo=1&textos=borrador` = vista previa de los borradores.
