@@ -1,16 +1,16 @@
 {
-  "exportado": "2026-10-29T10:43:06.731Z",
+  "exportado": "2026-10-30T10:42:52.576Z",
   "filas": {
-    "Ver": 16,
-    "Mazos": 16,
+    "Ver": 19,
+    "Mazos": 19,
     "Moods": 128,
-    "Notas": 32,
-    "Puntos": 295,
+    "Notas": 38,
+    "Puntos": 423,
     "Errores": 0,
-    "Descubrir": 20,
+    "Descubrir": 23,
     "Películas": 90,
-    "Percepción": 16,
-    "Participantes": 24,
-    "Eventos": 3130
+    "Percepción": 19,
+    "Participantes": 27,
+    "Eventos": 3533
   }
 }
