@@ -11,7 +11,7 @@ P03,A,Descubrir,D2,Flujo1_Descubrir.dc.html,2,gesto,arriba,58.6,40.5,36.5,decisi
 P03,A,Descubrir,D3,Flujo1_Descubrir.dc.html,1,toque,,89.3,86.9,13.9,decisivo,b2ac50bc-8efe-4c57-ae38-d9db39517686,b2ac50bc-8efe-4c57-ae38-d9db39517686|Puntos|D3-1
 P04,B,Descubrir,D2,Flujo1_Descubrir.dc.html,1,gesto,izquierda,92.3,54.2,18.3,decisivo,f9a8570c-0483-447d-9395-d571f88245ec,f9a8570c-0483-447d-9395-d571f88245ec|Puntos|D2-1
 P04,B,Descubrir,D3,Flujo1_Descubrir.dc.html,1,gesto,derecha,78,48.8,4.8,decisivo,f9a8570c-0483-447d-9395-d571f88245ec,f9a8570c-0483-447d-9395-d571f88245ec|Puntos|D3-1
-P04,B,Ver,V2,FlujoV1_Feed.dc.html,1,toque,,43.4,48.7,8.3,fuera de lugar,f9a8570c-0483-447d-9395-d571f88245ec,f9a8570c-0483-447d-9395-d571f88245ec|Puntos|V2-1
+P04,B,Ver,V2,FlujoV1_Feed.dc.html,1,toque,,55.2,54.1,9.5,fuera de lugar,f9a8570c-0483-447d-9395-d571f88245ec,f9a8570c-0483-447d-9395-d571f88245ec|Puntos|V2-1
 P04,B,Ver,V2,FlujoV1_Feed.dc.html,2,toque,,32.8,33.2,11.7,fuera de lugar,f9a8570c-0483-447d-9395-d571f88245ec,f9a8570c-0483-447d-9395-d571f88245ec|Puntos|V2-2
 P04,B,Ver,V2,FlujoV1_Feed.dc.html,3,gesto,abajo,49,54.2,13,barra de mood,f9a8570c-0483-447d-9395-d571f88245ec,f9a8570c-0483-447d-9395-d571f88245ec|Puntos|V2-3
 P04,B,Ver,V2,FlujoV1_Feed.dc.html,4,gesto,arriba,42.4,76.7,14.4,barra de mood,f9a8570c-0483-447d-9395-d571f88245ec,f9a8570c-0483-447d-9395-d571f88245ec|Puntos|V2-4
@@ -1087,3 +1087,182 @@ P63,A,Descubrir,D2,Flujo1_Descubrir.dc.html,8,gesto,derecha,55.2,49.5,43.4,decis
 P63,A,Descubrir,D2,Flujo1_Descubrir.dc.html,9,gesto,derecha,54.6,51.4,44.3,decisivo (otro intento),3ffa8a83-c9fa-4649-921f-9b51d499addc,3ffa8a83-c9fa-4649-921f-9b51d499addc|Puntos|D2-9
 P63,A,Descubrir,D2,Flujo1_Descubrir.dc.html,10,gesto,derecha,49.1,52.7,45.5,decisivo (otro intento),3ffa8a83-c9fa-4649-921f-9b51d499addc,3ffa8a83-c9fa-4649-921f-9b51d499addc|Puntos|D2-10
 P63,A,Descubrir,D2,Flujo1_Descubrir.dc.html,11,gesto,derecha,52,53.2,46.4,decisivo (otro intento),3ffa8a83-c9fa-4649-921f-9b51d499addc,3ffa8a83-c9fa-4649-921f-9b51d499addc|Puntos|D2-11
+P01,A,Mazos,Z3,Flujo4_Eleccion.dc.html,1,toque,,44.5,88.7,11.6,Fuera de la zona,0a953d7b-0a83-4476-8fbd-e7d9a5613225,0a953d7b-0a83-4476-8fbd-e7d9a5613225|Puntos|Z3-1
+P65,A,Descubrir,D2,Flujo1_Descubrir.dc.html,1,toque,,27.8,46.8,11.4,fuera de lugar,8a72ccc2-0305-46ed-af14-e1143d282330,8a72ccc2-0305-46ed-af14-e1143d282330|Puntos|D2-1
+P65,A,Descubrir,D2,Flujo1_Descubrir.dc.html,2,toque,,28.2,36.7,12.3,fuera de lugar,8a72ccc2-0305-46ed-af14-e1143d282330,8a72ccc2-0305-46ed-af14-e1143d282330|Puntos|D2-2
+P65,A,Descubrir,D2,Flujo1_Descubrir.dc.html,3,toque,,79.9,32.3,14.1,fuera de lugar,8a72ccc2-0305-46ed-af14-e1143d282330,8a72ccc2-0305-46ed-af14-e1143d282330|Puntos|D2-3
+P65,A,Descubrir,D2,Flujo1_Descubrir.dc.html,4,toque,,76.6,50.4,14.8,fuera de lugar,8a72ccc2-0305-46ed-af14-e1143d282330,8a72ccc2-0305-46ed-af14-e1143d282330|Puntos|D2-4
+P65,A,Descubrir,D2,Flujo1_Descubrir.dc.html,5,toque,,86.3,55,16.1,fuera de lugar,8a72ccc2-0305-46ed-af14-e1143d282330,8a72ccc2-0305-46ed-af14-e1143d282330|Puntos|D2-5
+P65,A,Descubrir,D2,Flujo1_Descubrir.dc.html,6,gesto,arriba,75.9,71.9,17.1,decisivo,8a72ccc2-0305-46ed-af14-e1143d282330,8a72ccc2-0305-46ed-af14-e1143d282330|Puntos|D2-6
+P65,A,Descubrir,D2,Flujo1_Descubrir.dc.html,7,gesto,arriba,90.9,49.4,17.4,decisivo (otro intento),8a72ccc2-0305-46ed-af14-e1143d282330,8a72ccc2-0305-46ed-af14-e1143d282330|Puntos|D2-7
+P65,A,Descubrir,D2,Flujo1_Descubrir.dc.html,8,toque,,78.9,56.1,18,fuera de lugar,8a72ccc2-0305-46ed-af14-e1143d282330,8a72ccc2-0305-46ed-af14-e1143d282330|Puntos|D2-8
+P65,A,Descubrir,D2,Flujo1_Descubrir.dc.html,9,toque,,99.3,35.2,18.4,fuera de lugar,8a72ccc2-0305-46ed-af14-e1143d282330,8a72ccc2-0305-46ed-af14-e1143d282330|Puntos|D2-9
+P65,A,Descubrir,D2,Flujo1_Descubrir.dc.html,10,gesto,arriba,86.7,72.8,19.3,decisivo (otro intento),8a72ccc2-0305-46ed-af14-e1143d282330,8a72ccc2-0305-46ed-af14-e1143d282330|Puntos|D2-10
+P65,A,Descubrir,D2,Flujo1_Descubrir.dc.html,11,toque,,84.8,84.8,20.2,decisivo (otro intento),8a72ccc2-0305-46ed-af14-e1143d282330,8a72ccc2-0305-46ed-af14-e1143d282330|Puntos|D2-11
+P65,A,Descubrir,D3,Flujo1_Descubrir.dc.html,1,toque,,16.1,84.9,6.1,decisivo,8a72ccc2-0305-46ed-af14-e1143d282330,8a72ccc2-0305-46ed-af14-e1143d282330|Puntos|D3-1
+P65,A,Descubrir,D3,Flujo1_Descubrir.dc.html,2,toque,,18.7,85.2,8.1,decisivo (otro intento),8a72ccc2-0305-46ed-af14-e1143d282330,8a72ccc2-0305-46ed-af14-e1143d282330|Puntos|D3-2
+P65,A,Descubrir,D3,Flujo1_Descubrir.dc.html,3,toque,,12.5,87,9.6,decisivo (otro intento),8a72ccc2-0305-46ed-af14-e1143d282330,8a72ccc2-0305-46ed-af14-e1143d282330|Puntos|D3-3
+P64,B,Descubrir,D2,Flujo1_Descubrir.dc.html,1,toque,,78.6,33.1,15,fuera de lugar,e261ed4f-bc52-469a-b46c-663293949c06,e261ed4f-bc52-469a-b46c-663293949c06|Puntos|D2-1
+P64,B,Descubrir,D2,Flujo1_Descubrir.dc.html,2,toque,,79.9,35.2,16.2,fuera de lugar,e261ed4f-bc52-469a-b46c-663293949c06,e261ed4f-bc52-469a-b46c-663293949c06|Puntos|D2-2
+P64,B,Descubrir,D2,Flujo1_Descubrir.dc.html,3,toque,,81.8,40.2,17.2,fuera de lugar,e261ed4f-bc52-469a-b46c-663293949c06,e261ed4f-bc52-469a-b46c-663293949c06|Puntos|D2-3
+P64,B,Descubrir,D2,Flujo1_Descubrir.dc.html,4,gesto,izquierda,79.9,39.7,17.9,decisivo,e261ed4f-bc52-469a-b46c-663293949c06,e261ed4f-bc52-469a-b46c-663293949c06|Puntos|D2-4
+P64,B,Descubrir,D2,Flujo1_Descubrir.dc.html,5,toque,,47,52.8,20.8,fuera de lugar,e261ed4f-bc52-469a-b46c-663293949c06,e261ed4f-bc52-469a-b46c-663293949c06|Puntos|D2-5
+P64,B,Descubrir,D2,Flujo1_Descubrir.dc.html,6,gesto,derecha,73.1,55.6,27.8,decisivo (otro intento),e261ed4f-bc52-469a-b46c-663293949c06,e261ed4f-bc52-469a-b46c-663293949c06|Puntos|D2-6
+P64,B,Descubrir,D2,Flujo1_Descubrir.dc.html,7,toque,,65.2,58.5,29.1,fuera de lugar,e261ed4f-bc52-469a-b46c-663293949c06,e261ed4f-bc52-469a-b46c-663293949c06|Puntos|D2-7
+P64,B,Descubrir,D2,Flujo1_Descubrir.dc.html,8,toque,,70.4,58.2,30,fuera de lugar,e261ed4f-bc52-469a-b46c-663293949c06,e261ed4f-bc52-469a-b46c-663293949c06|Puntos|D2-8
+P64,B,Descubrir,D2,Flujo1_Descubrir.dc.html,9,gesto,izquierda,67.9,56.9,30.7,decisivo (otro intento),e261ed4f-bc52-469a-b46c-663293949c06,e261ed4f-bc52-469a-b46c-663293949c06|Puntos|D2-9
+P64,B,Descubrir,D2,Flujo1_Descubrir.dc.html,10,toque,,66.4,56.3,31.9,fuera de lugar,e261ed4f-bc52-469a-b46c-663293949c06,e261ed4f-bc52-469a-b46c-663293949c06|Puntos|D2-10
+P64,B,Descubrir,D2,Flujo1_Descubrir.dc.html,11,toque,,77.6,54.3,38.2,fuera de lugar,e261ed4f-bc52-469a-b46c-663293949c06,e261ed4f-bc52-469a-b46c-663293949c06|Puntos|D2-11
+P64,B,Descubrir,D2,Flujo1_Descubrir.dc.html,12,gesto,izquierda,77.6,50.6,39.3,decisivo (otro intento),e261ed4f-bc52-469a-b46c-663293949c06,e261ed4f-bc52-469a-b46c-663293949c06|Puntos|D2-12
+P64,B,Descubrir,D2,Flujo1_Descubrir.dc.html,13,gesto,derecha,68.2,56.4,41.5,decisivo (otro intento),e261ed4f-bc52-469a-b46c-663293949c06,e261ed4f-bc52-469a-b46c-663293949c06|Puntos|D2-13
+P64,B,Descubrir,D2,Flujo1_Descubrir.dc.html,14,toque,,64.7,56.4,42.4,fuera de lugar,e261ed4f-bc52-469a-b46c-663293949c06,e261ed4f-bc52-469a-b46c-663293949c06|Puntos|D2-14
+P64,B,Descubrir,D2,Flujo1_Descubrir.dc.html,15,toque,,74.6,52.8,43.4,fuera de lugar,e261ed4f-bc52-469a-b46c-663293949c06,e261ed4f-bc52-469a-b46c-663293949c06|Puntos|D2-15
+P64,B,Descubrir,D2,Flujo1_Descubrir.dc.html,16,gesto,derecha,74.1,51.9,44.3,decisivo (otro intento),e261ed4f-bc52-469a-b46c-663293949c06,e261ed4f-bc52-469a-b46c-663293949c06|Puntos|D2-16
+P64,B,Descubrir,D2,Flujo1_Descubrir.dc.html,17,toque,,67.9,52.4,45,fuera de lugar,e261ed4f-bc52-469a-b46c-663293949c06,e261ed4f-bc52-469a-b46c-663293949c06|Puntos|D2-17
+P64,B,Descubrir,D2,Flujo1_Descubrir.dc.html,18,toque,,73.6,50.6,45.8,fuera de lugar,e261ed4f-bc52-469a-b46c-663293949c06,e261ed4f-bc52-469a-b46c-663293949c06|Puntos|D2-18
+P64,B,Descubrir,D2,Flujo1_Descubrir.dc.html,19,gesto,izquierda,79.1,51.5,49.2,decisivo (otro intento),e261ed4f-bc52-469a-b46c-663293949c06,e261ed4f-bc52-469a-b46c-663293949c06|Puntos|D2-19
+P64,B,Descubrir,D2,Flujo1_Descubrir.dc.html,20,toque,,75.9,54.3,50.2,fuera de lugar,e261ed4f-bc52-469a-b46c-663293949c06,e261ed4f-bc52-469a-b46c-663293949c06|Puntos|D2-20
+P64,B,Descubrir,D2,Flujo1_Descubrir.dc.html,21,gesto,derecha,55.2,56.4,51.6,decisivo (otro intento),e261ed4f-bc52-469a-b46c-663293949c06,e261ed4f-bc52-469a-b46c-663293949c06|Puntos|D2-21
+P64,B,Descubrir,D2,Flujo1_Descubrir.dc.html,22,toque,,69.2,52.6,52.5,fuera de lugar,e261ed4f-bc52-469a-b46c-663293949c06,e261ed4f-bc52-469a-b46c-663293949c06|Puntos|D2-22
+P64,B,Descubrir,D2,Flujo1_Descubrir.dc.html,23,toque,,77.4,50,53.4,fuera de lugar,e261ed4f-bc52-469a-b46c-663293949c06,e261ed4f-bc52-469a-b46c-663293949c06|Puntos|D2-23
+P64,B,Descubrir,D2,Flujo1_Descubrir.dc.html,24,gesto,derecha,65.9,52.6,54.5,decisivo (otro intento),e261ed4f-bc52-469a-b46c-663293949c06,e261ed4f-bc52-469a-b46c-663293949c06|Puntos|D2-24
+P64,B,Descubrir,D2,Flujo1_Descubrir.dc.html,25,toque,,70.1,53.7,55.7,fuera de lugar,e261ed4f-bc52-469a-b46c-663293949c06,e261ed4f-bc52-469a-b46c-663293949c06|Puntos|D2-25
+P64,B,Descubrir,D2,Flujo1_Descubrir.dc.html,26,gesto,derecha,75.4,51.9,57.2,decisivo (otro intento),e261ed4f-bc52-469a-b46c-663293949c06,e261ed4f-bc52-469a-b46c-663293949c06|Puntos|D2-26
+P64,B,Descubrir,D2,Flujo1_Descubrir.dc.html,27,toque,,81.3,85.7,59.6,fuera de lugar,e261ed4f-bc52-469a-b46c-663293949c06,e261ed4f-bc52-469a-b46c-663293949c06|Puntos|D2-27
+P64,B,Descubrir,D3,Flujo1_Descubrir.dc.html,1,gesto,arriba,65.4,58.8,7.2,decisivo,e261ed4f-bc52-469a-b46c-663293949c06,e261ed4f-bc52-469a-b46c-663293949c06|Puntos|D3-1
+P64,B,Descubrir,D3,Flujo1_Descubrir.dc.html,2,gesto,arriba,82.1,56.4,7.9,decisivo (otro intento),e261ed4f-bc52-469a-b46c-663293949c06,e261ed4f-bc52-469a-b46c-663293949c06|Puntos|D3-2
+P66,B,Descubrir,D2,Flujo1_Descubrir.dc.html,1,toque,,71.9,63.4,9.6,fuera de lugar,81061f36-b049-4d98-9aa9-148d088b7f40,81061f36-b049-4d98-9aa9-148d088b7f40|Puntos|D2-1
+P66,B,Descubrir,D2,Flujo1_Descubrir.dc.html,2,toque,,70.5,65.9,12.9,fuera de lugar,81061f36-b049-4d98-9aa9-148d088b7f40,81061f36-b049-4d98-9aa9-148d088b7f40|Puntos|D2-2
+P66,B,Descubrir,D2,Flujo1_Descubrir.dc.html,3,toque,,80.3,74.5,16.3,fuera de lugar,81061f36-b049-4d98-9aa9-148d088b7f40,81061f36-b049-4d98-9aa9-148d088b7f40|Puntos|D2-3
+P64,B,Ver,V2,FlujoV1_Feed.dc.html,1,gesto,izquierda,68.7,16.2,3,barra de mood,e261ed4f-bc52-469a-b46c-663293949c06,e261ed4f-bc52-469a-b46c-663293949c06|Puntos|V2-1
+P64,B,Ver,V2,FlujoV1_Feed.dc.html,2,toque,,86.8,18.6,6.4,barra de mood,e261ed4f-bc52-469a-b46c-663293949c06,e261ed4f-bc52-469a-b46c-663293949c06|Puntos|V2-2
+P66,B,Descubrir,D3,Flujo1_Descubrir.dc.html,1,toque,,78.6,70,5.7,fuera de lugar,81061f36-b049-4d98-9aa9-148d088b7f40,81061f36-b049-4d98-9aa9-148d088b7f40|Puntos|D3-1
+P66,B,Descubrir,D3,Flujo1_Descubrir.dc.html,2,toque,,82.2,69.7,8.1,fuera de lugar,81061f36-b049-4d98-9aa9-148d088b7f40,81061f36-b049-4d98-9aa9-148d088b7f40|Puntos|D3-2
+P64,B,Mazos,Z3,Flujo4_Eleccion.dc.html,1,toque,,78.1,64.3,4.4,Fuera de la zona,e261ed4f-bc52-469a-b46c-663293949c06,e261ed4f-bc52-469a-b46c-663293949c06|Puntos|Z3-1
+P66,B,Ver,V2,FlujoV1_Feed.dc.html,1,gesto,izquierda,79.2,75.4,4.9,barra de mood,81061f36-b049-4d98-9aa9-148d088b7f40,81061f36-b049-4d98-9aa9-148d088b7f40|Puntos|V2-1
+P66,B,Ver,V2,FlujoV1_Feed.dc.html,2,gesto,izquierda,69.3,55.1,6.6,barra de mood,81061f36-b049-4d98-9aa9-148d088b7f40,81061f36-b049-4d98-9aa9-148d088b7f40|Puntos|V2-2
+P66,B,Ver,V2,FlujoV1_Feed.dc.html,3,toque,,61.8,64.4,8,fuera de lugar,81061f36-b049-4d98-9aa9-148d088b7f40,81061f36-b049-4d98-9aa9-148d088b7f40|Puntos|V2-3
+P66,B,Ver,V2,FlujoV1_Feed.dc.html,4,toque,,69.3,56.7,12.3,fuera de lugar,81061f36-b049-4d98-9aa9-148d088b7f40,81061f36-b049-4d98-9aa9-148d088b7f40|Puntos|V2-4
+P66,B,Ver,V2,FlujoV1_Feed.dc.html,5,toque,,62.7,92.4,13.8,fuera de lugar,81061f36-b049-4d98-9aa9-148d088b7f40,81061f36-b049-4d98-9aa9-148d088b7f40|Puntos|V2-5
+P66,B,Mazos,Z3,Flujo4_Eleccion.dc.html,1,toque,,85.8,67.6,1.8,Fuera de la zona,81061f36-b049-4d98-9aa9-148d088b7f40,81061f36-b049-4d98-9aa9-148d088b7f40|Puntos|Z3-1
+P67,A,Descubrir,D2,Flujo1_Descubrir.dc.html,1,gesto,arriba,82.2,66.1,13.6,decisivo,417bfcba-3978-4314-b887-728a643a9454,417bfcba-3978-4314-b887-728a643a9454|Puntos|D2-1
+P67,A,Descubrir,D2,Flujo1_Descubrir.dc.html,2,gesto,arriba,91.4,41.2,15,decisivo (otro intento),417bfcba-3978-4314-b887-728a643a9454,417bfcba-3978-4314-b887-728a643a9454|Puntos|D2-2
+P67,A,Descubrir,D2,Flujo1_Descubrir.dc.html,3,gesto,derecha,60.4,48.2,16.6,decisivo (otro intento),417bfcba-3978-4314-b887-728a643a9454,417bfcba-3978-4314-b887-728a643a9454|Puntos|D2-3
+P67,A,Descubrir,D2,Flujo1_Descubrir.dc.html,4,gesto,arriba,86.5,62.7,17.5,decisivo (otro intento),417bfcba-3978-4314-b887-728a643a9454,417bfcba-3978-4314-b887-728a643a9454|Puntos|D2-4
+P67,A,Descubrir,D2,Flujo1_Descubrir.dc.html,5,gesto,derecha,36.4,59.4,27.5,decisivo (otro intento),417bfcba-3978-4314-b887-728a643a9454,417bfcba-3978-4314-b887-728a643a9454|Puntos|D2-5
+P67,A,Descubrir,D2,Flujo1_Descubrir.dc.html,6,gesto,izquierda,80.3,50.4,28.7,decisivo (otro intento),417bfcba-3978-4314-b887-728a643a9454,417bfcba-3978-4314-b887-728a643a9454|Puntos|D2-6
+P67,A,Descubrir,D2,Flujo1_Descubrir.dc.html,7,gesto,derecha,56.1,51.9,32.7,decisivo (otro intento),417bfcba-3978-4314-b887-728a643a9454,417bfcba-3978-4314-b887-728a643a9454|Puntos|D2-7
+P67,A,Descubrir,D2,Flujo1_Descubrir.dc.html,8,gesto,derecha,42.6,50.9,52.9,decisivo (otro intento),417bfcba-3978-4314-b887-728a643a9454,417bfcba-3978-4314-b887-728a643a9454|Puntos|D2-8
+P67,A,Descubrir,D2,Flujo1_Descubrir.dc.html,9,gesto,derecha,55.2,55.2,58.8,decisivo (otro intento),417bfcba-3978-4314-b887-728a643a9454,417bfcba-3978-4314-b887-728a643a9454|Puntos|D2-9
+P67,A,Descubrir,D2,Flujo1_Descubrir.dc.html,10,gesto,derecha,54.2,53.4,62,decisivo (otro intento),417bfcba-3978-4314-b887-728a643a9454,417bfcba-3978-4314-b887-728a643a9454|Puntos|D2-10
+P67,A,Descubrir,D2,Flujo1_Descubrir.dc.html,11,gesto,derecha,60,50.2,64.5,decisivo (otro intento),417bfcba-3978-4314-b887-728a643a9454,417bfcba-3978-4314-b887-728a643a9454|Puntos|D2-11
+P67,A,Descubrir,D2,Flujo1_Descubrir.dc.html,12,gesto,arriba,94.8,66.7,65.9,decisivo (otro intento),417bfcba-3978-4314-b887-728a643a9454,417bfcba-3978-4314-b887-728a643a9454|Puntos|D2-12
+P67,A,Descubrir,D2,Flujo1_Descubrir.dc.html,13,gesto,abajo,82.9,65.8,68.8,decisivo (otro intento),417bfcba-3978-4314-b887-728a643a9454,417bfcba-3978-4314-b887-728a643a9454|Puntos|D2-13
+P67,A,Descubrir,D2,Flujo1_Descubrir.dc.html,14,gesto,derecha,55,62.1,69.4,decisivo (otro intento),417bfcba-3978-4314-b887-728a643a9454,417bfcba-3978-4314-b887-728a643a9454|Puntos|D2-14
+P67,A,Descubrir,D2,Flujo1_Descubrir.dc.html,15,gesto,izquierda,79.7,59.2,72.8,decisivo (otro intento),417bfcba-3978-4314-b887-728a643a9454,417bfcba-3978-4314-b887-728a643a9454|Puntos|D2-15
+P67,A,Descubrir,D2,Flujo1_Descubrir.dc.html,16,gesto,izquierda,84.7,56.9,75.8,decisivo (otro intento),417bfcba-3978-4314-b887-728a643a9454,417bfcba-3978-4314-b887-728a643a9454|Puntos|D2-16
+P67,A,Descubrir,D2,Flujo1_Descubrir.dc.html,17,gesto,izquierda,76.2,58.7,78,decisivo (otro intento),417bfcba-3978-4314-b887-728a643a9454,417bfcba-3978-4314-b887-728a643a9454|Puntos|D2-17
+P67,A,Descubrir,D2,Flujo1_Descubrir.dc.html,18,gesto,derecha,66,56.5,81.4,decisivo (otro intento),417bfcba-3978-4314-b887-728a643a9454,417bfcba-3978-4314-b887-728a643a9454|Puntos|D2-18
+P67,A,Descubrir,D2,Flujo1_Descubrir.dc.html,19,gesto,arriba,58,76.4,83.8,decisivo (otro intento),417bfcba-3978-4314-b887-728a643a9454,417bfcba-3978-4314-b887-728a643a9454|Puntos|D2-19
+P67,A,Descubrir,D2,Flujo1_Descubrir.dc.html,20,gesto,abajo,77.8,52.4,84.5,decisivo (otro intento),417bfcba-3978-4314-b887-728a643a9454,417bfcba-3978-4314-b887-728a643a9454|Puntos|D2-20
+P67,A,Descubrir,D2,Flujo1_Descubrir.dc.html,21,gesto,derecha,37.9,59.1,85.3,decisivo (otro intento),417bfcba-3978-4314-b887-728a643a9454,417bfcba-3978-4314-b887-728a643a9454|Puntos|D2-21
+P67,A,Descubrir,D2,Flujo1_Descubrir.dc.html,22,gesto,izquierda,80.6,47.4,90.1,decisivo (otro intento),417bfcba-3978-4314-b887-728a643a9454,417bfcba-3978-4314-b887-728a643a9454|Puntos|D2-22
+P67,A,Descubrir,D2,Flujo1_Descubrir.dc.html,23,gesto,izquierda,76.5,51.6,90.9,decisivo (otro intento),417bfcba-3978-4314-b887-728a643a9454,417bfcba-3978-4314-b887-728a643a9454|Puntos|D2-23
+P67,A,Descubrir,D2,Flujo1_Descubrir.dc.html,24,gesto,arriba,99.2,54.7,92.4,decisivo (otro intento),417bfcba-3978-4314-b887-728a643a9454,417bfcba-3978-4314-b887-728a643a9454|Puntos|D2-24
+P67,A,Descubrir,D2,Flujo1_Descubrir.dc.html,25,toque,,74.9,83.9,99.3,fuera de lugar,417bfcba-3978-4314-b887-728a643a9454,417bfcba-3978-4314-b887-728a643a9454|Puntos|D2-25
+P67,A,Descubrir,D2,Flujo1_Descubrir.dc.html,26,gesto,arriba,67.8,74.9,102.5,decisivo (otro intento),417bfcba-3978-4314-b887-728a643a9454,417bfcba-3978-4314-b887-728a643a9454|Puntos|D2-26
+P67,A,Descubrir,D2,Flujo1_Descubrir.dc.html,27,gesto,arriba,58,85.9,103.8,decisivo (otro intento),417bfcba-3978-4314-b887-728a643a9454,417bfcba-3978-4314-b887-728a643a9454|Puntos|D2-27
+P67,A,Descubrir,D2,Flujo1_Descubrir.dc.html,28,gesto,arriba,69.3,72.7,104.2,decisivo (otro intento),417bfcba-3978-4314-b887-728a643a9454,417bfcba-3978-4314-b887-728a643a9454|Puntos|D2-28
+P67,A,Descubrir,D2,Flujo1_Descubrir.dc.html,29,gesto,arriba,80.6,57.6,106,decisivo (otro intento),417bfcba-3978-4314-b887-728a643a9454,417bfcba-3978-4314-b887-728a643a9454|Puntos|D2-29
+P67,A,Descubrir,D3,Flujo1_Descubrir.dc.html,1,gesto,arriba,76.9,74.6,5.5,decisivo,417bfcba-3978-4314-b887-728a643a9454,417bfcba-3978-4314-b887-728a643a9454|Puntos|D3-1
+P67,A,Descubrir,D3,Flujo1_Descubrir.dc.html,2,gesto,arriba,66.6,49.9,7.9,decisivo (otro intento),417bfcba-3978-4314-b887-728a643a9454,417bfcba-3978-4314-b887-728a643a9454|Puntos|D3-2
+P67,A,Descubrir,D3,Flujo1_Descubrir.dc.html,3,gesto,arriba,57.2,67.6,12.6,decisivo (otro intento),417bfcba-3978-4314-b887-728a643a9454,417bfcba-3978-4314-b887-728a643a9454|Puntos|D3-3
+P67,A,Descubrir,D3,Flujo1_Descubrir.dc.html,4,toque,,54.9,87,19.2,fuera de lugar,417bfcba-3978-4314-b887-728a643a9454,417bfcba-3978-4314-b887-728a643a9454|Puntos|D3-4
+P67,A,Descubrir,D3,Flujo1_Descubrir.dc.html,5,gesto,arriba,65.9,72.1,20.7,decisivo (otro intento),417bfcba-3978-4314-b887-728a643a9454,417bfcba-3978-4314-b887-728a643a9454|Puntos|D3-5
+P67,A,Descubrir,D3,Flujo1_Descubrir.dc.html,6,gesto,arriba,86.5,66.3,21.8,decisivo (otro intento),417bfcba-3978-4314-b887-728a643a9454,417bfcba-3978-4314-b887-728a643a9454|Puntos|D3-6
+P67,A,Descubrir,D3,Flujo1_Descubrir.dc.html,7,gesto,arriba,86.6,59.1,23.6,decisivo (otro intento),417bfcba-3978-4314-b887-728a643a9454,417bfcba-3978-4314-b887-728a643a9454|Puntos|D3-7
+P68,B,Descubrir,D2,Flujo1_Descubrir.dc.html,1,gesto,arriba,54.9,45.1,4.3,decisivo,49d72816-6b18-4075-a57a-09f26ab031a8,49d72816-6b18-4075-a57a-09f26ab031a8|Puntos|D2-1
+P68,B,Descubrir,D2,Flujo1_Descubrir.dc.html,2,gesto,abajo,58.5,57.9,9.2,decisivo (otro intento),49d72816-6b18-4075-a57a-09f26ab031a8,49d72816-6b18-4075-a57a-09f26ab031a8|Puntos|D2-2
+P68,B,Descubrir,D3,Flujo1_Descubrir.dc.html,1,toque,,73,96.2,26.5,fuera de lugar,49d72816-6b18-4075-a57a-09f26ab031a8,49d72816-6b18-4075-a57a-09f26ab031a8|Puntos|D3-1
+P68,B,Descubrir,D3,Flujo1_Descubrir.dc.html,2,toque,,49.1,99.4,27.5,fuera de lugar,49d72816-6b18-4075-a57a-09f26ab031a8,49d72816-6b18-4075-a57a-09f26ab031a8|Puntos|D3-2
+P68,B,Descubrir,D3,Flujo1_Descubrir.dc.html,3,toque,,83.6,85.3,28.9,decisivo,49d72816-6b18-4075-a57a-09f26ab031a8,49d72816-6b18-4075-a57a-09f26ab031a8|Puntos|D3-3
+P68,B,Descubrir,D3,Flujo1_Descubrir.dc.html,4,toque,,22.3,79.5,32.1,fuera de lugar,49d72816-6b18-4075-a57a-09f26ab031a8,49d72816-6b18-4075-a57a-09f26ab031a8|Puntos|D3-4
+P68,B,Descubrir,D3,Flujo1_Descubrir.dc.html,5,toque,,22.7,81.2,34.6,decisivo (otro intento),49d72816-6b18-4075-a57a-09f26ab031a8,49d72816-6b18-4075-a57a-09f26ab031a8|Puntos|D3-5
+P68,B,Descubrir,D3,Flujo1_Descubrir.dc.html,6,toque,,88.9,83,36.8,decisivo (otro intento),49d72816-6b18-4075-a57a-09f26ab031a8,49d72816-6b18-4075-a57a-09f26ab031a8|Puntos|D3-6
+P68,B,Descubrir,D3,Flujo1_Descubrir.dc.html,7,toque,,19.1,80.6,39.6,decisivo (otro intento),49d72816-6b18-4075-a57a-09f26ab031a8,49d72816-6b18-4075-a57a-09f26ab031a8|Puntos|D3-7
+P67,A,Ver,V2,FlujoV1_Feed.dc.html,1,toque,,80.9,82.4,2.5,fuera de lugar,417bfcba-3978-4314-b887-728a643a9454,417bfcba-3978-4314-b887-728a643a9454|Puntos|V2-1
+P67,A,Ver,V2,FlujoV1_Feed.dc.html,2,gesto,izquierda,77.9,15.8,7.3,barra de mood,417bfcba-3978-4314-b887-728a643a9454,417bfcba-3978-4314-b887-728a643a9454|Puntos|V2-2
+P67,A,Ver,V2,FlujoV1_Feed.dc.html,3,gesto,izquierda,72.6,19,8.5,barra de mood,417bfcba-3978-4314-b887-728a643a9454,417bfcba-3978-4314-b887-728a643a9454|Puntos|V2-3
+P67,A,Ver,V2,FlujoV1_Feed.dc.html,4,gesto,izquierda,72.3,20.2,9.3,barra de mood,417bfcba-3978-4314-b887-728a643a9454,417bfcba-3978-4314-b887-728a643a9454|Puntos|V2-4
+P67,A,Ver,V2,FlujoV1_Feed.dc.html,5,toque,,58.5,20.6,10.3,barra de mood,417bfcba-3978-4314-b887-728a643a9454,417bfcba-3978-4314-b887-728a643a9454|Puntos|V2-5
+P67,A,Ver,V2,FlujoV1_Feed.dc.html,6,gesto,arriba,73,50.6,12.7,barra de mood,417bfcba-3978-4314-b887-728a643a9454,417bfcba-3978-4314-b887-728a643a9454|Puntos|V2-6
+P67,A,Ver,V2,FlujoV1_Feed.dc.html,7,toque,,60.1,58.2,20,fuera de lugar,417bfcba-3978-4314-b887-728a643a9454,417bfcba-3978-4314-b887-728a643a9454|Puntos|V2-7
+P68,B,Ver,V2,FlujoV1_Feed.dc.html,1,gesto,izquierda,80.2,19.2,6.7,barra de mood,49d72816-6b18-4075-a57a-09f26ab031a8,49d72816-6b18-4075-a57a-09f26ab031a8|Puntos|V2-1
+P68,B,Ver,V2,FlujoV1_Feed.dc.html,2,toque,,73.2,19.2,8.9,barra de mood,49d72816-6b18-4075-a57a-09f26ab031a8,49d72816-6b18-4075-a57a-09f26ab031a8|Puntos|V2-2
+P68,B,Ver,V2,FlujoV1_Feed.dc.html,3,gesto,izquierda,74.3,20.2,11.4,barra de mood,49d72816-6b18-4075-a57a-09f26ab031a8,49d72816-6b18-4075-a57a-09f26ab031a8|Puntos|V2-3
+P68,B,Ver,V2,FlujoV1_Feed.dc.html,4,toque,,28.2,20.3,12.6,barra de mood,49d72816-6b18-4075-a57a-09f26ab031a8,49d72816-6b18-4075-a57a-09f26ab031a8|Puntos|V2-4
+P68,B,Ver,V2,FlujoV1_Feed.dc.html,5,gesto,izquierda,64.8,19.9,14.7,barra de mood,49d72816-6b18-4075-a57a-09f26ab031a8,49d72816-6b18-4075-a57a-09f26ab031a8|Puntos|V2-5
+P68,B,Ver,V2,FlujoV1_Feed.dc.html,6,toque,,53.6,18,15.9,barra de mood,49d72816-6b18-4075-a57a-09f26ab031a8,49d72816-6b18-4075-a57a-09f26ab031a8|Puntos|V2-6
+P68,B,Ver,V2,FlujoV1_Feed.dc.html,7,toque,,76.6,21.9,16.9,barra de mood,49d72816-6b18-4075-a57a-09f26ab031a8,49d72816-6b18-4075-a57a-09f26ab031a8|Puntos|V2-7
+P68,B,Mazos,Z3,Flujo4_Eleccion.dc.html,1,toque,,72.7,30.1,6.2,Fuera de la zona,49d72816-6b18-4075-a57a-09f26ab031a8,49d72816-6b18-4075-a57a-09f26ab031a8|Puntos|Z3-1
+P67,A,Mazos,Z3,Flujo4_Eleccion.dc.html,1,toque,,51.5,63.9,20.2,Fuera de la zona,417bfcba-3978-4314-b887-728a643a9454,417bfcba-3978-4314-b887-728a643a9454|Puntos|Z3-1
+P04,B,Mazos,Z3,Flujo4_Eleccion.dc.html,1,toque,,46.6,77.8,9.4,Fuera de la zona,f9a8570c-0483-447d-9395-d571f88245ec,f9a8570c-0483-447d-9395-d571f88245ec|Puntos|Z3-1
+P70,B,Descubrir,D2,Flujo1_Descubrir.dc.html,1,toque,,85,84.2,9.5,decisivo,49c8b919-00cd-401e-af6b-61a77bf6b9ee,49c8b919-00cd-401e-af6b-61a77bf6b9ee|Puntos|D2-1
+P70,B,Descubrir,D2,Flujo1_Descubrir.dc.html,2,toque,,18,83.3,23.7,decisivo (otro intento),49c8b919-00cd-401e-af6b-61a77bf6b9ee,49c8b919-00cd-401e-af6b-61a77bf6b9ee|Puntos|D2-2
+P70,B,Descubrir,D2,Flujo1_Descubrir.dc.html,3,toque,,87.4,83.6,34.7,decisivo (otro intento),49c8b919-00cd-401e-af6b-61a77bf6b9ee,49c8b919-00cd-401e-af6b-61a77bf6b9ee|Puntos|D2-3
+P70,B,Descubrir,D2,Flujo1_Descubrir.dc.html,4,toque,,14.7,84.8,41.6,decisivo (otro intento),49c8b919-00cd-401e-af6b-61a77bf6b9ee,49c8b919-00cd-401e-af6b-61a77bf6b9ee|Puntos|D2-4
+P70,B,Descubrir,D2,Flujo1_Descubrir.dc.html,5,toque,,16.4,83.8,54.7,decisivo (otro intento),49c8b919-00cd-401e-af6b-61a77bf6b9ee,49c8b919-00cd-401e-af6b-61a77bf6b9ee|Puntos|D2-5
+P70,B,Descubrir,D2,Flujo1_Descubrir.dc.html,6,toque,,90,83.3,62,decisivo (otro intento),49c8b919-00cd-401e-af6b-61a77bf6b9ee,49c8b919-00cd-401e-af6b-61a77bf6b9ee|Puntos|D2-6
+P70,B,Descubrir,D2,Flujo1_Descubrir.dc.html,7,toque,,15.9,83.7,68.8,decisivo (otro intento),49c8b919-00cd-401e-af6b-61a77bf6b9ee,49c8b919-00cd-401e-af6b-61a77bf6b9ee|Puntos|D2-7
+P70,B,Descubrir,D2,Flujo1_Descubrir.dc.html,8,toque,,80.5,84.2,72.2,decisivo (otro intento),49c8b919-00cd-401e-af6b-61a77bf6b9ee,49c8b919-00cd-401e-af6b-61a77bf6b9ee|Puntos|D2-8
+P70,B,Descubrir,D3,Flujo1_Descubrir.dc.html,1,toque,,10.8,81.9,6,decisivo,49c8b919-00cd-401e-af6b-61a77bf6b9ee,49c8b919-00cd-401e-af6b-61a77bf6b9ee|Puntos|D3-1
+P69,A,Ver,V2,FlujoV1_Feed.dc.html,1,gesto,arriba,91.7,39.6,25,barra de mood,e18f5c64-3b76-4e71-8c81-2661866d83ed,e18f5c64-3b76-4e71-8c81-2661866d83ed|Puntos|V2-1
+P69,A,Ver,V2,FlujoV1_Feed.dc.html,2,gesto,derecha,87.8,68.2,27,barra de mood,e18f5c64-3b76-4e71-8c81-2661866d83ed,e18f5c64-3b76-4e71-8c81-2661866d83ed|Puntos|V2-2
+P69,A,Ver,V2,FlujoV1_Feed.dc.html,3,gesto,izquierda,74.3,71.4,27.7,barra de mood,e18f5c64-3b76-4e71-8c81-2661866d83ed,e18f5c64-3b76-4e71-8c81-2661866d83ed|Puntos|V2-3
+P69,A,Ver,V2,FlujoV1_Feed.dc.html,4,gesto,izquierda,86.2,25.1,35.2,barra de mood,e18f5c64-3b76-4e71-8c81-2661866d83ed,e18f5c64-3b76-4e71-8c81-2661866d83ed|Puntos|V2-4
+P69,A,Ver,V2,FlujoV1_Feed.dc.html,5,gesto,arriba,96.6,12,39.9,barra de mood,e18f5c64-3b76-4e71-8c81-2661866d83ed,e18f5c64-3b76-4e71-8c81-2661866d83ed|Puntos|V2-5
+P69,A,Ver,V2,FlujoV1_Feed.dc.html,6,gesto,izquierda,73.5,27.7,41.1,barra de mood,e18f5c64-3b76-4e71-8c81-2661866d83ed,e18f5c64-3b76-4e71-8c81-2661866d83ed|Puntos|V2-6
+P69,A,Ver,V2,FlujoV1_Feed.dc.html,7,toque,,38,19.1,43.3,barra de mood,e18f5c64-3b76-4e71-8c81-2661866d83ed,e18f5c64-3b76-4e71-8c81-2661866d83ed|Puntos|V2-7
+P69,A,Ver,V2,FlujoV1_Feed.dc.html,8,gesto,izquierda,73.4,65.8,50.7,barra de mood,e18f5c64-3b76-4e71-8c81-2661866d83ed,e18f5c64-3b76-4e71-8c81-2661866d83ed|Puntos|V2-8
+P69,A,Ver,V2,FlujoV1_Feed.dc.html,9,gesto,izquierda,76.5,69.4,60.8,barra de mood,e18f5c64-3b76-4e71-8c81-2661866d83ed,e18f5c64-3b76-4e71-8c81-2661866d83ed|Puntos|V2-9
+P69,A,Ver,V2,FlujoV1_Feed.dc.html,10,gesto,izquierda,74.8,66,64.3,barra de mood,e18f5c64-3b76-4e71-8c81-2661866d83ed,e18f5c64-3b76-4e71-8c81-2661866d83ed|Puntos|V2-10
+P69,A,Ver,V2,FlujoV1_Feed.dc.html,11,gesto,izquierda,67.6,67.2,69.6,barra de mood,e18f5c64-3b76-4e71-8c81-2661866d83ed,e18f5c64-3b76-4e71-8c81-2661866d83ed|Puntos|V2-11
+P69,A,Ver,V2,FlujoV1_Feed.dc.html,12,gesto,izquierda,76.1,64.1,74.3,barra de mood,e18f5c64-3b76-4e71-8c81-2661866d83ed,e18f5c64-3b76-4e71-8c81-2661866d83ed|Puntos|V2-12
+P69,A,Ver,V2,FlujoV1_Feed.dc.html,13,gesto,izquierda,78.4,66.6,85.1,barra de mood,e18f5c64-3b76-4e71-8c81-2661866d83ed,e18f5c64-3b76-4e71-8c81-2661866d83ed|Puntos|V2-13
+P69,A,Ver,V2,FlujoV1_Feed.dc.html,14,gesto,izquierda,67.7,67.3,87.5,barra de mood,e18f5c64-3b76-4e71-8c81-2661866d83ed,e18f5c64-3b76-4e71-8c81-2661866d83ed|Puntos|V2-14
+P69,A,Ver,V2,FlujoV1_Feed.dc.html,15,gesto,arriba,78.4,71.7,90.8,barra de mood,e18f5c64-3b76-4e71-8c81-2661866d83ed,e18f5c64-3b76-4e71-8c81-2661866d83ed|Puntos|V2-15
+P69,A,Ver,V2,FlujoV1_Feed.dc.html,16,gesto,arriba,65.1,60.1,91.7,barra de mood,e18f5c64-3b76-4e71-8c81-2661866d83ed,e18f5c64-3b76-4e71-8c81-2661866d83ed|Puntos|V2-16
+P69,A,Ver,V2,FlujoV1_Feed.dc.html,17,gesto,arriba,58.5,64.9,92.4,barra de mood,e18f5c64-3b76-4e71-8c81-2661866d83ed,e18f5c64-3b76-4e71-8c81-2661866d83ed|Puntos|V2-17
+P69,A,Ver,V2,FlujoV1_Feed.dc.html,18,gesto,arriba,41.9,62,94.8,barra de mood,e18f5c64-3b76-4e71-8c81-2661866d83ed,e18f5c64-3b76-4e71-8c81-2661866d83ed|Puntos|V2-18
+P70,B,Ver,V2,FlujoV1_Feed.dc.html,1,toque,,44.8,17.9,9.9,barra de mood,49c8b919-00cd-401e-af6b-61a77bf6b9ee,49c8b919-00cd-401e-af6b-61a77bf6b9ee|Puntos|V2-1
+P70,B,Ver,V2,FlujoV1_Feed.dc.html,2,toque,,9.9,22.7,10.8,fuera de lugar,49c8b919-00cd-401e-af6b-61a77bf6b9ee,49c8b919-00cd-401e-af6b-61a77bf6b9ee|Puntos|V2-2
+P70,B,Ver,V2,FlujoV1_Feed.dc.html,3,toque,,91.5,17.4,11.8,barra de mood,49c8b919-00cd-401e-af6b-61a77bf6b9ee,49c8b919-00cd-401e-af6b-61a77bf6b9ee|Puntos|V2-3
+P70,B,Ver,V2,FlujoV1_Feed.dc.html,4,gesto,izquierda,84.3,16.9,12.3,barra de mood,49c8b919-00cd-401e-af6b-61a77bf6b9ee,49c8b919-00cd-401e-af6b-61a77bf6b9ee|Puntos|V2-4
+P70,B,Ver,V2,FlujoV1_Feed.dc.html,5,toque,,60.9,19.1,13.1,barra de mood,49c8b919-00cd-401e-af6b-61a77bf6b9ee,49c8b919-00cd-401e-af6b-61a77bf6b9ee|Puntos|V2-5
+P70,B,Ver,V2,FlujoV1_Feed.dc.html,6,gesto,izquierda,86.8,17.9,13.8,barra de mood,49c8b919-00cd-401e-af6b-61a77bf6b9ee,49c8b919-00cd-401e-af6b-61a77bf6b9ee|Puntos|V2-6
+P70,B,Ver,V2,FlujoV1_Feed.dc.html,7,toque,,36.3,20,14.6,barra de mood,49c8b919-00cd-401e-af6b-61a77bf6b9ee,49c8b919-00cd-401e-af6b-61a77bf6b9ee|Puntos|V2-7
+P70,B,Ver,V2,FlujoV1_Feed.dc.html,8,toque,,70,18.7,15.4,barra de mood,49c8b919-00cd-401e-af6b-61a77bf6b9ee,49c8b919-00cd-401e-af6b-61a77bf6b9ee|Puntos|V2-8
+P70,B,Ver,V2,FlujoV1_Feed.dc.html,9,gesto,izquierda,85.5,17.5,16,barra de mood,49c8b919-00cd-401e-af6b-61a77bf6b9ee,49c8b919-00cd-401e-af6b-61a77bf6b9ee|Puntos|V2-9
+P70,B,Ver,V2,FlujoV1_Feed.dc.html,10,gesto,arriba,33.4,72,17.5,barra de mood,49c8b919-00cd-401e-af6b-61a77bf6b9ee,49c8b919-00cd-401e-af6b-61a77bf6b9ee|Puntos|V2-10
+P70,B,Ver,V2,FlujoV1_Feed.dc.html,11,toque,,65.8,62.9,19.2,fuera de lugar,49c8b919-00cd-401e-af6b-61a77bf6b9ee,49c8b919-00cd-401e-af6b-61a77bf6b9ee|Puntos|V2-11
+P70,B,Ver,V2,FlujoV1_Feed.dc.html,12,gesto,arriba,72.7,46.2,21.4,barra de mood,49c8b919-00cd-401e-af6b-61a77bf6b9ee,49c8b919-00cd-401e-af6b-61a77bf6b9ee|Puntos|V2-12
+P69,A,Mazos,Z3,Flujo4_Eleccion.dc.html,1,toque,,34,49.5,5.5,Fuera de la zona,e18f5c64-3b76-4e71-8c81-2661866d83ed,e18f5c64-3b76-4e71-8c81-2661866d83ed|Puntos|Z3-1
+P70,B,Mazos,Z3,Flujo4_Eleccion.dc.html,1,toque,,68.2,27.9,2,Fuera de la zona,49c8b919-00cd-401e-af6b-61a77bf6b9ee,49c8b919-00cd-401e-af6b-61a77bf6b9ee|Puntos|Z3-1
+P72,B,Descubrir,D2,Flujo1_Descubrir.dc.html,1,gesto,abajo,98.3,63.9,16.3,decisivo,768dc5bb-5fec-4cba-9544-b9b24d8f793b,768dc5bb-5fec-4cba-9544-b9b24d8f793b|Puntos|D2-1
+P72,B,Descubrir,D2,Flujo1_Descubrir.dc.html,2,gesto,derecha,72.7,69.1,21.2,decisivo (otro intento),768dc5bb-5fec-4cba-9544-b9b24d8f793b,768dc5bb-5fec-4cba-9544-b9b24d8f793b|Puntos|D2-2
+P72,B,Descubrir,D2,Flujo1_Descubrir.dc.html,3,gesto,izquierda,65.1,67.5,40.3,decisivo (otro intento),768dc5bb-5fec-4cba-9544-b9b24d8f793b,768dc5bb-5fec-4cba-9544-b9b24d8f793b|Puntos|D2-3
+P72,B,Descubrir,D2,Flujo1_Descubrir.dc.html,4,gesto,derecha,56.2,66.4,45.2,decisivo (otro intento),768dc5bb-5fec-4cba-9544-b9b24d8f793b,768dc5bb-5fec-4cba-9544-b9b24d8f793b|Puntos|D2-4
+P72,B,Descubrir,D2,Flujo1_Descubrir.dc.html,5,gesto,izquierda,72.7,65,49.4,decisivo (otro intento),768dc5bb-5fec-4cba-9544-b9b24d8f793b,768dc5bb-5fec-4cba-9544-b9b24d8f793b|Puntos|D2-5
+P72,B,Descubrir,D2,Flujo1_Descubrir.dc.html,6,gesto,derecha,66.5,63.5,53.6,decisivo (otro intento),768dc5bb-5fec-4cba-9544-b9b24d8f793b,768dc5bb-5fec-4cba-9544-b9b24d8f793b|Puntos|D2-6
+P72,B,Descubrir,D2,Flujo1_Descubrir.dc.html,7,gesto,izquierda,78.3,67.2,58,decisivo (otro intento),768dc5bb-5fec-4cba-9544-b9b24d8f793b,768dc5bb-5fec-4cba-9544-b9b24d8f793b|Puntos|D2-7
+P72,B,Descubrir,D2,Flujo1_Descubrir.dc.html,8,gesto,izquierda,74.6,64.6,58.8,decisivo (otro intento),768dc5bb-5fec-4cba-9544-b9b24d8f793b,768dc5bb-5fec-4cba-9544-b9b24d8f793b|Puntos|D2-8
+P72,B,Descubrir,D2,Flujo1_Descubrir.dc.html,9,gesto,izquierda,69.2,68,61.7,decisivo (otro intento),768dc5bb-5fec-4cba-9544-b9b24d8f793b,768dc5bb-5fec-4cba-9544-b9b24d8f793b|Puntos|D2-9
+P72,B,Descubrir,D2,Flujo1_Descubrir.dc.html,10,gesto,izquierda,68.9,67.9,65.9,decisivo (otro intento),768dc5bb-5fec-4cba-9544-b9b24d8f793b,768dc5bb-5fec-4cba-9544-b9b24d8f793b|Puntos|D2-10
+P72,B,Descubrir,D2,Flujo1_Descubrir.dc.html,11,gesto,izquierda,72.9,67.3,66.7,decisivo (otro intento),768dc5bb-5fec-4cba-9544-b9b24d8f793b,768dc5bb-5fec-4cba-9544-b9b24d8f793b|Puntos|D2-11
+P72,B,Descubrir,D2,Flujo1_Descubrir.dc.html,12,gesto,derecha,55.4,64.6,70.6,decisivo (otro intento),768dc5bb-5fec-4cba-9544-b9b24d8f793b,768dc5bb-5fec-4cba-9544-b9b24d8f793b|Puntos|D2-12
+P72,B,Descubrir,D2,Flujo1_Descubrir.dc.html,13,gesto,arriba,98.8,73.6,73.6,decisivo (otro intento),768dc5bb-5fec-4cba-9544-b9b24d8f793b,768dc5bb-5fec-4cba-9544-b9b24d8f793b|Puntos|D2-13
+P72,B,Descubrir,D3,Flujo1_Descubrir.dc.html,1,toque,,78.9,84.1,16.4,fuera de lugar,768dc5bb-5fec-4cba-9544-b9b24d8f793b,768dc5bb-5fec-4cba-9544-b9b24d8f793b|Puntos|D3-1
+P72,B,Descubrir,D3,Flujo1_Descubrir.dc.html,2,gesto,arriba,74.6,68.7,20.6,decisivo,768dc5bb-5fec-4cba-9544-b9b24d8f793b,768dc5bb-5fec-4cba-9544-b9b24d8f793b|Puntos|D3-2
+P72,B,Descubrir,D3,Flujo1_Descubrir.dc.html,3,gesto,arriba,92.9,71.6,21.8,decisivo (otro intento),768dc5bb-5fec-4cba-9544-b9b24d8f793b,768dc5bb-5fec-4cba-9544-b9b24d8f793b|Puntos|D3-3
+P72,B,Ver,V2,FlujoV1_Feed.dc.html,1,toque,,76.2,33.9,51.1,fuera de lugar,768dc5bb-5fec-4cba-9544-b9b24d8f793b,768dc5bb-5fec-4cba-9544-b9b24d8f793b|Puntos|V2-1
+P72,B,Mazos,Z3,Flujo4_Eleccion.dc.html,1,toque,,81.1,65.3,7.1,Fuera de la zona,768dc5bb-5fec-4cba-9544-b9b24d8f793b,768dc5bb-5fec-4cba-9544-b9b24d8f793b|Puntos|Z3-1

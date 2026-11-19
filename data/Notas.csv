@@ -72,3 +72,21 @@ P58,B,Ver,V3d,"No me gusta como se ve, no entiendo los dibujos",,,,6effd473-788a
 P58,B,Percepción,F4,Los filtros,,,,6effd473-788a-4058-af60-f5c7da022f34,6effd473-788a-4058-af60-f5c7da022f34|Notas|F4
 P60,B,Ver,V3d,No nada,,,,e3f8705d-2b6d-45c3-81b6-f97ebcb59a94,e3f8705d-2b6d-45c3-81b6-f97ebcb59a94|Notas|V3d
 P60,B,Percepción,F4,Nada,,,,e3f8705d-2b6d-45c3-81b6-f97ebcb59a94,e3f8705d-2b6d-45c3-81b6-f97ebcb59a94|Notas|F4
+P01,A,Percepción,F4,Nada,,,,0a953d7b-0a83-4476-8fbd-e7d9a5613225,0a953d7b-0a83-4476-8fbd-e7d9a5613225|Notas|F4
+P64,B,Ver,V3d,Que no estuviera en diagonal,,,,e261ed4f-bc52-469a-b46c-663293949c06,e261ed4f-bc52-469a-b46c-663293949c06|Notas|V3d
+P64,B,Percepción,F4,Hay mucha info en cada pantalla,,,,e261ed4f-bc52-469a-b46c-663293949c06,e261ed4f-bc52-469a-b46c-663293949c06|Notas|F4
+P66,B,Ver,V3d,Nada,,,,81061f36-b049-4d98-9aa9-148d088b7f40,81061f36-b049-4d98-9aa9-148d088b7f40|Notas|V3d
+P66,B,Percepción,F4,Nada,,,,81061f36-b049-4d98-9aa9-148d088b7f40,81061f36-b049-4d98-9aa9-148d088b7f40|Notas|F4
+P68,B,Ver,V3d,Nada,,,,49d72816-6b18-4075-a57a-09f26ab031a8,49d72816-6b18-4075-a57a-09f26ab031a8|Notas|V3d
+P67,A,Ver,V3d,"El UI podría verse un poco más limpio en el slider de moods, de resto creo que cumple su función muy bien",,,,417bfcba-3978-4314-b887-728a643a9454,417bfcba-3978-4314-b887-728a643a9454|Notas|V3d
+P68,B,Percepción,F4,Realmente me gusto todo lo que vi.,,,,49d72816-6b18-4075-a57a-09f26ab031a8,49d72816-6b18-4075-a57a-09f26ab031a8|Notas|F4
+P67,A,Percepción,F4,"es más una preferencia personal y no creo que esté necesariamente mal pero condensaría la información de las películas que eran sobre ritmo/mood/duración etc en una sola gráfica en vez de secciones pequeñas en forma de lista, se me hace más cómodo leer esa información de esa forma y luego tener la opción de ver que representa cada sección.",,,,417bfcba-3978-4314-b887-728a643a9454,417bfcba-3978-4314-b887-728a643a9454|Notas|F4
+P04,B,Ver,V3d,No es claro,,,,f9a8570c-0483-447d-9395-d571f88245ec,f9a8570c-0483-447d-9395-d571f88245ec|Notas|V3d
+P04,B,Percepción,F4,"Botones inferiores no visibles
+No es tan claro el uso de las opciones",,,,f9a8570c-0483-447d-9395-d571f88245ec,f9a8570c-0483-447d-9395-d571f88245ec|Notas|F4
+P69,A,Ver,V3d,Que el mood esté acorde a la película,,,,e18f5c64-3b76-4e71-8c81-2661866d83ed,e18f5c64-3b76-4e71-8c81-2661866d83ed|Notas|V3d
+P70,B,Ver,V3d,Nada,,,,49c8b919-00cd-401e-af6b-61a77bf6b9ee,49c8b919-00cd-401e-af6b-61a77bf6b9ee|Notas|V3d
+P69,A,Percepción,F4,Menos texto,,,,e18f5c64-3b76-4e71-8c81-2661866d83ed,e18f5c64-3b76-4e71-8c81-2661866d83ed|Notas|F4
+P70,B,Percepción,F4,Nada,,,,49c8b919-00cd-401e-af6b-61a77bf6b9ee,49c8b919-00cd-401e-af6b-61a77bf6b9ee|Notas|F4
+P72,B,Ver,V3d,Nada,,,,768dc5bb-5fec-4cba-9544-b9b24d8f793b,768dc5bb-5fec-4cba-9544-b9b24d8f793b|Notas|V3d
+P72,B,Percepción,F4,Las opciones,,,,768dc5bb-5fec-4cba-9544-b9b24d8f793b,768dc5bb-5fec-4cba-9544-b9b24d8f793b|Notas|F4
